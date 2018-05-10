@@ -1,6 +1,6 @@
 export default [
-  { label: "Campaign Title", name: "title" },
-  { label: "Subject Line", name: "subject" },
-  { label: "Email Body", name: "body" },
-  { label: "Recipients List", name: "recipients" }
+  { label: "Organization Name", name: "org_name" },
+  // { label: "Type", name: "org_type" },
+  { label: "Organization Comission", name: "org_com" },
+  { label: "Organization Code", name: "org_code" }
 ];

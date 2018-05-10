@@ -5,7 +5,19 @@ import formFields from "./formFields";
 import * as actions from "../../actions";
 import { withRouter } from "react-router-dom";
 
-const SurveyFormReview = ({ onCancel, formValues, submitSurvey, history }) => {
+const SurveyFormReview = ({
+  onCancel,
+  formValues,
+  submitInboundOrg,
+  history
+}) => {
+  const OrgTypeFields = (
+    <div key={formValues.org_typeName}>
+      <label>Organization Type</label>
+      <div>{formValues["org_type"].org_typeName}</div>
+    </div>
+  );
+
   const reviewFields = _.map(formFields, ({ name, label }) => {
     return (
       <div key={name}>
@@ -16,8 +28,9 @@ const SurveyFormReview = ({ onCancel, formValues, submitSurvey, history }) => {
   });
 
   return (
-    <div>
+    <div className="container">
       <h5>Please confirm your entries</h5>
+      {OrgTypeFields}
       {reviewFields}
       <button
         className="yellow darken-3 white-text btn-flat"
@@ -27,9 +40,9 @@ const SurveyFormReview = ({ onCancel, formValues, submitSurvey, history }) => {
       </button>
       <button
         className="green btn-flat right white-text"
-        onClick={() => submitSurvey(formValues, history)}
+        onClick={() => submitInboundOrg(formValues, history)}
       >
-        Send Survey
+        Save Inbound Org
         <i className="material-icons right">email</i>
       </button>
     </div>
@@ -37,7 +50,7 @@ const SurveyFormReview = ({ onCancel, formValues, submitSurvey, history }) => {
 };
 
 function mapStateToProps(state) {
-  return { formValues: state.form.surveyForm.values };
+  return { formValues: state.form.inbound_group.values };
 }
 
 export default connect(mapStateToProps, actions)(withRouter(SurveyFormReview));

@@ -16,6 +16,9 @@ class Header extends Component {
         );
       default:
         return [
+          <li key="1">
+            <a className="btn-flat disabled">{this.props.auth.firstName}</a>
+          </li>,
           <li key="2">
             <a href="/api/logout">Logout</a>
           </li>
@@ -29,14 +32,16 @@ class Header extends Component {
 
   render() {
     return (
-      <nav className="blue lighten-1">
-        <div className="nav-wrapper">
-          <ul className="brand-logo right">{this.renderLoginContent()}</ul>
-          <ul id="nav-mobile" className="left hide-on-med-and-down">
-            {this.renderMenuContent()}
-          </ul>
-        </div>
-      </nav>
+      <div>
+        <nav className="blue lighten-1">
+          <div className="nav-wrapper">
+            <ul className="brand-logo right">{this.renderLoginContent()}</ul>
+            <ul id="nav-mobile" className="left hide-on-med-and-down">
+              {this.renderMenuContent()}
+            </ul>
+          </div>
+        </nav>
+      </div>
     );
   }
 }

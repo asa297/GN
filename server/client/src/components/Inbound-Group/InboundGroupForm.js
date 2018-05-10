@@ -1,34 +1,64 @@
 import React, { Component } from "react";
 import _ from "lodash";
-import { Link } from "react-router-dom";
 import { reduxForm, Field } from "redux-form";
-// import FIELDS from "./formFields";
+import { Link } from "react-router-dom";
+import InboundGroupField from "./InboundGroupField";
+import FIELDS from "./formFields";
 
-class SurveyForm extends Component {
-  // renderField() {
-  //   return _.map(FIELDS, ({ label, name }) => {
-  //     return (
-  //       <Field
-  //         key={name}
-  //         component={SurveyField}
-  //         type="text"
-  //         label={label}
-  //         name={name}
-  //       />
-  //     );
-  //   });
-  // }
+import "react-widgets/dist/css/react-widgets.css";
+import DropdownList from "react-widgets/lib/DropdownList";
+
+const colors = [
+  { org_typeId: 1, org_typeName: "RUSSIA" },
+  { org_typeId: 2, org_typeName: "CHINA" }
+];
+
+const renderDropdownList = ({ input, ...rest }) => (
+  <div>
+    <DropdownList {...input} {...rest} />
+    <div className="red-text" style={{ marginBottom: "20px" }}>
+      {rest.meta.touched && rest.meta.error}
+    </div>
+  </div>
+);
+
+class InboundGroupForm extends Component {
+  renderField() {
+    return _.map(FIELDS, ({ label, name }) => {
+      return (
+        <Field
+          key={name}
+          component={InboundGroupField}
+          type="text"
+          label={label}
+          name={name}
+        />
+      );
+    });
+  }
 
   render() {
     return (
-      <div>
-        <form onSubmit={}>
-          {/* {this.renderField()} */}
+      <div className="container">
+        <form onSubmit={this.props.handleSubmit(this.props.onSurveySubmit)}>
+          <div>
+            <label>Organization Type</label>
+            <Field
+              name="org_type"
+              component={renderDropdownList}
+              data={colors}
+              valueField="value"
+              textField="org_typeName"
+            />
+          </div>
+
+          {this.renderField()}
+
           <Link to="/home" className="red btn-flat white-text">
             Cancal
           </Link>
           <button type="submit" className="teal btn-flat right white-text">
-            Submit
+            Next
             <i className="material-icons right">done</i>
           </button>
         </form>
@@ -40,6 +70,10 @@ class SurveyForm extends Component {
 function validate(values) {
   const errors = {};
 
+  if (!values["org_type"]) {
+    errors["org_type"] = "Require a value";
+  }
+
   _.each(FIELDS, ({ name }) => {
     if (!values[name]) {
       errors[name] = "Require a value";
@@ -50,7 +84,7 @@ function validate(values) {
 }
 
 export default reduxForm({
-  // validate,
-  form: "InboundGroupForm",
+  validate,
+  form: "inbound_group",
   destroyOnUnmount: false
-})(SurveyForm);
+})(InboundGroupForm);
