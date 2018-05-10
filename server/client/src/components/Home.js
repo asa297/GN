@@ -4,7 +4,7 @@ const Home = () => {
   return (
     <div>
       DashBoard
-      <div>GG</div>
+      <div>DashBoard</div>
     </div>
   );
 };
