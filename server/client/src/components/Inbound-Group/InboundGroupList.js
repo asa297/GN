@@ -1,31 +1,32 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchInbound_Org } from "../../actions";
+import { fetchInbound_Group } from "../../actions";
 
-class InboundOrgList extends Component {
+class InboundGroupList extends Component {
   componentDidMount() {
-    this.props.fetchInbound_Org();
+    this.props.fetchInbound_Group();
   }
 
-  renderInboundOrg() {
-    return this.props.inbound_orgs.reverse().map(inbound_org => {
+  renderInboundGroup() {
+    return this.props.inbound_groups.reverse().map(inbound_group => {
       return (
-        <div className="card darken-1" key={inbound_org._id}>
+        <div className="card darken-1" key={inbound_group._id}>
           <div className="card-content">
             <span className="card-title">
-              <b>Org Name :</b>
-              <i> {inbound_org.orgName}</i>
+              <b>Group Code : </b>
+              <i>
+                {inbound_group.groupCode} ({inbound_group.groupRemarks})
+              </i>
               <p className="right">
                 Record On :
-                {new Date(inbound_org.RecordDate).toLocaleDateString()}
+                {new Date(inbound_group.RecordDate).toLocaleDateString()}
               </p>
             </span>
           </div>
           <div className="card-action">
-            <a>Type : {inbound_org.orgTypeName}</a>
-            <a>Commission : {inbound_org.orgCom} %</a>
-            <a>Org Code : {inbound_org.orgCode} </a>
-            <a>RecordBy : {inbound_org.RecordNameBy} </a>
+            <a>Org Code : {inbound_group.orgCode} </a>
+            <a>Org Name : {inbound_group.orgName} </a>
+            <a>RecordBy : {inbound_group.RecordNameBy} </a>
           </div>
         </div>
       );
@@ -53,16 +54,19 @@ class InboundOrgList extends Component {
   render() {
     return (
       <div>
-        {this.props.inbound_orgs.length !== 0
-          ? this.renderInboundOrg()
+        {this.props.inbound_groups.length !== 0
+          ? this.renderInboundGroup()
           : this.renderPreLoad()}
       </div>
     );
   }
 }
 
-function mapStateToProps({ inbound_orgs }) {
-  return { inbound_orgs };
+function mapStateToProps({ inbound_groups }) {
+  console.log(inbound_groups);
+  return { inbound_groups };
 }
 
-export default connect(mapStateToProps, { fetchInbound_Org })(InboundOrgList);
+export default connect(mapStateToProps, { fetchInbound_Group })(
+  InboundGroupList
+);

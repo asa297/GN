@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import InboundGroupList from "./InboundGroupList";
 
 const InboundGroup = () => {
   return (
@@ -14,7 +15,7 @@ const InboundGroup = () => {
           <i className="material-icons">add</i>
         </Link>
       </h3>
-      List
+      <InboundGroupList />
     </div>
   );
 };

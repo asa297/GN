@@ -92,7 +92,7 @@ function validate(values) {
   }
 
   _.each(FIELDS, ({ name }) => {
-    if (!values[name]) {
+    if (!values[name] && name !== "group_remark") {
       errors[name] = "Require a value";
     }
   });
