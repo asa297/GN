@@ -1,22 +1,22 @@
 import React, { Component } from "react";
 import { reduxForm } from "redux-form";
-import InboundGroupForm from "./InboundGroupForm";
-import InboundGroupReview from "./InboundGroupReview";
+import InboundOrgForm from "./InboundOrgForm";
+import InboundOrgReview from "./InboundOrgReview";
 
-class InboundGroupNew extends Component {
+class InboundOrgNew extends Component {
   state = { showFormReview: false };
 
   renderContent() {
     if (this.state.showFormReview) {
       return (
-        <InboundGroupReview
+        <InboundOrgReview
           onCancel={() => this.setState({ showFormReview: false })}
         />
       );
     }
 
     return (
-      <InboundGroupForm
+      <InboundOrgForm
         onSurveySubmit={() => this.setState({ showFormReview: true })}
       />
     );
@@ -28,5 +28,5 @@ class InboundGroupNew extends Component {
 }
 
 export default reduxForm({
-  form: "inbound_group"
-})(InboundGroupNew);
+  form: "inbound_org"
+})(InboundOrgNew);

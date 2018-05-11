@@ -5,7 +5,7 @@ import formFields from "./formFields";
 import * as actions from "../../actions";
 import { withRouter } from "react-router-dom";
 
-const SurveyFormReview = ({
+const InboundOrgReview = ({
   onCancel,
   formValues,
   submitInboundOrg,
@@ -50,7 +50,7 @@ const SurveyFormReview = ({
 };
 
 function mapStateToProps(state) {
-  return { formValues: state.form.inbound_group.values };
+  return { formValues: state.form.inbound_org.values };
 }
 
-export default connect(mapStateToProps, actions)(withRouter(SurveyFormReview));
+export default connect(mapStateToProps, actions)(withRouter(InboundOrgReview));

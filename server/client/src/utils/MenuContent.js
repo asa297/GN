@@ -1,6 +1,5 @@
 import React from "react";
 import _ from "lodash";
-// import PermissionList from "./PermissionUtils/PermissionList";
 import { Link } from "react-router-dom";
 
 export default auth => {
@@ -19,7 +18,7 @@ export default auth => {
               <Link to="/home">Home</Link>
             </li>
             <li>
-              <Link to="/inboundgroup">In-Bound Group</Link>
+              <Link to="/inboundorg">In-Bound Org</Link>
             </li>
             <li>
               <Link to="/inboundpo">In-Bound PO</Link>

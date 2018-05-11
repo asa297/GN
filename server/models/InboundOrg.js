@@ -6,7 +6,9 @@ const inboundOrgSchema = new Schema({
   orgTypeName: String,
   orgName: String,
   orgCom: Number,
-  orgCode: String
+  orgCode: String,
+  RecordIdBy: { type: Schema.Types.ObjectId, ref: "users" },
+  RecordNameBy: { type: String, ref: "users" }
 });
 
 mongoose.model("organization", inboundOrgSchema);

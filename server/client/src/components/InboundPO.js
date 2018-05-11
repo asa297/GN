@@ -1,12 +1,7 @@
 import React from "react";
 
 const InboundPO = () => {
-  return (
-    <div>
-      InboundPO
-      <div>InboundPO</div>
-    </div>
-  );
+  return <div>InboundPO</div>;
 };
 
 export default InboundPO;

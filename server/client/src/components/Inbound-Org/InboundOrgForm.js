@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import _ from "lodash";
 import { reduxForm, Field } from "redux-form";
 import { Link } from "react-router-dom";
-import InboundGroupField from "./InboundGroupField";
+import InboundOrgField from "./InboundOrgField";
 import FIELDS from "./formFields";
 
 import "react-widgets/dist/css/react-widgets.css";
@@ -22,13 +22,13 @@ const renderDropdownList = ({ input, ...rest }) => (
   </div>
 );
 
-class InboundGroupForm extends Component {
+class InboundOrgForm extends Component {
   renderField() {
     return _.map(FIELDS, ({ label, name }) => {
       return (
         <Field
           key={name}
-          component={InboundGroupField}
+          component={InboundOrgField}
           type="text"
           label={label}
           name={name}
@@ -85,6 +85,6 @@ function validate(values) {
 
 export default reduxForm({
   validate,
-  form: "inbound_group",
+  form: "inbound_org",
   destroyOnUnmount: false
-})(InboundGroupForm);
+})(InboundOrgForm);
