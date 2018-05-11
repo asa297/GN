@@ -11,7 +11,8 @@ module.exports = app => {
       orgCom: req.body.org_com,
       orgCode: req.body.org_code,
       RecordIdBy: req.user._id,
-      RecordNameBy: req.user.firstName
+      RecordNameBy: req.user.firstName,
+      RecordDate: Date.now()
     }).save();
     res.send({});
   });

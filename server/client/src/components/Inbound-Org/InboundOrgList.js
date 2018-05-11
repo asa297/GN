@@ -14,6 +14,10 @@ class InboundOrgList extends Component {
           <div className="card-content">
             <span className="card-title">
               <i>{inbound_org.orgName}</i>
+              <p className="right">
+                Record On :
+                {new Date(inbound_org.RecordDate).toLocaleDateString()}
+              </p>
             </span>
           </div>
           <div className="card-action">

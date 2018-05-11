@@ -21,7 +21,7 @@ export default auth => {
               <Link to="/inboundorg">In-Bound Org</Link>
             </li>
             <li>
-              <Link to="/inboundpo">In-Bound PO</Link>
+              <Link to="/inboundgroup">In-Bound Group</Link>
             </li>
           </div>
         );

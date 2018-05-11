@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import _ from "lodash";
 import { reduxForm, Field } from "redux-form";
 import { Link } from "react-router-dom";
-import InboundOrgField from "./InboundOrgField";
+import InboundGroupField from "./InboundGroupField";
 import FIELDS from "./formFields";
 
 import "react-widgets/dist/css/react-widgets.css";
 import DropdownList from "react-widgets/lib/DropdownList";
 
-const orgType_list = [
+const colors = [
   { org_typeId: 1, org_typeName: "RUSSIA" },
   { org_typeId: 2, org_typeName: "CHINA" }
 ];
@@ -22,13 +22,13 @@ const renderDropdownList = ({ input, ...rest }) => (
   </div>
 );
 
-class InboundOrgForm extends Component {
+class InboundGroupForm extends Component {
   renderField() {
     return _.map(FIELDS, ({ label, name }) => {
       return (
         <Field
           key={name}
-          component={InboundOrgField}
+          component={InboundGroupField}
           type="text"
           label={label}
           name={name}
@@ -46,7 +46,7 @@ class InboundOrgForm extends Component {
             <Field
               name="org_type"
               component={renderDropdownList}
-              data={orgType_list}
+              data={colors}
               valueField="value"
               textField="org_typeName"
             />
@@ -85,6 +85,6 @@ function validate(values) {
 
 export default reduxForm({
   validate,
-  form: "inbound_org",
+  form: "inbound_group",
   destroyOnUnmount: false
-})(InboundOrgForm);
+})(InboundGroupForm);

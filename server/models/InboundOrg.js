@@ -8,7 +8,8 @@ const inboundOrgSchema = new Schema({
   orgCom: Number,
   orgCode: String,
   RecordIdBy: { type: Schema.Types.ObjectId, ref: "users" },
-  RecordNameBy: { type: String, ref: "users" }
+  RecordNameBy: { type: String, ref: "users" },
+  RecordDate: Date
 });
 
 mongoose.model("organization", inboundOrgSchema);

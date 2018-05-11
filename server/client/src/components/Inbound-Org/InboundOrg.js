@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import InboundOrgList from "./Inbound-Org/InboundOrgList";
+import InboundOrgList from "./InboundOrgList";
 
 const InboundOrg = () => {
   return (
