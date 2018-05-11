@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const organizationModel = mongoose.model("organization");
+const organizationModel = mongoose.model("organizations");
 const requireLogin = require("../middlewares/requireLogin");
 
 module.exports = app => {

@@ -5,7 +5,7 @@ const InboundGroup = () => {
   return (
     <div className="container">
       <h3>
-        Inbound-Group
+        InBound-Group
         <Link
           to="/inboundgroup/new"
           className="btn-small blue"
@@ -14,6 +14,7 @@ const InboundGroup = () => {
           <i className="material-icons">add</i>
         </Link>
       </h3>
+      List
     </div>
   );
 };

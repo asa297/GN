@@ -7,6 +7,7 @@ const keys = require("./config/key");
 
 require("./models/User");
 require("./models/InboundOrg");
+require("./models/InboundGroup");
 require("./services/passport");
 
 mongoose.connect(keys.mongoURI);
@@ -25,6 +26,7 @@ app.use(passport.session());
 
 require("./routes/authRoutes")(app);
 require("./routes/inboundOrgRoutes")(app);
+require("./routes/inboundGroupRoutes")(app);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);

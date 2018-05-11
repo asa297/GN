@@ -17,7 +17,7 @@ class InboundGroupNew extends Component {
 
     return (
       <InboundGroupForm
-        onSurveySubmit={() => this.setState({ showFormReview: true })}
+        onSubmit={() => this.setState({ showFormReview: true })}
       />
     );
   }

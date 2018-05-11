@@ -1,6 +1,5 @@
 export default [
-  { label: "Organization Name", name: "org_name" },
-  // { label: "Type", name: "org_type" },
-  { label: "Organization Comission", name: "org_com" },
-  { label: "Organization Code", name: "org_code" }
+  { label: "Group Name", name: "group_name" },
+  { label: "Guide Name", name: "guide_name" },
+  { label: "Group Code", name: "group_code" }
 ];

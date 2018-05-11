@@ -1,15 +1,18 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const inboundOrgSchema = new Schema({
+const inboundGroupSchema = new Schema({
+  orgId: { type: Schema.Types.ObjectId, ref: "organizations" },
+  orgName: String,
   orgTypeId: Number,
   orgTypeName: String,
-  orgName: String,
-  orgCom: Number,
   orgCode: String,
+  groupName: String,
+  groupCode: String,
+  guideName: String,
   RecordIdBy: { type: Schema.Types.ObjectId, ref: "users" },
   RecordNameBy: { type: String, ref: "users" },
   RecordDate: Date
 });
 
-mongoose.model("organizations", inboundOrgSchema);
+mongoose.model("groups", inboundGroupSchema);
