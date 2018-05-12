@@ -4,7 +4,6 @@ const requireLogin = require("../middlewares/requireLogin");
 
 module.exports = app => {
   app.post("/api/inbound/group", requireLogin, async (req, res) => {
-    console.log(req.body);
     const group = await GroupModel({
       orgId: req.body.org_show.org_Id,
       orgName: req.body.org_show.org_Name,

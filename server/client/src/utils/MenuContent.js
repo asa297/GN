@@ -5,12 +5,6 @@ import { Link } from "react-router-dom";
 export default auth => {
   if (!_.isNil(auth)) {
     switch (auth.priority) {
-      default:
-        return (
-          <li>
-            <Link to="/home">Home</Link>
-          </li>
-        );
       case 1:
         return (
           <div>
@@ -27,6 +21,12 @@ export default auth => {
               <Link to="/inboundpo">In-Bound PO</Link>
             </li>
           </div>
+        );
+      default:
+        return (
+          <li>
+            <Link to="/home">Home</Link>
+          </li>
         );
     }
   }

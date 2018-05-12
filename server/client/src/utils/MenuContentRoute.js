@@ -13,8 +13,6 @@ import InboundPO from "../components/Inbound_PO/PO";
 export default auth => {
   if (!_.isNil(auth)) {
     switch (auth.priority) {
-      default:
-        return <Route exact path="/home" component={Home} />;
       case 1:
         return (
           <div>
@@ -27,6 +25,8 @@ export default auth => {
             <Route exact path="/" component={DefaultHome} />
           </div>
         );
+      default:
+        return <Route exact path="/home" component={Home} />;
     }
   }
 };
