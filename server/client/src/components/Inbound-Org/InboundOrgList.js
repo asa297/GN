@@ -32,32 +32,8 @@ class InboundOrgList extends Component {
     });
   }
 
-  renderPreLoad() {
-    return (
-      <div className="preloader-wrapper big active">
-        <div className="spinner-layer spinner-blue-only">
-          <div className="circle-clipper left">
-            <div className="circle" />
-          </div>
-          <div className="gap-patch">
-            <div className="circle" />
-          </div>
-          <div className="circle-clipper right">
-            <div className="circle" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   render() {
-    return (
-      <div>
-        {this.props.inbound_orgs.length !== 0
-          ? this.renderInboundOrg()
-          : this.renderPreLoad()}
-      </div>
-    );
+    return <div>{this.renderInboundOrg()}</div>;
   }
 }
 

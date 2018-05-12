@@ -7,18 +7,7 @@ import { fetchInbound_Org } from "../../actions";
 import InboundGroupField from "./InboundGroupField";
 import FIELDS from "./formFields";
 
-import "react-widgets/dist/css/react-widgets.css";
-import DropdownList from "react-widgets/lib/DropdownList";
-
-const renderDropdownList = ({ input, ...rest }) => (
-  <div>
-    <DropdownList {...input} {...rest} />
-
-    <div className="red-text" style={{ marginBottom: "20px" }}>
-      {rest.meta.touched && rest.meta.error}
-    </div>
-  </div>
-);
+import Select from "react-select";
 
 class InboundGroupForm extends Component {
   componentDidMount() {
@@ -40,26 +29,38 @@ class InboundGroupForm extends Component {
   }
 
   renderFieldOrg() {
-    const org_list = _.map(this.props.inbound_orgs, inbound_org => {
-      return {
-        org_Id: inbound_org._id,
-        org_Name: inbound_org.orgName,
-        org_TypeId: inbound_org.orgTypeId,
-        org_TypeName: inbound_org.orgTypeName,
-        org_Code: inbound_org.orgCode,
-        org_Show: inbound_org.orgName + " (" + inbound_org.orgCode + ")"
-      };
-    });
+    const org_list = _.map(
+      this.props.inbound_orgs,
+      ({ _id, orgName, orgTypeId, orgTypeName, orgCode }) => {
+        return {
+          org_Id: _id,
+          org_Name: orgName,
+          org_TypeId: orgTypeId,
+          org_TypeName: orgTypeName,
+          org_Code: orgCode,
+          label: orgName + " (" + orgCode + ")"
+        };
+      }
+    );
 
     return (
       <div>
         <label>Organization</label>
+
         <Field
           name="org_show"
-          component={renderDropdownList}
-          data={org_list}
-          valueField="value"
-          textField="org_Show"
+          component={props => (
+            <div>
+              <Select
+                value={props.input.value}
+                options={org_list}
+                onChange={props.input.onChange}
+                placeholder={props.meta.touched && props.meta.error}
+                className="form-control"
+                simpleValue
+              />
+            </div>
+          )}
         />
       </div>
     );

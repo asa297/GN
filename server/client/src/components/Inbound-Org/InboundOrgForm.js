@@ -2,27 +2,18 @@ import React, { Component } from "react";
 import _ from "lodash";
 import { reduxForm, Field } from "redux-form";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { fetchOrgType } from "../../actions";
 import InboundOrgField from "./InboundOrgField";
 import FIELDS from "./formFields";
 
-import "react-widgets/dist/css/react-widgets.css";
-import DropdownList from "react-widgets/lib/DropdownList";
-
-const orgType_list = [
-  { org_typeId: 1, org_typeName: "RUSSIA" },
-  { org_typeId: 2, org_typeName: "CHINA" }
-];
-
-const renderDropdownList = ({ input, ...rest }) => (
-  <div>
-    <DropdownList {...input} {...rest} />
-    <div className="red-text" style={{ marginBottom: "20px" }}>
-      {rest.meta.touched && rest.meta.error}
-    </div>
-  </div>
-);
+import Select from "react-select";
 
 class InboundOrgForm extends Component {
+  componentDidMount() {
+    this.props.fetchOrgType();
+  }
+
   renderField() {
     return _.map(FIELDS, ({ label, name }) => {
       return (
@@ -37,21 +28,47 @@ class InboundOrgForm extends Component {
     });
   }
 
+  renderFieldOrgType() {
+    const orgType_list = _.map(
+      this.props.typeorgs,
+      ({ _id, org_typeId, org_typeName }) => {
+        return {
+          org_Id: _id,
+          org_typeId: org_typeId,
+          org_typeName: org_typeName,
+          label: org_typeName
+        };
+      }
+    );
+
+    return (
+      <div>
+        <label>Organization Type</label>
+
+        <Field
+          name="org_type"
+          component={props => (
+            <div>
+              <Select
+                value={props.input.value}
+                options={orgType_list}
+                onChange={props.input.onChange}
+                placeholder={props.meta.touched && props.meta.error}
+                className="form-control"
+                simpleValue
+              />
+            </div>
+          )}
+        />
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="container">
         <form onSubmit={this.props.handleSubmit(this.props.onSurveySubmit)}>
-          <div>
-            <label>Organization Type</label>
-            <Field
-              name="org_type"
-              component={renderDropdownList}
-              data={orgType_list}
-              valueField="value"
-              textField="org_typeName"
-            />
-          </div>
-
+          {this.renderFieldOrgType()}
           {this.renderField()}
 
           <Link to="/home" className="red btn-flat white-text">
@@ -83,8 +100,12 @@ function validate(values) {
   return errors;
 }
 
+function mapStateToProps({ typeorgs }) {
+  return { typeorgs };
+}
+
 export default reduxForm({
   validate,
   form: "inbound_org",
   destroyOnUnmount: false
-})(InboundOrgForm);
+})(connect(mapStateToProps, { fetchOrgType })(InboundOrgForm));

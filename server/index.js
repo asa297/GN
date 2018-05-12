@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const keys = require("./config/key");
 
 require("./models/User");
+require("./models/OrgType");
 require("./models/InboundOrg");
 require("./models/InboundGroup");
 require("./services/passport");
@@ -25,6 +26,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require("./routes/authRoutes")(app);
+require("./routes/orgTypeRotues")(app);
 require("./routes/inboundOrgRoutes")(app);
 require("./routes/inboundGroupRoutes")(app);
 

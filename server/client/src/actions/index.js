@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
   FETCH_USER,
+  FETCH_TYPE_ORG,
   POST_INBOUND_ORG,
   FETCH_INBOUND_ORG,
   POST_INBOUND_GROUP,
@@ -11,6 +12,12 @@ export const fetchUser = () => async dispatch => {
   const res = await axios.get("/api/current_user");
 
   dispatch({ type: FETCH_USER, payload: res.data });
+};
+
+export const fetchOrgType = () => async dispatch => {
+  const res = await axios.get("/api/orgType");
+
+  dispatch({ type: FETCH_TYPE_ORG, payload: res.data });
 };
 
 export const submitInboundOrg = (values, history) => async dispatch => {

@@ -14,7 +14,7 @@ const InboundGroupReview = ({
   const OrgTypeFields = (
     <div key={formValues.org_Show}>
       <label>Organization</label>
-      <div>{formValues["org_show"].org_Show}</div>
+      <div>{formValues["org_show"].label}</div>
     </div>
   );
 

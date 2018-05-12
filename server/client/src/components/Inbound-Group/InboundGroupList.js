@@ -26,6 +26,7 @@ class InboundGroupList extends Component {
           <div className="card-action">
             <a>Org Code : {inbound_group.orgCode} </a>
             <a>Org Name : {inbound_group.orgName} </a>
+            <a>Guide Name : {inbound_group.guideName} </a>
             <a>RecordBy : {inbound_group.RecordNameBy} </a>
           </div>
         </div>
@@ -33,37 +34,12 @@ class InboundGroupList extends Component {
     });
   }
 
-  renderPreLoad() {
-    return (
-      <div className="preloader-wrapper big active">
-        <div className="spinner-layer spinner-blue-only">
-          <div className="circle-clipper left">
-            <div className="circle" />
-          </div>
-          <div className="gap-patch">
-            <div className="circle" />
-          </div>
-          <div className="circle-clipper right">
-            <div className="circle" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   render() {
-    return (
-      <div>
-        {this.props.inbound_groups.length !== 0
-          ? this.renderInboundGroup()
-          : this.renderPreLoad()}
-      </div>
-    );
+    return <div>{this.renderInboundGroup()}</div>;
   }
 }
 
 function mapStateToProps({ inbound_groups }) {
-  console.log(inbound_groups);
   return { inbound_groups };
 }
 

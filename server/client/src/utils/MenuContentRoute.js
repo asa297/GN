@@ -8,6 +8,7 @@ import InboundOrgNew from "../components/Inbound-Org/InboundOrgNew";
 import InboundOrg from "../components/Inbound-Org/InboundOrg";
 import InboundGroup from "../components/Inbound-Group/InboundGroup";
 import InboundGroupNew from "../components/Inbound-Group/InboundGroupNew";
+import InboundPO from "../components/Inbound_PO/PO";
 
 export default auth => {
   if (!_.isNil(auth)) {
@@ -17,6 +18,7 @@ export default auth => {
       case 1:
         return (
           <div>
+            <Route exact path="/inboundpo" component={InboundPO} />
             <Route exact path="/inboundgroup/new" component={InboundGroupNew} />
             <Route exact path="/inboundgroup" component={InboundGroup} />
             <Route exact path="/inboundorg/new" component={InboundOrgNew} />
