@@ -36,10 +36,7 @@ module.exports = app => {
     "/api/inbound/org/edit/:id",
     requirePriorityLevel1_Permission,
     async (req, res) => {
-      console.log(req.params.id);
-      console.log(req.body);
-
-      organizationModel
+      await organizationModel
         .updateOne(
           {
             _id: req.params.id

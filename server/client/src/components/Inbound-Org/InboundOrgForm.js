@@ -3,17 +3,13 @@ import _ from "lodash";
 import { reduxForm, Field } from "redux-form";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchOrgType } from "../../actions";
+
 import InboundOrgField from "./InboundOrgField";
 import FIELDS from "./formFields";
 
 import Select from "react-select";
 
 class InboundOrgForm extends Component {
-  componentDidMount() {
-    this.props.fetchOrgType();
-  }
-
   renderField() {
     return _.map(FIELDS, ({ label, name }) => {
       return (
@@ -108,4 +104,4 @@ export default reduxForm({
   validate,
   form: "inbound_org",
   destroyOnUnmount: false
-})(connect(mapStateToProps, { fetchOrgType })(InboundOrgForm));
+})(connect(mapStateToProps, null)(InboundOrgForm));
