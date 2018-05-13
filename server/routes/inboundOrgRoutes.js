@@ -31,4 +31,35 @@ module.exports = app => {
       res.send(inbound_org);
     }
   );
+
+  app.post(
+    "/api/inbound/org/edit/:id",
+    requirePriorityLevel1_Permission,
+    async (req, res) => {
+      console.log(req.params.id);
+      console.log(req.body);
+
+      organizationModel
+        .updateOne(
+          {
+            _id: req.params.id
+          },
+          {
+            $set: {
+              orgTypeId: req.body.org_type.org_typeId,
+              orgTypeName: req.body.org_type.org_typeName,
+              orgName: req.body.org_name,
+              orgCom: req.body.org_com,
+              orgCode: req.body.org_code,
+              RecordIdBy: req.user._id,
+              RecordNameBy: req.user.firstName,
+              RecordDate: Date.now()
+            }
+          }
+        )
+        .exec();
+
+      res.send({});
+    }
+  );
 };

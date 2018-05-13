@@ -1,10 +1,17 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { fetchOrgType } from "../../actions";
 import InboundOrgList from "./InboundOrgList";
 import InboundOrgEdit from "./InboundOrgEdit";
+import InboundOrgReview from "./InboundOrgReview";
 
 class InboundOrg extends Component {
-  state = { showEdit: false, index: 0 };
+  componentDidMount() {
+    this.props.fetchOrgType();
+  }
+
+  state = { showEdit: false, showReview: false, index: 0, _id: 0 };
 
   renderInBoundList() {
     return (
@@ -22,8 +29,8 @@ class InboundOrg extends Component {
           </h3>
         </div>
         <InboundOrgList
-          onclick={index => {
-            this.setState({ showEdit: true, index });
+          onclick={(index, _id) => {
+            this.setState({ showEdit: true, index, _id });
           }}
         />
       </div>
@@ -36,6 +43,7 @@ class InboundOrg extends Component {
         <InboundOrgEdit
           onCancal={() => this.setState({ showEdit: false, index: 0 })}
           index={this.state.index}
+          onSubmit={() => this.setState({ showEdit: false, showReview: true })}
         />
       </div>
     );
@@ -44,6 +52,16 @@ class InboundOrg extends Component {
   renderContent() {
     if (this.state.showEdit) {
       return this.renderInBoundEdit();
+    } else if (this.state.showReview) {
+      return (
+        <InboundOrgReview
+          onCancel={() => this.setState({ showEdit: true, showReview: false })}
+          onUpdateOrg={() =>
+            this.setState({ showEdit: false, showReview: false })
+          }
+          org_id={this.state._id}
+        />
+      );
     }
 
     return this.renderInBoundList();
@@ -54,4 +72,8 @@ class InboundOrg extends Component {
   }
 }
 
-export default InboundOrg;
+function mapStateToProps({ inbound_orgs, typeorgs }) {
+  return { inbound_orgs, typeorgs };
+}
+
+export default connect(mapStateToProps, { fetchOrgType })(InboundOrg);

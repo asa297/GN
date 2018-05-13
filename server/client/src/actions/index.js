@@ -1,5 +1,4 @@
 import axios from "axios";
-import { change } from "redux-form";
 
 import {
   FETCH_USER,
@@ -35,6 +34,16 @@ export const fetchInbound_Org = () => async dispatch => {
 
   dispatch({ type: FETCH_INBOUND_ORG, payload: res.data });
 };
+
+export const updateInbound_Org = (
+  org_id,
+  values,
+  onUpdateOrg
+) => async dispatch => {
+  const res = await axios.post("/api/inbound/org/edit/" + org_id, values);
+  onUpdateOrg();
+};
+
 export const submitInboundGroup = (values, history) => async dispatch => {
   const res = await axios.post("/api/inbound/group", values);
 

@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { reduxForm, Field } from "redux-form";
+import { reduxForm, Field, change } from "redux-form";
 import Select from "react-select";
 
-import { fetchInbound_Org, fetchOrgType } from "../../actions";
 import InboundOrgField from "./InboundOrgField";
 import FIELDS from "./formFields";
 
@@ -12,81 +11,94 @@ class InboundOrgEdit extends Component {
   constructor(props) {
     super(props);
     const value_props = this.props.inbound_orgs[this.props.index];
+
+    const org_type_selected = _.find(this.props.typeorgs, ({ org_typeId }) => {
+      return org_typeId === value_props.orgTypeId;
+    });
+
     this.state = {
       _id: value_props._id,
+      orgTypeId: value_props.orgTypeId,
       orgName: value_props.orgName,
       orgCom: value_props.orgCom,
-      orgCode: value_props.orgCode
+      orgCode: value_props.orgCode,
+      org_type_selected
     };
   }
 
-  //   componentDidMount() {
-  //     this.props.fetchInbound_Org();
-  //     this.props.fetchOrgType();
-  //   }
+  componentDidMount() {
+    _.map(FIELDS, ({ name, key }) => {
+      this.props.dispatch(change("inbound_org", name, this.state[key]));
+    });
+
+    this.props.dispatch(
+      change("inbound_org", "org_type", {
+        org_typeId: this.state.org_type_selected.org_typeId,
+        org_typeName: this.state.org_type_selected.org_typeName,
+        label: this.state.org_type_selected.org_typeName,
+        value: this.state.org_type_selected.org_typeName
+      })
+    );
+  }
 
   renderField() {
     return _.map(FIELDS, ({ label, name, key }) => {
       return (
         <Field
+          value={this.state[key]}
           key={name}
           component={InboundOrgField}
           type="text"
           label={label}
           name={name}
           valueField={this.state[key]}
-          onChange={event =>
-            this.setState(
-              { [key]: event.target.value },
-              console.log(this.state)
-            )
-          }
+          onChange={event => this.setState({ [key]: event.target.value })}
         />
       );
     });
   }
 
-  //   renderFieldOrgType() {
-  //     const orgType_list = _.map(
-  //       this.props.typeorgs,
-  //       ({ _id, org_typeId, org_typeName }) => {
-  //         return {
-  //           org_Id: _id,
-  //           org_typeId: org_typeId,
-  //           org_typeName: org_typeName,
-  //           label: org_typeName
-  //         };
-  //       }
-  //     );
+  renderFieldOrgType() {
+    const orgType_list = _.map(
+      this.props.typeorgs,
+      ({ org_typeId, org_typeName }) => {
+        return {
+          org_typeId: org_typeId,
+          org_typeName: org_typeName,
+          label: org_typeName,
+          value: org_typeName
+        };
+      }
+    );
 
-  //     return (
-  //       <div>
-  //         <label>Organization Type</label>
+    return (
+      <div>
+        <label>Organization Type</label>
 
-  //         <Field
-  //           name="org_type"
-  //           component={props => (
-  //             <div>
-  //               <Select
-  //                 value={props.input.value}
-  //                 options={orgType_list}
-  //                 onChange={props.input.onChange}
-  //                 placeholder={props.meta.touched && props.meta.error}
-  //                 className="form-control"
-  //                 simpleValue
-  //               />
-  //             </div>
-  //           )}
-  //         />
-  //       </div>
-  //     );
-  //   }
+        <Field
+          name="org_type"
+          component={props => (
+            <div>
+              <Select
+                value={props.input.value}
+                options={orgType_list}
+                onChange={props.input.onChange}
+                placeholder={props.meta.touched && props.meta.error}
+                className="form-control"
+                simpleValue
+              />
+            </div>
+          )}
+        />
+      </div>
+    );
+  }
 
   render() {
     return (
       <div className="container">
-        <form onSubmit={this.props.handleSubmit(() => console.log("gg"))}>
-          {/* {this.renderFieldOrgType()} */}
+        <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+          {this.renderFieldOrgType()}
           {this.renderField()}
 
           <button
@@ -117,7 +129,6 @@ function validate(values) {
       errors[name] = "Require a value";
     }
   });
-
   return errors;
 }
 
@@ -129,6 +140,4 @@ export default reduxForm({
   validate,
   form: "inbound_org",
   destroyOnUnmount: false
-})(
-  connect(mapStateToProps, { fetchInbound_Org, fetchOrgType })(InboundOrgEdit)
-);
+})(connect(mapStateToProps, null)(InboundOrgEdit));

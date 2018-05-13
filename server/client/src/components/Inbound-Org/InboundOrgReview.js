@@ -7,9 +7,12 @@ import { withRouter } from "react-router-dom";
 
 const InboundOrgReview = ({
   onCancel,
+  onUpdateOrg,
   formValues,
   submitInboundOrg,
-  history
+  updateInbound_Org,
+  history,
+  org_id
 }) => {
   const OrgTypeFields = (
     <div key={formValues.org_typeName}>
@@ -40,7 +43,11 @@ const InboundOrgReview = ({
       </button>
       <button
         className="green btn-flat right white-text"
-        onClick={() => submitInboundOrg(formValues, history)}
+        onClick={() =>
+          onUpdateOrg
+            ? updateInbound_Org(org_id, formValues, onUpdateOrg)
+            : submitInboundOrg(formValues, history)
+        }
       >
         Save Inbound Org
         <i className="material-icons right">email</i>

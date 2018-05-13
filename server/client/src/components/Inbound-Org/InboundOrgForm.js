@@ -31,12 +31,12 @@ class InboundOrgForm extends Component {
   renderFieldOrgType() {
     const orgType_list = _.map(
       this.props.typeorgs,
-      ({ _id, org_typeId, org_typeName }) => {
+      ({ org_typeId, org_typeName }) => {
         return {
-          org_Id: _id,
           org_typeId: org_typeId,
           org_typeName: org_typeName,
-          label: org_typeName
+          label: org_typeName,
+          value: org_typeName
         };
       }
     );
@@ -71,7 +71,7 @@ class InboundOrgForm extends Component {
           {this.renderFieldOrgType()}
           {this.renderField()}
 
-          <Link to="/home" className="red btn-flat white-text">
+          <Link to="/inboundorg" className="red btn-flat white-text">
             Cancal
           </Link>
           <button type="submit" className="teal btn-flat right white-text">
