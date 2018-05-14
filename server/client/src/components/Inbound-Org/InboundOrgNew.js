@@ -1,13 +1,9 @@
 import React, { Component } from "react";
-import { reduxForm, reset } from "redux-form";
+import { reduxForm } from "redux-form";
 import InboundOrgForm from "./InboundOrgForm";
 import InboundOrgReview from "./InboundOrgReview";
 
 class InboundOrgNew extends Component {
-  componentDidMount() {
-    this.props.dispatch(reset("inbound_org"));
-  }
-
   state = { showFormReview: false };
 
   renderContent() {

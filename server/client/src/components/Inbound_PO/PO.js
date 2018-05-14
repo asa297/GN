@@ -1,48 +1,69 @@
 import React, { Component } from "react";
-import Quagga from "quagga";
+import Modal from "react-modal";
+import styles from "../../Style/CSS/modalCSS.css";
 
-const MyComponent = () => {
-  return (
-    <div>
-      gg<div>gfgadfgaadsf</div>
-    </div>
-  );
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)"
+  }
 };
 
-export default MyComponent;
+// Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
+Modal.setAppElement("#root");
 
-// import React, { Component } from "react";
-// import AsyncSelect from "react-select/lib/Async";
-// import { colourOptions } from "./data";
+class App extends Component {
+  constructor() {
+    super();
 
-// const filterColors = inputValue =>
-//   colourOptions.filter(i =>
-//     i.label.toLowerCase().includes(inputValue.toLowerCase())
-//   );
+    this.state = {
+      modalIsOpen: false
+    };
 
-// const loadOptions = (inputValue, callback) => {
-//   callback(filterColors(inputValue));
-// };
+    // this.openModal = this.openModal.bind(this);
+    // this.afterOpenModal = this.afterOpenModal.bind(this);
+    // this.closeModal = this.closeModal.bind(this);
+  }
 
-// class WithCallbacks extends Component {
-//   handleInputChange = newValue => {
-//     const inputValue = newValue.replace(/\W/g, "");
-//     this.setState({ inputValue });
-//     return inputValue;
-//   };
+  openModal = () => {
+    this.setState({ modalIsOpen: true });
+  };
 
-//   render() {
-//     return (
-//       <div>
-//         <AsyncSelect
-//           cacheOptions
-//           loadOptions={loadOptions}
-//           defaultOptions
-//           onInputChange={this.handleInputChange}
-//         />
-//       </div>
-//     );
-//   }
-// }
+  afterOpenModal = () => {
+    // references are now sync'd and can be accessed.
+    this.subtitle.style.color = "#f00";
+  };
 
-// export default WithCallbacks;
+  closeModal = () => {
+    this.setState({ modalIsOpen: false });
+  };
+
+  render() {
+    return (
+      <div>
+        {/* <button onClick={this.openModal}>Open Modal</button>
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onAfterOpen={this.afterOpenModal}
+          onRequestClose={this.closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <h2 ref={subtitle => (this.subtitle = subtitle)}>Hello</h2>
+          <button onClick={() => console.log("delete sure")}>delete</button>
+          <button onClick={this.closeModal}>close</button>
+          <div>I am a modal</div>
+        </Modal> */}
+        <div className={styles.container}>
+          <p className={styles.content}>Get started with CSS Modules style</p>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default App;

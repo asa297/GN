@@ -59,4 +59,15 @@ module.exports = app => {
       res.send({});
     }
   );
+
+  app.delete(
+    "/api/inbound/org/:id",
+    requirePriorityLevel1_Permission,
+    async (req, res) => {
+      await organizationModel.remove({ _id: req.params.id });
+      const inbound_org = await organizationModel.find({});
+
+      res.send(inbound_org);
+    }
+  );
 };

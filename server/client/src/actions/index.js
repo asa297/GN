@@ -24,7 +24,7 @@ export const fetchOrgType = () => async dispatch => {
 export const submitInboundOrg = (values, history) => async dispatch => {
   const res = await axios.post("/api/inbound/org", values);
 
-  history.push("/home");
+  history.push("/inboundorg");
 
   dispatch({ type: POST_INBOUND_ORG, payload: res.data });
 };
@@ -40,8 +40,14 @@ export const updateInbound_Org = (
   values,
   onUpdateOrg
 ) => async dispatch => {
-  const res = await axios.post("/api/inbound/org/edit/" + org_id, values);
+  await axios.post("/api/inbound/org/edit/" + org_id, values);
   onUpdateOrg();
+};
+
+export const deleteInbound_Org = org_id => async dispatch => {
+  const res = await axios.delete("/api/inbound/org/" + org_id);
+
+  dispatch({ type: FETCH_INBOUND_ORG, payload: res.data });
 };
 
 export const submitInboundGroup = (values, history) => async dispatch => {

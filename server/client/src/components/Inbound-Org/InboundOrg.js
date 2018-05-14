@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchOrgType } from "../../actions";
+import { fetchOrgType, deleteInbound_Org } from "../../actions";
 import InboundOrgList from "./InboundOrgList";
 import InboundOrgEdit from "./InboundOrgEdit";
 import InboundOrgReview from "./InboundOrgReview";
@@ -29,9 +29,10 @@ class InboundOrg extends Component {
           </h3>
         </div>
         <InboundOrgList
-          onclick={(index, _id) => {
+          onSelect={(index, _id) => {
             this.setState({ showEdit: true, index, _id });
           }}
+          onDelete={org_id => this.props.deleteInbound_Org(org_id)}
         />
       </div>
     );
@@ -76,4 +77,6 @@ function mapStateToProps({ inbound_orgs, typeorgs }) {
   return { inbound_orgs, typeorgs };
 }
 
-export default connect(mapStateToProps, { fetchOrgType })(InboundOrg);
+export default connect(mapStateToProps, { fetchOrgType, deleteInbound_Org })(
+  InboundOrg
+);

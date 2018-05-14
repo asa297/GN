@@ -105,11 +105,12 @@ class InboundOrgEdit extends Component {
             onClick={this.props.onCancal}
             className="red btn-flat white-text"
           >
-            Cancal
+            <i className="material-icons left">chevron_left</i>
+            Back
           </button>
           <button type="submit" className="teal btn-flat right white-text">
             Next
-            <i className="material-icons right">done</i>
+            <i className="material-icons right">chevron_right</i>
           </button>
         </form>
       </div>

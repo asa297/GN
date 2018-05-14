@@ -1,0 +1,17 @@
+:local(.container) {
+  margin: 40px;
+  border: 5px dashed pink;
+}
+/* :local(.content) {
+  font-size: 15px;
+  text-align: center;
+} */
+
+:local(.content) {
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
