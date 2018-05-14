@@ -6,8 +6,8 @@ import Home from "../components/Home";
 import DefaultHome from "../components/DefaultHome";
 import InboundOrgNew from "../components/Inbound-Org/InboundOrgNew";
 import InboundOrg from "../components/Inbound-Org/InboundOrg";
-import InboundGroup from "../components/Inbound-Group/InboundGroup";
-import InboundGroupNew from "../components/Inbound-Group/InboundGroupNew";
+import InboundGroup from "../components/Inbound-Group-New/InboundGroup";
+import InboundGroupNew from "../components/Inbound-Group-New/InboundGroupNew";
 import InboundPO from "../components/Inbound_PO/PO";
 
 export default auth => {

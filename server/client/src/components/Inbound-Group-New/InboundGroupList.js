@@ -1,29 +1,29 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchInbound_Org } from "../../actions";
+import { fetchInbound_Group } from "../../actions";
 import Modal from "react-modal";
 import ModalStyle from "../../Style/JS/modalStyle";
 
-class InboundOrgList extends Component {
+class InboundGroupList extends Component {
   constructor() {
     super();
 
     this.state = {
       modalIsOpen: false,
-      org_id: 0
+      group_id: 0
     };
   }
 
-  openModal(org_id) {
-    this.setState({ modalIsOpen: true, org_id });
+  openModal(group_id) {
+    this.setState({ modalIsOpen: true, group_id });
   }
 
   closeModal() {
-    this.setState({ modalIsOpen: false, org_id: 0 });
+    this.setState({ modalIsOpen: false, group_id: 0 });
   }
 
   componentDidMount() {
-    this.props.fetchInbound_Org();
+    this.props.fetchInbound_Group();
   }
 
   renderModal() {
@@ -44,7 +44,7 @@ class InboundOrgList extends Component {
           <button
             className="red btn-flat right white-text"
             onClick={() => {
-              this.props.onDelete(this.state.org_id);
+              this.props.onDelete(this.state.group_id);
               this.closeModal();
             }}
           >
@@ -61,16 +61,17 @@ class InboundOrgList extends Component {
     );
   }
 
-  renderInboundOrg() {
-    return this.props.inbound_orgs.map(
+  renderInboundGroup() {
+    return this.props.inbound_groups.map(
       (
         {
           _id,
-          orgName,
+          groupCode,
+          groupRemarks,
           RecordDate,
-          orgTypeName,
-          orgCom,
           orgCode,
+          orgName,
+          guideName,
           RecordNameBy
         },
         index
@@ -79,8 +80,11 @@ class InboundOrgList extends Component {
           <div className="card darken-1" key={_id}>
             <div className="card-content">
               <span className="card-title">
-                <b>Org Name : </b>
-                <i> {orgName}</i>
+                <b>Group Code : </b>
+
+                <i>
+                  {groupCode} ({groupRemarks})
+                </i>
                 <p className="right">
                   Last Record On :
                   {new Date(RecordDate).toLocaleDateString()}
@@ -88,9 +92,9 @@ class InboundOrgList extends Component {
               </span>
             </div>
             <div className="card-action">
-              <a>Type : {orgTypeName}</a>
-              <a>Commission : {orgCom} %</a>
-              <a>Org Code : {orgCode} </a>
+              <a>Org Code : {orgCode}</a>
+              <a>Org Name : : {orgName}</a>
+              <a>Guide Name : {guideName} </a>
               <a>RecordBy : {RecordNameBy} </a>
               <button
                 className="red btn-flat right white-text"
@@ -115,12 +119,14 @@ class InboundOrgList extends Component {
   }
 
   render() {
-    return <div>{this.renderInboundOrg()}</div>;
+    return <div>{this.renderInboundGroup()}</div>;
   }
 }
 
-function mapStateToProps({ inbound_orgs, typeorgs }) {
-  return { inbound_orgs, typeorgs };
+function mapStateToProps({ inbound_orgs, inbound_groups }) {
+  return { inbound_orgs, inbound_groups };
 }
 
-export default connect(mapStateToProps, { fetchInbound_Org })(InboundOrgList);
+export default connect(mapStateToProps, { fetchInbound_Group })(
+  InboundGroupList
+);

@@ -4,14 +4,14 @@ import { reduxForm, Field, reset } from "redux-form";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import InboundOrgField from "./InboundOrgField";
+import InboundGroupField from "./InboundGroupField";
 import FIELDS from "./formFields";
 
 import Select from "react-select";
 
-class InboundOrgForm extends Component {
+class InboundGroupForm extends Component {
   componentDidMount() {
-    this.props.dispatch(reset("inbound_org"));
+    this.props.dispatch(reset("inbound_group"));
   }
 
   renderField() {
@@ -19,7 +19,7 @@ class InboundOrgForm extends Component {
       return (
         <Field
           key={name}
-          component={InboundOrgField}
+          component={InboundGroupField}
           type="text"
           label={label}
           name={name}
@@ -28,30 +28,33 @@ class InboundOrgForm extends Component {
     });
   }
 
-  renderFieldOrgType() {
-    const orgType_list = _.map(
-      this.props.typeorgs,
-      ({ org_typeId, org_typeName }) => {
+  renderFieldOrg() {
+    const orgOption_list = _.map(
+      this.props.inbound_orgs,
+      ({ _id, orgName, orgCode, orgTypeId, orgTypeName }) => {
         return {
-          org_typeId: org_typeId,
-          org_typeName: org_typeName,
-          label: org_typeName,
-          value: org_typeName
+          _id,
+          orgName,
+          orgCode,
+          orgTypeId,
+          orgTypeName,
+          label: orgName + " (" + orgCode + ")",
+          value: orgName + " (" + orgCode + ")"
         };
       }
     );
 
     return (
       <div>
-        <label>Organization Type</label>
+        <label>Organization</label>
 
         <Field
-          name="org_type"
+          name="org_option"
           component={props => (
             <div>
               <Select
                 value={props.input.value}
-                options={orgType_list}
+                options={orgOption_list}
                 onChange={props.input.onChange}
                 placeholder={props.meta.touched && props.meta.error}
                 className="form-control"
@@ -68,10 +71,10 @@ class InboundOrgForm extends Component {
     return (
       <div className="container">
         <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
-          {this.renderFieldOrgType()}
+          {this.renderFieldOrg()}
           {this.renderField()}
 
-          <Link to="/inboundorg" className="red btn-flat white-text">
+          <Link to="/inboundgroup" className="red btn-flat white-text">
             Cancal
           </Link>
           <button type="submit" className="teal btn-flat right white-text">
@@ -87,12 +90,12 @@ class InboundOrgForm extends Component {
 function validate(values) {
   const errors = {};
 
-  if (!values["org_type"]) {
-    errors["org_type"] = "Require a value";
+  if (!values["org_option"]) {
+    errors["org_option"] = "Require a value";
   }
 
   _.each(FIELDS, ({ name }) => {
-    if (!values[name]) {
+    if (!values[name] && name !== "group_remark") {
       errors[name] = "Require a value";
     }
   });
@@ -100,12 +103,12 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ typeorgs }) {
-  return { typeorgs };
+function mapStateToProps({ inbound_orgs }) {
+  return { inbound_orgs };
 }
 
 export default reduxForm({
   validate,
-  form: "inbound_org",
+  form: "inbound_group",
   destroyOnUnmount: false
-})(connect(mapStateToProps, null)(InboundOrgForm));
+})(connect(mapStateToProps, null)(InboundGroupForm));

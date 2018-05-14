@@ -15,6 +15,8 @@ export const fetchUser = () => async dispatch => {
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
+// inbound org
+
 export const fetchOrgType = () => async dispatch => {
   const res = await axios.get("/api/orgType");
 
@@ -50,16 +52,32 @@ export const deleteInbound_Org = org_id => async dispatch => {
   dispatch({ type: FETCH_INBOUND_ORG, payload: res.data });
 };
 
+// inbound group
 export const submitInboundGroup = (values, history) => async dispatch => {
   const res = await axios.post("/api/inbound/group", values);
 
-  history.push("/home");
+  history.push("/inboundgroup");
 
   dispatch({ type: POST_INBOUND_GROUP, payload: res.data });
 };
 
 export const fetchInbound_Group = () => async dispatch => {
   const res = await axios.get("/api/inbound/group");
+
+  dispatch({ type: FETCH_INBOUND_GROUP, payload: res.data });
+};
+
+export const updateInbound_Group = (
+  group_id,
+  values,
+  onUpdateGroup
+) => async dispatch => {
+  await axios.post("/api/inbound/group/edit/" + group_id, values);
+  onUpdateGroup();
+};
+
+export const deleteInbound_Group = group_id => async dispatch => {
+  const res = await axios.delete("/api/inbound/group/" + group_id);
 
   dispatch({ type: FETCH_INBOUND_GROUP, payload: res.data });
 };
