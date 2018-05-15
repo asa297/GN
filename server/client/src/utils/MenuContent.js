@@ -12,13 +12,16 @@ export default auth => {
               <Link to="/home">Home</Link>
             </li>
             <li>
-              <Link to="/inboundorg">In-Bound Org</Link>
+              <Link to="/inboundorg">Org</Link>
             </li>
             <li>
-              <Link to="/inboundgroup">In-Bound Group</Link>
+              <Link to="/inboundgroup">Group</Link>
             </li>
             <li>
-              <Link to="/inboundpo">In-Bound PO</Link>
+              <Link to="/inboundseller">Seller</Link>
+            </li>
+            <li>
+              <Link to="/inboundpo">PO</Link>
             </li>
           </div>
         );

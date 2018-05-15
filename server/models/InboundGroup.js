@@ -7,6 +7,7 @@ const inboundGroupSchema = new Schema({
   orgTypeId: Number,
   orgTypeName: String,
   orgCode: String,
+  orgCom: Number,
   groupCode: String,
   groupRemarks: String,
   guideName: String,

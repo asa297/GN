@@ -70,6 +70,7 @@ class InboundGroupList extends Component {
           groupRemarks,
           RecordDate,
           orgCode,
+          orgCom,
           orgName,
           guideName,
           RecordNameBy
@@ -92,8 +93,9 @@ class InboundGroupList extends Component {
               </span>
             </div>
             <div className="card-action">
+              <a>Org Name : {orgName}</a>
               <a>Org Code : {orgCode}</a>
-              <a>Org Name : : {orgName}</a>
+              <a>Org Commission : {orgCom} %</a>
               <a>Guide Name : {guideName} </a>
               <a>RecordBy : {RecordNameBy} </a>
               <button

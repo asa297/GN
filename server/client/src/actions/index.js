@@ -3,10 +3,9 @@ import axios from "axios";
 import {
   FETCH_USER,
   FETCH_TYPE_ORG,
-  POST_INBOUND_ORG,
   FETCH_INBOUND_ORG,
-  POST_INBOUND_GROUP,
-  FETCH_INBOUND_GROUP
+  FETCH_INBOUND_GROUP,
+  FETCH_INBOUND_SELLER
 } from "./type";
 
 export const fetchUser = () => async dispatch => {
@@ -24,11 +23,9 @@ export const fetchOrgType = () => async dispatch => {
 };
 
 export const submitInboundOrg = (values, history) => async dispatch => {
-  const res = await axios.post("/api/inbound/org", values);
+  await axios.post("/api/inbound/org", values);
 
   history.push("/inboundorg");
-
-  dispatch({ type: POST_INBOUND_ORG, payload: res.data });
 };
 
 export const fetchInbound_Org = () => async dispatch => {
@@ -54,11 +51,9 @@ export const deleteInbound_Org = org_id => async dispatch => {
 
 // inbound group
 export const submitInboundGroup = (values, history) => async dispatch => {
-  const res = await axios.post("/api/inbound/group", values);
+  await axios.post("/api/inbound/group", values);
 
   history.push("/inboundgroup");
-
-  dispatch({ type: POST_INBOUND_GROUP, payload: res.data });
 };
 
 export const fetchInbound_Group = () => async dispatch => {
@@ -80,4 +75,33 @@ export const deleteInbound_Group = group_id => async dispatch => {
   const res = await axios.delete("/api/inbound/group/" + group_id);
 
   dispatch({ type: FETCH_INBOUND_GROUP, payload: res.data });
+};
+
+//inbound seller
+
+export const submitInboundSeller = (values, history) => async dispatch => {
+  await axios.post("/api/inbound/seller", values);
+
+  history.push("/inboundseller");
+};
+
+export const fetchInbound_Seller = () => async dispatch => {
+  const res = await axios.get("/api/inbound/seller");
+
+  dispatch({ type: FETCH_INBOUND_SELLER, payload: res.data });
+};
+
+export const updateInbound_Seller = (
+  seller_id,
+  values,
+  onUpdateSeller
+) => async dispatch => {
+  await axios.post("/api/inbound/seller/edit/" + seller_id, values);
+  onUpdateSeller();
+};
+
+export const deleteInbound_Seller = seller_id => async dispatch => {
+  const res = await axios.delete("/api/inbound/seller/" + seller_id);
+
+  dispatch({ type: FETCH_INBOUND_SELLER, payload: res.data });
 };

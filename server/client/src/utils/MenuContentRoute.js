@@ -6,9 +6,11 @@ import Home from "../components/Home";
 import DefaultHome from "../components/DefaultHome";
 import InboundOrgNew from "../components/Inbound-Org/InboundOrgNew";
 import InboundOrg from "../components/Inbound-Org/InboundOrg";
-import InboundGroup from "../components/Inbound-Group-New/InboundGroup";
-import InboundGroupNew from "../components/Inbound-Group-New/InboundGroupNew";
+import InboundGroup from "../components/Inbound-Group/InboundGroup";
+import InboundGroupNew from "../components/Inbound-Group/InboundGroupNew";
 import InboundPO from "../components/Inbound_PO/PO";
+import InboundSeller from "../components/Imbound_Seller/InboundSeller";
+import InboundSellerNew from "../components/Imbound_Seller/InboundSellerNew";
 
 export default auth => {
   if (!_.isNil(auth)) {
@@ -16,6 +18,12 @@ export default auth => {
       case 1:
         return (
           <div>
+            <Route
+              exact
+              path="/inboundseller/new"
+              component={InboundSellerNew}
+            />
+            <Route exact path="/inboundseller" component={InboundSeller} />
             <Route exact path="/inboundpo" component={InboundPO} />
             <Route exact path="/inboundgroup/new" component={InboundGroupNew} />
             <Route exact path="/inboundgroup" component={InboundGroup} />

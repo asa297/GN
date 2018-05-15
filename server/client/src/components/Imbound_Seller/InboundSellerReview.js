@@ -5,28 +5,21 @@ import formFields from "./formFields";
 import * as actions from "../../actions";
 import { withRouter } from "react-router-dom";
 
-const InboundOrgReview = ({
+const InboundSellerReview = ({
   onCancel,
-  onUpdateOrg,
+  onUpdateSeller,
   formValues,
-  submitInboundOrg,
-  updateInbound_Org,
+  submitInboundSeller,
+  updateInbound_Seller,
   history,
-  org_id
+  seller_id
 }) => {
-  const OrgTypeFields = (
-    <div key={formValues.org_typeName}>
-      <label>Organization Type</label>
-      <div>{formValues["org_type"].label}</div>
-    </div>
-  );
-
   const reviewFields = _.map(formFields, ({ name, label }) => {
     return (
       <div key={name}>
         <label>{label}</label>
         <div>
-          {formValues[name]} {name === "org_com" ? "%" : ""}
+          {formValues[name]} {name === "seller_com" ? "%" : ""}
         </div>
       </div>
     );
@@ -34,8 +27,6 @@ const InboundOrgReview = ({
 
   return (
     <div className="container">
-      <h5>Please confirm your entries</h5>
-      {OrgTypeFields}
       {reviewFields}
       <button
         className="yellow darken-3 white-text btn-flat"
@@ -46,12 +37,12 @@ const InboundOrgReview = ({
       <button
         className="green btn-flat right white-text"
         onClick={() =>
-          onUpdateOrg
-            ? updateInbound_Org(org_id, formValues, onUpdateOrg)
-            : submitInboundOrg(formValues, history)
+          onUpdateSeller
+            ? updateInbound_Seller(seller_id, formValues, onUpdateSeller)
+            : submitInboundSeller(formValues, history)
         }
       >
-        Save Inbound Org
+        Save Inbound Seller
         <i className="material-icons right">email</i>
       </button>
     </div>
@@ -59,7 +50,9 @@ const InboundOrgReview = ({
 };
 
 function mapStateToProps(state) {
-  return { formValues: state.form.inbound_org.values };
+  return { formValues: state.form.inbound_seller.values };
 }
 
-export default connect(mapStateToProps, actions)(withRouter(InboundOrgReview));
+export default connect(mapStateToProps, actions)(
+  withRouter(InboundSellerReview)
+);

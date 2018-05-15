@@ -12,6 +12,7 @@ import Select from "react-select";
 class InboundGroupForm extends Component {
   componentDidMount() {
     this.props.dispatch(reset("inbound_group"));
+    console.log(this.props.inbound_orgs);
   }
 
   renderField() {
@@ -31,11 +32,12 @@ class InboundGroupForm extends Component {
   renderFieldOrg() {
     const orgOption_list = _.map(
       this.props.inbound_orgs,
-      ({ _id, orgName, orgCode, orgTypeId, orgTypeName }) => {
+      ({ _id, orgName, orgCode, orgCom, orgTypeId, orgTypeName }) => {
         return {
           _id,
           orgName,
           orgCode,
+          orgCom,
           orgTypeId,
           orgTypeName,
           label: orgName + " (" + orgCode + ")",
