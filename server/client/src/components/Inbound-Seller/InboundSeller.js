@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { deleteInbound_Seller } from "../../actions";
-import InboundGroupList from "../Imbound_Seller/InboundSellerList";
-import InboundSellerReview from "../Imbound_Seller/InboundSellerReview";
-import InboundSellerEdit from "../Imbound_Seller//InboundSellerEdit";
+import InboundGroupList from "../Inbound-Seller/InboundSellerList";
+import InboundSellerReview from "../Inbound-Seller/InboundSellerReview";
+import InboundSellerEdit from "../Inbound-Seller/InboundSellerEdit";
 
 class InboundSeller extends Component {
   state = { showEdit: false, showReview: false, index: 0, _id: 0 };

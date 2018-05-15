@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
 import { reduxForm, Field, change } from "redux-form";
-import Select from "react-select";
 
 import InboundSellerField from "./InboundSellerField";
 import FIELDS from "./formFields";
@@ -23,7 +22,7 @@ class InboundSellerEdit extends Component {
 
   componentDidMount() {
     _.map(FIELDS, ({ name, key }) => {
-      this.props.dispatch(change("inbound_seller", name, this.state[key]));
+      this.props.dispatch(change("inbound_item", name, this.state[key]));
     });
   }
 
@@ -85,6 +84,6 @@ function mapStateToProps({ inbound_sellers }) {
 
 export default reduxForm({
   validate,
-  form: "inbound_seller",
+  form: "inbound_item",
   destroyOnUnmount: false
 })(connect(mapStateToProps, null)(InboundSellerEdit));

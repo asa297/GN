@@ -21,7 +21,7 @@ export default auth => {
               <Link to="/inboundseller">Seller</Link>
             </li>
             <li>
-              <Link to="/inboundpo">PO</Link>
+              <Link to="/inbounditem">Item</Link>
             </li>
           </div>
         );

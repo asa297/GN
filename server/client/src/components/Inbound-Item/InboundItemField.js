@@ -1,6 +1,6 @@
 import React from "react";
 
-const InboundGroupField = ({
+const InboundItemField = ({
   valueField,
   input,
   label,
@@ -17,4 +17,4 @@ const InboundGroupField = ({
   );
 };
 
-export default InboundGroupField;
+export default InboundItemField;
