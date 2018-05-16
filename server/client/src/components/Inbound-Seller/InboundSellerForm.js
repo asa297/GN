@@ -52,6 +52,14 @@ function validate(values) {
     if (!values[name] && name !== "seller_remarks") {
       errors[name] = "Require a value";
     }
+
+    if (values["seller_com"] && isNaN(values["seller_com"])) {
+      errors["seller_com"] = "Require a Number";
+    } else {
+      if (values["seller_com"] < 0 || values["seller_com"] > 100) {
+        errors["seller_com"] = "0% - 100%";
+      }
+    }
   });
 
   return errors;

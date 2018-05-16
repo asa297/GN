@@ -84,7 +84,7 @@ class InboundItemForm extends Component {
           <b>{orgName}</b>
           <Field
             key={_id}
-            name={orgName}
+            name={_id}
             component={InboundItemField}
             placeholder={orgName}
           />
@@ -118,15 +118,27 @@ class InboundItemForm extends Component {
 function validate(values) {
   const errors = {};
 
-  _.each(orgChinaList, ({ orgName }) => {
-    if (!values[orgName]) {
-      errors[orgName] = "Require a value";
+  if (!values["item_type"]) {
+    errors["item_type"] = "Require a value";
+  }
+
+  _.each(orgChinaList, ({ _id }) => {
+    if (!values[_id]) {
+      errors[_id] = "Require a value ";
     }
   });
 
   _.each(FIELDS, ({ name }) => {
     if (!values[name]) {
       errors[name] = "Require a value";
+    }
+
+    if (values["item_price"] && isNaN(values["item_price"])) {
+      errors["item_price"] = "Require a number only";
+    } else {
+      if (values["item_price"] < 0) {
+        errors["item_price"] = "NOT SUPPORT NEGATIVE PRICE";
+      }
     }
   });
 

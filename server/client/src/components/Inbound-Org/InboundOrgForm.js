@@ -95,6 +95,14 @@ function validate(values) {
     if (!values[name]) {
       errors[name] = "Require a value";
     }
+
+    if (values["org_com"] && isNaN(values["org_com"])) {
+      errors["org_com"] = "Require a Number";
+    } else {
+      if (values["org_com"] < 0 || values["org_com"] > 100) {
+        errors["org_com"] = "0% - 100%";
+      }
+    }
   });
 
   return errors;
