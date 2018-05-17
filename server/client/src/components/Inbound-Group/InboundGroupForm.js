@@ -12,7 +12,6 @@ import Select from "react-select";
 class InboundGroupForm extends Component {
   componentDidMount() {
     this.props.dispatch(reset("inbound_group"));
-    console.log(this.props.inbound_orgs);
   }
 
   renderField() {

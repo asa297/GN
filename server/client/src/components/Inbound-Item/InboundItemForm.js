@@ -32,9 +32,19 @@ class InboundItemForm extends Component {
     );
   }
 
-  handleChange = selectedOption => {
-    this.setState({ selectedOption });
-  };
+  componentWillReceiveProps({ form: { inbound_item } }) {
+    if (inbound_item.values && inbound_item.values.item_type) {
+      this.setState({
+        itemTypeId: inbound_item.values.item_type.itemTypeId
+      });
+    }
+  }
+
+  // handleChange = props => {
+  //   console.log(props);
+  //   props.input.value = props.input.value;
+  //   // this.setState({ selectedOption });
+  // };
 
   renderField() {
     return _.map(FIELDS, ({ label, name }) => {
@@ -60,12 +70,12 @@ class InboundItemForm extends Component {
           component={props => (
             <div>
               <Select
-                value={this.state.selectedOption}
+                value={props.input.value}
                 options={[
                   { itemTypeId: 1, itemTypeName: "A", label: "A", value: "A" },
                   { itemTypeId: 2, itemTypeName: "B", label: "B", value: "B" }
                 ]}
-                onChange={this.handleChange}
+                onChange={props.input.onChange}
                 placeholder={props.meta.touched && props.meta.error}
                 className="form-control"
                 simpleValue
@@ -99,9 +109,8 @@ class InboundItemForm extends Component {
         <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
           {this.renderField()}
           {this.renderFieldItemType()}
-          {this.state.selectedOption.itemTypeId === 2
-            ? this.renderFieldCommission()
-            : null}
+          {this.state.itemTypeId === 2 ? this.renderFieldCommission() : null}
+
           <Link to="/inbounditem" className="red btn-flat white-text">
             Cancal
           </Link>
@@ -126,6 +135,14 @@ function validate(values) {
     if (!values[_id]) {
       errors[_id] = "Require a value ";
     }
+
+    if (values[_id] && isNaN(values[_id])) {
+      errors[_id] = "Require a number only";
+    } else {
+      if (values[_id] < 0 || values[_id] > 100) {
+        errors[_id] = "0% - 100%";
+      }
+    }
   });
 
   _.each(FIELDS, ({ name }) => {
@@ -145,8 +162,8 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ inbound_orgs }) {
-  return { inbound_orgs };
+function mapStateToProps({ inbound_orgs, form }) {
+  return { inbound_orgs, form };
 }
 
 export default reduxForm({

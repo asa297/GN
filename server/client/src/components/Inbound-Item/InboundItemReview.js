@@ -25,6 +25,7 @@ const InboundItemReview = ({
     return (
       <div key={name}>
         <label>{label}</label>
+        <div>{formValues[name]}</div>
       </div>
     );
   });
