@@ -16,7 +16,6 @@ class InboundItemForm extends Component {
     super(props);
 
     this.state = {
-      selectedOption: "",
       itemTypeId: 1
     };
   }
@@ -39,12 +38,6 @@ class InboundItemForm extends Component {
       });
     }
   }
-
-  // handleChange = props => {
-  //   console.log(props);
-  //   props.input.value = props.input.value;
-  //   // this.setState({ selectedOption });
-  // };
 
   renderField() {
     return _.map(FIELDS, ({ label, name }) => {

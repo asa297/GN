@@ -105,3 +105,15 @@ export const deleteInbound_Seller = seller_id => async dispatch => {
 
   dispatch({ type: FETCH_INBOUND_SELLER, payload: res.data });
 };
+
+//inbound item
+
+export const submitInboundItem = (
+  values,
+  orgChinaList,
+  history
+) => async dispatch => {
+  await axios.post("/api/inbound/item", values);
+
+  history.push("/inbounditem");
+};
