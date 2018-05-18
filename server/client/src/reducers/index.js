@@ -5,6 +5,7 @@ import orgTypeReducer from "./orgTypeReducer";
 import inbound_orgReducer from "./inboundorgReducer";
 import inbound_groupReducer from "./inboundgroupReducer";
 import inbound_sellerReducer from "./inboundsellerReducer";
+import inbound_itemReducer from "./inbounditemReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   inbound_orgs: inbound_orgReducer,
   inbound_groups: inbound_groupReducer,
   inbound_sellers: inbound_sellerReducer,
+  inbound_items: inbound_itemReducer,
   form: reduxForm
 });

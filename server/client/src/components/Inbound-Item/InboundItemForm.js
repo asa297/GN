@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 
 import InboundItemField from "./InboundItemField";
 import FIELDS from "./formFields";
+import itemType_list from "../../utils/ItemTypeLIst";
 
 import Select from "react-select";
 
@@ -64,10 +65,7 @@ class InboundItemForm extends Component {
             <div>
               <Select
                 value={props.input.value}
-                options={[
-                  { itemTypeId: 1, itemTypeName: "A", label: "A", value: "A" },
-                  { itemTypeId: 2, itemTypeName: "B", label: "B", value: "B" }
-                ]}
+                options={itemType_list}
                 onChange={props.input.onChange}
                 placeholder={props.meta.touched && props.meta.error}
                 className="form-control"
@@ -148,6 +146,14 @@ function validate(values) {
     } else {
       if (values["item_price"] < 0) {
         errors["item_price"] = "NOT SUPPORT NEGATIVE PRICE";
+      }
+    }
+
+    if (values["item_qty"] && isNaN(values["item_qty"])) {
+      errors["item_qty"] = "Require a number only";
+    } else {
+      if (values["item_qty"] < 0) {
+        errors["item_qty"] = "NOT SUPPORT NEGATIVE QTY";
       }
     }
   });

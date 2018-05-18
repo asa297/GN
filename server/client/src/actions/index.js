@@ -5,7 +5,8 @@ import {
   FETCH_TYPE_ORG,
   FETCH_INBOUND_ORG,
   FETCH_INBOUND_GROUP,
-  FETCH_INBOUND_SELLER
+  FETCH_INBOUND_SELLER,
+  FETCH_INBOUND_ITEM
 } from "./type";
 
 export const fetchUser = () => async dispatch => {
@@ -113,7 +114,23 @@ export const submitInboundItem = (
   orgChinaList,
   history
 ) => async dispatch => {
+  if (orgChinaList) {
+    values.orgChinaList = orgChinaList;
+  }
+
   await axios.post("/api/inbound/item", values);
 
   history.push("/inbounditem");
+};
+
+export const fetchInbound_Item = () => async dispatch => {
+  const res = await axios.get("/api/inbound/item");
+
+  dispatch({ type: FETCH_INBOUND_ITEM, payload: res.data });
+};
+
+export const deleteInbound_Item = item_id => async dispatch => {
+  const res = await axios.delete("/api/inbound/item/" + item_id);
+
+  dispatch({ type: FETCH_INBOUND_ITEM, payload: res.data });
 };

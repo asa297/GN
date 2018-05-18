@@ -15,9 +15,18 @@ const InboundItemReview = ({
   history,
   org_id
 }) => {
-  const orgChinaList = _.filter(inbound_orgs, ({ _id, orgTypeId, orgName }) => {
-    return orgTypeId === 2;
-  });
+  let orgChinaList = null;
+
+  if (formValues.item_type.itemTypeId === 2) {
+    orgChinaList = _.forEach(
+      _.filter(inbound_orgs, ({ _id, orgTypeId, orgName }) => {
+        return orgTypeId === 2;
+      }),
+      values => {
+        values.orgCom_B = parseInt(formValues[values._id], 10);
+      }
+    );
+  }
 
   const ItemTypeFields = (
     <div key={formValues.item_type}>
