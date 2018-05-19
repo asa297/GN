@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchInbound_Org, deleteInbound_Item } from "../../actions";
 import InboundItemList from "../Inbound-Item/InboundItemList";
-// import InboundItemReview from "../Inbound-Item/InboundItemReview";
+import InboundItemReview from "../Inbound-Item/InboundItemReview";
 import InboundItemEdit from "../Inbound-Item/InboundItemEdit";
 
 class InboundItem extends Component {
@@ -51,18 +51,17 @@ class InboundItem extends Component {
   renderContent() {
     if (this.state.showEdit) {
       return this.renderInBoundEdit();
+    } else if (this.state.showReview) {
+      return (
+        <InboundItemReview
+          onCancel={() => this.setState({ showEdit: true, showReview: false })}
+          onUpdateItem={() =>
+            this.setState({ showEdit: false, showReview: false })
+          }
+          item_id={this.state._id}
+        />
+      );
     }
-    // else if (this.state.showReview) {
-    //   return (
-    //     <InboundItemReview
-    //       onCancel={() => this.setState({ showEdit: true, showReview: false })}
-    //       onUpdateSeller={() =>
-    //         this.setState({ showEdit: false, showReview: false })
-    //       }
-    //       seller_id={this.state._id}
-    //     />
-    //   );
-    // }
 
     return this.renderInBoundList();
   }

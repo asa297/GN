@@ -137,8 +137,12 @@ function validate(values) {
   });
 
   _.each(FIELDS, ({ name }) => {
-    if (!values[name]) {
+    if (!values[name] && name !== "item_qty") {
       errors[name] = "Require a value";
+    }
+
+    if (values["item_code"] && isNaN(values["item_code"])) {
+      errors["item_code"] = "Require a number only";
     }
 
     if (values["item_price"] && isNaN(values["item_price"])) {

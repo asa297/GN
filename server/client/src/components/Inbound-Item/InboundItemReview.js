@@ -7,13 +7,13 @@ import { withRouter } from "react-router-dom";
 
 const InboundItemReview = ({
   onCancel,
-  onUpdateOrg,
+  onUpdateItem,
   formValues,
   inbound_orgs,
   submitInboundItem,
-  updateInbound_Org,
+  updateInbound_Item,
   history,
-  org_id
+  item_id
 }) => {
   let orgChinaList = null;
 
@@ -77,8 +77,13 @@ const InboundItemReview = ({
       <button
         className="green btn-flat right white-text"
         onClick={() =>
-          onUpdateOrg
-            ? updateInbound_Org(org_id, formValues, onUpdateOrg)
+          onUpdateItem
+            ? updateInbound_Item(
+                item_id,
+                formValues,
+                orgChinaList,
+                onUpdateItem
+              )
             : submitInboundItem(formValues, orgChinaList, history)
         }
       >

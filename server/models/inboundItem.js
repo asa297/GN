@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 const orgChinaListSchema = require("./InboundItemB");
 
 const itemSchema = new Schema({
-  item_code: String,
+  item_code: Number,
   item_name: String,
   item_price: Number,
   item_qty: { type: Number, default: 0 },

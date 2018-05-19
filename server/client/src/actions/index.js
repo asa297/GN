@@ -129,6 +129,19 @@ export const fetchInbound_Item = () => async dispatch => {
   dispatch({ type: FETCH_INBOUND_ITEM, payload: res.data });
 };
 
+export const updateInbound_Item = (
+  item_id,
+  values,
+  orgChinaList,
+  onUpdateItem
+) => async dispatch => {
+  if (orgChinaList) {
+    values.orgChinaList = orgChinaList;
+  }
+  await axios.post("/api/inbound/item/edit/" + item_id, values);
+  onUpdateItem();
+};
+
 export const deleteInbound_Item = item_id => async dispatch => {
   const res = await axios.delete("/api/inbound/item/" + item_id);
 

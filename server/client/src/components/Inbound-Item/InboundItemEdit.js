@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { reduxForm, Field, change } from "redux-form";
+import { reduxForm, Field, change, reset } from "redux-form";
 import Select from "react-select";
 
 import InboundItemField from "./InboundItemField";
@@ -9,6 +9,7 @@ import FIELDS from "./formFields";
 
 import itemType_list from "../../utils/ItemTypeLIst";
 
+let orgChina;
 class InboundItemEdit extends Component {
   constructor(props) {
     super(props);
@@ -38,20 +39,34 @@ class InboundItemEdit extends Component {
       orgChinaList
     };
 
-    if (orgChinaList) {
-      _.map(orgChinaList, ({ _id, orgCom_B }) => {
-        this.state[_id] = orgCom_B;
-      });
-    }
+    orgChina = _.filter(
+      this.props.inbound_orgs,
+      ({ _id, orgTypeId, orgName }) => {
+        return orgTypeId === 2;
+      }
+    );
+
+    _.map(orgChina, ({ _id }) => {
+      this.state[_id] = "";
+    });
   }
 
   componentDidMount() {
+    this.props.dispatch(reset("inbound_item"));
+
+    if (this.state.orgChinaList) {
+      _.map(this.state.orgChinaList, ({ _id, orgCom_B }) => {
+        this.setState({ [_id]: orgCom_B });
+      });
+    }
+
     _.map(FIELDS, ({ name, key }) => {
       this.props.dispatch(change("inbound_item", name, this.state[name]));
     });
     this.props.dispatch(
       change("inbound_item", "item_type", this.state.itemType_selected)
     );
+
     if (this.state.orgChinaList) {
       _.map(this.state.orgChinaList, ({ _id, orgCom_B }) => {
         this.props.dispatch(change("inbound_item", _id, orgCom_B));
@@ -109,7 +124,7 @@ class InboundItemEdit extends Component {
   }
 
   renderFieldCommission() {
-    return _.map(this.state.orgChinaList, ({ _id, orgName }) => {
+    return _.map(orgChina, ({ _id, orgName }) => {
       return (
         <div className="container" key={_id}>
           <b>{orgName}</b>
@@ -160,41 +175,47 @@ function validate(values) {
     errors["item_type"] = "Require a value";
   }
 
-  // _.each(orgChinaList, ({ _id }) => {
-  //   if (!values[_id]) {
-  //     errors[_id] = "Require a value ";
-  //   }
+  _.each(orgChina, ({ _id }) => {
+    if (!values[_id]) {
+      errors[_id] = "Require a value ";
+    }
 
-  //   if (values[_id] && isNaN(values[_id])) {
-  //     errors[_id] = "Require a number only";
-  //   } else {
-  //     if (values[_id] < 0 || values[_id] > 100) {
-  //       errors[_id] = "0% - 100%";
-  //     }
-  //   }
-  // });
+    if (values[_id] && isNaN(values[_id])) {
+      errors[_id] = "Require a number only";
+    } else {
+      if (values[_id] < 0 || values[_id] > 100) {
+        errors[_id] = "0% - 100%";
+      }
+    }
+  });
 
-  // _.each(FIELDS, ({ name }) => {
-  //   if (!values[name]) {
-  //     errors[name] = "Require a value";
-  //   }
+  _.each(FIELDS, ({ name }) => {
+    if (!values[name]) {
+      errors[name] = "Require a value";
+    }
 
-  //   if (values["item_price"] && isNaN(values["item_price"])) {
-  //     errors["item_price"] = "Require a number only";
-  //   } else {
-  //     if (values["item_price"] < 0) {
-  //       errors["item_price"] = "NOT SUPPORT NEGATIVE PRICE";
-  //     }
-  //   }
+    if (values["item_code"] && isNaN(values["item_code"])) {
+      errors["item_code"] = "Require a number only";
+    }
 
-  //   if (values["item_qty"] && isNaN(values["item_qty"])) {
-  //     errors["item_qty"] = "Require a number only";
-  //   } else {
-  //     if (values["item_qty"] < 0) {
-  //       errors["item_qty"] = "NOT SUPPORT NEGATIVE QTY";
-  //     }
-  //   }
-  // });
+    if (values["item_price"] && isNaN(values["item_price"])) {
+      errors["item_price"] = "Require a number only";
+    } else {
+      if (values["item_price"] < 0) {
+        errors["item_price"] = "NOT SUPPORT NEGATIVE PRICE";
+      }
+    }
+
+    if (values["item_qty"] && isNaN(values["item_qty"])) {
+      errors["item_qty"] = "Require a number only";
+    } else {
+      if (values["item_qty"] < 0) {
+        errors["item_qty"] = "NOT SUPPORT NEGATIVE QTY";
+      } else if (values["item_qty"] === 0) {
+        errors["item_qty"] = "Require a Quantity";
+      }
+    }
+  });
 
   return errors;
 }

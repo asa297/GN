@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import _ from "lodash";
 import { connect } from "react-redux";
 import { fetchInbound_Item } from "../../actions";
 import Modal from "react-modal";
@@ -131,7 +132,7 @@ class InboundItemList extends Component {
 }
 
 function mapStateToProps({ inbound_items }) {
-  return { inbound_items };
+  return { inbound_items: _.orderBy(inbound_items, ["item_code"], ["asc"]) };
 }
 
 export default connect(mapStateToProps, { fetchInbound_Item })(InboundItemList);
