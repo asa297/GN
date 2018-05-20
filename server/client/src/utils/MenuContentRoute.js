@@ -12,6 +12,7 @@ import InboundSeller from "../components/Inbound-Seller/InboundSeller";
 import InboundSellerNew from "../components/Inbound-Seller/InboundSellerNew";
 import InboundItem from "../components/Inbound-Item/InboundItem";
 import InboundItemNew from "../components/Inbound-Item/InboundItemNew";
+import InboundPO from "../components/Inbound-PO/PO";
 
 export default auth => {
   if (!_.isNil(auth)) {
@@ -19,6 +20,7 @@ export default auth => {
       case 1:
         return (
           <div>
+            <Route exact path="/inboundpo" component={InboundPO} />
             <Route exact path="/inbounditem/new" component={InboundItemNew} />
             <Route exact path="/inbounditem" component={InboundItem} />
             <Route

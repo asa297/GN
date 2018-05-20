@@ -41,6 +41,7 @@ class InboundItem extends Component {
       <div className="container">
         <InboundItemEdit
           onCancal={() => this.setState({ showEdit: false, index: 0 })}
+          _id={this.state._id}
           index={this.state.index}
           onSubmit={() => this.setState({ showEdit: false, showReview: true })}
         />

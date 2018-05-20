@@ -23,6 +23,9 @@ export default auth => {
             <li>
               <Link to="/inbounditem">Item</Link>
             </li>
+            <li>
+              <Link to="/inboundpo">PO </Link>
+            </li>
           </div>
         );
       default:

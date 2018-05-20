@@ -14,7 +14,10 @@ class InboundItemEdit extends Component {
   constructor(props) {
     super(props);
 
-    const value_props = this.props.inbound_items[this.props.index];
+    const value_props = this.props.inbound_items[
+      _.findIndex(this.props.inbound_items, { _id: this.props._id })
+    ];
+
     const {
       _id,
       item_code,
