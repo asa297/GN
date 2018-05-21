@@ -1,37 +1,38 @@
 import React, { Component } from "react";
-import QrReader from "react-qr-reader";
+import POSelectGruop from "./POSelectGruop";
+import POItemOrder from "./POItemOrder";
 
 class PO extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      delay: 300,
-      result: "No result"
+      show_selectGroup: true,
+      show_itemOrder: false,
+      show_payment: false
     };
-    this.handleScan = this.handleScan.bind(this);
   }
-  handleScan(data) {
-    if (data) {
-      this.setState({
-        result: data
-      });
-    }
-  }
-  handleError(err) {
-    console.error(err);
-  }
-  render() {
-    return (
-      <div>
-        <QrReader
-          delay={this.state.delay}
-          onError={this.handleError}
-          onScan={this.handleScan}
-          style={{ width: "20%" }}
+
+  renderContent() {
+    if (this.state.show_itemOrder) {
+      return (
+        <POItemOrder
+          onSubmit={() =>
+            this.setState({ show_itemOrder: false, show_payment: true })
+          }
         />
-        <p>{this.state.result}</p>
-      </div>
+      );
+    }
+    return (
+      <POSelectGruop
+        onSubmit={() =>
+          this.setState({ show_selectGroup: false, show_itemOrder: true })
+        }
+      />
     );
+  }
+
+  render() {
+    return <div>{this.renderContent()}</div>;
   }
 }
 

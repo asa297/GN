@@ -1,0 +1,18 @@
+:local(.container) {
+  margin: 40px;
+  border: 5px dashed pink;
+}
+/* :local(.content) {
+  font-size: 15px;
+  text-align: center;
+} */
+
+:local(.select_group_container) {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+:local(.container_top) {
+  margin-top: 100px;
+}
