@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { reduxForm, Field } from "redux-form";
+import { reduxForm, Field, initialize } from "redux-form";
 import { fetchInbound_Group } from "../../actions";
 
 import Select from "react-select";
@@ -11,6 +11,7 @@ import PO_CSS from "../../Style/CSS/PO_CSS.css";
 let group_list;
 class POSelectGruop extends Component {
   componentDidMount() {
+    this.props.dispatch(initialize("inbound_po", null));
     this.props.fetchInbound_Group();
   }
 
@@ -52,7 +53,7 @@ class POSelectGruop extends Component {
             <h3 className="center">
               <i>Step #1 -</i> Group Selection
             </h3>
-            <div className={PO_CSS.select_group_container}>
+            <div className={PO_CSS.flex_center}>
               {this.renderGroupFieldSelect()}
             </div>
             <div className="center">

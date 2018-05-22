@@ -6,15 +6,11 @@ class POScanQR extends Component {
     super(props);
     this.state = {
       delay: 2000,
-      scanStatus: false,
-      result: "No result"
+      scanStatus: false
     };
   }
   handleScan(data) {
     if (data) {
-      this.setState({
-        result: data
-      });
       this.props.onData(data);
     }
   }
@@ -29,33 +25,32 @@ class POScanQR extends Component {
           delay={this.state.delay}
           onError={this.handleError}
           onScan={data => this.handleScan(data)}
-          //
-          style={{ width: "20%" }}
+          style={{ width: "100%" }}
         />
-        <p>{this.state.result}</p>
       </div>
     );
   }
   render() {
     return (
       <div>
+        {this.state.scanStatus ? this.renderScan() : null}
         {this.state.scanStatus ? (
-          this.renderScan()
+          <button
+            className="red btn-flat white-text"
+            type="button"
+            onClick={() => this.setState({ scanStatus: false })}
+          >
+            Stop Scan
+          </button>
         ) : (
-          <div>{this.state.result}</div>
+          <button
+            className="green btn-flat white-text"
+            type="button"
+            onClick={() => this.setState({ scanStatus: true })}
+          >
+            Start Scan
+          </button>
         )}
-        <button
-          className="green btn-flat white-text"
-          onClick={() => this.setState({ scanStatus: true })}
-        >
-          click
-        </button>
-        <button
-          className="red btn-flat white-text"
-          onClick={() => this.setState({ scanStatus: false })}
-        >
-          cancal
-        </button>
       </div>
     );
   }

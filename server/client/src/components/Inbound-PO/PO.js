@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import POSelectGruop from "./POSelectGruop";
+import POSelectSeller from "./POSelectSeller";
 import POItemOrder from "./POItemOrder";
 
 class PO extends Component {
@@ -7,13 +8,25 @@ class PO extends Component {
     super(props);
     this.state = {
       show_selectGroup: true,
+      show_selectSeller: false,
       show_itemOrder: false,
       show_payment: false
     };
   }
 
   renderContent() {
-    if (this.state.show_itemOrder) {
+    if (this.state.show_selectSeller) {
+      return (
+        <POSelectSeller
+          onSubmit={() =>
+            this.setState({ show_selectSeller: false, show_itemOrder: true })
+          }
+          onCancal={() => {
+            this.setState({ show_selectGroup: true, show_selectSeller: false });
+          }}
+        />
+      );
+    } else if (this.state.show_itemOrder) {
       return (
         <POItemOrder
           onSubmit={() =>
@@ -21,11 +34,13 @@ class PO extends Component {
           }
         />
       );
+    } else if (this.state.show_payment) {
+      return <div>show_payment</div>;
     }
     return (
       <POSelectGruop
         onSubmit={() =>
-          this.setState({ show_selectGroup: false, show_itemOrder: true })
+          this.setState({ show_selectGroup: false, show_selectSeller: true })
         }
       />
     );

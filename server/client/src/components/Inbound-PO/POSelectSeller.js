@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { Field } from "redux-form";
+import { reduxForm, Field } from "redux-form";
 import { fetchInbound_Seller } from "../../actions";
 
 import Select from "react-select";
+
+import PO_CSS from "../../Style/CSS/PO_CSS.css";
 
 class POSelectSeller extends Component {
   componentDidMount() {
@@ -25,7 +27,6 @@ class POSelectSeller extends Component {
     );
     return (
       <div>
-        <label>Seller Selection</label>
         <Field
           name="seller_select"
           component={props => (
@@ -46,14 +47,53 @@ class POSelectSeller extends Component {
   }
 
   render() {
-    return <div>{this.renderSellerFieldSelect()}</div>;
+    return (
+      <div className="container">
+        <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+          <div className={PO_CSS.container_top}>
+            <h3 className="center">
+              <i>Step #2 -</i> Seller Selection
+            </h3>
+            <div className={PO_CSS.flex_center}>
+              {this.renderSellerFieldSelect()}
+            </div>
+            <div className="center">
+              <button
+                onClick={this.props.onCancal}
+                className="red btn-flat white-text"
+                style={{ marginTop: "30px" }}
+              >
+                Back
+              </button>
+              <button
+                className="green btn-flat white-text"
+                style={{ marginTop: "30px" }}
+                type="submit"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    );
   }
+}
+
+function validate(values) {
+  const errors = {};
+  if (!values["seller_select"]) {
+    errors["seller_select"] = "Require a value ";
+  }
+  return errors;
 }
 
 function mapStateToProps({ inbound_sellers }) {
   return { inbound_sellers };
 }
 
-export default connect(mapStateToProps, { fetchInbound_Seller })(
-  POSelectSeller
-);
+export default reduxForm({
+  validate,
+  form: "inbound_po",
+  destroyOnUnmount: false
+})(connect(mapStateToProps, { fetchInbound_Seller })(POSelectSeller));

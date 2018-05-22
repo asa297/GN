@@ -129,6 +129,12 @@ export const fetchInbound_Item = () => async dispatch => {
   dispatch({ type: FETCH_INBOUND_ITEM, payload: res.data });
 };
 
+// export const getInbound_Item = item_id => async dispatch => {
+//   const res = await axios.get("/api/inbound/item/" + item_id);
+
+//   dispatch({ type: GET_INBOUND_ITEM, payload: res.data });
+// };
+
 export const updateInbound_Item = (
   item_id,
   values,
