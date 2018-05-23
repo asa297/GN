@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import POSelectGruop from "./POSelectGruop";
 import POSelectSeller from "./POSelectSeller";
 import POItemOrder from "./POItemOrder";
+import POPayment from "./POPayment";
 
 class PO extends Component {
   constructor(props) {
@@ -29,14 +30,19 @@ class PO extends Component {
     } else if (this.state.show_itemOrder) {
       return (
         <POItemOrder
-          onSubmit={() =>
-            this.setState({ show_itemOrder: false, show_payment: true })
+          onSubmit={itemList =>
+            this.setState({
+              show_itemOrder: false,
+              itemList,
+              show_payment: true
+            })
           }
         />
       );
     } else if (this.state.show_payment) {
-      return <div>show_payment</div>;
+      return <POPayment />;
     }
+
     return (
       <POSelectGruop
         onSubmit={() =>

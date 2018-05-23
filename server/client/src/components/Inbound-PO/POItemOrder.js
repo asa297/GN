@@ -16,14 +16,20 @@ class POItemOrder extends Component {
     super(props);
     this.state = {
       itemCode: 0,
-
       itemList: [],
-      scanStatus: false
+      scanStatus: false,
+      count: 0
     };
   }
 
   componentDidMount() {
     this.props.fetchInbound_Item();
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(
+      change("inbound_po", "itemList", this.state["itemList"])
+    );
   }
 
   renderItemCodeField() {
@@ -44,6 +50,7 @@ class POItemOrder extends Component {
       </div>
     );
   }
+
   setItemList() {
     const index_item = _.findIndex(
       this.props.inbound_items,
@@ -170,6 +177,18 @@ class POItemOrder extends Component {
     );
   }
 
+  renderSum() {
+    let count = 0;
+
+    _.map(this.state.itemList, ({ item_price, countQty }) => {
+      count = count + item_price * countQty;
+    });
+
+    return (
+      <h4 style={{ marginBottom: "0px" }}>Sum : {count.toLocaleString()}</h4>
+    );
+  }
+
   render() {
     return (
       <div className="container">
@@ -212,15 +231,19 @@ class POItemOrder extends Component {
             </div>
           </div>
           <hr />
-          {this.renderTableList()}
+          <div className={PO_CSS.overflow_table}>{this.renderTableList()}</div>
+          <div className={PO_CSS.footer_PO}>
+            {this.renderSum()}
+
+            <button className="green btn-flat white-text right">Next</button>
+          </div>
         </form>
       </div>
     );
   }
 }
 
-function mapStateToProps({ inbound_items, form }) {
-  // console.log(form);
+function mapStateToProps({ inbound_items }) {
   return { inbound_items };
 }
 

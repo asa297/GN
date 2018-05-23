@@ -23,3 +23,15 @@
 :local(.container_top) {
   margin-top: 100px;
 }
+
+:local(.overflow_table) {
+  height: 600px;
+  width: 100%;
+  overflow-y: scroll;
+}
+
+:local(.footer_PO) {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}

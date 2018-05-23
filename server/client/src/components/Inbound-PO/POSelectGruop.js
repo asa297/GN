@@ -16,14 +16,19 @@ class POSelectGruop extends Component {
   }
 
   renderGroupFieldSelect() {
-    group_list = _.map(this.props.inbound_groups, ({ _id, groupCode }) => {
-      return {
-        _id,
-        groupCode,
-        label: groupCode,
-        value: groupCode
-      };
-    });
+    group_list = _.map(
+      this.props.inbound_groups,
+      ({ _id, groupCode, orgTypeId, orgTypeName }) => {
+        return {
+          _id,
+          groupCode,
+          orgTypeId,
+          orgTypeName,
+          label: groupCode,
+          value: groupCode
+        };
+      }
+    );
     return (
       <div>
         <Field
