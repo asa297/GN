@@ -60,38 +60,64 @@ class POItemOrder extends Component {
     );
 
     if (index_item !== -1 && index_item_itemList === -1) {
-      const value = this.props.inbound_items[index_item];
-      value.countQty = 1;
+      const { item_qty } = this.props.inbound_items[index_item];
 
-      this.setState({
-        itemList: [...this.state.itemList, value],
-        itemCode: 0
-      });
+      if (item_qty > 0) {
+        const value = this.props.inbound_items[index_item];
+        value.countQty = 1;
+
+        this.setState({
+          itemList: [...this.state.itemList, value]
+        });
+      }
     } else if (index_item !== -1 && index_item_itemList !== -1) {
-      this.props.inbound_items[index_item].countQty += 1;
-
       let clone_state = this.state.itemList.slice();
-      clone_state[index_item_itemList] = this.props.inbound_items[index_item];
 
-      this.setState({ itemList: clone_state, itemCode: 0 });
-    } else {
-      this.setState({
-        itemCode: 0
-      });
+      const { countQty, item_qty } = clone_state[index_item];
+
+      if (countQty < item_qty) {
+        clone_state[index_item_itemList].countQty += 1;
+        this.setState({ itemList: clone_state });
+      }
     }
+
+    this.setState({ itemCode: 0 });
   }
 
   deleteItemList(data) {
-    // const value = _.remove(this.state.itemList, (value, index) => {
-    //   return index === data;
-    // });
-    // console.log(this.state.itemList[data]);
-    // const value = _.without(this.state.itemList, this.state.itemList[data]);
-    // console.log(value);
-    // this.setState({
-    //   itemList: value
-    // });
-    // console.log(this.state);
+    const index_item = _.findIndex(this.state.itemList, ({ _id }) => {
+      return _id === data;
+    });
+
+    let clone_state = this.state.itemList.slice();
+
+    const { countQty } = clone_state[index_item];
+
+    if (countQty === 1) {
+      const value = _.remove(clone_state, (value, index) => {
+        return index !== index_item;
+      });
+
+      this.setState({ itemList: value });
+    } else {
+      clone_state[index_item].countQty -= 1;
+      this.setState({ itemList: clone_state });
+    }
+  }
+
+  addItemList(data) {
+    const index_item = _.findIndex(this.state.itemList, ({ _id }) => {
+      return _id === data;
+    });
+
+    let clone_state = this.state.itemList.slice();
+
+    const { countQty, item_qty } = clone_state[index_item];
+
+    if (countQty < item_qty) {
+      clone_state[index_item].countQty += 1;
+      this.setState({ itemList: clone_state });
+    }
   }
 
   renderTableList() {
@@ -99,7 +125,8 @@ class POItemOrder extends Component {
       <table>
         <thead>
           <tr>
-            <th style={{ width: "20px" }} />
+            <th style={{ width: "10px" }} />
+            <th style={{ width: "10px" }} />
             <th>item_code</th>
             <th>item_name</th>
             <th>QTY</th>
@@ -118,13 +145,22 @@ class POItemOrder extends Component {
                       className="red btn-flat left white-text"
                       onClick={() => this.deleteItemList(_id)}
                     >
-                      <i className="material-icons">delete</i>
+                      <i className="material-icons">remove</i>
+                    </button>
+                  </th>
+                  <th>
+                    <button
+                      type="button"
+                      className="green btn-flat left white-text"
+                      onClick={() => this.addItemList(_id)}
+                    >
+                      <i className="material-icons">add</i>
                     </button>
                   </th>
                   <th>{item_code}</th>
                   <th>{item_name}</th>
                   <th>{countQty}</th>
-                  <th>{item_price}</th>
+                  <th>{item_price.toLocaleString()}</th>
                 </tr>
               );
             }
