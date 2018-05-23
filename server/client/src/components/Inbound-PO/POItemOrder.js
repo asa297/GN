@@ -78,10 +78,8 @@ class POItemOrder extends Component {
         });
       }
     } else if (index_item !== -1 && index_item_itemList !== -1) {
-      console.log("index_item", index_item);
-      console.log("index_item_itemList", index_item_itemList);
       let clone_state = this.state.itemList.slice();
-      console.log("clone_state", clone_state);
+
       const { countQty, item_qty } = clone_state[index_item_itemList];
 
       if (countQty < item_qty) {
