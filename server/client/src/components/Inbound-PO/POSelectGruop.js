@@ -1,22 +1,21 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { reduxForm, Field, initialize } from "redux-form";
+import { reduxForm, Field, reset } from "redux-form";
 import { fetchInbound_Group } from "../../actions";
 
 import Select from "react-select";
 
 import PO_CSS from "../../Style/CSS/PO_CSS.css";
 
-let group_list;
 class POSelectGruop extends Component {
   componentDidMount() {
-    this.props.dispatch(initialize("inbound_po", null));
+    this.props.dispatch(reset("inbound_po"));
     this.props.fetchInbound_Group();
   }
 
   renderGroupFieldSelect() {
-    group_list = _.map(
+    const group_list = _.map(
       this.props.inbound_groups,
       ({ _id, groupCode, orgTypeId, orgTypeName }) => {
         return {

@@ -11,6 +11,7 @@ import PO_CSS from "../../Style/CSS/PO_CSS.css";
 
 import Toggle from "react-toggle";
 
+let sum_total;
 class POItemOrder extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +24,11 @@ class POItemOrder extends Component {
   }
 
   componentDidMount() {
+    const { itemList } = this.props.inbound_po.values;
+    if (itemList) {
+      this.setState({ itemList });
+    }
+
     this.props.fetchInbound_Item();
   }
 
@@ -30,6 +36,8 @@ class POItemOrder extends Component {
     this.props.dispatch(
       change("inbound_po", "itemList", this.state["itemList"])
     );
+
+    this.props.dispatch(change("inbound_po", "total", sum_total));
   }
 
   renderItemCodeField() {
@@ -178,14 +186,16 @@ class POItemOrder extends Component {
   }
 
   renderSum() {
-    let count = 0;
+    let total = 0;
 
     _.map(this.state.itemList, ({ item_price, countQty }) => {
-      count = count + item_price * countQty;
+      total = total + item_price * countQty;
     });
 
+    sum_total = total;
+
     return (
-      <h4 style={{ marginBottom: "0px" }}>Sum : {count.toLocaleString()}</h4>
+      <h4 style={{ marginBottom: "0px" }}>Sum : {total.toLocaleString()}</h4>
     );
   }
 
@@ -210,6 +220,7 @@ class POItemOrder extends Component {
                   });
                 }}
               />
+
               {this.state.scanStatus ? (
                 <POScanQR
                   onData={itemCode => {
@@ -233,6 +244,14 @@ class POItemOrder extends Component {
           <hr />
           <div className={PO_CSS.overflow_table}>{this.renderTableList()}</div>
           <div className={PO_CSS.footer_PO}>
+            <button
+              type="button"
+              onClick={() => this.props.onCancal()}
+              className="red btn-flat white-text right"
+            >
+              Cancal
+            </button>
+
             {this.renderSum()}
 
             <button className="green btn-flat white-text right">Next</button>
@@ -243,8 +262,8 @@ class POItemOrder extends Component {
   }
 }
 
-function mapStateToProps({ inbound_items }) {
-  return { inbound_items };
+function mapStateToProps({ inbound_items, form: { inbound_po } }) {
+  return { inbound_items, inbound_po };
 }
 
 export default reduxForm({

@@ -2,10 +2,14 @@ import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
 import Toggle from "react-toggle";
-import { reduxForm, Field } from "redux-form";
+import { reduxForm, Field, change } from "redux-form";
 
 import POItemField from "./POItemField";
 import formFields from "./formFields";
+
+import PO_CSS from "../../Style/CSS/PO_CSS.css";
+
+let total_val;
 
 class POPayment extends Component {
   constructor(props) {
@@ -15,12 +19,12 @@ class POPayment extends Component {
 
     this.state = {
       orgTypeId,
-      itemList: [],
       creditToggle: false,
       creditChargeStatus: false,
       creditCharge: 0,
       discount: 0,
-      credit: 0
+      credit: 0,
+      total: 0
     };
   }
 
@@ -33,9 +37,16 @@ class POPayment extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.inbound_po.values.itemList) {
-      this.setState({ itemList: nextProps.inbound_po.values.itemList });
+    if (nextProps.inbound_po.values.total) {
+      this.setState({ total: nextProps.inbound_po.values.total });
     }
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(change("inbound_po", "grandtotal", total_val));
+    this.props.dispatch(
+      change("inbound_po", "cash", total_val - this.state.credit)
+    );
   }
 
   renderFieldDC() {
@@ -79,21 +90,19 @@ class POPayment extends Component {
     } = this.state;
 
     const DC = parseInt(discount, 10);
-    let total = 0;
+    let { total } = this.state;
 
-    _.map(this.state.itemList, ({ item_price, countQty }) => {
-      total = total + item_price * countQty;
-    });
+    if (DC !== 0 && DC > 0 && DC <= 100) {
+      const dis = (100 - DC) / 100;
+      total = total * dis;
+    }
 
     if (creditToggle && creditChargeStatus) {
       const charge = 1 + creditCharge / 100;
       total = total * charge;
     }
 
-    if (DC !== 0 && DC > 0 && DC <= 100) {
-      const dis = (100 - DC) / 100;
-      total = total * dis;
-    }
+    total_val = total;
 
     return (
       <h4 style={{ marginBottom: "0px" }}>Total : {total.toLocaleString()}</h4>
@@ -119,10 +128,24 @@ class POPayment extends Component {
         <h3 className="center">
           <i>Step #4 -</i> Payments
         </h3>
-        {this.renderFieldDC()}
-        {this.renderToggle()}
-        {this.state.creditToggle ? this.renderFieldCredit() : null}
-        <div>{this.renderSum()}</div>
+
+        <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+          {this.renderFieldDC()}
+          {this.renderToggle()}
+          {this.state.creditToggle ? this.renderFieldCredit() : null}
+          <div>{this.renderSum()}</div>
+          <div className={PO_CSS.footer_PO}>
+            <button
+              type="button"
+              className="red btn-flat white-text right"
+              onClick={() => this.props.onCancal()}
+            >
+              Cancal
+            </button>
+
+            <button className="green btn-flat white-text right">Next</button>
+          </div>
+        </form>
       </div>
     );
   }
@@ -146,12 +169,9 @@ function validate(values) {
   } else {
     if (values["credit"] < 0) {
       errors["credit"] = "NOT SUPPORT NEGATIVE CREDIT";
+    } else if (values["credit"] > total_val) {
+      errors["credit"] = "CREDIT CAN't EXCEED MORE TOTAL";
     }
-
-    // else if (values["credit"] > check_credit) {
-    //   console.log(values["credit"], check_credit);
-    //   errors["credit"] = "CREDIT CAN't EXCEED MORE TOTAL";
-    // }
   }
 
   return errors;

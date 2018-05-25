@@ -3,6 +3,7 @@ import POSelectGruop from "./POSelectGruop";
 import POSelectSeller from "./POSelectSeller";
 import POItemOrder from "./POItemOrder";
 import POPayment from "./POPayment";
+import POReview from "./POReview";
 
 class PO extends Component {
   constructor(props) {
@@ -11,7 +12,8 @@ class PO extends Component {
       show_selectGroup: true,
       show_selectSeller: false,
       show_itemOrder: false,
-      show_payment: false
+      show_payment: false,
+      show_review: false
     };
   }
 
@@ -30,17 +32,30 @@ class PO extends Component {
     } else if (this.state.show_itemOrder) {
       return (
         <POItemOrder
-          onSubmit={itemList =>
+          onSubmit={() =>
             this.setState({
               show_itemOrder: false,
-              itemList,
               show_payment: true
             })
+          }
+          onCancal={() =>
+            this.setState({ show_itemOrder: false, show_selectGroup: true })
           }
         />
       );
     } else if (this.state.show_payment) {
-      return <POPayment />;
+      return (
+        <POPayment
+          onSubmit={() =>
+            this.setState({ show_payment: false, show_review: true })
+          }
+          onCancal={() =>
+            this.setState({ show_itemOrder: true, show_payment: false })
+          }
+        />
+      );
+    } else if (this.state.show_review) {
+      return <POReview />;
     }
 
     return (
