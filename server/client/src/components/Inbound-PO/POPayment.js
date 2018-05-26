@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import _ from "lodash";
 import { connect } from "react-redux";
 import Toggle from "react-toggle";
 import { reduxForm, Field, change } from "redux-form";
@@ -43,9 +42,18 @@ class POPayment extends Component {
   }
 
   componentWillUnmount() {
-    this.props.dispatch(change("inbound_po", "grandtotal", total_val));
     this.props.dispatch(
-      change("inbound_po", "cash", total_val - this.state.credit)
+      change("inbound_po", "grandtotal", parseFloat(total_val).toFixed(2))
+    );
+    this.props.dispatch(
+      change(
+        "inbound_po",
+        "cash",
+        parseFloat(total_val - this.state.credit).toFixed(2)
+      )
+    );
+    this.props.dispatch(
+      change("inbound_po", "credit", parseFloat(this.state.credit).toFixed(2))
     );
   }
 
@@ -140,7 +148,7 @@ class POPayment extends Component {
               className="red btn-flat white-text right"
               onClick={() => this.props.onCancal()}
             >
-              Cancal
+              Back
             </button>
 
             <button className="green btn-flat white-text right">Next</button>

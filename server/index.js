@@ -11,6 +11,7 @@ require("./models/InboundOrg");
 require("./models/InboundGroup");
 require("./models/InboundSeller");
 require("./models/inboundItem");
+require("./models/InboundOrder");
 require("./services/passport");
 
 mongoose.connect(keys.mongoURI);
@@ -33,6 +34,7 @@ require("./routes/inboundOrgRoutes")(app);
 require("./routes/inboundGroupRoutes")(app);
 require("./routes/inboundSellerRoutes")(app);
 require("./routes/inboundItemRoutes")(app);
+require("./routes/inboundOrderRoutes")(app);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);

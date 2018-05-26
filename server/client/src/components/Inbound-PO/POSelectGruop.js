@@ -17,12 +17,24 @@ class POSelectGruop extends Component {
   renderGroupFieldSelect() {
     const group_list = _.map(
       this.props.inbound_groups,
-      ({ _id, groupCode, orgTypeId, orgTypeName }) => {
+      ({
+        _id,
+        orgId,
+        groupCode,
+        orgTypeId,
+        orgTypeName,
+        orgCom,
+        orgName,
+        guideName
+      }) => {
         return {
           _id,
           groupCode,
+          orgName,
+          orgCom,
           orgTypeId,
           orgTypeName,
+          guideName,
           label: groupCode,
           value: groupCode
         };

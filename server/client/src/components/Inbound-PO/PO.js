@@ -55,7 +55,13 @@ class PO extends Component {
         />
       );
     } else if (this.state.show_review) {
-      return <POReview />;
+      return (
+        <POReview
+          onCancal={() =>
+            this.setState({ show_review: false, show_payment: true })
+          }
+        />
+      );
     }
 
     return (

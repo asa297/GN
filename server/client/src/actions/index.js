@@ -129,12 +129,6 @@ export const fetchInbound_Item = () => async dispatch => {
   dispatch({ type: FETCH_INBOUND_ITEM, payload: res.data });
 };
 
-// export const getInbound_Item = item_id => async dispatch => {
-//   const res = await axios.get("/api/inbound/item/" + item_id);
-
-//   dispatch({ type: GET_INBOUND_ITEM, payload: res.data });
-// };
-
 export const updateInbound_Item = (
   item_id,
   values,
@@ -152,4 +146,12 @@ export const deleteInbound_Item = item_id => async dispatch => {
   const res = await axios.delete("/api/inbound/item/" + item_id);
 
   dispatch({ type: FETCH_INBOUND_ITEM, payload: res.data });
+};
+
+//inbound order
+
+export const submitInboundOrder = (values, history) => async dispatch => {
+  await axios.post("/api/inbound/order", values);
+
+  // history.push("/home");
 };

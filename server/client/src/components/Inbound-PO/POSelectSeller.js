@@ -16,10 +16,11 @@ class POSelectSeller extends Component {
   renderSellerFieldSelect() {
     const seller_list = _.map(
       this.props.inbound_sellers,
-      ({ _id, sellerName }) => {
+      ({ _id, sellerName, sellerCom }) => {
         return {
           _id,
           sellerName,
+          sellerCom,
           label: sellerName,
           value: sellerName
         };

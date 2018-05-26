@@ -1,8 +1,10 @@
 import React from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
+import { submitInboundOrder } from "../../actions";
+import { withRouter } from "react-router-dom";
 
-const POReview = ({ formValues }) => {
+const POReview = ({ formValues, submitInboundOrder, history, onCancal }) => {
   const GroupSelectFields = (
     <div key={formValues.group_select._id}>
       <label>Group</label>
@@ -47,48 +49,55 @@ const POReview = ({ formValues }) => {
 
   const PaymentsFields = (
     <div key={formValues.grandtotal}>
-      <label>Grand Total</label>
-      <div>
-        {formValues["grandtotal"]
-          ? formValues["grandtotal"].toLocaleString()
-          : null}
-      </div>
       <label>Discount</label>
       <div>
-        {formValues["discount"]} % ({formValues["total"] *
-          (parseInt(formValues["discount"], 10) / 100)})
+        {formValues["discount"]} % ({parseFloat(
+          formValues["total"] * (parseInt(formValues["discount"], 10) / 100)
+        )
+          .toFixed(2)
+          .toLocaleString()}
+        <b> ฿</b>)
       </div>
       <label>Credit</label>
       <div>
         {formValues["credit"]
-          ? parseInt(formValues["credit"], 10).toLocaleString()
+          ? parseFloat(formValues["credit"], 10)
+              .toFixed(2)
+              .toLocaleString()
           : null}
+        <b> ฿</b>
       </div>
+
+      <h3 className="center">
+        Grand Total ={" "}
+        {formValues["grandtotal"]
+          ? formValues["grandtotal"].toLocaleString()
+          : null}
+        <b> ฿</b>
+      </h3>
     </div>
   );
 
   return (
     <div className="container">
-      <h5>Please confirm your entries</h5>
+      <h3 className="center">
+        <i>Step #5 -</i> Confirm Orders
+      </h3>
       {GroupSelectFields}
       {SellerSelectFields}
+      <hr />
       {ItemListFields}
+
+      <hr />
       {PaymentsFields}
-      <button
-        className="yellow darken-3 white-text btn-flat"
-        // onClick={onCancel}
-      >
+      <button className="red darken-3 white-text btn-flat" onClick={onCancal}>
         Back
       </button>
       <button
         className="green btn-flat right white-text"
-        // onClick={() =>
-        //   onUpdateOrg
-        //     ? updateInbound_Org(org_id, formValues, onUpdateOrg)
-        //     : submitInboundOrg(formValues, history)
-        // }
+        onClick={() => submitInboundOrder(formValues, history)}
       >
-        Save Inbound Org
+        Confirm Order
         <i className="material-icons right">email</i>
       </button>
     </div>
@@ -96,8 +105,9 @@ const POReview = ({ formValues }) => {
 };
 
 function mapStateToProps({ form: { inbound_po } }) {
-  console.log(inbound_po);
   return { formValues: inbound_po.values };
 }
 
-export default connect(mapStateToProps, null)(POReview);
+export default connect(mapStateToProps, { submitInboundOrder })(
+  withRouter(POReview)
+);
