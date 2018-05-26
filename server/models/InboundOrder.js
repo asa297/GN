@@ -7,6 +7,7 @@ const new_itemListSchema = new Schema(itemListSchema);
 new_itemListSchema.virtual("countQty");
 
 const inboundOrderSchema = new Schema({
+  orderId: Number,
   groupId: { type: Schema.Types.ObjectId, ref: "groups" },
   groupCode: String,
   guideName: String,

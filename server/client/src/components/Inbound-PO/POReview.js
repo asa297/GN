@@ -4,7 +4,18 @@ import { connect } from "react-redux";
 import { submitInboundOrder } from "../../actions";
 import { withRouter } from "react-router-dom";
 
-const POReview = ({ formValues, submitInboundOrder, history, onCancal }) => {
+const POReview = ({
+  formValues,
+  submitInboundOrder,
+  history,
+  onCancal,
+  onSubmit
+}) => {
+  async function au() {
+    const au = await submitInboundOrder(formValues, history);
+    onSubmit();
+  }
+
   const GroupSelectFields = (
     <div key={formValues.group_select._id}>
       <label>Group</label>
@@ -93,10 +104,7 @@ const POReview = ({ formValues, submitInboundOrder, history, onCancal }) => {
       <button className="red darken-3 white-text btn-flat" onClick={onCancal}>
         Back
       </button>
-      <button
-        className="green btn-flat right white-text"
-        onClick={() => submitInboundOrder(formValues, history)}
-      >
+      <button className="green btn-flat right white-text" onClick={() => au()}>
         Confirm Order
         <i className="material-icons right">email</i>
       </button>

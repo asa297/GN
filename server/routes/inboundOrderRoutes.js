@@ -14,8 +14,10 @@ module.exports = app => {
       cash
     } = req.body;
 
-    console.log(req.body);
+    const orderId = Date.now();
+
     await orderModel({
+      orderId,
       groupId: group_select._id,
       groupCode: group_select.groupCode,
       guideName: group_select.guideName,
@@ -38,7 +40,8 @@ module.exports = app => {
       RecordNameBy: req.user.firstName,
       RecordDate: Date.now()
     }).save();
-    res.send({});
+
+    res.send({ orderId });
   });
 
   // app.get(

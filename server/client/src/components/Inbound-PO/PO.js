@@ -13,7 +13,8 @@ class PO extends Component {
       show_selectSeller: false,
       show_itemOrder: false,
       show_payment: false,
-      show_review: false
+      show_review: false,
+      show_printing: false
     };
   }
 
@@ -57,11 +58,16 @@ class PO extends Component {
     } else if (this.state.show_review) {
       return (
         <POReview
+          onSubmit={() =>
+            this.setState({ show_review: false, show_printing: true })
+          }
           onCancal={() =>
             this.setState({ show_review: false, show_payment: true })
           }
         />
       );
+    } else if (this.state.show_printing) {
+      return <div>gg</div>;
     }
 
     return (
