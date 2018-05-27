@@ -78,6 +78,36 @@ const POReview = ({
           : null}
         <b> ฿</b>
       </div>
+      <label>Cash</label>
+      <div>
+        {formValues["grandtotal"]
+          ? parseFloat(formValues["grandtotal"] - formValues["credit"])
+              .toFixed(2)
+              .toLocaleString()
+          : null}
+        <b> ฿</b>
+      </div>
+      <label>ReceiveCash</label>
+      <div>
+        {formValues["receivecash"]
+          ? formValues["receivecash"].toLocaleString()
+          : null}
+        <b> ฿</b>
+      </div>
+      <label>ChangeCash</label>
+      <div>
+        {formValues["receivecash"]
+          ? parseFloat(
+              formValues["receivecash"] -
+                parseFloat(
+                  formValues["grandtotal"] - formValues["credit"]
+                ).toFixed(2)
+            )
+              .toFixed(2)
+              .toLocaleString()
+          : null}
+        <b> ฿</b>
+      </div>
 
       <h3 className="center">
         Grand Total ={" "}

@@ -8,7 +8,7 @@ import formFields from "./formFields";
 
 import PO_CSS from "../../Style/CSS/PO_CSS.css";
 
-let total_val;
+let total_val, grand_total;
 
 class POPayment extends Component {
   constructor(props) {
@@ -23,7 +23,8 @@ class POPayment extends Component {
       creditCharge: 0,
       discount: 0,
       credit: 0,
-      total: 0
+      total: 0,
+      receivecash: 0
     };
   }
 
@@ -54,6 +55,13 @@ class POPayment extends Component {
     );
     this.props.dispatch(
       change("inbound_po", "credit", parseFloat(this.state.credit).toFixed(2))
+    );
+    this.props.dispatch(
+      change(
+        "inbound_po",
+        "receivecash",
+        parseFloat(this.state.receivecash).toFixed(2)
+      )
     );
   }
 
@@ -113,7 +121,90 @@ class POPayment extends Component {
     total_val = total;
 
     return (
-      <h4 style={{ marginBottom: "0px" }}>Total : {total.toLocaleString()}</h4>
+      <h4 style={{ marginBottom: "0px" }}>
+        Total :{" "}
+        {parseFloat(total)
+          .toFixed(2)
+          .toLocaleString()}
+      </h4>
+    );
+  }
+
+  renderDC() {
+    return (
+      <h6 style={{ marginBottom: "0px" }}>
+        Discount :{" "}
+        {this.state.discount > 0 && this.state.discount <= 100
+          ? parseFloat(
+              parseInt(this.state.total, 10) *
+                parseInt(this.state.discount, 10) /
+                100
+            )
+              .toFixed(2)
+              .toLocaleString()
+          : 0}
+      </h6>
+    );
+  }
+
+  renderCR() {
+    return (
+      <h6 style={{ marginBottom: "0px" }}>
+        Credit :{" "}
+        {this.state.credit > 0
+          ? parseFloat(this.state.credit)
+              .toFixed(2)
+              .toLocaleString()
+          : 0}
+      </h6>
+    );
+  }
+
+  renderGrandTotal() {
+    grand_total = parseInt(total_val - this.state.credit, 10);
+
+    return (
+      <h3 style={{ marginBottom: "0px" }}>
+        <b>
+          GrandTotal :{" "}
+          {parseFloat(total_val - this.state.credit)
+            .toFixed(2)
+            .toLocaleString()}
+        </b>
+      </h3>
+    );
+  }
+
+  renderReceiveCash() {
+    return (
+      <div className={PO_CSS.receivecash}>
+        <Field
+          name="receivecash"
+          key="receivecash"
+          label="receivecash"
+          component={POItemField}
+          type="text"
+          onChange={event => this.setState({ receivecash: event.target.value })}
+        />
+      </div>
+    );
+  }
+
+  renderChangeCash() {
+    return (
+      <h3>
+        ChangeCash :{" "}
+        {this.state.receivecash > 0
+          ? parseFloat(
+              this.state.receivecash -
+                parseFloat(total_val - this.state.credit)
+                  .toFixed(2)
+                  .toLocaleString()
+            )
+              .toFixed(2)
+              .toLocaleString()
+          : 0.0}
+      </h3>
     );
   }
 
@@ -138,10 +229,21 @@ class POPayment extends Component {
         </h3>
 
         <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
-          {this.renderFieldDC()}
-          {this.renderToggle()}
-          {this.state.creditToggle ? this.renderFieldCredit() : null}
-          <div>{this.renderSum()}</div>
+          <div>
+            {this.renderFieldDC()}
+            {this.renderToggle()}
+            {this.state.creditToggle ? this.renderFieldCredit() : null}
+          </div>
+
+          <div className={PO_CSS.footer_Payments}>
+            {this.renderSum()}
+            {this.renderDC()}
+            {this.renderCR()}
+            {this.renderGrandTotal()}
+            {this.renderReceiveCash()}
+            {this.renderChangeCash()}
+          </div>
+
           <div className={PO_CSS.footer_PO}>
             <button
               type="button"
@@ -170,15 +272,27 @@ function validate(values) {
     }
   }
 
-  if (!values["credit"]) {
-    errors["credit"] = "Require a value";
-  } else if (isNaN(values["credit"])) {
+  if (isNaN(values["credit"])) {
     errors["credit"] = "Require a Number";
   } else {
     if (values["credit"] < 0) {
       errors["credit"] = "NOT SUPPORT NEGATIVE CREDIT";
     } else if (values["credit"] > total_val) {
       errors["credit"] = "CREDIT CAN't EXCEED MORE TOTAL";
+    }
+  }
+
+  if (!values["receivecash"]) {
+    errors["receivecash"] = "Require a value";
+  } else if (isNaN(values["receivecash"])) {
+    errors["receivecash"] = "Require a Number";
+  } else {
+    if (values["receivecash"] < 0) {
+      errors["receivecash"] = "NOT SUPPORT NEGATIVE RECEIVE CASH";
+    } else if (values["receivecash"] < grand_total) {
+      console.log(values["receivecash"]);
+      console.log("grand_total", grand_total);
+      errors["receivecash"] = "RECEIVE CASH CAN'T LESS MORE GRAND TOTAL";
     }
   }
 

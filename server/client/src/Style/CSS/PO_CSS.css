@@ -35,3 +35,16 @@
   justify-content: space-between;
   align-items: flex-end;
 }
+
+:local(.footer_Payments) {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+:local(.receivecash) {
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  display: flex;
+}
