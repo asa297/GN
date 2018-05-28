@@ -4,6 +4,7 @@ import POSelectSeller from "./POSelectSeller";
 import POItemOrder from "./POItemOrder";
 import POPayment from "./POPayment";
 import POReview from "./POReview";
+import POPrint from "./POPrint";
 
 class PO extends Component {
   constructor(props) {
@@ -67,7 +68,7 @@ class PO extends Component {
         />
       );
     } else if (this.state.show_printing) {
-      return <div>gg</div>;
+      return <POPrint />;
     }
 
     return (

@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
+const _ = require("lodash");
 const orderModel = mongoose.model("orders");
+const itemModel = mongoose.model("items");
 
 module.exports = app => {
   app.post("/api/inbound/order", async (req, res) => {
@@ -10,13 +12,15 @@ module.exports = app => {
       total,
       discount,
       credit,
+      receivecash,
+      changecash,
       grandtotal,
       cash
     } = req.body;
 
     const orderId = Date.now();
 
-    await orderModel({
+    const order = await orderModel({
       orderId,
       groupId: group_select._id,
       groupCode: group_select.groupCode,
@@ -35,13 +39,24 @@ module.exports = app => {
       discount,
       credit,
       cash,
+      receivecash,
+      changecash,
       grandtotal,
       RecordIdBy: req.user._id,
       RecordNameBy: req.user.firstName,
       RecordDate: Date.now()
     }).save();
 
-    res.send({ orderId });
+    if (order._id) {
+      // _.map(itemList, async ({ _id, countQty }) => {
+      //   await itemModel
+      //     .updateOne({ _id }, { $inc: { item_qty: countQty * -1 } })
+      //     .exec();
+      // });
+      res.send({ orderId });
+    } else {
+      res.status(400).send({ error: "Order is not success" });
+    }
   });
 
   // app.get(

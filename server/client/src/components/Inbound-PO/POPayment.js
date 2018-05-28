@@ -63,6 +63,18 @@ class POPayment extends Component {
         parseFloat(this.state.receivecash).toFixed(2)
       )
     );
+    this.props.dispatch(
+      change(
+        "inbound_po",
+        "changecash",
+        parseFloat(
+          this.state.receivecash -
+            parseFloat(total_val - this.state.credit)
+              .toFixed(2)
+              .toLocaleString()
+        ).toFixed(2)
+      )
+    );
   }
 
   renderFieldDC() {
@@ -290,8 +302,6 @@ function validate(values) {
     if (values["receivecash"] < 0) {
       errors["receivecash"] = "NOT SUPPORT NEGATIVE RECEIVE CASH";
     } else if (values["receivecash"] < grand_total) {
-      console.log(values["receivecash"]);
-      console.log("grand_total", grand_total);
       errors["receivecash"] = "RECEIVE CASH CAN'T LESS MORE GRAND TOTAL";
     }
   }

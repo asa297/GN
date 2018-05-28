@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const itemListSchema = require("./inboundItem");
 
-const new_itemListSchema = new Schema(itemListSchema);
+// const new_itemListSchema = new Schema(itemListSchema);
 
-new_itemListSchema.virtual("countQty");
+new Schema(itemListSchema).virtual("countQty");
 
 const inboundOrderSchema = new Schema({
   orderId: Number,
@@ -20,11 +20,13 @@ const inboundOrderSchema = new Schema({
   sellerId: { type: Schema.Types.ObjectId, ref: "sellers" },
   sellerName: String,
   sellerCom: Number,
-  itemList: [new_itemListSchema],
+  itemList: [itemListSchema],
   total: Number,
   discount: Number,
   credit: Number,
   cash: Number,
+  receivecash: Number,
+  changecash: Number,
   grandtotal: Number,
   RecordIdBy: { type: Schema.Types.ObjectId, ref: "users" },
   RecordNameBy: { type: String, ref: "users" },

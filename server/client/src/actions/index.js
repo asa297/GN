@@ -150,9 +150,15 @@ export const deleteInbound_Item = item_id => async dispatch => {
 
 //inbound order
 
-export const submitInboundOrder = (values, history) => async dispatch => {
-  const res = await axios.post("/api/inbound/order", values);
+export const submitInboundOrder = values => async () => {
+  const res = await axios
+    .post("/api/inbound/order", values)
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
+      return error;
+    });
 
   return res.data;
-  // history.push("/home");
 };

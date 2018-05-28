@@ -2,18 +2,20 @@ import React from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
 import { submitInboundOrder } from "../../actions";
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 
 const POReview = ({
   formValues,
   submitInboundOrder,
-  history,
+
   onCancal,
   onSubmit
 }) => {
-  async function au() {
-    const au = await submitInboundOrder(formValues, history);
-    onSubmit();
+  async function summitOrder() {
+    const res = await submitInboundOrder(formValues);
+    if (res.orderId) {
+      onSubmit();
+    }
   }
 
   const GroupSelectFields = (
@@ -134,7 +136,10 @@ const POReview = ({
       <button className="red darken-3 white-text btn-flat" onClick={onCancal}>
         Back
       </button>
-      <button className="green btn-flat right white-text" onClick={() => au()}>
+      <button
+        className="green btn-flat right white-text"
+        onClick={() => summitOrder()}
+      >
         Confirm Order
         <i className="material-icons right">email</i>
       </button>
@@ -146,6 +151,4 @@ function mapStateToProps({ form: { inbound_po } }) {
   return { formValues: inbound_po.values };
 }
 
-export default connect(mapStateToProps, { submitInboundOrder })(
-  withRouter(POReview)
-);
+export default connect(mapStateToProps, { submitInboundOrder })(POReview);
