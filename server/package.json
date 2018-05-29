@@ -19,6 +19,7 @@
     "express": "^4.16.3",
     "materialize-css": "^0.100.2",
     "mongoose": "^5.0.17",
+    "mongoose-double": "0.0.1",
     "nodemon": "^1.17.4",
     "passport": "^0.4.0",
     "passport-google-oauth20": "^1.0.0",

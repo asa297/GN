@@ -6,7 +6,8 @@ import {
   FETCH_INBOUND_ORG,
   FETCH_INBOUND_GROUP,
   FETCH_INBOUND_SELLER,
-  FETCH_INBOUND_ITEM
+  FETCH_INBOUND_ITEM,
+  FETCH_INBOUND_REPORT_PO
 } from "./type";
 
 export const fetchUser = () => async dispatch => {
@@ -161,4 +162,17 @@ export const submitInboundOrder = values => async () => {
     });
 
   return res.data;
+};
+
+export const fetchInbound_ReportPO = () => async dispatch => {
+  const res = await axios.get("/api/inbound/order");
+
+  dispatch({ type: FETCH_INBOUND_REPORT_PO, payload: res.data });
+};
+
+export const fetchInbound_ReportPO_Filter = values => async dispatch => {
+  console.log(values);
+  // const res = await axios.post("/api/inbound/order_filter", values);
+
+  // dispatch({ type: FETCH_INBOUND_REPORT_PO, payload: res.data });
 };

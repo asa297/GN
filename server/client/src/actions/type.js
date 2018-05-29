@@ -5,3 +5,4 @@ export const FETCH_INBOUND_GROUP = "fetch_inbound_group";
 export const FETCH_INBOUND_SELLER = "fetch_inbound_seller";
 export const FETCH_INBOUND_ITEM = "fetch_inbound_item";
 export const GET_INBOUND_ITEM = "get_inbound_item";
+export const FETCH_INBOUND_REPORT_PO = "fetch_inbound_report_po";

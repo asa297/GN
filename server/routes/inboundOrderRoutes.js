@@ -5,6 +5,7 @@ const itemModel = mongoose.model("items");
 
 module.exports = app => {
   app.post("/api/inbound/order", async (req, res) => {
+    console.log(req.body);
     const {
       group_select,
       seller_select,
@@ -48,6 +49,7 @@ module.exports = app => {
     }).save();
 
     if (order._id) {
+      // ตัดสต็อกได้แล้วแต่ ขก ไปเพิ่มสินค้าทีหลัง
       // _.map(itemList, async ({ _id, countQty }) => {
       //   await itemModel
       //     .updateOne({ _id }, { $inc: { item_qty: countQty * -1 } })
@@ -59,15 +61,11 @@ module.exports = app => {
     }
   });
 
-  // app.get(
-  //   "/api/inbound/org",
-  //   requirePriorityLevel1_Permission,
-  //   async (req, res) => {
-  //     const inbound_org = await organizationModel.find({});
+  app.get("/api/inbound/order", async (req, res) => {
+    const order = await orderModel.find({});
 
-  //     res.send(inbound_org);
-  //   }
-  // );
+    res.send(order);
+  });
 
   // app.post(
   //   "/api/inbound/org/edit/:id",

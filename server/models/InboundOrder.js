@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+require("mongoose-double")(mongoose);
+const SchemaTypes = mongoose.Schema.Types;
 const { Schema } = mongoose;
 const itemListSchema = require("./inboundItem");
 
@@ -21,13 +23,13 @@ const inboundOrderSchema = new Schema({
   sellerName: String,
   sellerCom: Number,
   itemList: [itemListSchema],
-  total: Number,
+  total: SchemaTypes.Double,
   discount: Number,
-  credit: Number,
-  cash: Number,
-  receivecash: Number,
-  changecash: Number,
-  grandtotal: Number,
+  credit: SchemaTypes.Double,
+  cash: SchemaTypes.Double,
+  receivecash: SchemaTypes.Double,
+  changecash: SchemaTypes.Double,
+  grandtotal: SchemaTypes.Double,
   RecordIdBy: { type: Schema.Types.ObjectId, ref: "users" },
   RecordNameBy: { type: String, ref: "users" },
   RecordDate: Date
