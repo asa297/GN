@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { fetchInbound_ReportPO } from "../../actions";
+import { fetchInbound_ReportPO } from "../../../actions";
 
 import moment from "moment";
 
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 
-import ColumnReportPO from "../../utils/ColumnReportPO";
+import ColumnReportPO from "../../../utils/ColumnReportPO";
 
 class ReportPOList extends Component {
   componentDidMount() {

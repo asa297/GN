@@ -88,7 +88,8 @@ class InboundGroupList extends Component {
                 </i>
                 <p className="right">
                   Last Record On :
-                  {new Date(RecordDate).toLocaleDateString()}
+                  {new Date(RecordDate).toLocaleDateString()}{" "}
+                  {new Date(RecordDate).toLocaleTimeString()}
                 </p>
               </span>
             </div>

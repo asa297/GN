@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const _ = require("lodash");
+const moment = require("moment");
 const orderModel = mongoose.model("orders");
 const itemModel = mongoose.model("items");
 
 module.exports = app => {
   app.post("/api/inbound/order", async (req, res) => {
-    console.log(req.body);
     const {
       group_select,
       seller_select,
@@ -48,6 +48,8 @@ module.exports = app => {
       RecordDate: Date.now()
     }).save();
 
+    console.log(moment().toDate());
+
     if (order._id) {
       // ตัดสต็อกได้แล้วแต่ ขก ไปเพิ่มสินค้าทีหลัง
       // _.map(itemList, async ({ _id, countQty }) => {
@@ -63,6 +65,19 @@ module.exports = app => {
 
   app.get("/api/inbound/order", async (req, res) => {
     const order = await orderModel.find({});
+
+    res.send(order);
+  });
+
+  app.post("/api/inbound/order_filter", async (req, res) => {
+    const { start_date, end_date } = req.body;
+
+    const order = await orderModel.find({
+      RecordDate: {
+        $gte: new Date(moment(start_date).format("YYYY-MM-DD")),
+        $lt: new Date(moment(end_date).format("YYYY-MM-DD"))
+      }
+    });
 
     res.send(order);
   });

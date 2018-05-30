@@ -27,7 +27,7 @@ export default auth => {
               <Link to="/inboundpo">PO </Link>
             </li>
             <li>
-              <Link to="/reportpo">Report PO </Link>
+              <Link to="/report">Report</Link>
             </li>
           </div>
         );

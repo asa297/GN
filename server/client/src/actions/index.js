@@ -170,9 +170,13 @@ export const fetchInbound_ReportPO = () => async dispatch => {
   dispatch({ type: FETCH_INBOUND_REPORT_PO, payload: res.data });
 };
 
-export const fetchInbound_ReportPO_Filter = values => async dispatch => {
-  console.log(values);
-  // const res = await axios.post("/api/inbound/order_filter", values);
-
-  // dispatch({ type: FETCH_INBOUND_REPORT_PO, payload: res.data });
+export const fetchInbound_ReportPO_Filter = formvalue => async dispatch => {
+  if (formvalue.report_po.values) {
+    const { values } = formvalue.report_po;
+    const res = await axios.post("/api/inbound/order_filter", values);
+    dispatch({ type: FETCH_INBOUND_REPORT_PO, payload: res.data });
+  } else {
+    const res = await axios.get("/api/inbound/order");
+    dispatch({ type: FETCH_INBOUND_REPORT_PO, payload: res.data });
+  }
 };

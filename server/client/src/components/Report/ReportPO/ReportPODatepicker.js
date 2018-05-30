@@ -1,15 +1,19 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { reduxForm, Field } from "redux-form";
-import { fetchInbound_ReportPO_Filter } from "../../actions";
+import { reduxForm, Field, reset } from "redux-form";
+import { fetchInbound_ReportPO_Filter } from "../../../actions";
 
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 
-import Report_PO_CSS from "../../Style/CSS/Report_PO_CSS.css";
+import Report_PO_CSS from "../../../Style/CSS/Report_PO_CSS.css";
 
 class ReportPODatepicker extends Component {
+  onClear() {
+    this.props.dispatch(reset("report_po"));
+  }
+
   renderDateSelect() {
     return (
       <div>
@@ -61,7 +65,16 @@ class ReportPODatepicker extends Component {
                 </div>
               )}
             />
-            <button className="green btn-flat white-text">Filter</button>
+            <button type="submit" className="green btn-flat white-text">
+              Filter
+            </button>
+            <button
+              type="button"
+              className="red btn-flat white-text"
+              onClick={() => this.onClear()}
+            >
+              Clear
+            </button>
           </div>
         </form>
       </div>
@@ -93,8 +106,7 @@ function mapStateToProps({ form: report_po }) {
 
 export default reduxForm({
   validate,
-  form: "report_po",
-  destroyOnUnmount: false
+  form: "report_po"
 })(
   connect(mapStateToProps, { fetchInbound_ReportPO_Filter })(ReportPODatepicker)
 );
