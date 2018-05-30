@@ -1,3 +1,6 @@
+import React from "react";
+import Report_PO_CSS from "../Style/CSS/Report_PO_CSS.css";
+
 export default [
   {
     columns: [
@@ -6,6 +9,19 @@ export default [
         accessor: "index",
         width: 30,
         style: { textAlign: "center" }
+      },
+      {
+        accessor: "orderId",
+        width: 50,
+        Cell: row => (
+          <div className={Report_PO_CSS.viewReportPO}>
+            <a href="#">
+              <i className="tiny material-icons" onClick={() => this.test()}>
+                content_paste
+              </i>
+            </a>
+          </div>
+        )
       },
       {
         Header: "Order Id",

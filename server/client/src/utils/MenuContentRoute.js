@@ -15,6 +15,7 @@ import InboundItemNew from "../components/Inbound-Item/InboundItemNew";
 import InboundPO from "../components/Inbound-PO/PO";
 import Report from "../components/Report/Report";
 import ReportPO from "../components/Report/ReportPO/ReportPO";
+import ReportPOView from "../components/Report/ReportPO/ReportPOView";
 
 export default auth => {
   if (!_.isNil(auth)) {
@@ -22,6 +23,7 @@ export default auth => {
       case 1:
         return (
           <div>
+            <Route exact path="/reportpo/view" component={ReportPOView} />
             <Route exact path="/reportpo" component={ReportPO} />
             <Route exact path="/report" component={Report} />
             <Route exact path="/inboundpo" component={InboundPO} />
