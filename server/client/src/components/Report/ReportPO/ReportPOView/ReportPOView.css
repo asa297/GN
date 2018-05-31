@@ -1,0 +1,16 @@
+:local(.ReportPOView_Header) {
+  display: flex;
+  justify-content: flex-end;
+}
+
+:local(.ReportPOView_GroupDetail) {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+:local(.ReportPOView_PaymentDetail) {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}

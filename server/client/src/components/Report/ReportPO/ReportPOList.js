@@ -7,16 +7,11 @@ import { Link } from "react-router-dom";
 import "react-table/react-table.css";
 
 import { fetchInbound_ReportPO } from "../../../actions";
-import ColumnReportPO from "../../../utils/ColumnReportPO";
 import Report_PO_CSS from "../../../Style/CSS/Report_PO_CSS.css";
 
 class ReportPOList extends Component {
   componentDidMount() {
     this.props.fetchInbound_ReportPO();
-  }
-
-  viewPO(orderId) {
-    console.log(orderId);
   }
 
   settingColumn() {
@@ -40,12 +35,7 @@ class ReportPOList extends Component {
                     state: { orderId: row.value }
                   }}
                 >
-                  <i
-                    className="tiny material-icons"
-                    // onClick={() => this.viewPO(row.value)}
-                  >
-                    content_paste
-                  </i>
+                  <i className="tiny material-icons">content_paste</i>
                 </Link>
               </div>
             )

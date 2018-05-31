@@ -24,7 +24,7 @@ const inboundOrderSchema = new Schema({
   sellerCom: Number,
   itemList: [itemListSchema],
   total: SchemaTypes.Double,
-  discount: Number,
+  discount: {type : Number , default : 0},
   credit: SchemaTypes.Double,
   cash: SchemaTypes.Double,
   receivecash: SchemaTypes.Double,
