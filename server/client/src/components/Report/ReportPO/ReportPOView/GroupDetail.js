@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { reduxForm, Field, change } from "redux-form";
+import { Field, change } from "redux-form";
 import ReportPOViewField from "./ReportPOViewField";
 
 import ReportPOViewCSS from "./ReportPOView.css";
 
+let check = false;
 class GroupDetail extends Component {
   constructor(props) {
     super(props);
@@ -28,6 +29,8 @@ class GroupDetail extends Component {
       });
 
       this.handleInitialize(report_PO);
+
+      check = true;
     }
   }
 
@@ -37,8 +40,12 @@ class GroupDetail extends Component {
     });
   }
 
+  componentWillUnmount() {
+    check = false;
+  }
+
   GroupDetail() {
-    if (this.state.groupCode) {
+    if (check) {
       return (
         <div className={ReportPOViewCSS.ReportPOView_GroupDetail}>
           <div style={{ width: "45%" }}>
@@ -96,8 +103,6 @@ class GroupDetail extends Component {
         </div>
       );
     }
-
-    return null;
   }
 
   render() {
@@ -105,18 +110,8 @@ class GroupDetail extends Component {
   }
 }
 
-function validate(values) {
-  console.log(values);
-  const errors = {};
-
-  return errors;
-}
-
 function mapStateToProps({ inbound_reports_po }) {
   return { inbound_reports_po };
 }
 
-export default reduxForm({
-  validate,
-  form: "report_po_edit"
-})(connect(mapStateToProps)(GroupDetail));
+export default connect(mapStateToProps)(GroupDetail);

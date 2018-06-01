@@ -19,6 +19,10 @@ class InboundItemList extends Component {
     this.props.fetchInbound_Item();
   }
 
+  componentWillMount() {
+    Modal.setAppElement("body");
+  }
+
   openModal(item_id) {
     this.setState({ modalIsOpen: true, item_id });
   }

@@ -180,3 +180,21 @@ export const fetchInbound_ReportPO_Filter = formvalue => async dispatch => {
     dispatch({ type: FETCH_INBOUND_REPORT_PO, payload: res.data });
   }
 };
+
+export const updateInbound_ReportPO = (
+  orderId,
+  formvalues,
+  history
+) => async dispatch => {
+  await axios
+    .post("/api/inbound/order/edit/" + orderId, formvalues.values)
+    .then(response => {
+      history.push("/report/reportpo");
+    });
+};
+
+export const deleteInbound_Order = (orderId, history) => async dispatch => {
+  await axios.delete("/api/inbound/order/" + orderId).then(response => {
+    history.push("/report/reportpo");
+  });
+};

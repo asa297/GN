@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { reduxForm, Field, change } from "redux-form";
+import { Field, change } from "redux-form";
 import ReportPOViewField from "./ReportPOViewField";
 
 import ReportPOView from "./ReportPOView.css";
 
+let check = false;
 class SellerDetail extends Component {
   constructor(props) {
     super(props);
@@ -28,49 +29,51 @@ class SellerDetail extends Component {
     }
   }
 
+  componentWillUnmount() {
+    check = false;
+  }
+
   handleInitialize(report_PO) {
     _.map(this.state, (value, key) => {
       this.props.dispatch(change("report_po_edit", key, report_PO[key]));
     });
+
+    check = true;
   }
 
   SellerDetail() {
-    if (this.state.sellerName) {
+    if (check) {
       return (
-        <form>
-          <div className={ReportPOView.ReportPOView_GroupDetail}>
-            <div style={{ width: "45%" }}>
-              <Field
-                key={"sellerName"}
-                component={ReportPOViewField}
-                type="text"
-                label={"sellerName"}
-                name={"sellerName"}
-                valueField={this.state.sellerName}
-                onChange={event =>
-                  this.setState({ sellerName: event.target.value })
-                }
-              />
-            </div>
-            <div style={{ width: "45%" }}>
-              <Field
-                key={"sellerCom"}
-                component={ReportPOViewField}
-                type="text"
-                label={"sellerCom"}
-                name={"sellerCom"}
-                valueField={this.state.sellerCom}
-                onChange={event =>
-                  this.setState({ sellerCom: event.target.value })
-                }
-              />
-            </div>
+        <div className={ReportPOView.ReportPOView_GroupDetail}>
+          <div style={{ width: "45%" }}>
+            <Field
+              key={"sellerName"}
+              component={ReportPOViewField}
+              type="text"
+              label={"sellerName"}
+              name={"sellerName"}
+              valueField={this.state.sellerName}
+              onChange={event =>
+                this.setState({ sellerName: event.target.value })
+              }
+            />
           </div>
-        </form>
+          <div style={{ width: "45%" }}>
+            <Field
+              key={"sellerCom"}
+              component={ReportPOViewField}
+              type="text"
+              label={"sellerCom"}
+              name={"sellerCom"}
+              valueField={this.state.sellerCom}
+              onChange={event =>
+                this.setState({ sellerCom: event.target.value })
+              }
+            />
+          </div>
+        </div>
       );
     }
-
-    return null;
   }
 
   render() {
@@ -78,17 +81,8 @@ class SellerDetail extends Component {
   }
 }
 
-function validate(values) {
-  const errors = {};
-
-  return errors;
-}
-
 function mapStateToProps({ inbound_reports_po }) {
   return { inbound_reports_po };
 }
 
-export default reduxForm({
-  validate,
-  form: "report_po_edit"
-})(connect(mapStateToProps)(SellerDetail));
+export default connect(mapStateToProps)(SellerDetail);

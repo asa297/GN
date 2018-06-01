@@ -23,8 +23,12 @@ export default auth => {
       case 1:
         return (
           <div>
-            <Route exact path="/reportpo/view" component={ReportPOView} />
-            <Route exact path="/reportpo" component={ReportPO} />
+            <Route
+              exact
+              path="/report/reportpo/view"
+              component={ReportPOView}
+            />
+            <Route exact path="/report/reportpo" component={ReportPO} />
             <Route exact path="/report" component={Report} />
             <Route exact path="/inboundpo" component={InboundPO} />
             <Route exact path="/inbounditem/new" component={InboundItemNew} />

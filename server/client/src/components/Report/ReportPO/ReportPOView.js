@@ -1,12 +1,18 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
+import { reduxForm } from "redux-form";
+import { Link, withRouter } from "react-router-dom";
+
+import Report_CSS from "../../../Style/CSS/Report_PO_CSS.css";
+import { updateInbound_ReportPO } from "../../../actions";
 
 import Header from "./ReportPOView/Header";
 import GroupDetail from "./ReportPOView/GroupDetail";
 import SellerDetail from "./ReportPOView/SellerDetail";
 import DetailItem from "./ReportPOView/ItemDetail";
 import PaymentDetail from "./ReportPOView/PaymentDetail";
+import ButtonFooter from "./ReportPOView/ButtonFooter";
 
 class ReportPOView extends Component {
   constructor(props) {
@@ -26,12 +32,25 @@ class ReportPOView extends Component {
     this.setState({ report_PO });
   }
 
-  render() {
+  handleFormSubmit() {
+    this.props.updateInbound_ReportPO(
+      this.state.orderId,
+      this.props.report_po_edit,
+      this.props.history
+    );
+  }
+
+  renderReportPOView() {
     return (
-      <div className="container">
-        <div className="center">
+      <form onSubmit={this.props.handleSubmit(() => this.handleFormSubmit())}>
+        <div className={Report_CSS.viewReportPOHeader}>
+          <Link to="/report/reportpo">
+            <i className="medium material-icons">chevron_left</i>
+          </Link>
           <h3>PO Report : {this.state.orderId}</h3>
+          <div />
         </div>
+
         <Header report_PO={this.state.report_PO} />
         <hr />
         <div className="center">
@@ -39,11 +58,13 @@ class ReportPOView extends Component {
         </div>
         <GroupDetail orderId={this.state.orderId} />
         <hr />
+
         <div className="center">
           <h5>Seller Detail</h5>
         </div>
         <SellerDetail orderId={this.state.orderId} />
         <hr />
+
         <div className="center">
           <h5>Item Detail</h5>
         </div>
@@ -53,25 +74,76 @@ class ReportPOView extends Component {
           <h5>Payments Detail</h5>
         </div>
         <PaymentDetail orderId={this.state.orderId} />
-        <button
-          className="red btn-flat white-text left"
-          style={{ marginTop: "30px" }}
-        >
-          Delete
-        </button>
-        <button
-          className="green btn-flat white-text right"
-          style={{ marginTop: "30px" }}
-        >
-          Save
-        </button>
+        <ButtonFooter orderId={this.state.orderId} />
+      </form>
+    );
+  }
+
+  render() {
+    return (
+      <div className="container">
+        {this.state.report_PO === undefined ? null : this.renderReportPOView()}
       </div>
     );
   }
 }
 
-function mapStateToProps({ inbound_reports_po }) {
-  return { inbound_reports_po };
+function validate(values) {
+  const errors = {};
+  if (!values["groupCode"]) {
+    errors["groupCode"] = "Require a value";
+  }
+
+  if (!values["guideName"]) {
+    errors["guideName"] = "Require a value";
+  }
+
+  if (!values["orgName"]) {
+    errors["orgName"] = "Require a value";
+  }
+
+  if (!values["orgCom"]) {
+    errors["orgCom"] = "Require a value";
+  } else {
+    if (isNaN(values["orgCom"])) {
+      errors["orgCom"] = "Require a number only";
+    } else if (values["orgCom"] < 0 || values["orgCom"] > 100) {
+      errors["orgCom"] = "0% - 100%";
+    }
+  }
+
+  if (!values["sellerName"]) {
+    errors["sellerName"] = "Require a value";
+  }
+
+  if (!values["sellerCom"]) {
+    errors["sellerCom"] = "Require a value";
+  } else {
+    if (isNaN(values["sellerCom"])) {
+      errors["sellerCom"] = "Require a number only";
+    } else if (values["sellerCom"] < 0 || values["sellerCom"] > 100) {
+      errors["sellerCom"] = "0% - 100%";
+    }
+  }
+
+  if (!values["discount"]) {
+    errors["discount"] = "Require a value";
+  }
+
+  if (values["changecash"] < 0) {
+    errors["changecash"] = "NOT SUPPORT NEGATIVE CHANGE CASH";
+  }
+
+  return errors;
 }
 
-export default connect(mapStateToProps)(ReportPOView);
+function mapStateToProps({ inbound_reports_po, form: { report_po_edit } }) {
+  return { inbound_reports_po, report_po_edit };
+}
+
+export default reduxForm({
+  validate,
+  form: "report_po_edit"
+})(
+  connect(mapStateToProps, { updateInbound_ReportPO })(withRouter(ReportPOView))
+);

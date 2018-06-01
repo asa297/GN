@@ -26,6 +26,10 @@ class InboundSellerList extends Component {
     this.props.fetchInbound_Seller();
   }
 
+  componentWillMount() {
+    Modal.setAppElement("body");
+  }
+
   renderModal() {
     return (
       <div>

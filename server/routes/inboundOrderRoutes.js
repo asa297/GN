@@ -48,8 +48,6 @@ module.exports = app => {
       RecordDate: Date.now()
     }).save();
 
-    console.log(moment().toDate());
-
     if (order._id) {
       // ตัดสต็อกได้แล้วแต่ ขก ไปเพิ่มสินค้าทีหลัง
       // _.map(itemList, async ({ _id, countQty }) => {
@@ -82,42 +80,57 @@ module.exports = app => {
     res.send(order);
   });
 
-  // app.post(
-  //   "/api/inbound/org/edit/:id",
-  //   requirePriorityLevel1_Permission,
-  //   async (req, res) => {
-  //     await organizationModel
-  //       .updateOne(
-  //         {
-  //           _id: req.params.id
-  //         },
-  //         {
-  //           $set: {
-  //             orgTypeId: req.body.org_type.org_typeId,
-  //             orgTypeName: req.body.org_type.org_typeName,
-  //             orgName: req.body.org_name,
-  //             orgCom: req.body.org_com,
-  //             orgCode: req.body.org_code,
-  //             RecordIdBy: req.user._id,
-  //             RecordNameBy: req.user.firstName,
-  //             RecordDate: Date.now()
-  //           }
-  //         }
-  //       )
-  //       .exec();
+  app.post("/api/inbound/order/edit/:id", async (req, res) => {
+    const {
+      groupCode,
+      guideName,
+      orgName,
+      orgTypeName,
+      orgCom,
+      sellerName,
+      sellerCom,
+      total,
+      discount,
+      credit,
+      cash,
+      receivecash,
+      changecash
+    } = req.body;
 
-  //     res.send({});
-  //   }
-  // );
+    await orderModel
+      .updateOne(
+        {
+          orderId: req.params.id
+        },
+        {
+          $set: {
+            groupCode,
+            guideName,
+            orgName,
+            orgTypeName,
+            orgCom,
+            sellerName,
+            sellerCom,
+            total,
+            discount,
+            credit,
+            cash,
+            receivecash,
+            changecash,
+            RecordIdBy: req.user._id,
+            RecordNameBy: req.user.firstName,
+            RecordDate: Date.now()
+          }
+        }
+      )
+      .exec();
 
-  // app.delete(
-  //   "/api/inbound/org/:id",
-  //   requirePriorityLevel1_Permission,
-  //   async (req, res) => {
-  //     await organizationModel.remove({ _id: req.params.id });
-  //     const inbound_org = await organizationModel.find({});
+    res.send({});
+  });
 
-  //     res.send(inbound_org);
-  //   }
-  // );
+  app.delete("/api/inbound/order/:id", async (req, res) => {
+    await orderModel.remove({ orderId: req.params.id });
+
+    res.send({});
+  });
 };

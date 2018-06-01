@@ -31,7 +31,7 @@ class ReportPOList extends Component {
               <div className={Report_PO_CSS.viewReportPO}>
                 <Link
                   to={{
-                    pathname: "/reportpo/view",
+                    pathname: "/report/reportpo/view",
                     state: { orderId: row.value }
                   }}
                 >

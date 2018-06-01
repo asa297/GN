@@ -26,6 +26,10 @@ class InboundOrgList extends Component {
     this.props.fetchInbound_Org();
   }
 
+  componentWillMount() {
+    Modal.setAppElement("body");
+  }
+
   renderModal() {
     return (
       <div>

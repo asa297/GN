@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { reduxForm, Field, change } from "redux-form";
+import { Field, change } from "redux-form";
 
 import ReportPOViewField from "./ReportPOViewField";
 import ReportPOViewCSS from "./ReportPOView.css";
 
+let check = false;
 class PaymentDetail extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +30,12 @@ class PaymentDetail extends Component {
       });
 
       this.handleInitialize(report_PO);
+      check = true;
     }
+  }
+
+  componentWillUnmount() {
+    check = false;
   }
 
   handleInitialize(report_PO) {
@@ -38,46 +44,69 @@ class PaymentDetail extends Component {
     });
   }
 
+  gg(event) {
+    const discount = parseInt(event.target.value, 10);
+    if (discount >= 0 && discount <= 100) {
+      this.setState({ discount });
+
+      const new_dis = parseInt(100 - event.target.value, 10) / 100;
+      const credit = parseFloat(this.state.credit);
+      const cash = parseFloat(this.state.total * new_dis) - credit;
+      const receivecash = parseFloat(this.state.receivecash);
+      const changecash = receivecash - (cash + credit).toFixed(2);
+
+      this.setState({ cash });
+      this.props.dispatch(change("report_po_edit", "cash", cash));
+      this.setState({ changecash });
+      this.props.dispatch(change("report_po_edit", "changecash", changecash));
+    }
+  }
+
   renderPaymentDetail() {
-    if (this.state.total) {
+    if (check) {
       return (
-        <form>
-          <div className={ReportPOViewCSS.ReportPOView_PaymentDetail}>
-            <div style={{ width: "45%" }}>
-              <label>Total</label>
-              <input defaultValue={this.state.total} readOnly />
-            </div>
-            <div style={{ width: "45%" }}>
-              <Field
-                key={"discount"}
-                component={ReportPOViewField}
-                type="text"
-                label={"discount"}
-                name={"discount"}
-                valueField={this.state.discount}
-                onChange={event =>
-                  this.setState({ discount: event.target.value })
-                }
-              />
-            </div>
-            <div style={{ width: "45%" }}>
-              <label>Credit</label>
-              <input defaultValue={this.state.credit} readOnly />
-            </div>
-            <div style={{ width: "45%" }}>
-              <label>Cash</label>
-              <input defaultValue={this.state.cash} readOnly />
-            </div>
-            <div style={{ width: "45%" }}>
-              <label>Receive Cash</label>
-              <input defaultValue={this.state.receivecash} readOnly />
-            </div>
-            <div style={{ width: "45%" }}>
-              <label>Change Cash</label>
-              <input defaultValue={this.state.changecash} readOnly />
-            </div>
+        <div className={ReportPOViewCSS.ReportPOView_PaymentDetail}>
+          <div style={{ width: "45%" }}>
+            <label>Total</label>
+            <input defaultValue={this.state.total} readOnly />
           </div>
-        </form>
+          <div style={{ width: "45%" }}>
+            <Field
+              key={"discount"}
+              component={ReportPOViewField}
+              type="text"
+              label={"discount"}
+              name={"discount"}
+              valueField={this.state.discount}
+              onChange={event =>
+                // this.setState({ discount: event.target.value })
+                this.gg(event)
+              }
+            />
+          </div>
+          <div style={{ width: "45%" }}>
+            <label>Credit</label>
+            <input defaultValue={this.state.credit} readOnly />
+          </div>
+          <div style={{ width: "45%" }}>
+            <label>Cash</label>
+            <input value={this.state.cash} readOnly />
+          </div>
+          <div style={{ width: "45%" }}>
+            <label>Receive Cash</label>
+            <input defaultValue={this.state.receivecash} readOnly />
+          </div>
+          <div style={{ width: "45%" }}>
+            <Field
+              key={"changecash"}
+              component={ReportPOViewField}
+              type="text"
+              label={"changecash"}
+              name={"changecash"}
+              valueField={this.state.changecash}
+            />
+          </div>
+        </div>
       );
     }
   }
@@ -87,17 +116,8 @@ class PaymentDetail extends Component {
   }
 }
 
-function validate(values) {
-  const errors = {};
-
-  return errors;
+function mapStateToProps({ inbound_reports_po, form: { report_po_edit } }) {
+  return { inbound_reports_po, report_po_edit };
 }
 
-function mapStateToProps({ inbound_reports_po }) {
-  return { inbound_reports_po };
-}
-
-export default reduxForm({
-  validate,
-  form: "report_po_edit"
-})(connect(mapStateToProps)(PaymentDetail));
+export default connect(mapStateToProps)(PaymentDetail);

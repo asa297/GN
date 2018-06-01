@@ -19,3 +19,9 @@
   display: flex;
   justify-content: center;
 }
+
+:local(.viewReportPOHeader) {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
