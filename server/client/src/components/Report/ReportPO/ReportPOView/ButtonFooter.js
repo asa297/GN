@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Modal from "react-modal";
 import ModalStyle from "../../../../Style/JS/modalStyle";
-import { deleteInbound_Order } from "../../../../actions";
+import { deleteInbound_ReportPO } from "../../../../actions";
 import { withRouter } from "react-router-dom";
 
 class ButtonFooter extends Component {
@@ -47,7 +47,7 @@ class ButtonFooter extends Component {
           <button
             className="red btn-flat right white-text"
             onClick={() => {
-              this.props.deleteInbound_Order(
+              this.props.deleteInbound_ReportPO(
                 this.state.orderId,
                 this.props.history
               );
@@ -100,6 +100,6 @@ function mapStateToProps({ auth }) {
   return { auth };
 }
 
-export default connect(mapStateToProps, { deleteInbound_Order })(
+export default connect(mapStateToProps, { deleteInbound_ReportPO })(
   withRouter(ButtonFooter)
 );

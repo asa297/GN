@@ -5,7 +5,7 @@ const orderModel = mongoose.model("orders");
 const itemModel = mongoose.model("items");
 
 module.exports = app => {
-  app.post("/api/inbound/order", async (req, res) => {
+  app.post("/api/order", async (req, res) => {
     const {
       group_select,
       seller_select,
@@ -61,13 +61,13 @@ module.exports = app => {
     }
   });
 
-  app.get("/api/inbound/order", async (req, res) => {
+  app.get("/api/order", async (req, res) => {
     const order = await orderModel.find({});
 
     res.send(order);
   });
 
-  app.post("/api/inbound/order_filter", async (req, res) => {
+  app.post("/api/order_filter", async (req, res) => {
     const { start_date, end_date } = req.body;
 
     const order = await orderModel.find({
@@ -80,7 +80,7 @@ module.exports = app => {
     res.send(order);
   });
 
-  app.post("/api/inbound/order/edit/:id", async (req, res) => {
+  app.post("/api/order/edit/:id", async (req, res) => {
     const {
       groupCode,
       guideName,
@@ -128,9 +128,15 @@ module.exports = app => {
     res.send({});
   });
 
-  app.delete("/api/inbound/order/:id", async (req, res) => {
+  app.delete("/api/order/:id", async (req, res) => {
     await orderModel.remove({ orderId: req.params.id });
 
     res.send({});
+  });
+
+  app.get("/api/order/search/:id", async (req, res) => {
+    const order = await orderModel.findOne({ orderId: req.params.id });
+
+    res.send(order);
   });
 };

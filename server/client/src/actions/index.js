@@ -153,7 +153,7 @@ export const deleteInbound_Item = item_id => async dispatch => {
 
 export const submitInboundOrder = values => async () => {
   const res = await axios
-    .post("/api/inbound/order", values)
+    .post("/api/order", values)
     .then(response => {
       return response;
     })
@@ -165,7 +165,7 @@ export const submitInboundOrder = values => async () => {
 };
 
 export const fetchInbound_ReportPO = () => async dispatch => {
-  const res = await axios.get("/api/inbound/order");
+  const res = await axios.get("/api/order");
 
   dispatch({ type: FETCH_INBOUND_REPORT_PO, payload: res.data });
 };
@@ -173,10 +173,10 @@ export const fetchInbound_ReportPO = () => async dispatch => {
 export const fetchInbound_ReportPO_Filter = formvalue => async dispatch => {
   if (formvalue.report_po.values) {
     const { values } = formvalue.report_po;
-    const res = await axios.post("/api/inbound/order_filter", values);
+    const res = await axios.post("/api/order_filter", values);
     dispatch({ type: FETCH_INBOUND_REPORT_PO, payload: res.data });
   } else {
-    const res = await axios.get("/api/inbound/order");
+    const res = await axios.get("/api/order");
     dispatch({ type: FETCH_INBOUND_REPORT_PO, payload: res.data });
   }
 };
@@ -187,14 +187,20 @@ export const updateInbound_ReportPO = (
   history
 ) => async dispatch => {
   await axios
-    .post("/api/inbound/order/edit/" + orderId, formvalues.values)
+    .post("/api/order/edit/" + orderId, formvalues.values)
     .then(response => {
       history.push("/report/reportpo");
     });
 };
 
-export const deleteInbound_Order = (orderId, history) => async dispatch => {
-  await axios.delete("/api/inbound/order/" + orderId).then(response => {
+export const deleteInbound_ReportPO = (orderId, history) => async dispatch => {
+  await axios.delete("/api/order/" + orderId).then(response => {
     history.push("/report/reportpo");
   });
+};
+
+export const searchInbound_ReportPO = orderId => async dispatch => {
+  const res = await axios.get("/api/order/search/" + orderId);
+
+  dispatch({ type: FETCH_INBOUND_REPORT_PO, payload: res.data });
 };

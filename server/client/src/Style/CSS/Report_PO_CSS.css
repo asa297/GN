@@ -3,11 +3,22 @@
   margin-right: 5%;
 }
 
+:local(.filterbar) {
+  display: flex;
+  justify-content: space-between;
+}
+
 :local(.datepicker) {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   /* margin-bottom: 30px; */
+}
+
+:local(.searchbar) {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 
 :local(.headerReport) {
