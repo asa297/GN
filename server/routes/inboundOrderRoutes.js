@@ -69,6 +69,8 @@ module.exports = app => {
 
   app.post("/api/order_filter", async (req, res) => {
     const { start_date, end_date } = req.body;
+    console.log(new Date(moment(start_date).format("YYYY-MM-DD")));
+    console.log(new Date(moment(end_date).format("YYYY-MM-DD")));
 
     const order = await orderModel.find({
       RecordDate: {
@@ -118,8 +120,8 @@ module.exports = app => {
             receivecash,
             changecash,
             RecordIdBy: req.user._id,
-            RecordNameBy: req.user.firstName,
-            RecordDate: Date.now()
+            RecordNameBy: req.user.firstName
+            // RecordDate: Date.now()
           }
         }
       )

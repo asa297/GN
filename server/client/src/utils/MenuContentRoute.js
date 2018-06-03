@@ -18,6 +18,7 @@ import ReportPO from "../components/Report/ReportPO/ReportPO";
 import ReportPOView from "../components/Report/ReportPO/ReportPOView";
 import ReportInventory from "../components/Report/ReportINV/ReportINV";
 import ReportInventoryView from "../components/Report/ReportINV/ReportINVView";
+import ReportOutboundInventory from "../components/Report/ReportOutboundINV/Search/Search";
 
 export default auth => {
   if (!_.isNil(auth)) {
@@ -25,6 +26,11 @@ export default auth => {
       case 1:
         return (
           <div>
+            <Route
+              exact
+              path="/report/reportoutinv"
+              component={ReportOutboundInventory}
+            />
             <Route
               exact
               path="/report/reportinv/view"

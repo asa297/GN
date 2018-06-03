@@ -1,0 +1,16 @@
+:local(.container) {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+:local(.headerReport) {
+  display: flex;
+  justify-content: space-between;
+}
+
+:local(.datepicker) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}

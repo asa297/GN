@@ -100,7 +100,7 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ form: report_po }) {
+function mapStateToProps({ form: { report_po } }) {
   return { report_po };
 }
 

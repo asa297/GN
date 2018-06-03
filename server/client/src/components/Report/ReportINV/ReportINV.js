@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 
 import ReportINVList from "./ReportINVList";
-import SearchPO from "./SearchINV";
+import SearchINV from "./SearchINV";
+import ReportINVHeader from "./ReportINVHeader";
 
 import Report_CSS from "../../../Style/CSS/Report_INV_CSS.css";
 
@@ -9,8 +10,9 @@ class ReportInventory extends Component {
   render() {
     return (
       <div className={Report_CSS.container}>
+        <ReportINVHeader />
         <div>
-          <SearchPO />
+          <SearchINV />
         </div>
 
         <ReportINVList />
