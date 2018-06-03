@@ -134,19 +134,31 @@ export const updateInbound_Item = (
   item_id,
   values,
   orgChinaList,
-  onUpdateItem
+  history
+  // onUpdateItem
 ) => async dispatch => {
   if (orgChinaList) {
     values.orgChinaList = orgChinaList;
   }
-  await axios.post("/api/inbound/item/edit/" + item_id, values);
-  onUpdateItem();
+  // await axios.post("/api/inbound/item/edit/" + item_id, values);
+
+  await axios
+    .post("/api/inbound/item/edit/" + item_id, values)
+    .then(response => {
+      history.push("/report/reportinv");
+    });
+
+  // onUpdateItem();
 };
 
-export const deleteInbound_Item = item_id => async dispatch => {
-  const res = await axios.delete("/api/inbound/item/" + item_id);
+export const deleteInbound_Item = (item_id, history) => async dispatch => {
+  await axios.delete("/api/inbound/item/" + item_id).then(response => {
+    history.push("/report/reportinv");
+  });
 
-  dispatch({ type: FETCH_INBOUND_ITEM, payload: res.data });
+  // const res = await axios.delete("/api/inbound/item/" + item_id);
+
+  // dispatch({ type: FETCH_INBOUND_ITEM, payload: res.data });
 };
 
 //inbound order

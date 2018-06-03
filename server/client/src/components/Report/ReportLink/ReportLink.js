@@ -14,6 +14,9 @@ export default auth => {
             <li>
               <Link to="/report/reportinv">Inventory</Link>
             </li>
+            <li>
+              <Link to="/report/reportoutinv">Daily Outbound Inventory</Link>
+            </li>
           </div>
         );
       default:

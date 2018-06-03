@@ -10,13 +10,21 @@ class ItemDetail extends Component {
     };
   }
 
-  componentDidMount() {
-    const report_PO = _.find(this.props.inbound_reports_po, ({ orderId }) => {
-      return orderId === this.props.orderId;
-    });
-    if (report_PO) {
+  // componentDidMount() {
+  //   const report_PO = _.find(this.props.inbound_reports_po, ({ orderId }) => {
+  //     return orderId === this.props.orderId;
+  //   });
+  //   if (report_PO) {
+  //     _.map(this.state, (value, key) => {
+  //       this.setState({ [key]: report_PO[key] });
+  //     });
+  //   }
+  // }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.report_PO) {
       _.map(this.state, (value, key) => {
-        this.setState({ [key]: report_PO[key] });
+        this.setState({ [key]: nextProps.report_PO[key] });
       });
     }
   }

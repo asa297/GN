@@ -56,24 +56,24 @@ class ReportPOView extends Component {
         <div className="center">
           <h5>Group Detail</h5>
         </div>
-        <GroupDetail orderId={this.state.orderId} />
+        <GroupDetail report_PO={this.state.report_PO} />
         <hr />
 
         <div className="center">
           <h5>Seller Detail</h5>
         </div>
-        <SellerDetail orderId={this.state.orderId} />
+        <SellerDetail report_PO={this.state.report_PO} />
         <hr />
 
         <div className="center">
           <h5>Item Detail</h5>
         </div>
-        <DetailItem orderId={this.state.orderId} />
+        <DetailItem report_PO={this.state.report_PO} />
         <hr />
         <div className="center">
           <h5>Payments Detail</h5>
         </div>
-        <PaymentDetail orderId={this.state.orderId} />
+        <PaymentDetail report_PO={this.state.report_PO} />
         <ButtonFooter orderId={this.state.orderId} />
       </form>
     );
@@ -128,6 +128,10 @@ function validate(values) {
 
   if (!values["discount"]) {
     errors["discount"] = "Require a value";
+  }
+
+  if (values["cash"] < 0) {
+    errors["cash"] = "NOT SUPPORT NEGATIVE CASH";
   }
 
   if (values["changecash"] < 0) {

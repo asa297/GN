@@ -20,16 +20,28 @@ class PaymentDetail extends Component {
     };
   }
 
-  componentDidMount() {
-    const report_PO = _.find(this.props.inbound_reports_po, ({ orderId }) => {
-      return orderId === this.props.orderId;
-    });
-    if (report_PO) {
+  // componentDidMount() {
+  //   const report_PO = _.find(this.props.inbound_reports_po, ({ orderId }) => {
+  //     return orderId === this.props.orderId;
+  //   });
+  //   if (report_PO) {
+  //     _.map(this.state, (value, key) => {
+  //       this.setState({ [key]: report_PO[key] });
+  //     });
+
+  //     this.handleInitialize(report_PO);
+  //     check = true;
+  //   }
+  // }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.report_PO && check === false) {
       _.map(this.state, (value, key) => {
-        this.setState({ [key]: report_PO[key] });
+        this.setState({ [key]: nextProps.report_PO[key] });
       });
 
-      this.handleInitialize(report_PO);
+      this.handleInitialize(nextProps.report_PO);
+
       check = true;
     }
   }
@@ -89,8 +101,16 @@ class PaymentDetail extends Component {
             <input defaultValue={this.state.credit} readOnly />
           </div>
           <div style={{ width: "45%" }}>
-            <label>Cash</label>
-            <input value={this.state.cash} readOnly />
+            <div style={{ width: "45%" }}>
+              <Field
+                key={"cash"}
+                component={ReportPOViewField}
+                type="text"
+                label={"cash"}
+                name={"cash"}
+                valueField={this.state.cash}
+              />
+            </div>
           </div>
           <div style={{ width: "45%" }}>
             <label>Receive Cash</label>
