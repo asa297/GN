@@ -9,7 +9,10 @@ export default auth => {
         return (
           <div>
             <li>
-              <Link to="/report/reportpo">Report PO</Link>
+              <Link to="/report/reportpo">Purchase Order</Link>
+            </li>
+            <li>
+              <Link to="/report/reportinv">Inventory</Link>
             </li>
           </div>
         );

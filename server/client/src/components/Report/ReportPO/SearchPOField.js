@@ -8,7 +8,11 @@ const SearchPOField = ({
 }) => {
   return (
     <div>
-      <input {...input} style={{ margin: "0px" }} />
+      <input
+        {...input}
+        style={{ margin: "0px" }}
+        placeholder="Search Order ID"
+      />
       <div className="red-text"> {touched && error}</div>
     </div>
   );

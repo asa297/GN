@@ -198,9 +198,3 @@ export const deleteInbound_ReportPO = (orderId, history) => async dispatch => {
     history.push("/report/reportpo");
   });
 };
-
-export const searchInbound_ReportPO = orderId => async dispatch => {
-  const res = await axios.get("/api/order/search/" + orderId);
-
-  dispatch({ type: FETCH_INBOUND_REPORT_PO, payload: res.data });
-};

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import { withRouter } from "react-router-dom";
-import { searchInbound_ReportPO } from "../../../actions";
 
 import SearchPOBar from "./SearchPOBar";
 
@@ -49,4 +48,4 @@ function mapStateToProps({ form: { search_po } }) {
 export default reduxForm({
   validate,
   form: "search_po"
-})(connect(mapStateToProps, { searchInbound_ReportPO })(withRouter(SearchPO)));
+})(connect(mapStateToProps)(withRouter(SearchPO)));

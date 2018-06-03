@@ -133,10 +133,4 @@ module.exports = app => {
 
     res.send({});
   });
-
-  app.get("/api/order/search/:id", async (req, res) => {
-    const order = await orderModel.findOne({ orderId: req.params.id });
-
-    res.send(order);
-  });
 };
