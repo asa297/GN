@@ -55,6 +55,8 @@ module.exports = app => {
       //     .updateOne({ _id }, { $inc: { item_qty: countQty * -1 } })
       //     .exec();
       // });
+
+      console.log('gg')
       res.send({ orderId });
     } else {
       res.status(400).send({ error: "Order is not success" });
