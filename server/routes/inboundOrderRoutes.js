@@ -50,13 +50,12 @@ module.exports = app => {
 
     if (order._id) {
       // ตัดสต็อกได้แล้วแต่ ขก ไปเพิ่มสินค้าทีหลัง
-      // _.map(itemList, async ({ _id, countQty }) => {
-      //   await itemModel
-      //     .updateOne({ _id }, { $inc: { item_qty: countQty * -1 } })
-      //     .exec();
-      // });
+      _.map(itemList, async ({ _id, countQty }) => {
+        await itemModel
+          .updateOne({ _id }, { $inc: { item_qty: countQty * -1 } })
+          .exec();
+      });
 
-      console.log('gg')
       res.send({ orderId });
     } else {
       res.status(400).send({ error: "Order is not success" });
@@ -71,13 +70,11 @@ module.exports = app => {
 
   app.post("/api/order_filter", async (req, res) => {
     const { start_date, end_date } = req.body;
-    console.log(new Date(moment(start_date).format("YYYY-MM-DD")));
-    console.log(new Date(moment(end_date).format("YYYY-MM-DD")));
 
     const order = await orderModel.find({
       RecordDate: {
-        $gte: new Date(moment(start_date).format("YYYY-MM-DD")),
-        $lt: new Date(moment(end_date).format("YYYY-MM-DD"))
+        $gte: new Date(moment(start_date).format("YYYY-MM-DD HH:mm:ss")),
+        $lt: new Date(moment(end_date).format("YYYY-MM-DD HH:mm:ss"))
       }
     });
 

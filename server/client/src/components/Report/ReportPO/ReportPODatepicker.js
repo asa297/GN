@@ -10,6 +10,19 @@ import "react-datepicker/dist/react-datepicker.css";
 import Report_PO_CSS from "../../../Style/CSS/Report_PO_CSS.css";
 
 class ReportPODatepicker extends Component {
+  async handleSearchDateSubmit() {
+    const { start_date, end_date } = this.props.report_po.values;
+
+    const time_selected = {
+      values: {
+        start_date: moment(start_date),
+        end_date: moment(end_date)
+      }
+    };
+
+    this.props.fetchInbound_ReportPO_Filter(time_selected);
+  }
+
   onClear() {
     this.props.dispatch(reset("report_po"));
   }
@@ -19,7 +32,7 @@ class ReportPODatepicker extends Component {
       <div>
         <form
           onSubmit={this.props.handleSubmit(() =>
-            this.props.fetchInbound_ReportPO_Filter(this.props.report_po)
+            this.handleSearchDateSubmit()
           )}
         >
           <div className={Report_PO_CSS.datepicker}>
