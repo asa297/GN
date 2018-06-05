@@ -22,7 +22,11 @@ class Search extends Component {
     };
 
     await this.props.fetchInbound_ReportPO_Filter(time_selected);
-    this.props.history.push("/report/reportoutinv/view");
+
+    this.props.history.push({
+      pathname: "/report/reportoutinv/view",
+      state: { date: moment(start_date).format("YYYY-MM-DD") }
+    });
   }
 
   render() {

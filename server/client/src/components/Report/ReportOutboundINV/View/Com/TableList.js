@@ -1,6 +1,7 @@
 import React from "react";
 import ReactTable from "react-table";
 import Result from "./Result";
+
 import { connect } from "react-redux";
 
 import "react-table/react-table.css";
