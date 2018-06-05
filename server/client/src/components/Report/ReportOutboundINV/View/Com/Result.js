@@ -1,34 +1,21 @@
-import React from "react";
 import _ from "lodash";
-import { connect } from "react-redux";
 
-const aa = ({ inbound_reports_po }) => {
-  const a = _.map(inbound_reports_po, ({ itemList }) => {
-    return itemList;
-  });
+function resultOutboundInventory(inbound_reports_po) {
+  let result_array = [];
+  // const a = _.map(inbound_reports_po, ({ itemList }) => {
+  //   return itemList;
+  // });
 
-  console.log(a);
-
-  //   const b = _.map(a , ({}) =>{
-
-  //   })
-};
-
-const Result = ({ inbound_reports_po }) => {
-  const a = _.map(inbound_reports_po, ({ itemList }) => {
-    return itemList;
-  });
-  console.log(a);
-
-  const b = _.map(
+  const temp_result = _.map(
     _.map(inbound_reports_po, ({ itemList }) => {
       return itemList;
     }),
     value => {
-      return _.map(value, ({ item_qty, countQty, item_code }) => {
+      return _.map(value, ({ item_qty, countQty, item_code, item_name }) => {
         return {
           item_code,
-          SumCountQty: _.sumBy(
+          item_name,
+          countQty: _.sumBy(
             _.filter(value, value => {
               return value.item_code === item_code;
             }),
@@ -36,22 +23,57 @@ const Result = ({ inbound_reports_po }) => {
               return countQty;
             }
           ),
-          MaxQty: item_qty
+          item_qty
         };
       });
-      // return _.sumBy(value, function({ item_qty, countQty, item_code }) {
-      //   return { countQty, item_code };
-      // });
     }
   );
 
-  console.log(b);
+  _.map(temp_result, value => {
+    return _.map(value, value1 => {
+      result_array.push(value1);
+    });
+  });
 
-  return <div>gg</div>;
-};
+  const list_uniq_itemCode = _.uniqBy(result_array, "item_code");
 
-function mapStateToProps({ inbound_reports_po }) {
-  return { inbound_reports_po };
+  const result = _.map(
+    list_uniq_itemCode,
+    ({ item_code, item_name }, index) => {
+      return {
+        index,
+        item_code,
+        item_name,
+        sold: _.sumBy(
+          _.filter(result_array, temp => {
+            return temp.item_code === item_code;
+          }),
+          "countQty"
+        ),
+        QTY: _.maxBy(
+          _.filter(result_array, temp => {
+            return temp.item_code === item_code;
+          }),
+          "item_qty"
+        ),
+        remainQTY:
+          _.maxBy(
+            _.filter(result_array, temp => {
+              return temp.item_code === item_code;
+            }),
+            "item_qty"
+          ).item_qty -
+          _.sumBy(
+            _.filter(result_array, temp => {
+              return temp.item_code === item_code;
+            }),
+            "countQty"
+          )
+      };
+    }
+  );
+
+  return result;
 }
 
-export default connect(mapStateToProps)(Result);
+export default resultOutboundInventory;

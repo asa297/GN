@@ -1,6 +1,7 @@
 import React from "react";
 import ReactTable from "react-table";
 import Result from "./Result";
+import { connect } from "react-redux";
 
 import "react-table/react-table.css";
 
@@ -13,45 +14,27 @@ const settingColumn = [
         width: 30,
         style: { textAlign: "center" }
       },
-      // {
-      //   accessor: "orderId",
-      //   width: 50,
-      //   Cell: row => (
-      //     <div className={Report_PO_CSS.viewReportPO}>
-      //       <Link
-      //         to={{
-      //           pathname: "/report/reportpo/view",
-      //           state: { orderId: row.value }
-      //         }}
-      //       >
-      //         <i className="tiny material-icons">content_paste</i>
-      //       </Link>
-      //     </div>
-      //   )
-      // },
       {
         Header: "Item Code",
-        accessor: "orderId",
+        accessor: "item_code",
         style: { fontWeight: "bold" }
       },
       {
         Header: "Item Name",
-        accessor: "RecordDate_moment",
+        accessor: "item_name",
         style: { textAlign: "center" }
       },
       {
         Header: "QTY",
-        accessor: "orgName",
-        width: 500
+        accessor: "QTY.item_qty"
       },
       {
         Header: "SOLD",
-        accessor: "orgTypeName",
-        width: 100
+        accessor: "sold"
       },
       {
         Header: "Remain QTY",
-        accessor: "groupCode",
+        accessor: "remainQTY",
         style: { textAlign: "center" }
       }
     ]
@@ -61,9 +44,8 @@ const settingColumn = [
 const TableList = ({ inbound_reports_po }) => {
   return (
     <div>
-      <Result />
       <ReactTable
-        data={inbound_reports_po}
+        data={Result(inbound_reports_po)}
         noDataText="Oh Noes!"
         columns={settingColumn}
         defaultPageSize={15}
@@ -73,4 +55,8 @@ const TableList = ({ inbound_reports_po }) => {
   );
 };
 
-export default TableList;
+function mapStateToProps({ inbound_reports_po }) {
+  return { inbound_reports_po };
+}
+
+export default connect(mapStateToProps)(TableList);
