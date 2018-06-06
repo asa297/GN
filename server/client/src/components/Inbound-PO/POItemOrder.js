@@ -47,6 +47,7 @@ class POItemOrder extends Component {
       </div>
     );
   }
+
   renderItemCodeField() {
     return (
       <div>

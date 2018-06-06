@@ -13,6 +13,13 @@ import ButtonFooter from "./ButtonFooter";
 import itemType_list from "../../../../utils/ItemTypeLIst";
 
 let orgChina;
+
+const required = value => (value ? undefined : "Required");
+const isNumber = value =>
+  value && isNaN(Number(value)) ? "Must be a number" : undefined;
+const ComValidate = value =>
+  value < 0 || value > 100 ? "0 - 100%" : undefined;
+
 class FormINVView extends Component {
   constructor(props) {
     super(props);
@@ -136,6 +143,7 @@ class FormINVView extends Component {
             placeholder={orgName}
             valueField={this.state[_id]}
             onChange={event => this.setState({ [_id]: event.target.value })}
+            validate={[required, isNumber, ComValidate]}
           />
         </div>
       );
@@ -189,20 +197,6 @@ function validate(values) {
     errors["item_type"] = "Require a value";
   }
 
-  _.each(orgChina, ({ _id }) => {
-    if (!values[_id]) {
-      errors[_id] = "Require a value ";
-    }
-
-    if (values[_id] && isNaN(values[_id])) {
-      errors[_id] = "Require a number only";
-    } else {
-      if (values[_id] < 0 || values[_id] > 100) {
-        errors[_id] = "0% - 100%";
-      }
-    }
-  });
-
   _.each(FIELDS, ({ name }) => {
     if (!values[name]) {
       errors[name] = "Require a value";
@@ -242,7 +236,8 @@ export default reduxForm({
   validate,
   form: "inbound_item"
 })(
-  connect(mapStateToProps, { fetchInbound_Org, updateInbound_Item })(
-    withRouter(FormINVView)
-  )
+  connect(
+    mapStateToProps,
+    { fetchInbound_Org, updateInbound_Item }
+  )(withRouter(FormINVView))
 );

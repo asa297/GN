@@ -57,10 +57,8 @@ class PaymentDetail extends Component {
   }
 
   gg(event) {
-    const discount = parseInt(event.target.value, 10);
+    const discount = parseInt(event.target.value ? event.target.value : 0, 10);
     if (discount >= 0 && discount <= 100) {
-      this.setState({ discount });
-
       const new_dis = parseInt(100 - event.target.value, 10) / 100;
       const credit = parseFloat(this.state.credit);
       const cash = parseFloat(this.state.total * new_dis) - credit;
@@ -72,6 +70,8 @@ class PaymentDetail extends Component {
       this.setState({ changecash });
       this.props.dispatch(change("report_po_edit", "changecash", changecash));
     }
+
+    this.setState({ discount });
   }
 
   renderPaymentDetail() {

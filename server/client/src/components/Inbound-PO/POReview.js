@@ -2,7 +2,6 @@ import React from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
 import { submitInboundOrder } from "../../actions";
-// import { withRouter } from "react-router-dom";
 
 const POReview = ({
   formValues,
@@ -151,4 +150,7 @@ function mapStateToProps({ form: { inbound_po } }) {
   return { formValues: inbound_po.values };
 }
 
-export default connect(mapStateToProps, { submitInboundOrder })(POReview);
+export default connect(
+  mapStateToProps,
+  { submitInboundOrder }
+)(POReview);
