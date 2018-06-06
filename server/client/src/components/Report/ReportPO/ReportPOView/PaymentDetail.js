@@ -101,16 +101,14 @@ class PaymentDetail extends Component {
             <input defaultValue={this.state.credit} readOnly />
           </div>
           <div style={{ width: "45%" }}>
-            <div style={{ width: "45%" }}>
-              <Field
-                key={"cash"}
-                component={ReportPOViewField}
-                type="text"
-                label={"cash"}
-                name={"cash"}
-                valueField={this.state.cash}
-              />
-            </div>
+            <Field
+              key={"cash"}
+              component={ReportPOViewField}
+              type="text"
+              label={"cash"}
+              name={"cash"}
+              valueField={this.state.cash}
+            />
           </div>
           <div style={{ width: "45%" }}>
             <label>Receive Cash</label>

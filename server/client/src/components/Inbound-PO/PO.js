@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { reduxForm, reset } from "redux-form";
 import POSelectGruop from "./POSelectGruop";
 import POSelectSeller from "./POSelectSeller";
 import POItemOrder from "./POItemOrder";
@@ -17,6 +18,10 @@ class PO extends Component {
       show_review: false,
       show_printing: false
     };
+  }
+
+  componentDidMount() {
+    this.props.dispatch(reset("inbound_po"));
   }
 
   renderContent() {
@@ -72,11 +77,13 @@ class PO extends Component {
     }
 
     return (
-      <POSelectGruop
-        onSubmit={() =>
-          this.setState({ show_selectGroup: false, show_selectSeller: true })
-        }
-      />
+      <div>
+        <POSelectGruop
+          onSubmit={() =>
+            this.setState({ show_selectGroup: false, show_selectSeller: true })
+          }
+        />
+      </div>
     );
   }
 
@@ -85,4 +92,6 @@ class PO extends Component {
   }
 }
 
-export default PO;
+export default reduxForm({
+  form: "inbound_po"
+})(PO);

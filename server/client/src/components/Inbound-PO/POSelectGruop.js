@@ -7,11 +7,25 @@ import { fetchInbound_Group } from "../../actions";
 import Select from "react-select";
 
 import PO_CSS from "../../Style/CSS/PO_CSS.css";
+import PreLoader from "../utils/Preloader";
 
 class POSelectGruop extends Component {
+  constructor() {
+    super();
+    this.state = {
+      ready: false
+    };
+  }
+
   componentDidMount() {
     this.props.dispatch(reset("inbound_po"));
     this.props.fetchInbound_Group();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.inbound_groups && this.state.ready === false) {
+      this.setState({ ready: true });
+    }
   }
 
   renderGroupFieldSelect() {
@@ -61,27 +75,35 @@ class POSelectGruop extends Component {
     );
   }
 
+  renderContent() {
+    return (
+      <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+        <div className={PO_CSS.container_top}>
+          <h3 className="center">
+            <i>Step #1 -</i> Group Selection
+          </h3>
+          <div className={PO_CSS.flex_center}>
+            {this.renderGroupFieldSelect()}
+          </div>
+          <div className="center">
+            <button
+              className="green btn-flat white-text"
+              style={{ marginTop: "30px" }}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      </form>
+    );
+  }
+
   render() {
     return (
-      <div className="container">
-        <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
-          <div className={PO_CSS.container_top}>
-            <h3 className="center">
-              <i>Step #1 -</i> Group Selection
-            </h3>
-            <div className={PO_CSS.flex_center}>
-              {this.renderGroupFieldSelect()}
-            </div>
-            <div className="center">
-              <button
-                className="green btn-flat white-text"
-                style={{ marginTop: "30px" }}
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        </form>
+      <div>
+        <div className="container">
+          {this.state.ready ? this.renderContent() : <PreLoader />}
+        </div>
       </div>
     );
   }
@@ -103,4 +125,9 @@ export default reduxForm({
   validate,
   form: "inbound_po",
   destroyOnUnmount: false
-})(connect(mapStateToProps, { fetchInbound_Group })(POSelectGruop));
+})(
+  connect(
+    mapStateToProps,
+    { fetchInbound_Group }
+  )(POSelectGruop)
+);

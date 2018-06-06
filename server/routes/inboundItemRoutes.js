@@ -106,4 +106,11 @@ module.exports = app => {
 
     res.send(item);
   });
+
+
+  app.get("/api/inbound/item/:id", async (req, res) => {
+    const item = await itemModel.findOne({ item_code : req.params.id});
+
+    res.send(item);
+  });
 };

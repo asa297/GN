@@ -7,10 +7,24 @@ import { fetchInbound_Seller } from "../../actions";
 import Select from "react-select";
 
 import PO_CSS from "../../Style/CSS/PO_CSS.css";
+import PreLoader from "../utils/Preloader";
 
 class POSelectSeller extends Component {
+  constructor() {
+    super();
+    this.state = {
+      ready: false
+    };
+  }
+
   componentDidMount() {
     this.props.fetchInbound_Seller();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.inbound_sellers && this.state.ready === false) {
+      this.setState({ ready: true });
+    }
   }
 
   renderSellerFieldSelect() {
@@ -47,35 +61,41 @@ class POSelectSeller extends Component {
     );
   }
 
+  renderContent() {
+    return (
+      <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+        <div className={PO_CSS.container_top}>
+          <h3 className="center">
+            <i>Step #2 -</i> Seller Selection
+          </h3>
+          <div className={PO_CSS.flex_center}>
+            {this.renderSellerFieldSelect()}
+          </div>
+          <div className="center">
+            <button
+              onClick={this.props.onCancal}
+              className="red btn-flat white-text"
+              style={{ marginTop: "30px" }}
+            >
+              Back
+            </button>
+            <button
+              className="green btn-flat white-text"
+              style={{ marginTop: "30px" }}
+              type="submit"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      </form>
+    );
+  }
+
   render() {
     return (
       <div className="container">
-        <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
-          <div className={PO_CSS.container_top}>
-            <h3 className="center">
-              <i>Step #2 -</i> Seller Selection
-            </h3>
-            <div className={PO_CSS.flex_center}>
-              {this.renderSellerFieldSelect()}
-            </div>
-            <div className="center">
-              <button
-                onClick={this.props.onCancal}
-                className="red btn-flat white-text"
-                style={{ marginTop: "30px" }}
-              >
-                Back
-              </button>
-              <button
-                className="green btn-flat white-text"
-                style={{ marginTop: "30px" }}
-                type="submit"
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        </form>
+        {this.state.ready ? this.renderContent() : <PreLoader />}
       </div>
     );
   }
@@ -97,4 +117,9 @@ export default reduxForm({
   validate,
   form: "inbound_po",
   destroyOnUnmount: false
-})(connect(mapStateToProps, { fetchInbound_Seller })(POSelectSeller));
+})(
+  connect(
+    mapStateToProps,
+    { fetchInbound_Seller }
+  )(POSelectSeller)
+);

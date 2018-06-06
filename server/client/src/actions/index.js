@@ -7,6 +7,7 @@ import {
   FETCH_INBOUND_GROUP,
   FETCH_INBOUND_SELLER,
   FETCH_INBOUND_ITEM,
+  FETCH_INBOUND_ITEM_FOR_PO,
   FETCH_INBOUND_REPORT_PO
 } from "./type";
 
@@ -130,35 +131,33 @@ export const fetchInbound_Item = () => async dispatch => {
   dispatch({ type: FETCH_INBOUND_ITEM, payload: res.data });
 };
 
+export const find_Item = item_code => async dispatch => {
+  const res = await axios.get("/api/inbound/item/" + item_code);
+
+  dispatch({ type: FETCH_INBOUND_ITEM_FOR_PO, payload: res.data });
+};
+
 export const updateInbound_Item = (
   item_id,
   values,
   orgChinaList,
   history
-  // onUpdateItem
 ) => async dispatch => {
   if (orgChinaList) {
     values.orgChinaList = orgChinaList;
   }
-  // await axios.post("/api/inbound/item/edit/" + item_id, values);
 
   await axios
     .post("/api/inbound/item/edit/" + item_id, values)
     .then(response => {
       history.push("/report/reportinv");
     });
-
-  // onUpdateItem();
 };
 
 export const deleteInbound_Item = (item_id, history) => async dispatch => {
   await axios.delete("/api/inbound/item/" + item_id).then(response => {
     history.push("/report/reportinv");
   });
-
-  // const res = await axios.delete("/api/inbound/item/" + item_id);
-
-  // dispatch({ type: FETCH_INBOUND_ITEM, payload: res.data });
 };
 
 //inbound order

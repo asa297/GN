@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
 import { reduxForm, Field, change } from "redux-form";
-import { fetchInbound_Item } from "../../actions";
+import { find_Item } from "../../actions";
 
 import POScanQR from "./POScanQR";
 import POItemField from "./POItemField";
 
 import PO_CSS from "../../Style/CSS/PO_CSS.css";
+import CircularLoader from "../utils/CircularLoader";
 
 import Toggle from "react-toggle";
 
@@ -19,7 +20,8 @@ class POItemOrder extends Component {
       itemCode: 0,
       itemList: [],
       scanStatus: false,
-      count: 0
+      count: 0,
+      loading: false
     };
   }
 
@@ -28,8 +30,6 @@ class POItemOrder extends Component {
     if (itemList) {
       this.setState({ itemList });
     }
-
-    this.props.fetchInbound_Item();
   }
 
   componentWillUnmount() {
@@ -40,6 +40,13 @@ class POItemOrder extends Component {
     this.props.dispatch(change("inbound_po", "total", sum_total));
   }
 
+  loading() {
+    return (
+      <div className={PO_CSS.loading}>
+        <CircularLoader />
+      </div>
+    );
+  }
   renderItemCodeField() {
     return (
       <div>
@@ -59,7 +66,10 @@ class POItemOrder extends Component {
     );
   }
 
-  setItemList() {
+  async setItemList() {
+    this.setState({ loading: true });
+    await this.props.find_Item(this.state.itemCode);
+
     const index_item = _.findIndex(
       this.props.inbound_items,
       ({ item_code }) => {
@@ -96,7 +106,7 @@ class POItemOrder extends Component {
       }
     }
 
-    this.setState({ itemCode: 0 });
+    this.setState({ itemCode: 0, loading: false });
   }
 
   deleteItemList(data) {
@@ -242,7 +252,9 @@ class POItemOrder extends Component {
             </div>
           </div>
           <hr />
-          <div className={PO_CSS.overflow_table}>{this.renderTableList()}</div>
+          <div className={PO_CSS.overflow_table}>
+            {this.state.loading ? this.loading() : this.renderTableList()}
+          </div>
           <div className={PO_CSS.footer_PO}>
             <button
               type="button"
@@ -269,4 +281,9 @@ function mapStateToProps({ inbound_items, form: { inbound_po } }) {
 export default reduxForm({
   form: "inbound_po",
   destroyOnUnmount: false
-})(connect(mapStateToProps, { fetchInbound_Item })(POItemOrder));
+})(
+  connect(
+    mapStateToProps,
+    { find_Item }
+  )(POItemOrder)
+);

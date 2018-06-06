@@ -48,3 +48,10 @@
   justify-content: flex-end;
   display: flex;
 }
+
+:local(.loading) {
+  display: flex;
+  height: 600px;
+  justify-content: center;
+  align-items: center;
+}

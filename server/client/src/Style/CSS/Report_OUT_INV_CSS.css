@@ -14,3 +14,9 @@
   align-items: center;
   height: 300px;
 }
+
+:local(.headerOutboundReport) {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
