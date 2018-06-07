@@ -149,4 +149,9 @@ export default reduxForm({
   validate,
   form: "inbound_org",
   destroyOnUnmount: false
-})(connect(mapStateToProps, null)(InboundOrgEdit));
+})(
+  connect(
+    mapStateToProps,
+    null
+  )(InboundOrgEdit)
+);

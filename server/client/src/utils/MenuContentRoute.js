@@ -6,6 +6,7 @@ import Home from "../components/Home";
 import DefaultHome from "../components/DefaultHome";
 import InboundOrgNew from "../components/Inbound-Org/InboundOrgNew";
 import InboundOrg from "../components/Inbound-Org/InboundOrg";
+import InboundOrgView from "../components/Inbound-Org/view/viewOrg";
 import InboundGroup from "../components/Inbound-Group/InboundGroup";
 import InboundGroupNew from "../components/Inbound-Group/InboundGroupNew";
 import InboundSeller from "../components/Inbound-Seller/InboundSeller";
@@ -61,6 +62,7 @@ export default auth => {
             <Route exact path="/inboundseller" component={InboundSeller} />
             <Route exact path="/inboundgroup/new" component={InboundGroupNew} />
             <Route exact path="/inboundgroup" component={InboundGroup} />
+            <Route exact path="/inboundorg/view" component={InboundOrgView} />
             <Route exact path="/inboundorg/new" component={InboundOrgNew} />
             <Route exact path="/inboundorg" component={InboundOrg} />
             <Route exact path="/home" component={Home} />

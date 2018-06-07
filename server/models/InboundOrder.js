@@ -24,7 +24,7 @@ const inboundOrderSchema = new Schema({
   sellerCom: Number,
   itemList: [itemListSchema],
   total: SchemaTypes.Double,
-  discount: {type : Number , default : 0},
+  discount: { type: Number, default: 0 },
   credit: SchemaTypes.Double,
   cash: SchemaTypes.Double,
   receivecash: SchemaTypes.Double,
@@ -32,7 +32,10 @@ const inboundOrderSchema = new Schema({
   grandtotal: SchemaTypes.Double,
   RecordIdBy: { type: Schema.Types.ObjectId, ref: "users" },
   RecordNameBy: { type: String, ref: "users" },
-  RecordDate: Date
+  RecordDate: Date,
+  LastModifyById: { type: Schema.Types.ObjectId, ref: "users" },
+  LastModifyByName: { type: String, ref: "users" },
+  LastModifyDate: Date
 });
 
 mongoose.model("orders", inboundOrderSchema);

@@ -16,7 +16,10 @@ module.exports = app => {
         orgCode: req.body.org_code,
         RecordIdBy: req.user._id,
         RecordNameBy: req.user.firstName,
-        RecordDate: Date.now()
+        RecordDate: Date.now(),
+        LastModifyById: req.user._id,
+        LastModifyByName: req.user.firstName,
+        LastModifyDate: Date.now()
       }).save();
       res.send({});
     }
@@ -48,9 +51,12 @@ module.exports = app => {
               orgName: req.body.org_name,
               orgCom: req.body.org_com,
               orgCode: req.body.org_code,
-              RecordIdBy: req.user._id,
-              RecordNameBy: req.user.firstName,
-              RecordDate: Date.now()
+              // RecordIdBy: req.user._id,
+              // RecordNameBy: req.user.firstName,
+              // RecordDate: Date.now(),
+              LastModifyById: req.user._id,
+              LastModifyByName: req.user.firstName,
+              LastModifyDate: Date.now()
             }
           }
         )

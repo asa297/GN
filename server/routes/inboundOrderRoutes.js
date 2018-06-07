@@ -45,7 +45,10 @@ module.exports = app => {
       grandtotal,
       RecordIdBy: req.user._id,
       RecordNameBy: req.user.firstName,
-      RecordDate: Date.now()
+      RecordDate: Date.now(),
+      LastModifyById: req.user._id,
+      LastModifyByName: req.user.firstName,
+      LastModifyDate: Date.now()
     }).save();
 
     if (order._id) {
@@ -118,9 +121,12 @@ module.exports = app => {
             cash,
             receivecash,
             changecash,
-            RecordIdBy: req.user._id,
-            RecordNameBy: req.user.firstName
+            // RecordIdBy: req.user._id,
+            // RecordNameBy: req.user.firstName
             // RecordDate: Date.now()
+            LastModifyById: req.user._id,
+            LastModifyByName: req.user.firstName,
+            LastModifyDate: Date.now()
           }
         }
       )

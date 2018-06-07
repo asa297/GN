@@ -7,10 +7,25 @@ import { fetchInbound_Org, deleteInbound_Item } from "../../actions";
 // import InboundItemEdit from "../Inbound-Item/InboundItemEdit";
 
 class InboundItem extends Component {
-  state = { showEdit: false, showReview: false, index: 0, _id: 0 };
+  constructor() {
+    super();
+    this.state = {
+      showEdit: false,
+      showReview: false,
+      index: 0,
+      _id: 0,
+      ready: false
+    };
+  }
 
   componentDidMount() {
     this.props.fetchInbound_Org();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.inbound_orgs) {
+      this.setState({ ready: true });
+    }
   }
 
   renderInBoundList() {
@@ -72,7 +87,10 @@ class InboundItem extends Component {
   }
 }
 
-export default connect(null, {
-  fetchInbound_Org,
-  deleteInbound_Item
-})(InboundItem);
+export default connect(
+  null,
+  {
+    fetchInbound_Org,
+    deleteInbound_Item
+  }
+)(InboundItem);

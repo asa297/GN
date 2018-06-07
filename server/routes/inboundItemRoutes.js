@@ -35,7 +35,10 @@ module.exports = app => {
         : [],
       RecordIdBy: req.user._id,
       RecordNameBy: req.user.firstName,
-      RecordDate: Date.now()
+      RecordDate: Date.now(),
+      LastModifyById: req.user._id,
+      LastModifyByName: req.user.firstName,
+      LastModifyDate: Date.now()
     }).save();
 
     res.send({});
@@ -89,9 +92,12 @@ module.exports = app => {
                   })
                 )
               : [],
-            RecordIdBy: req.user._id,
-            RecordNameBy: req.user.firstName,
-            RecordDate: Date.now()
+            // RecordIdBy: req.user._id,
+            // RecordNameBy: req.user.firstName,
+            // RecordDate: Date.now(),
+            LastModifyById: req.user._id,
+            LastModifyByName: req.user.firstName,
+            LastModifyDate: Date.now()
           }
         }
       )
@@ -107,9 +113,8 @@ module.exports = app => {
     res.send(item);
   });
 
-
   app.get("/api/inbound/item/:id", async (req, res) => {
-    const item = await itemModel.findOne({ item_code : req.params.id});
+    const item = await itemModel.findOne({ item_code: req.params.id });
 
     res.send(item);
   });

@@ -5,17 +5,34 @@ import { fetchInbound_Org, deleteInbound_Group } from "../../actions";
 import InboundGroupList from "./InboundGroupList";
 import InboundGroupEdit from "./InboundGroupEdit";
 import InboundGroupReview from "./InboundGroupReview";
+import Preloader from "../utils/Preloader";
 
 class InboundGroup extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      showEdit: false,
+      showReview: false,
+      index: 0,
+      _id: 0,
+      ready: false
+    };
+  }
+
   componentDidMount() {
     this.props.fetchInbound_Org();
   }
 
-  state = { showEdit: false, showReview: false, index: 0, _id: 0 };
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.inbound_orgs) {
+      this.setState({ ready: true });
+    }
+  }
 
   renderInBoundList() {
     return (
-      <div className="container">
+      <div>
         <h3>
           InBound-Group
           <Link
@@ -38,7 +55,7 @@ class InboundGroup extends Component {
 
   renderInBoundEdit() {
     return (
-      <div className="container">
+      <div>
         <InboundGroupEdit
           onCancal={() => this.setState({ showEdit: false, index: 0 })}
           index={this.state.index}
@@ -67,7 +84,11 @@ class InboundGroup extends Component {
   }
 
   render() {
-    return this.renderContent();
+    return (
+      <div className="container">
+        {this.state.ready ? this.renderContent() : <Preloader />}
+      </div>
+    );
   }
 }
 
@@ -75,7 +96,10 @@ function mapStateToProps({ inbound_orgs }) {
   return { inbound_orgs };
 }
 
-export default connect(mapStateToProps, {
-  fetchInbound_Org,
-  deleteInbound_Group
-})(InboundGroup);
+export default connect(
+  mapStateToProps,
+  {
+    fetchInbound_Org,
+    deleteInbound_Group
+  }
+)(InboundGroup);

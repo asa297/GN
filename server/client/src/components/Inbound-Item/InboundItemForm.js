@@ -12,6 +12,12 @@ import Select from "react-select";
 
 let orgChinaList;
 
+const required = value => (value ? undefined : "Required");
+const isNumber = value =>
+  value && isNaN(Number(value)) ? "Must be a number" : undefined;
+const ComValidate = value =>
+  value < 0 || value > 100 ? "0 - 100%" : undefined;
+
 class InboundItemForm extends Component {
   constructor(props) {
     super(props);
@@ -88,6 +94,7 @@ class InboundItemForm extends Component {
             name={_id}
             component={InboundItemField}
             placeholder={orgName}
+            validate={[required, isNumber, ComValidate]}
           />
         </div>
       );
@@ -121,20 +128,6 @@ function validate(values) {
   if (!values["item_type"]) {
     errors["item_type"] = "Require a value";
   }
-
-  _.each(orgChinaList, ({ _id }) => {
-    if (!values[_id]) {
-      errors[_id] = "Require a value ";
-    }
-
-    if (values[_id] && isNaN(values[_id])) {
-      errors[_id] = "Require a number only";
-    } else {
-      if (values[_id] < 0 || values[_id] > 100) {
-        errors[_id] = "0% - 100%";
-      }
-    }
-  });
 
   _.each(FIELDS, ({ name }) => {
     if (!values[name] && name !== "item_qty") {
@@ -173,4 +166,9 @@ export default reduxForm({
   validate,
   form: "inbound_item",
   destroyOnUnmount: false
-})(connect(mapStateToProps, null)(InboundItemForm));
+})(
+  connect(
+    mapStateToProps,
+    null
+  )(InboundItemForm)
+);

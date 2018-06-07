@@ -17,7 +17,10 @@ module.exports = app => {
       guideName: req.body.guide_name,
       RecordIdBy: req.user._id,
       RecordNameBy: req.user.firstName,
-      RecordDate: Date.now()
+      RecordDate: Date.now(),
+      LastModifyById: req.user._id,
+      LastModifyByName: req.user.firstName,
+      LastModifyDate: Date.now()
     }).save();
 
     res.send({});
@@ -39,9 +42,12 @@ module.exports = app => {
           groupRemarks: req.body.group_remark ? req.body.group_remark : "",
           groupCode: req.body.group_code,
           guideName: req.body.guide_name,
-          RecordIdBy: req.user._id,
-          RecordNameBy: req.user.firstName,
-          RecordDate: Date.now()
+          // RecordIdBy: req.user._id,
+          // RecordNameBy: req.user.firstName,
+          // RecordDate: Date.now(),
+          LastModifyById: req.user._id,
+          LastModifyByName: req.user.firstName,
+          LastModifyDate: Date.now()
         }
       }
     ).exec();

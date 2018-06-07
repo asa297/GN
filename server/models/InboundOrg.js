@@ -9,7 +9,10 @@ const inboundOrgSchema = new Schema({
   orgCode: String,
   RecordIdBy: { type: Schema.Types.ObjectId, ref: "users" },
   RecordNameBy: { type: String, ref: "users" },
-  RecordDate: Date
+  RecordDate: Date,
+  LastModifyById: { type: Schema.Types.ObjectId, ref: "users" },
+  LastModifyByName: { type: String, ref: "users" },
+  LastModifyDate: Date
 });
 
 mongoose.model("organizations", inboundOrgSchema);

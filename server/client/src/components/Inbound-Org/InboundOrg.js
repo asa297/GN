@@ -5,17 +5,33 @@ import { fetchOrgType, deleteInbound_Org } from "../../actions";
 import InboundOrgList from "./InboundOrgList";
 import InboundOrgEdit from "./InboundOrgEdit";
 import InboundOrgReview from "./InboundOrgReview";
+import Preloader from "../utils/Preloader";
 
 class InboundOrg extends Component {
+  constructor() {
+    super();
+    this.state = {
+      showEdit: false,
+      showReview: false,
+      index: 0,
+      _id: 0,
+      ready: false
+    };
+  }
+
   componentDidMount() {
     this.props.fetchOrgType();
   }
 
-  state = { showEdit: false, showReview: false, index: 0, _id: 0 };
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.typeorgs) {
+      this.setState({ ready: true });
+    }
+  }
 
   renderInBoundList() {
     return (
-      <div className="container">
+      <div>
         <div>
           <h3>
             InBound-Org
@@ -40,7 +56,7 @@ class InboundOrg extends Component {
 
   renderInBoundEdit() {
     return (
-      <div className="container">
+      <div>
         <InboundOrgEdit
           onCancal={() => this.setState({ showEdit: false, index: 0 })}
           index={this.state.index}
@@ -69,7 +85,11 @@ class InboundOrg extends Component {
   }
 
   render() {
-    return this.renderContent();
+    return (
+      <div className="container">
+        {this.state.ready ? this.renderContent() : <Preloader />}
+      </div>
+    );
   }
 }
 
@@ -77,6 +97,7 @@ function mapStateToProps({ inbound_orgs, typeorgs }) {
   return { inbound_orgs, typeorgs };
 }
 
-export default connect(mapStateToProps, { fetchOrgType, deleteInbound_Org })(
-  InboundOrg
-);
+export default connect(
+  mapStateToProps,
+  { fetchOrgType, deleteInbound_Org }
+)(InboundOrg);

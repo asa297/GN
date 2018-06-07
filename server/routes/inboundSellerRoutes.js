@@ -11,7 +11,10 @@ module.exports = app => {
       sellerRemarks: req.body.seller_remarks ? req.body.seller_remarks : "",
       RecordIdBy: req.user._ide,
       RecordNameBy: req.user.firstName,
-      RecordDate: Date.now()
+      RecordDate: Date.now(),
+      LastModifyById: req.user._id,
+      LastModifyByName: req.user.firstName,
+      LastModifyDate: Date.now()
     }).save();
     res.send({});
   });
@@ -32,9 +35,12 @@ module.exports = app => {
           sellerCode: req.body.seller_code,
           sellerCom: req.body.seller_com,
           sellerRemarks: req.body.seller_remarks ? req.body.group_remark : "",
-          RecordIdBy: req.user._ide,
-          RecordNameBy: req.user.firstName,
-          RecordDate: Date.now()
+          // RecordIdBy: req.user._ide,
+          // RecordNameBy: req.user.firstName,
+          // RecordDate: Date.now(),
+          LastModifyById: req.user._id,
+          LastModifyByName: req.user.firstName,
+          LastModifyDate: Date.now()
         }
       }
     ).exec();
