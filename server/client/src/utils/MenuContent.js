@@ -6,31 +6,29 @@ export default auth => {
   if (!_.isNil(auth)) {
     switch (auth.priority) {
       case 1:
-        return (
-          <div>
-            <li>
-              <Link to="/home">Home</Link>
-            </li>
-            <li>
-              <Link to="/inboundorg">Org</Link>
-            </li>
-            <li>
-              <Link to="/inboundgroup">Group</Link>
-            </li>
-            <li>
-              <Link to="/inboundseller">Seller</Link>
-            </li>
-            <li>
-              <Link to="/inbounditem">Item</Link>
-            </li>
-            <li>
-              <Link to="/inboundpo">PO </Link>
-            </li>
-            <li>
-              <Link to="/report">Report</Link>
-            </li>
-          </div>
-        );
+        return [
+          <li key="1">
+            <Link to="/home">Home</Link>
+          </li>,
+          <li key="2">
+            <Link to="/inboundorg">Org</Link>
+          </li>,
+          <li key="3">
+            <Link to="/inboundgroup">Group</Link>
+          </li>,
+          <li key="4">
+            <Link to="/inboundseller">Seller</Link>
+          </li>,
+          <li key="5">
+            <Link to="/inbounditem">Item</Link>
+          </li>,
+          <li key="6">
+            <Link to="/inboundpo">PO </Link>
+          </li>,
+          <li key="7">
+            <Link to="/report">Report</Link>
+          </li>
+        ];
       default:
         return (
           <li>

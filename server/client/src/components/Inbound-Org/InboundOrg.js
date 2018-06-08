@@ -34,7 +34,7 @@ class InboundOrg extends Component {
       <div>
         <div>
           <h3>
-            InBound-Org
+            Organization
             <Link
               to="/inboundorg/new"
               className="btn-small blue"

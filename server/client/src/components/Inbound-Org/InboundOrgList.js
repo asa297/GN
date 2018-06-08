@@ -80,7 +80,7 @@ class InboundOrgList extends Component {
         index
       ) => {
         return (
-          <div className="col s12 m3" key={_id}>
+          <div className="col s12 m4" key={_id}>
             <div className="card">
               <div className="card-image">
                 <div

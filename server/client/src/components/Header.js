@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import MenuContent from "../utils/MenuContent";
 
 class Header extends Component {
@@ -17,10 +17,14 @@ class Header extends Component {
       default:
         return [
           <li key="1">
-            <a className="btn-flat disabled">{this.props.auth.firstName}</a>
+            <a className="btn-flat disabled" style={{ margin: "0px" }}>
+              {this.props.auth.firstName}
+            </a>
           </li>,
           <li key="2">
-            <a href="/api/logout">Logout</a>
+            <a className="waves-effect waves-light btn" href="/api/logout">
+              Logout
+            </a>
           </li>
         ];
     }
@@ -33,12 +37,32 @@ class Header extends Component {
   render() {
     return (
       <div>
-        <nav className="blue lighten-1">
+        {/* <nav className="blue lighten-1">
           <div className="nav-wrapper">
             <ul className="brand-logo right">{this.renderLoginContent()}</ul>
             <ul id="nav-mobile" className="left hide-on-med-and-down">
               {this.renderMenuContent()}
             </ul>
+          </div>
+        </nav> */}
+
+        <nav className="light-blue lighten-1">
+          <div className="nav-wrapper container">
+            <Link id="logo-container" className="brand-logo" to="/home">
+              <i className="material-icons">home</i>
+            </Link>
+            <ul className="right hide-on-med-and-down">
+              {this.renderMenuContent()}
+              {this.renderLoginContent()}
+            </ul>
+
+            <ul id="nav-mobile" className="sidenav">
+              {this.renderMenuContent()}
+              {this.renderLoginContent()}
+            </ul>
+            <a data-target="nav-mobile" className="sidenav-trigger">
+              <i className="material-icons">menu</i>
+            </a>
           </div>
         </nav>
       </div>
