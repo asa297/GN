@@ -14,6 +14,16 @@ import {
 export const fetchUser = () => async dispatch => {
   const res = await axios.get("/api/current_user");
 
+  // const res = await fetch("/api/current_user", {
+  //   method: "GET",
+  //   headers: {
+  //     Accept: "application/json",
+  //     "Content-Type": "application/json",
+  //     Cache: "no-cache"
+  //   },
+  //   credentials: "include"
+  // });
+
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
