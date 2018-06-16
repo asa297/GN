@@ -12,7 +12,6 @@ import CircularLoader from "../utils/CircularLoader";
 
 import Toggle from "react-toggle";
 
-let sum_total;
 class POItemOrder extends Component {
   constructor(props) {
     super(props);
@@ -20,24 +19,20 @@ class POItemOrder extends Component {
       itemCode: 0,
       itemList: [],
       scanStatus: false,
-      count: 0,
       loading: false
     };
   }
 
-  componentDidMount() {
-    const { itemList } = this.props.inbound_po.values;
-    if (itemList) {
-      this.setState({ itemList });
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.itemList) {
+      let total = 0;
+
+      _.map(this.state.itemList, ({ item_price, countQty }) => {
+        total = total + item_price * countQty;
+      });
+
+      this.props.dispatch(change("inbound_po", "total", total));
     }
-  }
-
-  componentWillUnmount() {
-    this.props.dispatch(
-      change("inbound_po", "itemList", this.state["itemList"])
-    );
-
-    this.props.dispatch(change("inbound_po", "total", sum_total));
   }
 
   loading() {
@@ -196,92 +191,57 @@ class POItemOrder extends Component {
     );
   }
 
-  renderSum() {
-    let total = 0;
-
-    _.map(this.state.itemList, ({ item_price, countQty }) => {
-      total = total + item_price * countQty;
-    });
-
-    sum_total = total;
-
-    return (
-      <h4 style={{ marginBottom: "0px" }}>Sum : {total.toLocaleString()}</h4>
-    );
-  }
-
   render() {
     return (
-      <div className="container">
-        <h3 className="center">
-          <i>Step #3 -</i> Item Selection
-        </h3>
+      <div>
+        <div className={PO_CSS.flex_center_inline}>
+          {this.renderItemCodeField()}
+          <div className={PO_CSS.flex_center} style={{ marginLeft: "50px" }}>
+            <Toggle
+              defaultChecked={this.state.scanStatus}
+              onChange={() => {
+                this.setState({
+                  itemCode: 0,
+                  scanStatus: !this.state.scanStatus
+                });
+              }}
+            />
 
-        <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
-          <div className={PO_CSS.flex_center_inline}>
-            <input type="checkbox" />
-            {this.renderItemCodeField()}
-            <div className={PO_CSS.flex_center} style={{ marginLeft: "50px" }}>
-              <Toggle
-                defaultChecked={this.state.scanStatus}
-                onChange={() => {
-                  this.setState({
-                    itemCode: 0,
-                    scanStatus: !this.state.scanStatus
-                  });
+            {this.state.scanStatus ? (
+              <POScanQR
+                onData={itemCode => {
+                  this.setState({ itemCode });
+                  this.setItemList();
                 }}
               />
-
-              {this.state.scanStatus ? (
-                <POScanQR
-                  onData={itemCode => {
-                    this.setState({ itemCode });
-                    this.setItemList();
-                  }}
-                />
-              ) : (
-                <button
-                  className="blue btn-flat white-text"
-                  type="button"
-                  onClick={() => {
-                    this.setItemList();
-                  }}
-                >
-                  Search
-                </button>
-              )}
-            </div>
+            ) : (
+              <button
+                className="blue btn-flat white-text"
+                type="button"
+                onClick={() => {
+                  this.setItemList();
+                }}
+              >
+                Search
+              </button>
+            )}
           </div>
-          <hr />
-          <div className={PO_CSS.overflow_table}>
-            {this.state.loading ? this.loading() : this.renderTableList()}
-          </div>
-          <div className={PO_CSS.footer_PO}>
-            <button
-              type="button"
-              onClick={() => this.props.onCancal()}
-              className="red btn-flat white-text right"
-            >
-              Cancal
-            </button>
-
-            {this.renderSum()}
-
-            <button className="green btn-flat white-text right">Next</button>
-          </div>
-        </form>
+        </div>
+        <hr />
+        <div className={PO_CSS.overflow_table}>
+          {this.state.loading ? this.loading() : this.renderTableList()}
+        </div>
       </div>
     );
   }
 }
 
-function mapStateToProps({ inbound_items, form: { inbound_po } }) {
-  return { inbound_items, inbound_po };
+function mapStateToProps({ inbound_items }) {
+  return { inbound_items };
 }
 
 export default reduxForm({
-  form: "inbound_po",
-  destroyOnUnmount: false
+  form: "inbound_po"
 })(
   connect(
     mapStateToProps,

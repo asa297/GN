@@ -69,9 +69,9 @@ class PaymentDetail extends Component {
       this.props.dispatch(change("report_po_edit", "cash", cash));
       this.setState({ changecash });
       this.props.dispatch(change("report_po_edit", "changecash", changecash));
-    }
 
-    this.setState({ discount });
+      this.setState({ discount });
+    }
   }
 
   renderPaymentDetail() {

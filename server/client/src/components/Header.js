@@ -11,7 +11,7 @@ class Header extends Component {
       case false:
         return (
           <li>
-            <a href="http://localhost:5000/auth/google">Login</a>
+            <a href="/auth/google">Login</a>
           </li>
         );
       default:
@@ -22,10 +22,7 @@ class Header extends Component {
             </a>
           </li>,
           <li key="2">
-            <a
-              className="waves-effect waves-light btn"
-              href="http://localhost:5000/api/logout"
-            >
+            <a className="waves-effect waves-light btn" href="/api/logout">
               Logout
             </a>
           </li>
