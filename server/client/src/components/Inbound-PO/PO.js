@@ -3,96 +3,22 @@ import { connect } from "react-redux";
 import { reduxForm, reset } from "redux-form";
 import { fetchInbound_Group, fetchInbound_Seller } from "../../actions";
 import Collapsible from "react-collapsible";
+
 import POSelectGruop from "./POSelectGruop";
 import POSelectSeller from "./POSelectSeller";
 import POItemOrder from "./POItemOrder";
 import POPayment from "./POPayment";
-import POReview from "./POReview";
+import POSummaryPayment from "./POSummaryPayment";
 import POPrint from "./POPrint";
 
 import PO_CSS from "../../Style/CSS/PO_CSS.css";
 
 class PO extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     show_selectGroup: true,
-  //     show_selectSeller: false,
-  //     show_itemOrder: false,
-  //     show_payment: false,
-  //     show_review: false,
-  //     show_printing: false
-  //   };
-  // }
-
   componentDidMount() {
     this.props.dispatch(reset("inbound_po"));
     this.props.fetchInbound_Group();
     this.props.fetchInbound_Seller();
   }
-
-  // renderContent() {
-  //   if (this.state.show_selectSeller) {
-  //     return (
-  //       <POSelectSeller
-  //         onSubmit={() =>
-  //           this.setState({ show_selectSeller: false, show_itemOrder: true })
-  //         }
-  //         onCancal={() => {
-  //           this.setState({ show_selectGroup: true, show_selectSeller: false });
-  //         }}
-  //       />
-  //     );
-  //   } else if (this.state.show_itemOrder) {
-  //     return (
-  //       <POItemOrder
-  //         onSubmit={() =>
-  //           this.setState({
-  //             show_itemOrder: false,
-  //             show_payment: true
-  //           })
-  //         }
-  //         onCancal={() =>
-  //           this.setState({ show_itemOrder: false, show_selectGroup: true })
-  //         }
-  //       />
-  //     );
-  //   } else if (this.state.show_payment) {
-  //     return (
-  //       <POPayment
-  //         onSubmit={() =>
-  //           this.setState({ show_payment: false, show_review: true })
-  //         }
-  //         onCancal={() =>
-  //           this.setState({ show_itemOrder: true, show_payment: false })
-  //         }
-  //       />
-  //     );
-  //   } else if (this.state.show_review) {
-  //     return (
-  //       <POReview
-  //         onSubmit={() =>
-  //           this.setState({ show_review: false, show_printing: true })
-  //         }
-  //         onCancal={() =>
-  //           this.setState({ show_review: false, show_payment: true })
-  //         }
-  //       />
-  //     );
-  //   } else if (this.state.show_printing) {
-  //     return <POPrint />;
-  //   }
-
-  //   return (
-  //     <div>
-  //       <POSelectGruop
-  //         onSubmit={() =>
-  //           this.setState({ show_selectGroup: false, show_selectSeller: true })
-  //         }
-  //       />
-  //     </div>
-  //   );
-  // }
 
   headerCollapseItem(header) {
     return (
@@ -129,6 +55,10 @@ class PO extends Component {
             <POPayment />
           </Collapsible>
 
+          <Collapsible trigger={this.headerCollapseItem("Summary Payments")}>
+            <POSummaryPayment />
+          </Collapsible>
+
           <button
             className="green btn-flat white-text"
             style={{ marginTop: "30px" }}
@@ -154,6 +84,31 @@ function validate(values) {
   // if (!values["seller_select"]) {
   //   errors["seller_select"] = "Require a value ";
   // }
+
+  if (values["discount"] && isNaN(values["discount"])) {
+    errors["discount"] = "Require a Number";
+  } else {
+    if (values["discount"] < 0 || values["discount"] > 100) {
+      errors["discount"] = "0% - 100%";
+    }
+  }
+
+  if (values["credit"] && isNaN(values["credit"])) {
+    errors["credit"] = "Require a Number";
+  } else {
+    if (values["credit"] < 0) {
+      errors["credit"] = "NOT SUPPORT NEGATIVE CREDIT";
+    }
+  }
+
+  if (values["credit_charge"] && isNaN(values["credit_charge"])) {
+    errors["credit_charge"] = "Require a Number";
+  } else {
+    if (values["credit_charge"] < 0 || values["credit_charge"] > 100) {
+      errors["credit_charge"] = "0% - 100%";
+    }
+  }
+
   return errors;
 }
 

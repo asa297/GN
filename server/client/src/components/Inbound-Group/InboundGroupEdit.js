@@ -30,25 +30,25 @@ class InboundGroupEdit extends Component {
       this.props.dispatch(change("inbound_group", name, this.state[key]));
     });
 
-    this.props.dispatch(
-      change("inbound_group", "org_option", {
-        _id: this.state.org_selected._id,
-        orgName: this.state.org_selected.orgName,
-        orgCode: this.state.org_selected.orgCode,
-        orgTypeId: this.state.org_selected.orgTypeId,
-        orgTypeName: this.state.org_selected.orgTypeName,
-        label:
-          this.state.org_selected.orgName +
-          " (" +
-          this.state.org_selected.orgCode +
-          ")",
-        value:
-          this.state.org_selected.orgName +
-          " (" +
-          this.state.org_selected.orgCode +
-          ")"
-      })
-    );
+    // this.props.dispatch(
+    //   change("inbound_group", "org_option", {
+    //     _id: this.state.org_selected._id,
+    //     orgName: this.state.org_selected.orgName,
+    //     orgCode: this.state.org_selected.orgCode,
+    //     orgTypeId: this.state.org_selected.orgTypeId,
+    //     orgTypeName: this.state.org_selected.orgTypeName,
+    //     label:
+    //       this.state.org_selected.orgName +
+    //       " (" +
+    //       this.state.org_selected.orgCode +
+    //       ")",
+    //     value:
+    //       this.state.org_selected.orgName +
+    //       " (" +
+    //       this.state.org_selected.orgCode +
+    //       ")"
+    //   })
+    // );
   }
 
   renderField() {
@@ -155,4 +155,9 @@ export default reduxForm({
   validate,
   form: "inbound_group",
   destroyOnUnmount: false
-})(connect(mapStateToProps, null)(InboundGroupEdit));
+})(
+  connect(
+    mapStateToProps,
+    null
+  )(InboundGroupEdit)
+);

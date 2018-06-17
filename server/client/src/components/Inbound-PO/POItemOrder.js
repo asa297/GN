@@ -27,7 +27,7 @@ class POItemOrder extends Component {
     if (nextState.itemList) {
       let total = 0;
 
-      _.map(this.state.itemList, ({ item_price, countQty }) => {
+      _.map(nextState.itemList, ({ item_price, countQty }) => {
         total = total + item_price * countQty;
       });
 

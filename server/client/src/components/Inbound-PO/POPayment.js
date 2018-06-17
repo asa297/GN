@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Toggle from "react-toggle";
-import { reduxForm, Field, change } from "redux-form";
+import { reduxForm, Field } from "redux-form";
 
 import POItemField from "./POItemField";
 import formFields from "./formFields";
@@ -13,32 +12,9 @@ let total_val, grand_total;
 class POPayment extends Component {
   constructor(props) {
     super(props);
-
-    // const { orgTypeId } = this.props.inbound_po.values.group_select;
-
-    // this.state = {
-    //   orgTypeId,
-    //   creditToggle: false,
-    //   creditChargeStatus: false,
-    //   creditCharge: 0,
-    //   discount: 0,
-    //   credit: 0,
-    //   total: 0,
-    //   receivecash: 0
-    // };
-
-    // orgTypeId is china group will not charge for credit card
     this.state = {
-      orgTypeId: 2
+      credit_charge_status: false
     };
-  }
-
-  componentDidMount() {
-    // const { orgTypeId } = this.state;
-    // this.setState({
-    //   creditChargeStatus: orgTypeId === 1 ? true : false,
-    //   creditCharge: orgTypeId === 1 ? 2 : 0
-    // });
   }
 
   componentWillReceiveProps({ inbound_po }) {
@@ -47,51 +23,22 @@ class POPayment extends Component {
         const { orgTypeId } = inbound_po.values.group_select;
         this.setState({ orgTypeId });
       }
+
+      if (inbound_po.values.credit) {
+        this.setState({ credit_charge_status: true });
+      } else {
+        this.setState({ credit_charge_status: false });
+      }
     }
   }
 
-  componentWillUnmount() {
-    // this.props.dispatch(
-    //   change("inbound_po", "grandtotal", parseFloat(total_val).toFixed(2))
-    // );
-    // this.props.dispatch(
-    //   change(
-    //     "inbound_po",
-    //     "cash",
-    //     parseFloat(total_val - this.state.credit).toFixed(2)
-    //   )
-    // );
-    // this.props.dispatch(
-    //   change("inbound_po", "credit", parseFloat(this.state.credit).toFixed(2))
-    // );
-    // this.props.dispatch(
-    //   change(
-    //     "inbound_po",
-    //     "receivecash",
-    //     parseFloat(this.state.receivecash).toFixed(2)
-    //   )
-    // );
-    // this.props.dispatch(
-    //   change(
-    //     "inbound_po",
-    //     "changecash",
-    //     parseFloat(
-    //       this.state.receivecash -
-    //         parseFloat(total_val - this.state.credit)
-    //           .toFixed(2)
-    //           .toLocaleString()
-    //     ).toFixed(2)
-    //   )
-    // );
-  }
-
   renderFieldDC() {
-    const { name } = formFields[0];
+    const { name, label } = formFields[0];
     return (
       <Field
         name={name}
         key={name}
-        label={name}
+        label={label}
         component={POItemField}
         type="text"
         onChange={event => this.setState({ discount: event.target.value })}
@@ -100,15 +47,29 @@ class POPayment extends Component {
   }
 
   renderFieldCredit() {
-    const { name } = formFields[1];
+    const { name, label } = formFields[1];
     return (
       <Field
         name={name}
         key={name}
-        label={name}
+        label={label}
         component={POItemField}
         type="text"
         onChange={event => this.setState({ credit: event.target.value })}
+      />
+    );
+  }
+
+  renderFieldCreditCharge() {
+    const { name, label } = formFields[2];
+    return (
+      <Field
+        name={name}
+        key={name}
+        label={label}
+        component={POItemField}
+        type="text"
+        onChange={event => this.setState({ credit_charge: event.target.value })}
       />
     );
   }
@@ -222,18 +183,23 @@ class POPayment extends Component {
     return (
       <div>
         <div className={PO_CSS.DC_CR_con}>
-          <div style={{ width: "40%" }}>{this.renderFieldDC()}</div>
-          <div style={{ width: "40%" }}>{this.renderFieldCredit()}</div>
+          <div style={{ width: "30%" }}>{this.renderFieldDC()}</div>
+          <div style={{ width: "30%" }}>{this.renderFieldCredit()}</div>
+          <div style={{ width: "30%" }}>
+            {this.state.credit_charge_status
+              ? this.renderFieldCreditCharge()
+              : null}
+          </div>
         </div>
 
-        <div className={PO_CSS.footer_Payments}>
+        {/* <div className={PO_CSS.footer_Payments}>
           {this.renderSum()}
           {this.renderDC()}
           {this.renderCR()}
           {this.renderGrandTotal()}
           {this.renderReceiveCash()}
           {this.renderChangeCash()}
-        </div>
+        </div> */}
       </div>
     );
   }
@@ -276,13 +242,11 @@ function validate(values) {
 }
 
 function mapStateToProps({ form: { inbound_po } }) {
-  console.log(inbound_po);
   return { inbound_po };
 }
 
 export default reduxForm({
-  form: "inbound_po",
-  destroyOnUnmount: false
+  form: "inbound_po"
 })(
   connect(
     mapStateToProps,
