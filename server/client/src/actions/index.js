@@ -1,4 +1,5 @@
 import axios from "axios";
+import { validateOrder } from "./middleware";
 
 import {
   FETCH_USER,
@@ -161,10 +162,10 @@ export const deleteInbound_Item = (item_id, history) => async dispatch => {
 };
 
 //inbound order
-
 export const submitInboundOrder = values => async () => {
+  const formvalues = validateOrder(values);
   const res = await axios
-    .post("/api/order", values)
+    .post("/api/order", formvalues)
     .then(response => {
       return response;
     })

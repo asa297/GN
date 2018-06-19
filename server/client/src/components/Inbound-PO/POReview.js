@@ -3,13 +3,7 @@ import _ from "lodash";
 import { connect } from "react-redux";
 import { submitInboundOrder } from "../../actions";
 
-const POReview = ({
-  formValues,
-  submitInboundOrder,
-
-  onCancal,
-  onSubmit
-}) => {
+const POReview = ({ formValues, submitInboundOrder, onCancal, onSubmit }) => {
   async function summitOrder() {
     const res = await submitInboundOrder(formValues);
     if (res.orderId) {
@@ -17,19 +11,19 @@ const POReview = ({
     }
   }
 
-  const GroupSelectFields = (
-    <div key={formValues.group_select._id}>
-      <label>Group</label>
-      <div>{formValues["group_select"].label}</div>
-    </div>
-  );
+  // const GroupSelectFields = (
+  //   <div key={formValues.group_select._id}>
+  //     <label>Group</label>
+  //     <div>{formValues["group_select"].label}</div>
+  //   </div>
+  // );
 
-  const SellerSelectFields = (
-    <div key={formValues.seller_select._id}>
-      <label>Seller</label>
-      <div>{formValues["seller_select"].label}</div>
-    </div>
-  );
+  // const SellerSelectFields = (
+  //   <div key={formValues.seller_select._id}>
+  //     <label>Seller</label>
+  //     <div>{formValues["seller_select"].label}</div>
+  //   </div>
+  // );
 
   const ItemListFields = (
     <table>
@@ -125,8 +119,8 @@ const POReview = ({
       <h3 className="center">
         <i>Step #5 -</i> Confirm Orders
       </h3>
-      {GroupSelectFields}
-      {SellerSelectFields}
+      {/* {GroupSelectFields} */}
+      {/* {SellerSelectFields} */}
       <hr />
       {ItemListFields}
 

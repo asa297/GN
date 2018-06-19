@@ -32,6 +32,7 @@ class POItemOrder extends Component {
       });
 
       this.props.dispatch(change("inbound_po", "total", total));
+      this.props.dispatch(change("inbound_po", "itemList", nextState.itemList));
     }
   }
 

@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { reduxForm, reset } from "redux-form";
-import { fetchInbound_Group, fetchInbound_Seller } from "../../actions";
+import { reduxForm } from "redux-form";
+import {
+  fetchInbound_Group,
+  fetchInbound_Seller,
+  submitInboundOrder
+} from "../../actions";
 import Collapsible from "react-collapsible";
 
 import POSelectGruop from "./POSelectGruop";
@@ -11,11 +15,22 @@ import POPayment from "./POPayment";
 import POSummaryPayment from "./POSummaryPayment";
 import POPrint from "./POPrint";
 
+import CircularLoader from "../utils/CircularLoader";
 import PO_CSS from "../../Style/CSS/PO_CSS.css";
 
+let grand_total;
 class PO extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      loading: false,
+      review: false,
+      print: false
+    };
+  }
+
   componentDidMount() {
-    this.props.dispatch(reset("inbound_po"));
     this.props.fetchInbound_Group();
     this.props.fetchInbound_Seller();
   }
@@ -23,15 +38,30 @@ class PO extends Component {
   headerCollapseItem(header) {
     return (
       <h5>
-        <a href="#">{header}</a>
+        <a href="">{header}</a>
         <hr />
       </h5>
     );
   }
 
+  async handleSubmitPO() {
+    this.setState({ loading: true });
+
+    const res = await this.props.submitInboundOrder(
+      this.props.inbound_po.values
+    );
+  }
+
   renderContent() {
+    if (this.state.loading) {
+      return (
+        <div className={PO_CSS.loading}>
+          <CircularLoader />
+        </div>
+      );
+    }
     return (
-      <form onSubmit={this.props.handleSubmit(() => console.log("dd"))}>
+      <form onSubmit={this.props.handleSubmit(() => this.handleSubmitPO())}>
         <div className="container">
           <h3 className="center">New Purchase Order</h3>
           <h5>
@@ -56,7 +86,10 @@ class PO extends Component {
           </Collapsible>
 
           <Collapsible trigger={this.headerCollapseItem("Summary Payments")}>
-            <POSummaryPayment />
+            <POSummaryPayment
+              onDataGrandTotal={data => (grand_total = data)}
+              onDataReceiveCash={receivecash => this.setState({ receivecash })}
+            />
           </Collapsible>
 
           <button
@@ -81,10 +114,6 @@ function validate(values) {
     errors["group_select"] = "Require a value ";
   }
 
-  // if (!values["seller_select"]) {
-  //   errors["seller_select"] = "Require a value ";
-  // }
-
   if (values["discount"] && isNaN(values["discount"])) {
     errors["discount"] = "Require a Number";
   } else {
@@ -101,7 +130,9 @@ function validate(values) {
     }
   }
 
-  if (values["credit_charge"] && isNaN(values["credit_charge"])) {
+  if (values["credit"] && !values["credit_charge"]) {
+    errors["credit_charge"] = "Please enter a Credit Chrage";
+  } else if (values["credit_charge"] && isNaN(values["credit_charge"])) {
     errors["credit_charge"] = "Require a Number";
   } else {
     if (values["credit_charge"] < 0 || values["credit_charge"] > 100) {
@@ -109,7 +140,23 @@ function validate(values) {
     }
   }
 
+  if (!values["receivecash"]) {
+    errors["receivecash"] = "Require a value";
+  } else if (isNaN(values["receivecash"])) {
+    errors["receivecash"] = "Require a Number";
+  } else {
+    if (values["receivecash"] < 0) {
+      errors["receivecash"] = "NOT SUPPORT NEGATIVE RECEIVE CASH";
+    } else if (values["receivecash"] < grand_total) {
+      errors["receivecash"] = "RECEIVE CASH CAN'T LESS MORE GRAND TOTAL";
+    }
+  }
+
   return errors;
+}
+
+function mapStateToProps({ form: { inbound_po } }) {
+  return { inbound_po };
 }
 
 export default reduxForm({
@@ -117,7 +164,7 @@ export default reduxForm({
   form: "inbound_po"
 })(
   connect(
-    null,
-    { fetchInbound_Group, fetchInbound_Seller }
+    mapStateToProps,
+    { fetchInbound_Group, fetchInbound_Seller, submitInboundOrder }
   )(PO)
 );
