@@ -15,6 +15,7 @@ import POPayment from "./POPayment";
 import POSummaryPayment from "./POSummaryPayment";
 import POPrint from "./POPrint";
 
+import Preloader from "../utils/Preloader";
 import CircularLoader from "../utils/CircularLoader";
 import PO_CSS from "../../Style/CSS/PO_CSS.css";
 
@@ -24,15 +25,21 @@ class PO extends Component {
     super();
 
     this.state = {
+      ready: false,
       loading: false,
-      review: false,
       print: false
     };
   }
 
   componentDidMount() {
-    this.props.fetchInbound_Group();
     this.props.fetchInbound_Seller();
+    this.props.fetchInbound_Group();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.inbound_groups.length > 0) {
+      this.setState({ ready: true });
+    }
   }
 
   headerCollapseItem(header) {
@@ -50,6 +57,10 @@ class PO extends Component {
     const res = await this.props.submitInboundOrder(
       this.props.inbound_po.values
     );
+
+    if (res.orderId) {
+      this.setState({ loading: false, print: true });
+    }
   }
 
   renderContent() {
@@ -59,52 +70,55 @@ class PO extends Component {
           <CircularLoader />
         </div>
       );
+    } else if (this.state.print) {
+      return (
+        <div>
+          <POPrint />
+        </div>
+      );
     }
+
     return (
       <form onSubmit={this.props.handleSubmit(() => this.handleSubmitPO())}>
-        <div className="container">
-          <h3 className="center">New Purchase Order</h3>
-          <h5>
-            <i>Header</i>
-          </h5>
-          <hr />
-          <div className={PO_CSS.headerPO_con}>
-            <div style={{ width: "40%" }}>
-              <POSelectGruop />
-            </div>
-            <div style={{ width: "40%" }}>
-              <POSelectSeller />
-            </div>
+        <h3 className="center">New Purchase Order</h3>
+        <h5>
+          <i>Header</i>
+        </h5>
+        <hr />
+        <div className={PO_CSS.headerPO_con}>
+          <div style={{ width: "40%" }}>
+            <POSelectGruop />
           </div>
-
-          <Collapsible trigger={this.headerCollapseItem("Item")}>
-            <POItemOrder />
-          </Collapsible>
-
-          <Collapsible trigger={this.headerCollapseItem("Payments")}>
-            <POPayment />
-          </Collapsible>
-
-          <Collapsible trigger={this.headerCollapseItem("Summary Payments")}>
-            <POSummaryPayment
-              onDataGrandTotal={data => (grand_total = data)}
-              onDataReceiveCash={receivecash => this.setState({ receivecash })}
-            />
-          </Collapsible>
-
-          <button
-            className="green btn-flat white-text"
-            style={{ marginTop: "30px" }}
-          >
-            Next
-          </button>
+          <div style={{ width: "40%" }}>
+            <POSelectSeller />
+          </div>
         </div>
+        <Collapsible trigger={this.headerCollapseItem("Item")}>
+          <POItemOrder />
+        </Collapsible>
+
+        <Collapsible trigger={this.headerCollapseItem("Payments")}>
+          <POPayment />
+        </Collapsible>
+
+        <Collapsible trigger={this.headerCollapseItem("Summary Payments")}>
+          <POSummaryPayment
+            onDataGrandTotal={data => (grand_total = data)}
+            onDataReceiveCash={receivecash => this.setState({ receivecash })}
+          />
+        </Collapsible>
+
+        <button className="green btn-flat white-text center">Submit</button>
       </form>
     );
   }
 
   render() {
-    return <div>{this.renderContent()}</div>;
+    return (
+      <div className="container">
+        {this.state.ready ? this.renderContent() : <Preloader />}
+      </div>
+    );
   }
 }
 
@@ -127,6 +141,8 @@ function validate(values) {
   } else {
     if (values["credit"] < 0) {
       errors["credit"] = "NOT SUPPORT NEGATIVE CREDIT";
+    } else if (values["credit"] > grand_total) {
+      errors["credit"] = "CREDIT CAN'T MORE THAN GRAND TOTAL";
     }
   }
 
@@ -155,8 +171,8 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ form: { inbound_po } }) {
-  return { inbound_po };
+function mapStateToProps({ form: { inbound_po }, inbound_groups }) {
+  return { inbound_po, inbound_groups };
 }
 
 export default reduxForm({
