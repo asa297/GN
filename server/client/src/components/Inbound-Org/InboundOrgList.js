@@ -108,22 +108,24 @@ class InboundOrgList extends Component {
                   </i>
                 </div>
               </div>
-              <div className="card-action" style={{ padding: "0px" }}>
-                <button
-                  className="teal btn-flat  white-text"
-                  style={{ width: "50%" }}
-                  onClick={() => this.props.onSelect(index, _id)}
-                >
-                  <i className="material-icons center">edit</i>
-                </button>
-                <button
-                  className="red btn-flat white-text"
-                  style={{ width: "50%" }}
-                  onClick={() => this.openModal(_id)}
-                >
-                  <i className="material-icons center">delete</i>
-                </button>
-              </div>
+              {this.props.auth.priority === 1 ? (
+                <div className="card-action" style={{ padding: "0px" }}>
+                  <button
+                    className="teal btn-flat  white-text"
+                    style={{ width: "50%" }}
+                    onClick={() => this.props.onSelect(index, _id)}
+                  >
+                    <i className="material-icons center">edit</i>
+                  </button>
+                  <button
+                    className="red btn-flat white-text"
+                    style={{ width: "50%" }}
+                    onClick={() => this.openModal(_id)}
+                  >
+                    <i className="material-icons center">delete</i>
+                  </button>
+                </div>
+              ) : null}
             </div>
             {this.renderModal()}
           </div>
@@ -137,8 +139,8 @@ class InboundOrgList extends Component {
   }
 }
 
-function mapStateToProps({ inbound_orgs, typeorgs }) {
-  return { inbound_orgs, typeorgs };
+function mapStateToProps({ inbound_orgs, typeorgs, auth }) {
+  return { inbound_orgs, typeorgs, auth };
 }
 
 export default connect(

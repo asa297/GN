@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { fetchInbound_Group } from "../../actions";
 import Modal from "react-modal";
 import ModalStyle from "../../Style/JS/modalStyle";
@@ -20,6 +21,13 @@ class InboundGroupList extends Component {
 
   closeModal() {
     this.setState({ modalIsOpen: false, group_id: 0 });
+  }
+
+  onView(_id) {
+    this.props.history.push({
+      pathname: "/inboundgroup/view",
+      state: { _id }
+    });
   }
 
   componentDidMount() {
@@ -68,55 +76,58 @@ class InboundGroupList extends Component {
   renderInboundGroup() {
     return this.props.inbound_groups.map(
       (
-        {
-          _id,
-          groupCode,
-          groupRemarks,
-          RecordDate,
-          orgCode,
-          orgCom,
-          orgName,
-          guideName,
-          RecordNameBy
-        },
+        { _id, groupCode, guideName, LastModifyByName, LastModifyDate },
         index
       ) => {
         return (
-          <div className="card darken-1" key={_id}>
-            <div className="card-content">
-              <span className="card-title">
-                <b>Group Code : </b>
-
-                <i>
-                  {groupCode} ({groupRemarks})
-                </i>
-                <p className="right">
-                  Last Record On :
-                  {new Date(RecordDate).toLocaleDateString()}{" "}
-                  {new Date(RecordDate).toLocaleTimeString()}
-                </p>
-              </span>
-            </div>
-            <div className="card-action">
-              <a>Org Name : {orgName}</a>
-              <a>Org Code : {orgCode}</a>
-              <a>Org Commission : {orgCom} %</a>
-              <a>Guide Name : {guideName} </a>
-              <a>RecordBy : {RecordNameBy} </a>
-              <button
-                className="red btn-flat right white-text"
-                onClick={() => this.openModal(_id)}
-              >
-                delete
-                <i className="material-icons right">delete</i>
-              </button>
-              <button
-                className="blue btn-flat right white-text"
-                onClick={() => this.props.onSelect(index, _id)}
-              >
-                Edit
-                <i className="material-icons right">edit</i>
-              </button>
+          <div className="col s12 m4" key={_id}>
+            <div className="card">
+              <div className="card-image">
+                <div
+                  style={{
+                    height: "100px",
+                    background: "#90a4ae"
+                  }}
+                />
+                <span className="card-title">
+                  {groupCode} ({guideName})
+                </span>
+                <button
+                  className="btn-floating halfway-fab blue lighten-3"
+                  onClick={() => this.onView(_id)}
+                >
+                  <i className="material-icons">info</i>
+                </button>
+              </div>
+              <div className="card-content">
+                <div>
+                  <b>Last Mofidy By :</b>&nbsp;<i>{LastModifyByName}</i>
+                </div>
+                <div>
+                  <b>Last Modify At :</b>&nbsp;<i>
+                    {new Date(LastModifyDate).toLocaleDateString()} &nbsp;
+                    {new Date(LastModifyDate).toLocaleTimeString()}
+                  </i>
+                </div>
+              </div>
+              {this.props.auth.priority === 1 ? (
+                <div className="card-action" style={{ padding: "0px" }}>
+                  <button
+                    className="teal btn-flat  white-text"
+                    style={{ width: "50%" }}
+                    onClick={() => this.props.onSelect(index, _id)}
+                  >
+                    <i className="material-icons center">edit</i>
+                  </button>
+                  <button
+                    className="red btn-flat white-text"
+                    style={{ width: "50%" }}
+                    onClick={() => this.openModal(_id)}
+                  >
+                    <i className="material-icons center">delete</i>
+                  </button>
+                </div>
+              ) : null}
             </div>
             {this.renderModal()}
           </div>
@@ -126,14 +137,15 @@ class InboundGroupList extends Component {
   }
 
   render() {
-    return <div>{this.renderInboundGroup()}</div>;
+    return <div className="row">{this.renderInboundGroup()}</div>;
   }
 }
 
-function mapStateToProps({ inbound_orgs, inbound_groups }) {
-  return { inbound_orgs, inbound_groups };
+function mapStateToProps({ inbound_orgs, inbound_groups, auth }) {
+  return { inbound_orgs, inbound_groups, auth };
 }
 
-export default connect(mapStateToProps, { fetchInbound_Group })(
-  InboundGroupList
-);
+export default connect(
+  mapStateToProps,
+  { fetchInbound_Group }
+)(withRouter(InboundGroupList));

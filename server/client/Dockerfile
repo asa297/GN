@@ -1,17 +1,19 @@
-FROM node
+# You should always specify a full version here to ensure all of your developers
+# are running the same version of Node.
+FROM node:9.11
 
-# Create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+# Copy all local files into the image.
+COPY . .
 
-# Install app dependencies
-COPY package.json /usr/src/app/
-Run cd /usr/src/app/
-Run npm install
-Run node --version
+# Build for production.
+RUN yarn install
+RUN npm run build --production
 
-# Bundle app source
-COPY . /usr/src/app
+# Install `serve` to run the application.
+RUN npm install -g serve
+
+# Set the command to start the node server.
+CMD npm start
+
+# Tell Docker about the port we'll run on.
 EXPOSE 3000
-
-CMD [ "npm","start" ]

@@ -4,16 +4,23 @@ import { Route } from "react-router-dom";
 
 import Home from "../components/Home";
 import DefaultHome from "../components/DefaultHome";
+//Org
 import InboundOrgNew from "../components/Inbound-Org/InboundOrgNew";
 import InboundOrg from "../components/Inbound-Org/InboundOrg";
 import InboundOrgView from "../components/Inbound-Org/view/viewOrg";
+//Group
 import InboundGroup from "../components/Inbound-Group/InboundGroup";
 import InboundGroupNew from "../components/Inbound-Group/InboundGroupNew";
+import InboundGroupView from "../components/Inbound-Group/view/viewGroup";
+//Seller
 import InboundSeller from "../components/Inbound-Seller/InboundSeller";
 import InboundSellerNew from "../components/Inbound-Seller/InboundSellerNew";
+//Item
 import InboundItem from "../components/Inbound-Item/InboundItem";
 import InboundItemNew from "../components/Inbound-Item/InboundItemNew";
+//PO
 import InboundPO from "../components/Inbound-PO/PO";
+//Report
 import Report from "../components/Report/Report";
 import ReportPO from "../components/Report/ReportPO/ReportPO";
 import ReportPOView from "../components/Report/ReportPO/ReportPOView";
@@ -60,6 +67,11 @@ export default auth => {
               component={InboundSellerNew}
             />
             <Route exact path="/inboundseller" component={InboundSeller} />
+            <Route
+              exact
+              path="/inboundgroup/view"
+              component={InboundGroupView}
+            />
             <Route exact path="/inboundgroup/new" component={InboundGroupNew} />
             <Route exact path="/inboundgroup" component={InboundGroup} />
             <Route exact path="/inboundorg/view" component={InboundOrgView} />
