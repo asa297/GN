@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchInbound_Org, deleteInbound_Item } from "../../actions";
-// import InboundItemList from "../Inbound-Item/InboundItemList";
+import { fetchInbound_Item, deleteInbound_Item } from "../../actions";
+import InboundItemList from "../Inbound-Item/InboundItemList";
 // import InboundItemReview from "../Inbound-Item/InboundItemReview";
 // import InboundItemEdit from "../Inbound-Item/InboundItemEdit";
+import Preloader from "../utils/Preloader";
 
 class InboundItem extends Component {
   constructor() {
@@ -19,18 +20,18 @@ class InboundItem extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchInbound_Org();
+    this.props.fetchInbound_Item();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.inbound_orgs) {
+    if (nextProps.inbound_items) {
       this.setState({ ready: true });
     }
   }
 
   renderInBoundList() {
     return (
-      <div className="container">
+      <div>
         <h3>
           InBound-Item
           <Link
@@ -41,19 +42,19 @@ class InboundItem extends Component {
             <i className="material-icons">add</i>
           </Link>
         </h3>
-        {/* <InboundItemList
+        <InboundItemList
           onSelect={(index, _id) => {
             this.setState({ showEdit: true, index, _id });
           }}
           onDelete={item_id => this.props.deleteInbound_Item(item_id)}
-        /> */}
+        />
       </div>
     );
   }
 
   // renderInBoundEdit() {
   //   return (
-  //     <div className="container">
+  //     <div>
   //       <InboundItemEdit
   //         onCancal={() => this.setState({ showEdit: false, index: 0 })}
   //         _id={this.state._id}
@@ -83,14 +84,22 @@ class InboundItem extends Component {
   }
 
   render() {
-    return <div>{this.renderContent()}</div>;
+    return (
+      <div className="container">
+        {this.state.ready ? this.renderContent() : <Preloader />}
+      </div>
+    );
   }
 }
 
+function mapStateToProps({ inbound_items }) {
+  return { inbound_items };
+}
+
 export default connect(
-  null,
+  mapStateToProps,
   {
-    fetchInbound_Org,
+    fetchInbound_Item,
     deleteInbound_Item
   }
 )(InboundItem);

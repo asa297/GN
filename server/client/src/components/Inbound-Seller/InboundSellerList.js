@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchInbound_Seller } from "../../actions";
 import Modal from "react-modal";
 import ModalStyle from "../../Style/JS/modalStyle";
 
@@ -20,10 +19,6 @@ class InboundSellerList extends Component {
 
   closeModal() {
     this.setState({ modalIsOpen: false, seller_id: 0 });
-  }
-
-  componentDidMount() {
-    this.props.fetchInbound_Seller();
   }
 
   componentWillMount() {
@@ -71,47 +66,68 @@ class InboundSellerList extends Component {
         {
           _id,
           sellerName,
-          sellerRemarks,
-          RecordDate,
           sellerCode,
-          sellerCom,
-          RecordNameBy
+          sellerRemarks,
+          LastModifyByName,
+          LastModifyDate
         },
         index
       ) => {
         return (
-          <div className="card darken-1" key={_id}>
-            <div className="card-content">
-              <span className="card-title">
-                <b>Seller Name : </b>
-
-                <i>
-                  {sellerName} ({sellerRemarks})
-                </i>
-                <p className="right">
-                  Last Record On :
-                  {new Date(RecordDate).toLocaleDateString()}
+          <div className="col s12 m4" key={_id}>
+            <div className="card">
+              <div class="card-image waves-effect waves-block waves-light">
+                <div
+                  style={{
+                    height: "100px",
+                    background: "#90caf9"
+                  }}
+                />
+              </div>
+              <div class="card-content">
+                <span class="card-title activator grey-text text-darken-4">
+                  {sellerCode} ({sellerName})<i class="material-icons right">
+                    more_vert
+                  </i>
+                </span>
+              </div>
+              <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4">
+                  Description<i class="material-icons right">close</i>
+                </span>
+                <p>
+                  <div>
+                    <b>Last Mofidy By :</b>&nbsp;<i>{LastModifyByName}</i>
+                  </div>
+                  <div>
+                    <b>Last Modify At :</b>&nbsp;<i>
+                      {new Date(LastModifyDate).toLocaleDateString()} &nbsp;
+                      {new Date(LastModifyDate).toLocaleTimeString()}
+                    </i>
+                  </div>
+                  <div>
+                    <b>Remarks :</b>&nbsp;<i>{sellerRemarks}</i>
+                  </div>
                 </p>
-              </span>
-            </div>
-            <div className="card-action">
-              <a>Seller Code : {sellerCode}</a>
-              <a>Seller Comission : {sellerCom} %</a>
-              <a>RecordBy : {RecordNameBy} </a>
-              <button
-                className="red btn-flat right white-text"
-                onClick={() => this.openModal(_id)}
-              >
-                delete
-                <i className="material-icons right">delete</i>
-              </button>
-              <button
-                className="blue btn-flat right white-text"
-                onClick={() => this.props.onSelect(index, _id)}
-              >
-                Edit
-                <i className="material-icons right">edit</i>
-              </button>
+              </div>
+              {this.props.auth.priority === 1 ? (
+                <div className="card-action" style={{ padding: "0px" }}>
+                  <button
+                    className="teal btn-flat  white-text"
+                    style={{ width: "50%" }}
+                    onClick={() => this.props.onSelect(index, _id)}
+                  >
+                    <i className="material-icons center">edit</i>
+                  </button>
+                  <button
+                    className="red btn-flat white-text"
+                    style={{ width: "50%" }}
+                    onClick={() => this.openModal(_id)}
+                  >
+                    <i className="material-icons center">delete</i>
+                  </button>
+                </div>
+              ) : null}
             </div>
             {this.renderModal()}
           </div>
@@ -121,14 +137,12 @@ class InboundSellerList extends Component {
   }
 
   render() {
-    return <div>{this.renderInboundGroup()}</div>;
+    return <div className="row">{this.renderInboundGroup()}</div>;
   }
 }
 
-function mapStateToProps({ inbound_sellers }) {
-  return { inbound_sellers };
+function mapStateToProps({ inbound_sellers, auth }) {
+  return { inbound_sellers, auth };
 }
 
-export default connect(mapStateToProps, { fetchInbound_Seller })(
-  InboundSellerList
-);
+export default connect(mapStateToProps)(InboundSellerList);

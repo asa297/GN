@@ -1,17 +1,34 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { deleteInbound_Seller } from "../../actions";
+import { fetchInbound_Seller, deleteInbound_Seller } from "../../actions";
 import InboundGroupList from "../Inbound-Seller/InboundSellerList";
 import InboundSellerReview from "../Inbound-Seller/InboundSellerReview";
 import InboundSellerEdit from "../Inbound-Seller/InboundSellerEdit";
+import Preloader from "../utils/Preloader";
 
 class InboundSeller extends Component {
-  state = { showEdit: false, showReview: false, index: 0, _id: 0 };
+  state = {
+    showEdit: false,
+    showReview: false,
+    index: 0,
+    _id: 0,
+    ready: false
+  };
+
+  componentDidMount() {
+    this.props.fetchInbound_Seller();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.inbound_sellers) {
+      this.setState({ ready: true });
+    }
+  }
 
   renderInBoundList() {
     return (
-      <div className="container">
+      <div>
         <h3>
           InBound-Seller
           <Link
@@ -34,7 +51,7 @@ class InboundSeller extends Component {
 
   renderInBoundEdit() {
     return (
-      <div className="container">
+      <div>
         <InboundSellerEdit
           onCancal={() => this.setState({ showEdit: false, index: 0 })}
           index={this.state.index}
@@ -63,10 +80,22 @@ class InboundSeller extends Component {
   }
 
   render() {
-    return <div>{this.renderContent()}</div>;
+    return (
+      <div className="container">
+        {this.state.ready ? this.renderContent() : <Preloader />}
+      </div>
+    );
   }
 }
 
-export default connect(null, {
-  deleteInbound_Seller
-})(InboundSeller);
+function mapStateToProps({ inbound_sellers }) {
+  return { inbound_sellers };
+}
+
+export default connect(
+  mapStateToProps,
+  {
+    fetchInbound_Seller,
+    deleteInbound_Seller
+  }
+)(InboundSeller);

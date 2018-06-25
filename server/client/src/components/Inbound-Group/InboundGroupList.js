@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { fetchInbound_Group } from "../../actions";
+
 import Modal from "react-modal";
 import ModalStyle from "../../Style/JS/modalStyle";
 
@@ -28,10 +28,6 @@ class InboundGroupList extends Component {
       pathname: "/inboundgroup/view",
       state: { _id }
     });
-  }
-
-  componentDidMount() {
-    this.props.fetchInbound_Group();
   }
 
   componentWillMount() {
@@ -145,7 +141,4 @@ function mapStateToProps({ inbound_orgs, inbound_groups, auth }) {
   return { inbound_orgs, inbound_groups, auth };
 }
 
-export default connect(
-  mapStateToProps,
-  { fetchInbound_Group }
-)(withRouter(InboundGroupList));
+export default connect(mapStateToProps)(withRouter(InboundGroupList));
