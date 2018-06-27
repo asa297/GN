@@ -18,6 +18,7 @@ import InboundSellerNew from "../components/Inbound-Seller/InboundSellerNew";
 //Item
 import InboundItem from "../components/Inbound-Item/InboundItem";
 import InboundItemNew from "../components/Inbound-Item/InboundItemNew";
+import InboundItemView from "../components/Inbound-Item/view/viewItem";
 //PO
 import InboundPO from "../components/Inbound-PO/PO";
 //Report
@@ -59,6 +60,7 @@ export default auth => {
             <Route exact path="/report/reportpo" component={ReportPO} />
             <Route exact path="/report" component={Report} />
             <Route exact path="/inboundpo" component={InboundPO} />
+            <Route exact path="/inbounditem/view" component={InboundItemView} />
             <Route exact path="/inbounditem/new" component={InboundItemNew} />
             <Route exact path="/inbounditem" component={InboundItem} />
             <Route
