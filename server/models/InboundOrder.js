@@ -26,6 +26,7 @@ const inboundOrderSchema = new Schema({
   total: SchemaTypes.Double,
   discount: { type: Number, default: 0 },
   credit: SchemaTypes.Double,
+  creditcharge: SchemaTypes.Double,
   cash: SchemaTypes.Double,
   receivecash: SchemaTypes.Double,
   changecash: SchemaTypes.Double,

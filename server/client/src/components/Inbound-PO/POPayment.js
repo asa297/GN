@@ -93,9 +93,4 @@ function mapStateToProps({ form: { inbound_po } }) {
 
 export default reduxForm({
   form: "inbound_po"
-})(
-  connect(
-    mapStateToProps,
-    null
-  )(POPayment)
-);
+})(connect(mapStateToProps)(POPayment));

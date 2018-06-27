@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
 import Modal from "react-modal";
-// import ModalStyle from "../../Style/JS/modalStyle";
+import ModalStyle from "../../Style/JS/modalStyle";
 
 class InboundItemList extends Component {
   constructor() {
@@ -133,4 +132,4 @@ function mapStateToProps({ inbound_items, auth }) {
   };
 }
 
-export default connect(mapStateToProps)(withRouter(InboundItemList));
+export default connect(mapStateToProps)(InboundItemList);

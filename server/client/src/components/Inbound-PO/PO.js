@@ -27,7 +27,8 @@ class PO extends Component {
     this.state = {
       ready: false,
       loading: false,
-      print: false
+      print: false,
+      print_value: {}
     };
   }
 
@@ -58,8 +59,8 @@ class PO extends Component {
       this.props.inbound_po.values
     );
 
-    if (res.orderId) {
-      this.setState({ loading: false, print: true });
+    if (res) {
+      this.setState({ loading: false, print: true, print_value: res });
     }
   }
 
@@ -73,7 +74,7 @@ class PO extends Component {
     } else if (this.state.print) {
       return (
         <div>
-          <POPrint />
+          <POPrint print_value={this.state.print_value} />
         </div>
       );
     }
@@ -177,7 +178,8 @@ function mapStateToProps({ form: { inbound_po }, inbound_groups }) {
 
 export default reduxForm({
   validate,
-  form: "inbound_po"
+  form: "inbound_po",
+  destroyOnUnmount: false
 })(
   connect(
     mapStateToProps,

@@ -6,11 +6,14 @@ class POPrint extends Component {
   render() {
     return (
       <div>
+        <ComponentToPrint
+          ref={el => (this.componentRef = el)}
+          print_value={this.props.print_value}
+        />
         <ReactToPrint
           trigger={() => <button>Print this out!</button>}
           content={() => this.componentRef}
         />
-        <ComponentToPrint ref={el => (this.componentRef = el)} />
       </div>
     );
   }

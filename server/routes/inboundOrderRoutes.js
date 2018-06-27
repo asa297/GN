@@ -13,6 +13,7 @@ module.exports = app => {
       total,
       discount,
       credit,
+      creditcharge,
       receivecash,
       changecash,
       grandtotal,
@@ -39,6 +40,7 @@ module.exports = app => {
       total,
       discount,
       credit,
+      creditcharge,
       cash,
       receivecash,
       changecash,
@@ -51,7 +53,7 @@ module.exports = app => {
       LastModifyDate: Date.now()
     }).save();
 
-    if (order._id) {
+    if (order) {
       // ตัดสต็อกได้แล้วแต่ ขก ไปเพิ่มสินค้าทีหลัง
       _.map(itemList, async ({ _id, countQty }) => {
         await itemModel
@@ -59,7 +61,7 @@ module.exports = app => {
           .exec();
       });
 
-      res.send({ orderId });
+      res.send(order);
     } else {
       res.status(400).send({ error: "Order is not success" });
     }
@@ -121,9 +123,6 @@ module.exports = app => {
             cash,
             receivecash,
             changecash,
-            // RecordIdBy: req.user._id,
-            // RecordNameBy: req.user.firstName
-            // RecordDate: Date.now()
             LastModifyById: req.user._id,
             LastModifyByName: req.user.firstName,
             LastModifyDate: Date.now()

@@ -40,9 +40,11 @@ export function validateOrder(formvalues) {
     }
 
     formvalues.discount = resultDiscount;
+
     formvalues.grandtotal = grandtotal;
     formvalues.cash = grandtotal;
     formvalues.changecash = receivecash - grandtotal;
+    formvalues.creditcharge = resultCreditCharge;
   }
 
   return formvalues;
