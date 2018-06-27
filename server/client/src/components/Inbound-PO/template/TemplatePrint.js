@@ -9,7 +9,7 @@ class ComponentToPrint extends Component {
       <div>
         <Header print_value={this.props.print_value} />
         <Item print_value={this.props.print_value} />
-        <Footer print_value={this.props.print_value} />
+        <Footer print_value={this.props.print_value} />aaa
       </div>
     );
   }
