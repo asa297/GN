@@ -76,7 +76,7 @@ class InboundSellerList extends Component {
         return (
           <div className="col s12 m4" key={_id}>
             <div className="card">
-              <div class="card-image waves-effect waves-block waves-light">
+              <div className="card-image waves-effect waves-block waves-light">
                 <div
                   style={{
                     height: "100px",
@@ -84,16 +84,16 @@ class InboundSellerList extends Component {
                   }}
                 />
               </div>
-              <div class="card-content">
-                <span class="card-title activator grey-text text-darken-4">
-                  {sellerCode} ({sellerName})<i class="material-icons right">
+              <div className="card-content">
+                <span className="card-title activator grey-text text-darken-4">
+                  {sellerCode} ({sellerName})<i className="material-icons right">
                     more_vert
                   </i>
                 </span>
               </div>
-              <div class="card-reveal">
-                <span class="card-title grey-text text-darken-4">
-                  Description<i class="material-icons right">close</i>
+              <div className="card-reveal">
+                <span className="card-title grey-text text-darken-4">
+                  Description<i className="material-icons right">close</i>
                 </span>
                 <p>
                   <div>

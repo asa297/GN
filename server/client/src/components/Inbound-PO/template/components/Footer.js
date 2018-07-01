@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Remark from "./payment/Remark";
+import Payment from "./payment/Payment";
 
 class Footer extends Component {
   constructor(props) {
@@ -31,39 +33,31 @@ class Footer extends Component {
   }
 
   renderContentHalfLeft() {
-    return <div>renderContentHalfLeft</div>;
+    return <Remark />;
   }
 
   renderContentHalfRight() {
     return (
       <div>
-        <div>
-          <label>Total</label>: {this.state.total}
-        </div>
-        <div>
-          <label>Discount</label>:{this.state.discount}
-        </div>
-        <div>
-          <label>Credit</label>:{this.state.credit}
-        </div>
-        <div>
-          <label>Credit Charge</label>:{this.state.creditcharge}
-        </div>
-        <div>
-          <label>changecash</label>:{this.state.changecash}
-        </div>
-        <div>
-          <label>Total</label>:{this.state.grandtotal}
-        </div>
+        <Payment label="Total" text={this.state.total} />
+        <Payment label="Discount" text={this.state.discount} />
+        <Payment label="Credit" text={this.state.credit} />
+        <Payment label="Credit Charge" text={this.state.creditcharge} />
+        <Payment label="Change Cash" text={this.state.changecash} />
+        <Payment label="Grand Total" text={this.state.grandtotal} />
       </div>
     );
   }
 
   render() {
     return (
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div style={{ width: "45%" }}>{this.renderContentHalfLeft()}</div>
-        <div style={{ width: "45%" }}>{this.renderContentHalfRight()}</div>
+      <div style={{ display: "flex", justifyContent: "space-around" }}>
+        <div style={{ width: "50%", height: "140px" }}>
+          {this.renderContentHalfLeft()}
+        </div>
+        <div style={{ width: "40%", height: "140px" }}>
+          {this.renderContentHalfRight()}
+        </div>
       </div>
     );
   }
