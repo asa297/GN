@@ -9,14 +9,19 @@ module.exports = app => {
     const {
       item_code,
       item_name,
+      item_factory,
+      item_color,
       item_price,
       item_qty,
       item_type: { itemTypeId, itemTypeName },
       orgChinaList
     } = req.body;
+
     const item = await new itemModel({
       item_code,
       item_name,
+      item_factory,
+      item_color,
       item_price,
       item_qty,
       itemTypeId,
@@ -54,6 +59,8 @@ module.exports = app => {
     const {
       item_code,
       item_name,
+      item_factory,
+      item_color,
       item_price,
       item_qty,
       item_type: { itemTypeId, itemTypeName },
@@ -69,6 +76,8 @@ module.exports = app => {
           $set: {
             item_code,
             item_name,
+            item_factory,
+            item_color,
             item_price,
             item_qty,
             itemTypeId,

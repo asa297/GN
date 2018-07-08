@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Modal from "react-modal";
 import ModalStyle from "../../Style/JS/modalStyle";
+import ReactModalCSS from "../../Style/CSS/ReactModal.css";
 
 class InboundSellerList extends Component {
   constructor() {
@@ -32,6 +33,7 @@ class InboundSellerList extends Component {
           isOpen={this.state.modalIsOpen}
           onRequestClose={() => this.closeModal()}
           style={ModalStyle}
+          className={ReactModalCSS.ReactModal__Overlay}
           contentLabel="Example Modal"
         >
           <h6
@@ -95,20 +97,18 @@ class InboundSellerList extends Component {
                 <span className="card-title grey-text text-darken-4">
                   Description<i className="material-icons right">close</i>
                 </span>
-                <p>
-                  <div>
-                    <b>Last Mofidy By :</b>&nbsp;<i>{LastModifyByName}</i>
-                  </div>
-                  <div>
-                    <b>Last Modify At :</b>&nbsp;<i>
-                      {new Date(LastModifyDate).toLocaleDateString()} &nbsp;
-                      {new Date(LastModifyDate).toLocaleTimeString()}
-                    </i>
-                  </div>
-                  <div>
-                    <b>Remarks :</b>&nbsp;<i>{sellerRemarks}</i>
-                  </div>
-                </p>
+                <div>
+                  <b>Last Mofidy By :</b>&nbsp;<i>{LastModifyByName}</i>
+                </div>
+                <div>
+                  <b>Last Modify At :</b>&nbsp;<i>
+                    {new Date(LastModifyDate).toLocaleDateString()} &nbsp;
+                    {new Date(LastModifyDate).toLocaleTimeString()}
+                  </i>
+                </div>
+                <div>
+                  <b>Remarks :</b>&nbsp;<i>{sellerRemarks}</i>
+                </div>
               </div>
               {this.props.auth.priority === 1 ? (
                 <div className="card-action" style={{ padding: "0px" }}>

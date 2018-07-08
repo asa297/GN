@@ -25,7 +25,7 @@ class viewItem extends Component {
     return (
       <div>
         <ViewComponent
-          icon="business"
+          icon="business_center"
           value={this.state.item_select.item_name}
           title="Item Name"
         />
@@ -38,6 +38,16 @@ class viewItem extends Component {
           icon="flag"
           value={this.state.item_select.itemTypeName}
           title="Item Grade"
+        />
+        <ViewComponent
+          icon="domain"
+          value={this.state.item_select.item_factory}
+          title="Item Factory"
+        />
+        <ViewComponent
+          icon="color_lens"
+          value={this.state.item_select.item_color}
+          title="Item Color"
         />
         <ViewComponent
           icon="attach_money"

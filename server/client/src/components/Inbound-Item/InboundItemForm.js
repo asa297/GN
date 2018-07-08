@@ -130,7 +130,12 @@ function validate(values) {
   }
 
   _.each(FIELDS, ({ name }) => {
-    if (!values[name] && name !== "item_qty") {
+    if (
+      !values[name] &&
+      name !== "item_qty" &&
+      name !== "item_factory" &&
+      name !== "item_color"
+    ) {
       errors[name] = "Require a value";
     }
 
@@ -159,6 +164,7 @@ function validate(values) {
 }
 
 function mapStateToProps({ inbound_orgs, form }) {
+  console.log(inbound_orgs);
   return { inbound_orgs, form };
 }
 

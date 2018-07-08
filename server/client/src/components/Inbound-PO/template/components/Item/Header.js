@@ -1,7 +1,7 @@
 import React from "react";
 import ColumnHeader from "./ColumnHeader";
 
-const Header = ({}) => {
+const Header = () => {
   return (
     <div style={{ display: "flex" }}>
       <ColumnHeader text="#" width="10%" textAlign="center" borderRight="0px" />

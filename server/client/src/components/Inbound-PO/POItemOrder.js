@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
+import numeral from "numeral";
 import { reduxForm, Field, change } from "redux-form";
 import { find_Item } from "../../actions";
 
@@ -182,7 +183,7 @@ class POItemOrder extends Component {
                   <th>{item_code}</th>
                   <th>{item_name}</th>
                   <th>{countQty}</th>
-                  <th>{item_price.toLocaleString()}</th>
+                  <th>{numeral(item_price).format("0,0.00")}</th>
                 </tr>
               );
             }

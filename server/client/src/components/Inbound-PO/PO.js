@@ -108,8 +108,9 @@ class PO extends Component {
             onDataReceiveCash={receivecash => this.setState({ receivecash })}
           />
         </Collapsible>
-
-        <button className="green btn-flat white-text center">Submit</button>
+        <div style={{ display: "flex ", justifyContent: "center" }}>
+          <button className="green btn-flat white-text">Submit</button>
+        </div>
       </form>
     );
   }

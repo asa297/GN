@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 
 import Modal from "react-modal";
 import ModalStyle from "../../Style/JS/modalStyle";
+import ReactModalCSS from "../../Style/CSS/ReactModal.css";
 
 class InboundGroupList extends Component {
   constructor() {
@@ -41,6 +42,7 @@ class InboundGroupList extends Component {
           isOpen={this.state.modalIsOpen}
           onRequestClose={() => this.closeModal()}
           style={ModalStyle}
+          className={ReactModalCSS.ReactModal__Overlay}
           contentLabel="Example Modal"
         >
           <h6

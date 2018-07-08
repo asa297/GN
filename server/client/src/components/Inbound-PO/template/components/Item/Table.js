@@ -1,6 +1,7 @@
 import React from "react";
 import _ from "lodash";
-import ColumnItem from "./ColumnItem";
+
+import CSS_class from "../../../../../Style/CSS/PO_PRINT_CSS.css";
 
 const Table = ({ itemList }) => {
   const RunNumberCloumn = (
@@ -16,7 +17,7 @@ const Table = ({ itemList }) => {
     >
       {_.map(itemList, ({ _id }, index) => {
         return (
-          <div key={_id} style={{ fontFamily: "Sofia", fontSize: "14px" }}>
+          <div key={_id} className={CSS_class.font}>
             {index + 1}
           </div>
         );
@@ -39,7 +40,8 @@ const Table = ({ itemList }) => {
         return (
           <div
             key={_id}
-            style={{ marginLeft: "5px", fontFamily: "Sofia", fontSize: "14px" }}
+            className={CSS_class.font}
+            style={{ marginLeft: "5px" }}
           >
             {item_name}
           </div>
@@ -61,7 +63,7 @@ const Table = ({ itemList }) => {
     >
       {_.map(itemList, ({ _id, countQty }) => {
         return (
-          <div key={_id} style={{ fontFamily: "Sofia", fontSize: "14px" }}>
+          <div key={_id} className={CSS_class.font}>
             {countQty}
           </div>
         );
@@ -84,10 +86,9 @@ const Table = ({ itemList }) => {
         return (
           <div
             key={_id}
+            className={CSS_class.font}
             style={{
-              marginRight: "5px",
-              fontFamily: "Sofia",
-              fontSize: "14px"
+              marginRight: "5px"
             }}
           >
             {parseFloat(item_price).toFixed(2)}
@@ -111,10 +112,9 @@ const Table = ({ itemList }) => {
         return (
           <div
             key={_id}
+            className={CSS_class.font}
             style={{
-              marginRight: "5px",
-              fontFamily: "Sofia",
-              fontSize: "14px"
+              marginRight: "5px"
             }}
           >
             {parseFloat(item_price * countQty).toFixed(2)}

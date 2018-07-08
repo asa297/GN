@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchInbound_Item, deleteInbound_Item } from "../../actions";
+import {
+  fetchInbound_Item,
+  deleteInbound_Item,
+  fetchInbound_Org
+} from "../../actions";
 import InboundItemList from "../Inbound-Item/InboundItemList";
 // import InboundItemReview from "../Inbound-Item/InboundItemReview";
 // import InboundItemEdit from "../Inbound-Item/InboundItemEdit";
@@ -21,6 +25,7 @@ class InboundItem extends Component {
 
   componentDidMount() {
     this.props.fetchInbound_Item();
+    this.props.fetchInbound_Org();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -100,6 +105,7 @@ export default connect(
   mapStateToProps,
   {
     fetchInbound_Item,
+    fetchInbound_Org,
     deleteInbound_Item
   }
 )(InboundItem);

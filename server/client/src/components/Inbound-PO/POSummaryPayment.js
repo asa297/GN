@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
+import numeral from "numeral";
 import POItemField from "./POItemField";
 
 class POSummaryPayment extends Component {
@@ -69,42 +70,32 @@ class POSummaryPayment extends Component {
             <tr>
               <td>Total Starter</td>
               <td className="center green">
-                {parseFloat(this.state.total)
-                  .toFixed(2)
-                  .toLocaleString()}
+                {numeral(this.state.total).format("0,0.00")}
               </td>
             </tr>
 
             <tr>
               <td>Discount</td>
               <td className="center red">
-                {parseFloat(this.state.resultDiscount)
-                  .toFixed(2)
-                  .toLocaleString()}
+                {numeral(this.state.resultDiscount).format("0,0.00")}
               </td>
             </tr>
             <tr>
               <td>Credit</td>
               <td className="center red">
-                {parseFloat(this.state.credit)
-                  .toFixed(2)
-                  .toLocaleString()}
+                {numeral(this.state.credit).format("0,0.00")}
               </td>
             </tr>
             <tr>
               <td>Credit Chrage</td>
               <td className="center green">
-                {parseFloat(this.state.resultCreditCharge)
-                  .toFixed(2)
-                  .toLocaleString()}
+                {numeral(this.state.resultCreditCharge).format("0,0.00")}
               </td>
             </tr>
             <tr>
               <td>Grand Total</td>
               <td className="center grey">
-                {parseFloat(this.state.resultGrandTotal)
-                  .toFixed(2)
-                  .toLocaleString()}
+                {numeral(this.state.resultGrandTotal).format("0,0.00")}
               </td>
             </tr>
             <tr>
@@ -127,11 +118,9 @@ class POSummaryPayment extends Component {
             <tr>
               <td>Change Cash</td>
               <td className="center orange">
-                {parseFloat(
+                {numeral(
                   this.state.receivecash - this.state.resultGrandTotal
-                )
-                  .toFixed(2)
-                  .toLocaleString()}
+                ).format("0,0.00")}
               </td>
             </tr>
           </tbody>

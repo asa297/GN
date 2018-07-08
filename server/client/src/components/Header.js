@@ -37,15 +37,6 @@ class Header extends Component {
   render() {
     return (
       <div>
-        {/* <nav className="blue lighten-1">
-          <div className="nav-wrapper">
-            <ul className="brand-logo right">{this.renderLoginContent()}</ul>
-            <ul id="nav-mobile" className="left hide-on-med-and-down">
-              {this.renderMenuContent()}
-            </ul>
-          </div>
-        </nav> */}
-
         <nav className="light-blue lighten-1">
           <div className="nav-wrapper container">
             <Link id="logo-container" className="brand-logo" to="/home">

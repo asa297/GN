@@ -1,16 +1,24 @@
 import React from "react";
+import numeral from "numeral";
+import CSS_class from "../../../../../Style/CSS/PO_PRINT_CSS.css";
 
-const Payment = ({ label, text }) => {
+const Payment = ({ label, text, fontSize }) => {
   return (
-    <div style={{ display: "flex", alignItems: "baseline", width: "100%" }}>
-      <label style={{ width: "40% " }}>{label}</label>
-
-      <div>:</div>
+    <div
+      className={CSS_class.font}
+      style={{
+        display: "flex",
+        alignItems: "baseline",
+        width: "100%",
+        fontSize
+      }}
+    >
+      <label style={{ width: "55% " }}>{label}</label>
       <div style={{ width: "35% ", textAlign: "right" }}>
-        {parseFloat(text).toFixed(2)}
+        {numeral(text).format("0,0.00")}
       </div>
-      <div style={{ width: "25% " }}>
-        &nbsp; <i>Baht</i> (฿)
+      <div style={{ width: "15% " }}>
+        &nbsp; <i>Baht</i>
       </div>
     </div>
   );

@@ -76,6 +76,7 @@ class InboundItemList extends Component {
           _id,
           item_name,
           item_code,
+          item_color,
           itemTypeId,
           LastModifyByName,
           LastModifyDate
@@ -93,7 +94,8 @@ class InboundItemList extends Component {
                   }}
                 />
                 <span className="card-title">
-                  {item_code} ({item_name})
+                  {item_code} ({item_name}
+                  {item_color ? " " + item_color : null})
                 </span>
                 <button
                   className="btn-floating halfway-fab blue lighten-3"

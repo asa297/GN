@@ -19,6 +19,8 @@ export function validateOrder(formvalues) {
       formvalues.seller_select.sellerCom = 0;
     }
 
+
+
     const DC = parseInt(discount, 10);
     if (DC > 0 && DC <= 100) {
       resultDiscount = total * (DC / 100);
@@ -43,6 +45,7 @@ export function validateOrder(formvalues) {
 
     formvalues.grandtotal = grandtotal;
     formvalues.cash = grandtotal;
+    formvalues.credit = credit ? credit : 0
     formvalues.changecash = receivecash - grandtotal;
     formvalues.creditcharge = resultCreditCharge;
   }

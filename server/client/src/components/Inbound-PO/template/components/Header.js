@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import logo from "./logo.jpg";
 import OrderId from "./header/OrderId";
+import CSS_class from "../../../../Style/CSS/PO_PRINT_CSS.css";
 
 class Header extends Component {
   constructor(props) {
@@ -9,10 +10,10 @@ class Header extends Component {
     this.state = {};
   }
   componentDidMount() {
-    const { orderId } = this.props.print_value;
+    const { orderId, RecordDate } = this.props.print_value;
     const { copy } = this.props;
 
-    this.setState({ orderId, copy });
+    this.setState({ orderId, copy, RecordDate });
   }
 
   render() {
@@ -26,13 +27,26 @@ class Header extends Component {
           />
         </div>
         <div style={{ width: "65%" }}>
-          <div>
+          <div className={CSS_class.font}>
             <OrderId
               label="Order ID"
               text={this.state.orderId}
               copy={this.state.copy}
             />
-            bra bra bra
+            <div
+              style={{
+                display: "flex ",
+                justifyContent: "space-between",
+                margin: "0px"
+              }}
+            >
+              Giornie Leather Shop
+              <div>
+                <label>Date</label> :&nbsp;
+                {new Date(this.state.RecordDate).toLocaleDateString()}
+              </div>
+            </div>
+            <div>Pattaya, Thailand</div>
           </div>
         </div>
       </div>
