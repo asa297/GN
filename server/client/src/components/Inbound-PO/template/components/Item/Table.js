@@ -1,5 +1,6 @@
 import React from "react";
 import _ from "lodash";
+import numeral from "numeral";
 
 import CSS_class from "../../../../../Style/CSS/PO_PRINT_CSS.css";
 
@@ -36,14 +37,14 @@ const Table = ({ itemList }) => {
         borderTop: "0px"
       }}
     >
-      {_.map(itemList, ({ item_name, _id }) => {
+      {_.map(itemList, ({ item_name, item_color, _id }) => {
         return (
           <div
             key={_id}
             className={CSS_class.font}
             style={{ marginLeft: "5px" }}
           >
-            {item_name}
+            {item_name} {item_color ? " " + item_color : null}
           </div>
         );
       })}
@@ -91,7 +92,7 @@ const Table = ({ itemList }) => {
               marginRight: "5px"
             }}
           >
-            {parseFloat(item_price).toFixed(2)}
+            {numeral(item_price).format("0,0.00")}
           </div>
         );
       })}
@@ -117,7 +118,7 @@ const Table = ({ itemList }) => {
               marginRight: "5px"
             }}
           >
-            {parseFloat(item_price * countQty).toFixed(2)}
+            {numeral(item_price * countQty).format("0,0.00")}
           </div>
         );
       })}

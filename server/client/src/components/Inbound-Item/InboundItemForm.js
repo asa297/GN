@@ -139,10 +139,6 @@ function validate(values) {
       errors[name] = "Require a value";
     }
 
-    if (values["item_code"] && isNaN(values["item_code"])) {
-      errors["item_code"] = "Require a number only";
-    }
-
     if (values["item_price"] && isNaN(values["item_price"])) {
       errors["item_price"] = "Require a number only";
     } else {
@@ -164,7 +160,6 @@ function validate(values) {
 }
 
 function mapStateToProps({ inbound_orgs, form }) {
-  console.log(inbound_orgs);
   return { inbound_orgs, form };
 }
 

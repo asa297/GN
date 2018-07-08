@@ -58,6 +58,14 @@ module.exports = app => {
   app.get("/api/inbound/group", requireLogin, async (req, res) => {
     const inbound_group = await GroupModel.find({});
 
+    // client.get("group", (err, result) => {
+    //   if (result) {
+    //     res.send(result);
+    //   } else {
+    //     client.setex("group", 3600, JSON.stringify(inbound_group));
+    //   }
+    // });
+
     res.send(inbound_group);
   });
 

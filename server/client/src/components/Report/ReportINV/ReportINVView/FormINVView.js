@@ -202,10 +202,6 @@ function validate(values) {
       errors[name] = "Require a value";
     }
 
-    if (values["item_code"] && isNaN(values["item_code"])) {
-      errors["item_code"] = "Require a number only";
-    }
-
     if (values["item_price"] && isNaN(values["item_price"])) {
       errors["item_price"] = "Require a number only";
     } else {
@@ -219,8 +215,6 @@ function validate(values) {
     } else {
       if (values["item_qty"] < 0) {
         errors["item_qty"] = "NOT SUPPORT NEGATIVE QTY";
-      } else if (values["item_qty"] === 0) {
-        errors["item_qty"] = "Require a Quantity";
       }
     }
   });

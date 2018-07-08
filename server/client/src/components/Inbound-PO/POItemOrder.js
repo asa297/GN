@@ -71,14 +71,14 @@ class POItemOrder extends Component {
     const index_item = _.findIndex(
       this.props.inbound_items,
       ({ item_code }) => {
-        return item_code === parseInt(this.state.itemCode, 10);
+        return item_code === this.state.itemCode;
       }
     );
 
     const index_item_itemList = _.findIndex(
       this.state.itemList,
       ({ item_code }) => {
-        return item_code === parseInt(this.state.itemCode, 10);
+        return item_code === this.state.itemCode;
       }
     );
 
@@ -159,7 +159,14 @@ class POItemOrder extends Component {
         <tbody>
           {_.map(
             this.state.itemList,
-            ({ _id, item_code, item_name, item_price, countQty }) => {
+            ({
+              _id,
+              item_code,
+              item_name,
+              item_color,
+              item_price,
+              countQty
+            }) => {
               return (
                 <tr key={_id}>
                   <th>
@@ -181,7 +188,9 @@ class POItemOrder extends Component {
                     </button>
                   </th>
                   <th>{item_code}</th>
-                  <th>{item_name}</th>
+                  <th>
+                    {item_name} {item_color ? " " + item_color : null}
+                  </th>
                   <th>{countQty}</th>
                   <th>{numeral(item_price).format("0,0.00")}</th>
                 </tr>

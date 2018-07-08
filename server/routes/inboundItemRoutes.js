@@ -20,8 +20,8 @@ module.exports = app => {
     const item = await new itemModel({
       item_code,
       item_name,
-      item_factory,
-      item_color,
+      item_factory: item_factory ? item_factory : null,
+      item_color: item_color ? item_color : null,
       item_price,
       item_qty,
       itemTypeId,
@@ -76,8 +76,8 @@ module.exports = app => {
           $set: {
             item_code,
             item_name,
-            item_factory,
-            item_color,
+            item_factory: item_factory ? item_factory : null,
+            item_color: item_color ? item_color : null,
             item_price,
             item_qty,
             itemTypeId,

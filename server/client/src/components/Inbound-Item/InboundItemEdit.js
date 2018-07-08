@@ -197,10 +197,6 @@ function validate(values) {
       errors[name] = "Require a value";
     }
 
-    if (values["item_code"] && isNaN(values["item_code"])) {
-      errors["item_code"] = "Require a number only";
-    }
-
     if (values["item_price"] && isNaN(values["item_price"])) {
       errors["item_price"] = "Require a number only";
     } else {
@@ -231,4 +227,9 @@ export default reduxForm({
   validate,
   form: "inbound_item",
   destroyOnUnmount: false
-})(connect(mapStateToProps, null)(InboundItemEdit));
+})(
+  connect(
+    mapStateToProps,
+    null
+  )(InboundItemEdit)
+);
