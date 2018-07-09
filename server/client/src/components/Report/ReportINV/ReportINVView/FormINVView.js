@@ -35,8 +35,12 @@ class FormINVView extends Component {
         _id,
         item_code,
         item_name,
+        item_factory,
+        item_color,
+        item_skin,
         item_price,
         item_qty,
+        item_remarks,
         orgChinaList
       } = value_props;
 
@@ -48,8 +52,12 @@ class FormINVView extends Component {
         _id,
         item_code,
         item_name,
+        item_factory,
+        item_color,
+        item_skin,
         item_price,
         item_qty,
+        item_remarks,
         itemType_selected,
         itemTypeId: itemType_selected.itemTypeId,
         orgChinaList
@@ -198,7 +206,14 @@ function validate(values) {
   }
 
   _.each(FIELDS, ({ name }) => {
-    if (!values[name]) {
+    if (
+      !values[name] &&
+      name !== "item_qty" &&
+      name !== "item_factory" &&
+      name !== "item_color" &&
+      name !== "item_skin" &&
+      name !== "item_remarks"
+    ) {
       errors[name] = "Require a value";
     }
 

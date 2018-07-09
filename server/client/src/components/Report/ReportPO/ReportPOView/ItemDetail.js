@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
+import numeral from "numeral";
 
 class ItemDetail extends Component {
   constructor(props) {
@@ -49,7 +50,7 @@ class ItemDetail extends Component {
                   <th>{item_code}</th>
                   <th>{item_name}</th>
                   <th>{countQty}</th>
-                  <th>{item_price.toLocaleString()}</th>
+                  <th>{numeral(item_price).format("0,0.00")}</th>
                 </tr>
               );
             }

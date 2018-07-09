@@ -193,7 +193,14 @@ function validate(values) {
   });
 
   _.each(FIELDS, ({ name }) => {
-    if (!values[name]) {
+    if (
+      !values[name] &&
+      name !== "item_qty" &&
+      name !== "item_factory" &&
+      name !== "item_color" &&
+      name !== "item_skin" &&
+      name !== "item_remarks"
+    ) {
       errors[name] = "Require a value";
     }
 

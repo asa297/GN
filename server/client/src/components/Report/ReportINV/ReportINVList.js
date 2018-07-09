@@ -3,6 +3,7 @@ import _ from "lodash";
 import { connect } from "react-redux";
 import ReactTable from "react-table";
 import { Link } from "react-router-dom";
+import numeral from "numeral";
 
 import "react-table/react-table.css";
 
@@ -41,14 +42,43 @@ class ReportPOList extends Component {
             )
           },
           {
+            Header: "S.V.",
+            accessor: "item_factory",
+            style: { textAlign: "center" },
+            width: 100
+          },
+          {
             Header: "Item Code",
             accessor: "item_code",
-            style: { fontWeight: "bold" }
+            style: { fontWeight: "bold", textAlign: "center" }
           },
           {
             Header: "Item Name",
             accessor: "item_name",
-            width: 500
+            style: { textAlign: "center" },
+            width: 300
+          },
+          {
+            Header: "Price",
+            accessor: "item_price",
+            Cell: row => <div>{numeral(row.value).format("0,0.00")}</div>,
+            style: { fontWeight: "bold", textAlign: "right", color: "green" }
+          },
+          {
+            Header: "Remarks",
+            accessor: "item_remarks",
+            style: { textAlign: "center", fontWeight: "lighter" },
+            width: 300
+          },
+          {
+            Header: "Skin",
+            accessor: "item_skin",
+            style: { textAlign: "center", fontWeight: "lighter" }
+          },
+          {
+            Header: "Color",
+            accessor: "item_color",
+            style: { textAlign: "center", fontWeight: "lighter" }
           },
           {
             Header: "QTY",
@@ -57,30 +87,18 @@ class ReportPOList extends Component {
             style: { textAlign: "right" }
           },
           {
-            Header: "Price",
-            accessor: "item_price",
-            Cell: row => <div>{row.value.toLocaleString()}</div>,
-            style: { textAlign: "right" }
-          },
-          {
             Header: "Item Grade",
-            accessor: "itemTypeId",
-            Cell: row => (
-              <div
-                className={
-                  row.value === 1 ? Report_INV_CSS.itemA : Report_INV_CSS.itemB
-                }
-              />
-            )
+            accessor: "itemTypeName",
+            style: { textAlign: "center", fontWeight: "lighter" }
           },
           {
             Header: "Date",
-            accessor: "RecordDate_moment",
+            accessor: "LastModifyDate_moment",
             style: { textAlign: "center" }
           },
           {
-            Header: "RecordBy",
-            accessor: "RecordNameBy",
+            Header: "LastModifyByName",
+            accessor: "LastModifyByName",
             style: { textAlign: "center" }
           }
         ]
@@ -91,9 +109,11 @@ class ReportPOList extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.inbound_items) {
       _.map(nextProps.inbound_items, (value, index) => {
-        value.RecordDate_moment = new Date(
-          value.RecordDate
-        ).toLocaleDateString();
+        value.LastModifyDate_moment =
+          new Date(value.LastModifyDate).toLocaleDateString() +
+          " " +
+          new Date(value.LastModifyDate).toLocaleTimeString();
+
         value.index = index;
       });
     }
@@ -119,4 +139,7 @@ function mapStateToProps({ inbound_items }) {
   return { inbound_items: _.orderBy(inbound_items, ["item_code"], ["asc"]) };
 }
 
-export default connect(mapStateToProps, { fetchInbound_Item })(ReportPOList);
+export default connect(
+  mapStateToProps,
+  { fetchInbound_Item }
+)(ReportPOList);

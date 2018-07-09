@@ -134,7 +134,9 @@ function validate(values) {
       !values[name] &&
       name !== "item_qty" &&
       name !== "item_factory" &&
-      name !== "item_color"
+      name !== "item_color" &&
+      name !== "item_skin" &&
+      name !== "item_remarks"
     ) {
       errors[name] = "Require a value";
     }

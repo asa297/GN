@@ -11,7 +11,7 @@ class SearchINV extends Component {
 
     this.props.history.push({
       pathname: "/report/reportinv/view",
-      state: { item_code: parseInt(item_code, 10) }
+      state: { item_code }
     });
   }
 
@@ -32,10 +32,6 @@ function validate(values) {
   const errors = {};
   if (!values["item_code"]) {
     errors["item_code"] = "Require a value";
-  } else {
-    if (isNaN(values["item_code"])) {
-      errors["item_code"] = "Require a number only";
-    }
   }
 
   return errors;

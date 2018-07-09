@@ -11,8 +11,10 @@ module.exports = app => {
       item_name,
       item_factory,
       item_color,
+      item_skin,
       item_price,
       item_qty,
+      item_remarks,
       item_type: { itemTypeId, itemTypeName },
       orgChinaList
     } = req.body;
@@ -22,8 +24,10 @@ module.exports = app => {
       item_name,
       item_factory: item_factory ? item_factory : null,
       item_color: item_color ? item_color : null,
+      item_skin: item_skin ? item_skin : null,
       item_price,
       item_qty,
+      item_remarks: item_remarks ? item_remarks : null,
       itemTypeId,
       itemTypeName,
       orgChinaList: orgChinaList
@@ -61,8 +65,10 @@ module.exports = app => {
       item_name,
       item_factory,
       item_color,
+      item_skin,
       item_price,
       item_qty,
+      item_remarks,
       item_type: { itemTypeId, itemTypeName },
       orgChinaList
     } = req.body;
@@ -78,8 +84,10 @@ module.exports = app => {
             item_name,
             item_factory: item_factory ? item_factory : null,
             item_color: item_color ? item_color : null,
+            item_skin: item_skin ? item_skin : null,
             item_price,
             item_qty,
+            item_remarks: item_remarks ? item_remarks : null,
             itemTypeId,
             itemTypeName,
             orgChinaList: orgChinaList

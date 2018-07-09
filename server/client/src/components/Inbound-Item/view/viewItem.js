@@ -45,6 +45,11 @@ class viewItem extends Component {
           title="Item Factory"
         />
         <ViewComponent
+          icon="turned_in"
+          value={this.state.item_select.item_skin}
+          title="Item Skin"
+        />
+        <ViewComponent
           icon="color_lens"
           value={this.state.item_select.item_color}
           title="Item Color"
@@ -58,6 +63,11 @@ class viewItem extends Component {
           icon="drafts"
           value={this.state.item_select.item_qty}
           title="Item Quality"
+        />
+        <ViewComponent
+          icon="event_note"
+          value={this.state.item_select.item_remarks}
+          title="Item Remarks"
         />
         <ViewComponent
           icon="history"
