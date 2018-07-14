@@ -130,8 +130,8 @@ module.exports = app => {
     res.send(item);
   });
 
-  app.get("/api/inbound/item/:id", async (req, res) => {
-    const item = await itemModel.findOne({ item_code: req.params.id });
+  app.get("/api/inbound/item/:item_code", async (req, res) => {
+    const item = await itemModel.findOne({ item_code: req.params.item_code });
 
     res.send(item);
   });

@@ -13,7 +13,7 @@ class viewGroup extends Component {
   }
 
   componentDidMount() {
-    const group_select = _.find(this.props.inbound_groups, ({ _id }) => {
+    const group_select = _.find(this.props.groups, ({ _id }) => {
       return _id === this.state.group_id;
     });
 
@@ -108,8 +108,8 @@ class viewGroup extends Component {
   }
 }
 
-function mapStateToProps({ inbound_groups }) {
-  return { inbound_groups };
+function mapStateToProps({ groups }) {
+  return { groups };
 }
 
 export default connect(mapStateToProps)(viewGroup);

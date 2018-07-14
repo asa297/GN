@@ -138,6 +138,22 @@ export const find_Item = item_code => async dispatch => {
   dispatch({ type: FETCH_INBOUND_ITEM_FOR_PO, payload: res.data });
 };
 
+export const update_Item = (
+  item_id,
+  values,
+  orgChinaList
+) => async dispatch => {
+  if (orgChinaList) {
+    values.orgChinaList = orgChinaList;
+  }
+
+  await axios.post("/api/inbound/item/edit/" + item_id, values);
+};
+
+export const delete_Item = (item_id, history) => async dispatch => {
+  await axios.delete("/api/inbound/item/" + item_id);
+};
+
 export const updateInbound_Item = (
   item_id,
   values,

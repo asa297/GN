@@ -9,13 +9,18 @@ import FIELDS from "./formFields";
 
 import itemType_list from "../../utils/ItemTypeLIst";
 
-let orgChina;
+const required = value => (value ? undefined : "Required");
+const isNumber = value =>
+  value && isNaN(Number(value)) ? "Must be a number" : undefined;
+const ComValidate = value =>
+  value < 0 || value > 100 ? "0 - 100%" : undefined;
+
 class InboundItemEdit extends Component {
   constructor(props) {
     super(props);
 
-    const value_props = this.props.inbound_items[
-      _.findIndex(this.props.inbound_items, { _id: this.props._id })
+    const value_props = this.props.items[
+      _.findIndex(this.props.items, { _id: this.props._id })
     ];
 
     const {
@@ -31,6 +36,13 @@ class InboundItemEdit extends Component {
       return itemTypeId === value_props.itemTypeId;
     });
 
+    const orgChina = _.filter(
+      this.props.orgs,
+      ({ _id, orgTypeId, orgName }) => {
+        return orgTypeId === 2;
+      }
+    );
+
     this.state = {
       _id,
       item_code,
@@ -39,19 +51,9 @@ class InboundItemEdit extends Component {
       item_qty,
       itemType_selected,
       itemTypeId: itemType_selected.itemTypeId,
-      orgChinaList
+      orgChinaList,
+      orgChina
     };
-
-    orgChina = _.filter(
-      this.props.inbound_orgs,
-      ({ _id, orgTypeId, orgName }) => {
-        return orgTypeId === 2;
-      }
-    );
-
-    _.map(orgChina, ({ _id }) => {
-      this.state[_id] = "";
-    });
   }
 
   componentDidMount() {
@@ -86,10 +88,11 @@ class InboundItemEdit extends Component {
   }
 
   renderField() {
-    return _.map(FIELDS, ({ label, name, key }) => {
+    return _.map(FIELDS, ({ label, name, disabled }) => {
       return (
         <Field
           value={this.state[name]}
+          disabled={disabled}
           key={name}
           component={InboundItemField}
           type="text"
@@ -127,44 +130,52 @@ class InboundItemEdit extends Component {
   }
 
   renderFieldCommission() {
-    return _.map(orgChina, ({ _id, orgName }) => {
+    return _.map(this.state.orgChina, ({ _id, orgName }) => {
       return (
         <div className="container" key={_id}>
           <b>{orgName}</b>
           <Field
-            value={this.state[_id]}
             key={_id}
             name={_id}
             component={InboundItemField}
             placeholder={orgName}
-            valueField={this.state[_id]}
+            valueField={this.state[_id] ? this.state[_id] : ""}
             onChange={event => this.setState({ [_id]: event.target.value })}
+            validate={[required, isNumber, ComValidate]}
           />
         </div>
       );
     });
   }
 
+  renderContent() {
+    return (
+      <div>
+        {this.renderFieldItemType()}
+        {this.renderField()}
+
+        {this.state.itemTypeId === 2 ? this.renderFieldCommission() : null}
+
+        <button
+          onClick={this.props.onCancal}
+          className="red btn-flat white-text"
+        >
+          <i className="material-icons left">chevron_left</i>
+          Back
+        </button>
+        <button type="submit" className="teal btn-flat right white-text">
+          Next
+          <i className="material-icons right">chevron_right</i>
+        </button>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="container">
         <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
-          {this.renderFieldItemType()}
-          {this.renderField()}
-
-          {this.state.itemTypeId === 2 ? this.renderFieldCommission() : null}
-
-          <button
-            onClick={this.props.onCancal}
-            className="red btn-flat white-text"
-          >
-            <i className="material-icons left">chevron_left</i>
-            Back
-          </button>
-          <button type="submit" className="teal btn-flat right white-text">
-            Next
-            <i className="material-icons right">chevron_right</i>
-          </button>
+          {this.renderContent()}
         </form>
       </div>
     );
@@ -177,20 +188,6 @@ function validate(values) {
   if (!values["item_type"]) {
     errors["item_type"] = "Require a value";
   }
-
-  _.each(orgChina, ({ _id }) => {
-    if (!values[_id]) {
-      errors[_id] = "Require a value ";
-    }
-
-    if (values[_id] && isNaN(values[_id])) {
-      errors[_id] = "Require a number only";
-    } else {
-      if (values[_id] < 0 || values[_id] > 100) {
-        errors[_id] = "0% - 100%";
-      }
-    }
-  });
 
   _.each(FIELDS, ({ name }) => {
     if (
@@ -226,8 +223,8 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ inbound_items, inbound_orgs, form }) {
-  return { inbound_items, inbound_orgs, form };
+function mapStateToProps({ items, orgs, form }) {
+  return { items, orgs, form };
 }
 
 export default reduxForm({

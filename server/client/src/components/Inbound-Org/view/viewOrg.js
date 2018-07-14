@@ -13,7 +13,7 @@ class viewOrg extends Component {
   }
 
   componentDidMount() {
-    const org_select = _.find(this.props.inbound_orgs, ({ _id }) => {
+    const org_select = _.find(this.props.orgs, ({ _id }) => {
       return _id === this.state.org_id;
     });
 
@@ -93,8 +93,8 @@ class viewOrg extends Component {
   }
 }
 
-function mapStateToProps({ inbound_orgs }) {
-  return { inbound_orgs };
+function mapStateToProps({ orgs }) {
+  return { orgs };
 }
 
 export default connect(mapStateToProps)(viewOrg);

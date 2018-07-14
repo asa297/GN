@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
+import { fetchInbound_Item } from "../../actions";
 import { withRouter } from "react-router-dom";
 import Modal from "react-modal";
 import ModalStyle from "../../Style/JS/modalStyle";
@@ -13,6 +14,10 @@ class InboundItemList extends Component {
       modalIsOpen: false,
       item_id: 0
     };
+  }
+
+  componentDidMount() {
+    this.props.fetchInbound_Item();
   }
 
   componentWillMount() {
@@ -34,43 +39,43 @@ class InboundItemList extends Component {
     });
   }
 
-  // renderModal() {
-  //   return (
-  //     <div>
-  //       <Modal
-  //         isOpen={this.state.modalIsOpen}
-  //         onRequestClose={() => this.closeModal()}
-  //         style={ModalStyle}
-  //         contentLabel="Example Modal"
-  //       >
-  //         <h6
-  //           ref={subtitle => (this.subtitle = subtitle)}
-  //           style={{ color: "#f00" }}
-  //         >
-  //           Are you sure to delete this?
-  //         </h6>
-  //         <button
-  //           className="red btn-flat right white-text"
-  //           onClick={() => {
-  //             this.props.onDelete(this.state.item_id);
-  //             this.closeModal();
-  //           }}
-  //         >
-  //           delete
-  //         </button>
-  //         <button
-  //           className="amber btn-flat right white-text"
-  //           onClick={() => this.closeModal()}
-  //         >
-  //           close
-  //         </button>
-  //       </Modal>
-  //     </div>
-  //   );
-  // }
+  renderModal() {
+    return (
+      <div>
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={() => this.closeModal()}
+          style={ModalStyle}
+          contentLabel="Example Modal"
+        >
+          <h6
+            ref={subtitle => (this.subtitle = subtitle)}
+            style={{ color: "#f00" }}
+          >
+            Are you sure to delete this?
+          </h6>
+          <button
+            className="red btn-flat right white-text"
+            onClick={() => {
+              this.props.onDelete(this.state.item_id);
+              this.closeModal();
+            }}
+          >
+            delete
+          </button>
+          <button
+            className="amber btn-flat right white-text"
+            onClick={() => this.closeModal()}
+          >
+            close
+          </button>
+        </Modal>
+      </div>
+    );
+  }
 
   renderInboundItem() {
-    return this.props.inbound_items.map(
+    return this.props.items.map(
       (
         {
           _id,
@@ -115,8 +120,26 @@ class InboundItemList extends Component {
                   </i>
                 </div>
               </div>
+              {this.props.auth.priority === 1 ? (
+                <div className="card-action" style={{ padding: "0px" }}>
+                  <button
+                    className="teal btn-flat  white-text"
+                    style={{ width: "50%" }}
+                    onClick={() => this.props.onSelect(index, _id)}
+                  >
+                    <i className="material-icons center">edit</i>
+                  </button>
+                  <button
+                    className="red btn-flat white-text"
+                    style={{ width: "50%" }}
+                    onClick={() => this.openModal(_id)}
+                  >
+                    <i className="material-icons center">delete</i>
+                  </button>
+                </div>
+              ) : null}
             </div>
-            {/* {this.renderModal()} */}
+            {this.renderModal()}
           </div>
         );
       }
@@ -128,11 +151,14 @@ class InboundItemList extends Component {
   }
 }
 
-function mapStateToProps({ inbound_items, auth }) {
+function mapStateToProps({ items, auth }) {
   return {
-    inbound_items: _.orderBy(inbound_items, ["item_code"], ["asc"]),
+    items: _.orderBy(items, ["item_code"], ["asc"]),
     auth
   };
 }
 
-export default connect(mapStateToProps)(withRouter(InboundItemList));
+export default connect(
+  mapStateToProps,
+  { fetchInbound_Item }
+)(withRouter(InboundItemList));

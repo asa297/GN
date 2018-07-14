@@ -5,23 +5,20 @@ import { connect } from "react-redux";
 import ViewComponent from "./ViewComponent";
 
 class viewItem extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
-    const item_id = props.location.state._id;
-    this.state = { item_id };
+    this.state = {};
   }
 
   componentDidMount() {
     const item_select = _.find(this.props.items, ({ _id }) => {
-      return _id === this.state.item_id;
+      return _id === this.props._id;
     });
-
     this.setState({ item_select });
   }
 
   renderContent() {
-    console.log(this.state);
     return (
       <div>
         <ViewComponent
@@ -104,18 +101,7 @@ class viewItem extends Component {
   }
 
   render() {
-    return (
-      <div className="container">
-        <h3 className="center">Item Views</h3>
-        {this.state.item_select ? this.renderContent() : null}
-        <Link to="/inbounditem">
-          <button className="red btn-flat white-text">
-            <i className="material-icons left">chevron_left</i>
-            Back
-          </button>
-        </Link>
-      </div>
-    );
+    return <div>{this.state.item_select ? this.renderContent() : null}</div>;
   }
 }
 

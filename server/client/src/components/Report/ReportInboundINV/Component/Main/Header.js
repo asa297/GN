@@ -1,10 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Report_CSS from "../../../../Style/CSS/Report_OUT_INV_CSS.css";
 
 const SearchHeader = () => {
   return (
-    <div className={Report_CSS.headerReport}>
+    <div className="header_report">
       <div>
         <Link to="/report">
           <i className="medium material-icons">chevron_left</i>
@@ -12,7 +11,7 @@ const SearchHeader = () => {
       </div>
       <div>
         <h3 className="center" style={{ marginTop: "0px" }}>
-          Daily Outbound Inventory Report
+          Inbound Inventory Report
         </h3>
       </div>
       <div />

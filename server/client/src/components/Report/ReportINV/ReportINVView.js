@@ -1,17 +1,19 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Report_CSS from "../../../Style/CSS/Report_INV_CSS.css";
-import FormINVView from "./ReportINVView/FormINVView";
+// import FormINVView from "./ReportINVView/FormINVView";
+import ViewItem from "./view/viewItem";
 
 class ReportINVView extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
-    const { item_code } = props.location.state;
+    this.state = {};
+  }
 
-    this.state = {
-      item_code
-    };
+  componentDidMount() {
+    const { _id } = this.props.location.state;
+    this.setState({ _id });
   }
 
   renderReportINVView() {
@@ -21,10 +23,11 @@ class ReportINVView extends Component {
           <Link to="/report/reportinv">
             <i className="medium material-icons">chevron_left</i>
           </Link>
-          <h3>INVENTORY Report : {this.state.item_code}</h3>
+          <h3>INVENTORY Report</h3>
           <div />
         </div>
-        <FormINVView item_code={this.state.item_code} />
+        <ViewItem _id={this.state._id} />
+        {/* <FormINVView item_code={this.state.item_code} /> */}
       </div>
     );
   }
@@ -32,7 +35,7 @@ class ReportINVView extends Component {
   render() {
     return (
       <div>
-        {this.state.item_code === undefined ? null : this.renderReportINVView()}
+        {this.state._id === undefined ? null : this.renderReportINVView()}
       </div>
     );
   }

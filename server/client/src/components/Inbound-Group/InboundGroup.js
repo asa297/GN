@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchInbound_Group, deleteInbound_Group } from "../../actions";
+import {
+  fetchInbound_Org,
+  fetchInbound_Group,
+  deleteInbound_Group
+} from "../../actions";
 import InboundGroupList from "./InboundGroupList";
 import InboundGroupEdit from "./InboundGroupEdit";
 import InboundGroupReview from "./InboundGroupReview";
@@ -21,11 +25,12 @@ class InboundGroup extends Component {
   }
 
   componentDidMount() {
+    this.props.fetchInbound_Org();
     this.props.fetchInbound_Group();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.inbound_groups) {
+    if (nextProps.groups) {
       this.setState({ ready: true });
     }
   }
@@ -92,13 +97,14 @@ class InboundGroup extends Component {
   }
 }
 
-function mapStateToProps({ inbound_groups }) {
-  return { inbound_groups };
+function mapStateToProps({ groups }) {
+  return { groups };
 }
 
 export default connect(
   mapStateToProps,
   {
+    fetchInbound_Org,
     fetchInbound_Group,
     deleteInbound_Group
   }

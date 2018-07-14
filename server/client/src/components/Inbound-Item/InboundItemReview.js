@@ -9,9 +9,9 @@ const InboundItemReview = ({
   onCancel,
   onUpdateItem,
   formValues,
-  inbound_orgs,
+  orgs,
   submitInboundItem,
-  updateInbound_Item,
+  update_Item,
   history,
   item_id
 }) => {
@@ -19,7 +19,7 @@ const InboundItemReview = ({
 
   if (formValues.item_type.itemTypeId === 2) {
     orgChinaList = _.forEach(
-      _.filter(inbound_orgs, ({ _id, orgTypeId, orgName }) => {
+      _.filter(orgs, ({ _id, orgTypeId, orgName }) => {
         return orgTypeId === 2;
       }),
       values => {
@@ -60,6 +60,11 @@ const InboundItemReview = ({
     );
   });
 
+  const submitUpdateItem = async () => {
+    await update_Item(item_id, formValues, orgChinaList);
+    onUpdateItem();
+  };
+
   return (
     <div className="container">
       <h5>Please confirm your entries</h5>
@@ -78,12 +83,7 @@ const InboundItemReview = ({
         className="green btn-flat right white-text"
         onClick={() =>
           onUpdateItem
-            ? updateInbound_Item(
-                item_id,
-                formValues,
-                orgChinaList,
-                onUpdateItem
-              )
+            ? submitUpdateItem()
             : submitInboundItem(formValues, orgChinaList, history)
         }
       >
@@ -94,8 +94,11 @@ const InboundItemReview = ({
   );
 };
 
-function mapStateToProps({ form, inbound_orgs }) {
-  return { formValues: form.inbound_item.values, inbound_orgs };
+function mapStateToProps({ form, orgs }) {
+  return { formValues: form.inbound_item.values, orgs };
 }
 
-export default connect(mapStateToProps, actions)(withRouter(InboundItemReview));
+export default connect(
+  mapStateToProps,
+  actions
+)(withRouter(InboundItemReview));

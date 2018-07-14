@@ -93,8 +93,8 @@ class InboundOrg extends Component {
   }
 }
 
-function mapStateToProps({ inbound_orgs, typeorgs }) {
-  return { inbound_orgs, typeorgs };
+function mapStateToProps({ orgs, typeorgs }) {
+  return { orgs, typeorgs };
 }
 
 export default connect(

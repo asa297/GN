@@ -27,8 +27,11 @@ import ReportPO from "../components/Report/ReportPO/ReportPO";
 import ReportPOView from "../components/Report/ReportPO/ReportPOView";
 import ReportInventory from "../components/Report/ReportINV/ReportINV";
 import ReportInventoryView from "../components/Report/ReportINV/ReportINVView";
-import ReportOutboundInventory from "../components/Report/ReportOutboundINV/Search/Search";
-import ReportOutboundInventoryView from "../components/Report/ReportOutboundINV/View/ReportView";
+import ReportInBoundInventory from "../components/Report/ReportInboundINV/ReportView";
+import ReportInBoundInventoryView from "../components/Report/ReportInboundINV/Component/View/InboundItem";
+import ReportOutBoundInventory from "../components/Report/ReportOutboundINV/ReportView";
+import ReportDailyINV from "../components/Report/ReportDailyINV/Search/Search";
+import ReportDailyINVView from "../components/Report/ReportDailyINV/View/ReportView";
 
 export default auth => {
   if (!_.isNil(auth)) {
@@ -38,13 +41,28 @@ export default auth => {
           <div>
             <Route
               exact
-              path="/report/reportoutinv/view"
-              component={ReportOutboundInventoryView}
+              path="/report/reportdailyinv/view"
+              component={ReportDailyINVView}
             />
             <Route
               exact
-              path="/report/reportoutinv"
-              component={ReportOutboundInventory}
+              path="/report/reportdailyinv"
+              component={ReportDailyINV}
+            />
+            <Route
+              exact
+              path="/report/reportoutboundinv"
+              component={ReportOutBoundInventory}
+            />
+            <Route
+              exact
+              path="/report/reportinboundinv/view/edit"
+              component={ReportInBoundInventoryView}
+            />
+            <Route
+              exact
+              path="/report/reportinboundinv"
+              component={ReportInBoundInventory}
             />
             <Route
               exact

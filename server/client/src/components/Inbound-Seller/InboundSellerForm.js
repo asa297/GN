@@ -65,12 +65,17 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ inbound_orgs }) {
-  return { inbound_orgs };
+function mapStateToProps({ orgs }) {
+  return { orgs };
 }
 
 export default reduxForm({
   validate,
   form: "inbound_seller",
   destroyOnUnmount: false
-})(connect(mapStateToProps, null)(InboundSellerForm));
+})(
+  connect(
+    mapStateToProps,
+    null
+  )(InboundSellerForm)
+);

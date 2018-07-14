@@ -68,12 +68,12 @@ class POItemOrder extends Component {
     this.setState({ loading: true });
     await this.props.find_Item(this.state.itemCode);
 
-    const index_item = _.findIndex(
-      this.props.inbound_items,
-      ({ item_code }) => {
-        return item_code === this.state.itemCode;
-      }
-    );
+    // const index_item = _.findIndex(
+    //   this.props.items,
+    //   ({ item_code }) => {
+    //     return item_code === this.state.itemCode;
+    //   }
+    // );
 
     const index_item_itemList = _.findIndex(
       this.state.itemList,
@@ -82,18 +82,18 @@ class POItemOrder extends Component {
       }
     );
 
-    if (index_item !== -1 && index_item_itemList === -1) {
-      const { item_qty } = this.props.inbound_items[index_item];
+    if (index_item_itemList === -1) {
+      const { item_qty } = this.props.items;
 
       if (item_qty > 0) {
-        const value = this.props.inbound_items[index_item];
+        const value = this.props.items;
         value.countQty = 1;
 
         this.setState({
           itemList: [...this.state.itemList, value]
         });
       }
-    } else if (index_item !== -1 && index_item_itemList !== -1) {
+    } else if (index_item_itemList !== -1) {
       let clone_state = this.state.itemList.slice();
 
       const { countQty, item_qty } = clone_state[index_item_itemList];
@@ -247,8 +247,8 @@ class POItemOrder extends Component {
   }
 }
 
-function mapStateToProps({ inbound_items }) {
-  return { inbound_items };
+function mapStateToProps({ items }) {
+  return { items };
 }
 
 export default reduxForm({

@@ -21,7 +21,7 @@ class InboundSeller extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.inbound_sellers) {
+    if (nextProps.sellers) {
       this.setState({ ready: true });
     }
   }
@@ -88,8 +88,8 @@ class InboundSeller extends Component {
   }
 }
 
-function mapStateToProps({ inbound_sellers }) {
-  return { inbound_sellers };
+function mapStateToProps({ sellers }) {
+  return { sellers };
 }
 
 export default connect(

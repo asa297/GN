@@ -76,7 +76,7 @@ class InboundOrgList extends Component {
   }
 
   renderInboundOrg() {
-    return this.props.inbound_orgs.map(
+    return this.props.orgs.map(
       (
         { _id, orgName, orgTypeId, LastModifyByName, LastModifyDate },
         index
@@ -141,8 +141,8 @@ class InboundOrgList extends Component {
   }
 }
 
-function mapStateToProps({ inbound_orgs, typeorgs, auth }) {
-  return { inbound_orgs, typeorgs, auth };
+function mapStateToProps({ orgs, typeorgs, auth }) {
+  return { orgs, typeorgs, auth };
 }
 
 export default connect(

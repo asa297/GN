@@ -30,12 +30,9 @@ class InboundItemForm extends Component {
   componentDidMount() {
     this.props.dispatch(reset("inbound_item"));
 
-    orgChinaList = _.filter(
-      this.props.inbound_orgs,
-      ({ _id, orgTypeId, orgName }) => {
-        return orgTypeId === 2;
-      }
-    );
+    orgChinaList = _.filter(this.props.orgs, ({ _id, orgTypeId, orgName }) => {
+      return orgTypeId === 2;
+    });
   }
 
   componentWillReceiveProps({ form: { inbound_item } }) {
@@ -161,8 +158,8 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ inbound_orgs, form }) {
-  return { inbound_orgs, form };
+function mapStateToProps({ orgs, form }) {
+  return { orgs, form };
 }
 
 export default reduxForm({

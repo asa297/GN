@@ -10,7 +10,7 @@ import PO_CSS from "../../Style/CSS/PO_CSS.css";
 class POSelectSeller extends Component {
   renderSellerFieldSelect() {
     const seller_list = _.map(
-      this.props.inbound_sellers,
+      this.props.sellers,
       ({ _id, sellerName, sellerCom }) => {
         return {
           _id,
@@ -58,8 +58,8 @@ class POSelectSeller extends Component {
   }
 }
 
-function mapStateToProps({ inbound_sellers }) {
-  return { inbound_sellers };
+function mapStateToProps({ sellers }) {
+  return { sellers };
 }
 
 export default connect(mapStateToProps)(POSelectSeller);

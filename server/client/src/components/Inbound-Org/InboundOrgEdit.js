@@ -10,7 +10,7 @@ import FIELDS from "./formFields";
 class InboundOrgEdit extends Component {
   constructor(props) {
     super(props);
-    const value_props = this.props.inbound_orgs[this.props.index];
+    const value_props = this.props.orgs[this.props.index];
 
     const org_type_selected = _.find(this.props.typeorgs, ({ org_typeId }) => {
       return org_typeId === value_props.orgTypeId;
@@ -96,7 +96,7 @@ class InboundOrgEdit extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div>
         <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
           {this.renderFieldOrgType()}
           {this.renderField()}
@@ -141,8 +141,8 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ inbound_orgs, typeorgs }) {
-  return { inbound_orgs, typeorgs };
+function mapStateToProps({ orgs, typeorgs }) {
+  return { orgs, typeorgs };
 }
 
 export default reduxForm({

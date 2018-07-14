@@ -8,7 +8,7 @@ import PO_CSS from "../../Style/CSS/PO_CSS.css";
 class POSelectGruop extends Component {
   renderGroupFieldSelect() {
     const group_list = _.map(
-      this.props.inbound_groups,
+      this.props.groups,
       ({
         _id,
         orgId,
@@ -69,8 +69,8 @@ class POSelectGruop extends Component {
   }
 }
 
-function mapStateToProps({ inbound_groups }) {
-  return { inbound_groups };
+function mapStateToProps({ groups }) {
+  return { groups };
 }
 
 export default connect(mapStateToProps)(POSelectGruop);

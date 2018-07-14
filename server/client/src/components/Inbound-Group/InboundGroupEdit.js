@@ -10,9 +10,9 @@ import FIELDS from "./formFields";
 class InboundGroupEdit extends Component {
   constructor(props) {
     super(props);
-    const value_props = this.props.inbound_groups[this.props.index];
+    const value_props = this.props.groups[this.props.index];
 
-    const org_selected = _.find(this.props.inbound_orgs, ({ _id }) => {
+    const org_selected = _.find(this.props.orgs, ({ _id }) => {
       return _id === value_props.orgId;
     });
 
@@ -70,7 +70,7 @@ class InboundGroupEdit extends Component {
 
   renderFieldOrg() {
     const orgOption_list = _.map(
-      this.props.inbound_orgs,
+      this.props.orgs,
       ({ _id, orgName, orgCode, orgTypeId, orgTypeName }) => {
         return {
           _id,
@@ -109,7 +109,7 @@ class InboundGroupEdit extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div>
         <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
           {this.renderFieldOrg()}
           {this.renderField()}
@@ -147,8 +147,8 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ inbound_orgs, inbound_groups }) {
-  return { inbound_orgs, inbound_groups };
+function mapStateToProps({ orgs, groups }) {
+  return { orgs, groups };
 }
 
 export default reduxForm({

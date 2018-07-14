@@ -30,7 +30,7 @@ class InboundGroupForm extends Component {
 
   renderFieldOrg() {
     const orgOption_list = _.map(
-      this.props.inbound_orgs,
+      this.props.orgs,
       ({ _id, orgName, orgCode, orgCom, orgTypeId, orgTypeName }) => {
         return {
           _id,
@@ -104,12 +104,17 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ inbound_orgs }) {
-  return { inbound_orgs };
+function mapStateToProps({ orgs }) {
+  return { orgs };
 }
 
 export default reduxForm({
   validate,
   form: "inbound_group",
   destroyOnUnmount: false
-})(connect(mapStateToProps, null)(InboundGroupForm));
+})(
+  connect(
+    mapStateToProps,
+    null
+  )(InboundGroupForm)
+);

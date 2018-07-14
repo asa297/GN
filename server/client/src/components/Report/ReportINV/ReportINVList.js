@@ -26,14 +26,14 @@ class ReportPOList extends Component {
             style: { textAlign: "center" }
           },
           {
-            accessor: "item_code",
+            accessor: "_id",
             width: 50,
             Cell: row => (
               <div className={Report_INV_CSS.viewReportINV}>
                 <Link
                   to={{
                     pathname: "/report/reportinv/view",
-                    state: { item_code: row.value }
+                    state: { _id: row.value }
                   }}
                 >
                   <i className="tiny material-icons">content_paste</i>
@@ -107,8 +107,8 @@ class ReportPOList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.inbound_items) {
-      _.map(nextProps.inbound_items, (value, index) => {
+    if (nextProps.items) {
+      _.map(nextProps.items, (value, index) => {
         value.LastModifyDate_moment =
           new Date(value.LastModifyDate).toLocaleDateString() +
           " " +
@@ -123,7 +123,7 @@ class ReportPOList extends Component {
     return (
       <div>
         <ReactTable
-          data={this.props.inbound_items}
+          data={this.props.items}
           noDataText="Oh Noes!"
           columns={this.settingColumn()}
           defaultPageSize={15}
@@ -135,8 +135,8 @@ class ReportPOList extends Component {
   }
 }
 
-function mapStateToProps({ inbound_items }) {
-  return { inbound_items: _.orderBy(inbound_items, ["item_code"], ["asc"]) };
+function mapStateToProps({ items }) {
+  return { items: _.orderBy(items, ["item_code"], ["asc"]) };
 }
 
 export default connect(

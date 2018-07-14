@@ -24,8 +24,8 @@ class FormINVView extends Component {
   constructor(props) {
     super(props);
 
-    const value_props = this.props.inbound_items[
-      _.findIndex(this.props.inbound_items, {
+    const value_props = this.props.items[
+      _.findIndex(this.props.items, {
         item_code: this.props.item_code
       })
     ];
@@ -83,15 +83,15 @@ class FormINVView extends Component {
     }
   }
 
-  componentWillReceiveProps({ form: { inbound_item }, inbound_orgs }) {
+  componentWillReceiveProps({ form: { inbound_item }, orgs }) {
     if (inbound_item.values && inbound_item.values.item_type) {
       this.setState({
         itemTypeId: inbound_item.values.item_type.itemTypeId
       });
     }
 
-    if (inbound_orgs) {
-      orgChina = _.filter(inbound_orgs, ({ _id, orgTypeId, orgName }) => {
+    if (orgs) {
+      orgChina = _.filter(orgs, ({ _id, orgTypeId, orgName }) => {
         return orgTypeId === 2;
       });
     }
@@ -160,7 +160,7 @@ class FormINVView extends Component {
 
   handleFormSubmit() {
     const orgChinaList = _.forEach(
-      _.filter(this.props.inbound_orgs, ({ _id, orgTypeId, orgName }) => {
+      _.filter(this.props.orgs, ({ _id, orgTypeId, orgName }) => {
         return orgTypeId === 2;
       }),
       values => {
@@ -237,8 +237,8 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ inbound_items, inbound_orgs, form }) {
-  return { inbound_items, inbound_orgs, form };
+function mapStateToProps({ items, orgs, form }) {
+  return { items, orgs, form };
 }
 
 export default reduxForm({

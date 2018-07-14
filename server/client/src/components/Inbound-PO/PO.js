@@ -38,7 +38,7 @@ class PO extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.inbound_groups.length > 0) {
+    if (nextProps.groups.length > 0) {
       this.setState({ ready: true });
     }
   }
@@ -173,8 +173,8 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ form: { inbound_po }, inbound_groups }) {
-  return { inbound_po, inbound_groups };
+function mapStateToProps({ form: { inbound_po }, groups }) {
+  return { inbound_po, groups };
 }
 
 export default reduxForm({

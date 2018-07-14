@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-
+import { fetchInbound_Group } from "../../actions";
 import Modal from "react-modal";
 import ModalStyle from "../../Style/JS/modalStyle";
 import ReactModalCSS from "../../Style/CSS/ReactModal.css";
@@ -14,6 +14,10 @@ class InboundGroupList extends Component {
       modalIsOpen: false,
       group_id: 0
     };
+  }
+
+  componentDidMount() {
+    this.props.fetchInbound_Group();
   }
 
   openModal(group_id) {
@@ -72,7 +76,7 @@ class InboundGroupList extends Component {
   }
 
   renderInboundGroup() {
-    return this.props.inbound_groups.map(
+    return this.props.groups.map(
       (
         { _id, groupCode, guideName, LastModifyByName, LastModifyDate },
         index
@@ -139,8 +143,11 @@ class InboundGroupList extends Component {
   }
 }
 
-function mapStateToProps({ inbound_orgs, inbound_groups, auth }) {
-  return { inbound_orgs, inbound_groups, auth };
+function mapStateToProps({ orgs, groups, auth }) {
+  return { orgs, groups, auth };
 }
 
-export default connect(mapStateToProps)(withRouter(InboundGroupList));
+export default connect(
+  mapStateToProps,
+  { fetchInbound_Group }
+)(withRouter(InboundGroupList));

@@ -9,7 +9,7 @@ import FIELDS from "./formFields";
 class InboundSellerEdit extends Component {
   constructor(props) {
     super(props);
-    const value_props = this.props.inbound_sellers[this.props.index];
+    const value_props = this.props.sellers[this.props.index];
 
     this.state = {
       _id: value_props._id,
@@ -45,7 +45,7 @@ class InboundSellerEdit extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div>
         <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
           {this.renderField()}
 
@@ -85,12 +85,17 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ inbound_sellers }) {
-  return { inbound_sellers };
+function mapStateToProps({ sellers }) {
+  return { sellers };
 }
 
 export default reduxForm({
   validate,
   form: "inbound_item",
   destroyOnUnmount: false
-})(connect(mapStateToProps, null)(InboundSellerEdit));
+})(
+  connect(
+    mapStateToProps,
+    null
+  )(InboundSellerEdit)
+);

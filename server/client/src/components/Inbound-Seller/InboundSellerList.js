@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { fetchInbound_Seller } from "../../actions";
 import Modal from "react-modal";
 import ModalStyle from "../../Style/JS/modalStyle";
 import ReactModalCSS from "../../Style/CSS/ReactModal.css";
@@ -12,6 +13,10 @@ class InboundSellerList extends Component {
       modalIsOpen: false,
       seller_id: 0
     };
+  }
+
+  componentDidMount() {
+    this.props.fetchInbound_Seller();
   }
 
   openModal(seller_id) {
@@ -63,7 +68,7 @@ class InboundSellerList extends Component {
   }
 
   renderInboundGroup() {
-    return this.props.inbound_sellers.map(
+    return this.props.sellers.map(
       (
         {
           _id,
@@ -141,8 +146,11 @@ class InboundSellerList extends Component {
   }
 }
 
-function mapStateToProps({ inbound_sellers, auth }) {
-  return { inbound_sellers, auth };
+function mapStateToProps({ sellers, auth }) {
+  return { sellers, auth };
 }
 
-export default connect(mapStateToProps)(InboundSellerList);
+export default connect(
+  mapStateToProps,
+  { fetchInbound_Seller }
+)(InboundSellerList);

@@ -10,5 +10,35 @@
   padding: 0 15px;
 }
 .icon-block .material-icons {
-	font-size: inherit;
+  font-size: inherit;
+}
+
+.container_report {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.header_report {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container_search {
+  display: flex;
+  justify-content: space-between;
+}
+
+.datepicker_inboundINV {
+  display: flex;
+  align-items: center;
+}
+
+.search_inboundINV {
+  display: flex;
+  align-items: center;
+}
+
+.buttonAction_inboundINV {
+  display: flex;
+  justify-content: center;
 }
