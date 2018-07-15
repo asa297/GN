@@ -4,12 +4,13 @@ import { validateOrder } from "./middleware";
 import {
   FETCH_USER,
   FETCH_TYPE_ORG,
-  FETCH_INBOUND_ORG,
-  FETCH_INBOUND_GROUP,
-  FETCH_INBOUND_SELLER,
-  FETCH_INBOUND_ITEM,
-  FETCH_INBOUND_ITEM_FOR_PO,
-  FETCH_INBOUND_REPORT_PO
+  FETCH_ORG,
+  FETCH_GROUP,
+  FETCH_SELLER,
+  FETCH_ITEM,
+  FETCH_ITEM_FOR_PO,
+  FETCH_REPORT_PO,
+  FETCH_INBOUND_REPORT
 } from "./type";
 
 export const fetchUser = () => async dispatch => {
@@ -18,96 +19,92 @@ export const fetchUser = () => async dispatch => {
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
-// inbound org
-
 export const fetchOrgType = () => async dispatch => {
   const res = await axios.get("/api/orgType");
 
   dispatch({ type: FETCH_TYPE_ORG, payload: res.data });
 };
 
-export const submitInboundOrg = (values, history) => async dispatch => {
-  await axios.post("/api/inbound/org", values);
+// inbound org
 
-  history.push("/inboundorg");
+export const submitOrg = (values, history) => async dispatch => {
+  await axios.post("/api/org", values);
+
+  history.push("/Org");
 };
 
-export const fetchInbound_Org = () => async dispatch => {
-  const res = await axios.get("/api/inbound/org");
+export const fetch_Org = () => async dispatch => {
+  const res = await axios.get("/api/org");
 
-  dispatch({ type: FETCH_INBOUND_ORG, payload: res.data });
+  dispatch({ type: FETCH_ORG, payload: res.data });
 };
 
-export const updateInbound_Org = (
-  org_id,
-  values,
-  onUpdateOrg
-) => async dispatch => {
-  await axios.post("/api/inbound/org/edit/" + org_id, values);
+export const update_Org = (org_id, values, onUpdateOrg) => async dispatch => {
+  await axios.post("/api/org/edit/" + org_id, values);
   onUpdateOrg();
 };
 
-export const deleteInbound_Org = org_id => async dispatch => {
-  const res = await axios.delete("/api/inbound/org/" + org_id);
+export const delete_Org = org_id => async dispatch => {
+  const res = await axios.delete("/api/org/" + org_id);
 
-  dispatch({ type: FETCH_INBOUND_ORG, payload: res.data });
+  dispatch({ type: FETCH_ORG, payload: res.data });
 };
 
 // inbound group
-export const submitInboundGroup = (values, history) => async dispatch => {
-  await axios.post("/api/inbound/group", values);
+export const submitGroup = (values, history) => async dispatch => {
+  await axios.post("/api/group", values);
 
-  history.push("/inboundgroup");
+  history.push("/Group");
 };
 
-export const fetchInbound_Group = () => async dispatch => {
-  const res = await axios.get("/api/inbound/group");
+export const fetch_Group = () => async dispatch => {
+  const res = await axios.get("/api/group");
 
-  dispatch({ type: FETCH_INBOUND_GROUP, payload: res.data });
+  dispatch({ type: FETCH_GROUP, payload: res.data });
 };
 
-export const updateInbound_Group = (
+export const update_Group = (
   group_id,
   values,
   onUpdateGroup
 ) => async dispatch => {
-  await axios.post("/api/inbound/group/edit/" + group_id, values);
+  await axios.post("/api/group/edit/" + group_id, values);
   onUpdateGroup();
 };
 
-export const deleteInbound_Group = group_id => async dispatch => {
-  const res = await axios.delete("/api/inbound/group/" + group_id);
+export const delete_Group = group_id => async dispatch => {
+  const res = await axios.delete("/api/group/" + group_id);
 
-  dispatch({ type: FETCH_INBOUND_GROUP, payload: res.data });
+  dispatch({ type: FETCH_GROUP, payload: res.data });
 };
 
 //inbound seller
 
-export const submitInboundSeller = (values, history) => async dispatch => {
-  await axios.post("/api/inbound/seller", values);
+export const submitSeller = (values, history) => async dispatch => {
+  await axios.post("/api/seller", values);
 
-  history.push("/inboundseller");
+  history.push("/Seller");
 };
 
-export const fetchInbound_Seller = () => async dispatch => {
-  const res = await axios.get("/api/inbound/seller");
+export const fetch_Seller = () => async dispatch => {
+  const res = await axios.get("/api/seller");
 
-  dispatch({ type: FETCH_INBOUND_SELLER, payload: res.data });
+  dispatch({ type: FETCH_SELLER, payload: res.data });
 };
 
-export const updateInbound_Seller = (
+export const update_Seller = (
   seller_id,
   values,
   onUpdateSeller
 ) => async dispatch => {
-  await axios.post("/api/inbound/seller/edit/" + seller_id, values);
+  await axios.post("/api/seller/edit/" + seller_id, values);
   onUpdateSeller();
 };
 
-export const deleteInbound_Seller = seller_id => async dispatch => {
-  const res = await axios.delete("/api/inbound/seller/" + seller_id);
+export const delete_Seller = seller_id => async dispatch => {
+  const res = await axios.delete("/api/seller/" + seller_id);
 
-  dispatch({ type: FETCH_INBOUND_SELLER, payload: res.data });
+  dispatch({ type: FETCH_SELLER, payload: res.data });
 };
 
 //inbound item
@@ -121,21 +118,21 @@ export const submitInboundItem = (
     values.orgChinaList = orgChinaList;
   }
 
-  await axios.post("/api/inbound/item", values);
+  await axios.post("/api/item", values);
 
-  history.push("/inbounditem");
+  history.push("/Item");
 };
 
-export const fetchInbound_Item = () => async dispatch => {
-  const res = await axios.get("/api/inbound/item");
+export const fetch_Item = () => async dispatch => {
+  const res = await axios.get("/api/item");
 
-  dispatch({ type: FETCH_INBOUND_ITEM, payload: res.data });
+  dispatch({ type: FETCH_ITEM, payload: res.data });
 };
 
 export const find_Item = item_code => async dispatch => {
-  const res = await axios.get("/api/inbound/item/" + item_code);
+  const res = await axios.get("/api/item/" + item_code);
 
-  dispatch({ type: FETCH_INBOUND_ITEM_FOR_PO, payload: res.data });
+  dispatch({ type: FETCH_ITEM_FOR_PO, payload: res.data });
 };
 
 export const update_Item = (
@@ -147,32 +144,30 @@ export const update_Item = (
     values.orgChinaList = orgChinaList;
   }
 
-  await axios.post("/api/inbound/item/edit/" + item_id, values);
+  await axios.post("/api/item/edit/" + item_id, values);
 };
 
 export const delete_Item = (item_id, history) => async dispatch => {
-  await axios.delete("/api/inbound/item/" + item_id);
+  const res = await axios.delete("/api/item/" + item_id);
+
+  dispatch({ type: FETCH_ITEM, payload: res.data });
 };
 
-export const updateInbound_Item = (
-  item_id,
-  values,
-  orgChinaList,
-  history
-) => async dispatch => {
-  if (orgChinaList) {
-    values.orgChinaList = orgChinaList;
-  }
-
-  await axios
-    .post("/api/inbound/item/edit/" + item_id, values)
+export const updateStock_Item = (item_id, values) => async dispatch => {
+  const res = await axios
+    .post("/api/item/edit/" + item_id, values)
     .then(response => {
-      history.push("/report/reportinv");
+      return response.status;
+    })
+    .catch(error => {
+      return error;
     });
+
+  return res;
 };
 
 export const deleteInbound_Item = (item_id, history) => async dispatch => {
-  await axios.delete("/api/inbound/item/" + item_id).then(response => {
+  await axios.delete("/api/item/" + item_id).then(response => {
     history.push("/report/reportinv");
   });
 };
@@ -195,17 +190,17 @@ export const submitInboundOrder = values => async () => {
 export const fetchInbound_ReportPO = () => async dispatch => {
   const res = await axios.get("/api/order");
 
-  dispatch({ type: FETCH_INBOUND_REPORT_PO, payload: res.data });
+  dispatch({ type: FETCH_REPORT_PO, payload: res.data });
 };
 
 export const fetchInbound_ReportPO_Filter = formvalue => async dispatch => {
   if (formvalue.values) {
     const { values } = formvalue;
     const res = await axios.post("/api/order_filter", values);
-    dispatch({ type: FETCH_INBOUND_REPORT_PO, payload: res.data });
+    dispatch({ type: FETCH_REPORT_PO, payload: res.data });
   } else {
     const res = await axios.get("/api/order");
-    dispatch({ type: FETCH_INBOUND_REPORT_PO, payload: res.data });
+    dispatch({ type: FETCH_REPORT_PO, payload: res.data });
   }
 };
 
@@ -225,4 +220,31 @@ export const deleteInbound_ReportPO = (orderId, history) => async dispatch => {
   await axios.delete("/api/order/" + orderId).then(response => {
     history.push("/report/reportpo");
   });
+};
+
+//ItemElement
+export const submitInbound_ItemElement = values => async () => {
+  const res = await axios
+    .post("/api/itemelement/inbound", values)
+    .then(response => {
+      return response.status;
+    })
+    .catch(error => {
+      return error;
+    });
+
+  return res;
+};
+
+export const fetchInbound_ItemElement = values => async dispatch => {
+  const res = await axios
+    .get("/api/itemelement/inbound")
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
+      return error;
+    });
+
+  dispatch({ type: FETCH_INBOUND_REPORT, payload: res.data });
 };

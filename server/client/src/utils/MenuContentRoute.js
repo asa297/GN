@@ -5,22 +5,22 @@ import { Route } from "react-router-dom";
 import Home from "../components/Home";
 import DefaultHome from "../components/DefaultHome";
 //Org
-import InboundOrgNew from "../components/Inbound-Org/InboundOrgNew";
-import InboundOrg from "../components/Inbound-Org/InboundOrg";
-import InboundOrgView from "../components/Inbound-Org/view/viewOrg";
+import Org from "../components/Org/Org";
+import OrgNew from "../components/Org/OrgNew";
+import OrgView from "../components/Org/view/viewOrg";
 //Group
-import InboundGroup from "../components/Inbound-Group/InboundGroup";
-import InboundGroupNew from "../components/Inbound-Group/InboundGroupNew";
-import InboundGroupView from "../components/Inbound-Group/view/viewGroup";
+import Group from "../components/Group/Group";
+import GroupNew from "../components/Group/GroupNew";
+import GroupView from "../components/Group/view/viewGroup";
 //Seller
-import InboundSeller from "../components/Inbound-Seller/InboundSeller";
-import InboundSellerNew from "../components/Inbound-Seller/InboundSellerNew";
+import Seller from "../components/Seller/Seller";
+import SellerNew from "../components/Seller/SellerNew";
 //Item
-import InboundItem from "../components/Inbound-Item/InboundItem";
-import InboundItemNew from "../components/Inbound-Item/InboundItemNew";
-import InboundItemView from "../components/Inbound-Item/view/viewItem";
+import Item from "../components/Item/Item";
+import ItemNew from "../components/Item/ItemNew";
+import ItemView from "../components/Item/view/viewItem";
 //PO
-import InboundPO from "../components/Inbound-PO/PO";
+import InboundPO from "../components/PO/PO";
 //Report
 import Report from "../components/Report/Report";
 import ReportPO from "../components/Report/ReportPO/ReportPO";
@@ -78,25 +78,17 @@ export default auth => {
             <Route exact path="/report/reportpo" component={ReportPO} />
             <Route exact path="/report" component={Report} />
             <Route exact path="/inboundpo" component={InboundPO} />
-            <Route exact path="/inbounditem/view" component={InboundItemView} />
-            <Route exact path="/inbounditem/new" component={InboundItemNew} />
-            <Route exact path="/inbounditem" component={InboundItem} />
-            <Route
-              exact
-              path="/inboundseller/new"
-              component={InboundSellerNew}
-            />
-            <Route exact path="/inboundseller" component={InboundSeller} />
-            <Route
-              exact
-              path="/inboundgroup/view"
-              component={InboundGroupView}
-            />
-            <Route exact path="/inboundgroup/new" component={InboundGroupNew} />
-            <Route exact path="/inboundgroup" component={InboundGroup} />
-            <Route exact path="/inboundorg/view" component={InboundOrgView} />
-            <Route exact path="/inboundorg/new" component={InboundOrgNew} />
-            <Route exact path="/inboundorg" component={InboundOrg} />
+            <Route exact path="/Item/view" component={ItemView} />
+            <Route exact path="/Item/new" component={ItemNew} />
+            <Route exact path="/Item" component={Item} />
+            <Route exact path="/Seller/new" component={SellerNew} />
+            <Route exact path="/Seller" component={Seller} />
+            <Route exact path="/Group/view" component={GroupView} />
+            <Route exact path="/Group/new" component={GroupNew} />
+            <Route exact path="/Group" component={Group} />
+            <Route exact path="/Org/view" component={OrgView} />
+            <Route exact path="/Org/new" component={OrgNew} />
+            <Route exact path="/Org" component={Org} />
             <Route exact path="/home" component={Home} />
             <Route exact path="/" component={DefaultHome} />
           </div>

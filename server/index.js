@@ -9,11 +9,12 @@ const keys = require("./config/key");
 
 require("./models/User");
 require("./models/OrgType");
-require("./models/InboundOrg");
-require("./models/InboundGroup");
-require("./models/InboundSeller");
-require("./models/inboundItem");
-require("./models/InboundOrder");
+require("./models/Org");
+require("./models/Group");
+require("./models/Seller");
+require("./models/Item");
+require("./models/Order");
+require("./models/ItemElement");
 require("./services/passport");
 
 mongoose.connect(keys.mongoURI);
@@ -35,11 +36,12 @@ app.use(passport.session());
 
 require("./routes/authRoutes")(app);
 require("./routes/orgTypeRotues")(app);
-require("./routes/inboundOrgRoutes")(app);
-require("./routes/inboundGroupRoutes")(app);
-require("./routes/inboundSellerRoutes")(app);
-require("./routes/inboundItemRoutes")(app);
-require("./routes/inboundOrderRoutes")(app);
+require("./routes/OrgRoutes")(app);
+require("./routes/GroupRoutes")(app);
+require("./routes/SellerRoutes")(app);
+require("./routes/ItemRoutes")(app);
+require("./routes/OrderRoutes")(app);
+require("./routes/ItemElementRotues")(app);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));

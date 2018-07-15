@@ -10,7 +10,7 @@ const SearchHeader = () => {
         </Link>
       </div>
       <div>
-        <h3 className="center" style={{ marginTop: "0px" }}>
+        <h3 className="center" style={{ margin: "0px" }}>
           Inbound Inventory Report
         </h3>
       </div>

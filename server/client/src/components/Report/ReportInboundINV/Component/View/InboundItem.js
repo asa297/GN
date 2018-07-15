@@ -1,13 +1,23 @@
 import React, { Component } from "react";
 import _ from "lodash";
+import {
+  updateStock_Item,
+  submitInbound_ItemElement
+} from "../../../../../actions";
 import { connect } from "react-redux";
 import { reduxForm, Field, change, reset } from "redux-form";
+import { Link, withRouter } from "react-router-dom";
 import Select from "react-select";
 
 import FIELDS from "./formFields/formFields";
 import itemType_list from "../../../../../utils/ItemTypeLIst";
-
-// const required = value => (value ? undefined : "Required");
+import CircularLoaderBlue from "../../../../utils/CircularLoaderBlue";
+import {
+  required,
+  isNumber,
+  NagativeNumber,
+  ZeroNumber
+} from "../../../../utils/validation";
 
 const InboundItemField = ({
   valueField,
@@ -37,7 +47,7 @@ const InboundItemField = ({
   );
 };
 
-class InboundItem extends Component {
+class Item extends Component {
   constructor(props) {
     super(props);
 
@@ -46,32 +56,40 @@ class InboundItem extends Component {
     const itemType_selected = _.find(itemType_list, ({ itemTypeId }) => {
       return itemTypeId === items.itemTypeId;
     });
-    // const orgChina = _.filter(
-    //   this.props.orgs,
-    //   ({ _id, orgTypeId, orgName }) => {
-    //     return orgTypeId === 2;
-    //   }
-    // );
 
     this.state = {
       item_code,
       itemType_selected,
-      // orgChina,
-      items
+      items,
+      saving: false
     };
   }
 
   componentDidMount() {
     _.map(FIELDS, ({ name, key }) => {
-      this.props.dispatch(change("inbound_item", name, this.state.items[name]));
+      this.props.dispatch(change("item_form", name, this.state.items[name]));
     });
     this.props.dispatch(
-      change("inbound_item", "item_type", this.state.itemType_selected)
+      change("item_form", "item_type", this.state.itemType_selected)
     );
   }
 
   renderHeader() {
-    return <h3 className="center">Inbound Item : {this.state.item_code}</h3>;
+    return (
+      <div className="header_report_view">
+        <div>
+          <Link to="/report/reportinboundinv">
+            <i className="medium material-icons">chevron_left</i>
+          </Link>
+        </div>
+        <div>
+          <h3 className="center" style={{ margin: "0px" }}>
+            Inbound Item : {this.state.item_code}
+          </h3>
+        </div>
+        <div />
+      </div>
+    );
   }
 
   renderFieldItemType() {
@@ -109,7 +127,7 @@ class InboundItem extends Component {
           type="text"
           label={label}
           name={name}
-          valueField={this.state.items[name]}
+          valueField={this.state.items[name] ? this.state.items[name] : ""}
           onChange={event =>
             this.setState(prevState => ({
               items: {
@@ -118,30 +136,15 @@ class InboundItem extends Component {
               }
             }))
           }
+          validate={
+            name === "inbound_qty"
+              ? [required, isNumber, NagativeNumber, ZeroNumber]
+              : []
+          }
         />
       );
     });
   }
-
-  // renderFieldCommission() {
-  //   return _.map(this.state.orgChina, ({ _id, orgName }) => {
-  //     return (
-  //       <div className="container" key={_id}>
-  //         <b>{orgName}</b>
-  //         <Field
-  //           value={this.state[_id]}
-  //           key={_id}
-  //           name={_id}
-  //           component={InboundItemField}
-  //           placeholder={orgName}
-  //           valueField={this.state[_id]}
-  //           onChange={event => this.setState({ [_id]: event.target.value })}
-  //           validate={[required]}
-  //         />
-  //       </div>
-  //     );
-  //   });
-  // }
 
   renderButtonAction() {
     return (
@@ -154,6 +157,9 @@ class InboundItem extends Component {
           Inbound Item
           <i className="material-icons left">save</i>
         </button>
+        <div style={{ marginLeft: "10px" }}>
+          {this.state.saving ? <CircularLoaderBlue /> : null}
+        </div>
       </div>
     );
   }
@@ -164,27 +170,51 @@ class InboundItem extends Component {
         {this.renderHeader()}
         {this.renderFieldItemType()}
         {this.renderField()}
-        {/* {this.state.itemType_selected.itemTypeId === 2
-          ? this.renderFieldCommission()
-          : null} */}
         {this.renderButtonAction()}
       </div>
     );
   }
+
+  async sumbitInboundItem() {
+    const { _id } = this.state.items;
+    const { values } = this.props.item_form;
+    values.item_qty = values.item_qty + Number(values.inbound_qty);
+
+    this.setState({ saving: true });
+
+    const status = await this.props.updateStock_Item(_id, values);
+    if (status === 200) {
+      this.props.submitInbound_ItemElement(values);
+      this.props.history.push({
+        pathname: "/report/reportinboundinv"
+      });
+    }
+  }
+
   render() {
     return (
-      <div className="container">
-        {this.state.items.length !== 0 ? this.renderContent() : "Not Found"}
-      </div>
+      <form onSubmit={this.props.handleSubmit(() => this.sumbitInboundItem())}>
+        <div className="container">
+          {this.state.items.length !== 0 ? this.renderContent() : "Not Found"}
+        </div>
+      </form>
     );
   }
 }
 
-function mapStateToProps({ items, orgs, form }) {
-  return { items, orgs, form };
+function mapStateToProps({ items, orgs, form: { item_form } }) {
+  console.log(item_form);
+  return { items, orgs, item_form };
 }
 
 export default reduxForm({
-  // validate,
-  form: "inbound_item"
-})(connect(mapStateToProps)(InboundItem));
+  form: "item_form"
+})(
+  connect(
+    mapStateToProps,
+    {
+      updateStock_Item,
+      submitInbound_ItemElement
+    }
+  )(withRouter(Item))
+);

@@ -5,6 +5,7 @@ export default [
   { label: "Item Color", name: "item_color", disabled: true },
   { label: "Item Skin", name: "item_skin", disabled: true },
   { label: "Item Price", name: "item_price", disabled: true },
-  { label: "Item QTY", name: "item_qty", disabled: false },
+  { label: "Item QTY", name: "item_qty", disabled: true },
+  { label: "Add QTY", name: "inbound_qty", disabled: false },
   { label: "Item Remarks", name: "item_remarks", disabled: true }
 ];

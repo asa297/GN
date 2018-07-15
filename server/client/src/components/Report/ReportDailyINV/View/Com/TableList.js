@@ -42,11 +42,11 @@ const settingColumn = [
   }
 ];
 
-const TableList = ({ inbound_reports_po }) => {
+const TableList = ({ reports_po }) => {
   return (
     <div>
       <ReactTable
-        data={Result(inbound_reports_po)}
+        data={Result(reports_po)}
         noDataText="Oh Noes!"
         columns={settingColumn}
         defaultPageSize={15}
@@ -56,8 +56,8 @@ const TableList = ({ inbound_reports_po }) => {
   );
 };
 
-function mapStateToProps({ inbound_reports_po }) {
-  return { inbound_reports_po };
+function mapStateToProps({ reports_po }) {
+  return { reports_po };
 }
 
 export default connect(mapStateToProps)(TableList);

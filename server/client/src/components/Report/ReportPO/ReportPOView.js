@@ -26,7 +26,7 @@ class ReportPOView extends Component {
   }
 
   componentDidMount() {
-    const report_PO = _.find(this.props.inbound_reports_po, ({ orderId }) => {
+    const report_PO = _.find(this.props.reports_po, ({ orderId }) => {
       return orderId === this.state.orderId;
     });
     this.setState({ report_PO });
@@ -141,13 +141,16 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ inbound_reports_po, form: { report_po_edit } }) {
-  return { inbound_reports_po, report_po_edit };
+function mapStateToProps({ reports_po, form: { report_po_edit } }) {
+  return { reports_po, report_po_edit };
 }
 
 export default reduxForm({
   validate,
   form: "report_po_edit"
 })(
-  connect(mapStateToProps, { updateInbound_ReportPO })(withRouter(ReportPOView))
+  connect(
+    mapStateToProps,
+    { updateInbound_ReportPO }
+  )(withRouter(ReportPOView))
 );

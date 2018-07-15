@@ -21,6 +21,13 @@
 .header_report {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.header_report_view {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .container_search {

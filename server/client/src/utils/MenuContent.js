@@ -11,16 +11,16 @@ export default auth => {
             <Link to="/home">Home</Link>
           </li>,
           <li key="2">
-            <Link to="/inboundorg">Org</Link>
+            <Link to="/Org">Org</Link>
           </li>,
           <li key="3">
-            <Link to="/inboundgroup">Group</Link>
+            <Link to="/Group">Group</Link>
           </li>,
           <li key="4">
-            <Link to="/inboundseller">Seller</Link>
+            <Link to="/Seller">Seller</Link>
           </li>,
           <li key="5">
-            <Link to="/inbounditem">Item</Link>
+            <Link to="/Item">Item</Link>
           </li>,
           <li key="6">
             <Link to="/inboundpo">PO </Link>

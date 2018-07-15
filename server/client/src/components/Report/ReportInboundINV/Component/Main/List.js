@@ -1,10 +1,29 @@
 import React, { Component } from "react";
+import _ from "lodash";
+import { fetchInbound_ItemElement } from "../../../../../actions";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import ReactTable from "react-table";
+import numeral from "numeral";
 
 import "react-table/react-table.css";
 
 class List extends Component {
+  componentDidMount() {
+    this.props.fetchInbound_ItemElement();
+  }
+
+  componentWillReceiveProps({ reports_inbound_item }) {
+    if (reports_inbound_item) {
+      _.map(reports_inbound_item, (value, index) => {
+        value.RecordDate_moment = new Date(
+          value.RecordDate
+        ).toLocaleDateString();
+        value.index = index;
+      });
+    }
+  }
+
   settingColumn() {
     return [
       {
@@ -16,64 +35,31 @@ class List extends Component {
             style: { textAlign: "center" }
           },
           {
-            accessor: "orderId",
-            width: 50,
-            Cell: row => (
-              <div>
-                <Link
-                  to={{
-                    pathname: "/report/reportpo/view",
-                    state: { orderId: row.value }
-                  }}
-                >
-                  <i className="tiny material-icons">content_paste</i>
-                </Link>
-              </div>
-            )
+            Header: "Item Code",
+            accessor: "item_code",
+            width: 100,
+            style: { fontWeight: "bold", textAlign: "center" }
           },
           {
-            Header: "Order Id",
-            accessor: "orderId",
-            style: { fontWeight: "bold" }
-          },
-          {
-            Header: "Date",
-            accessor: "RecordDate_moment",
+            Header: "Item Name",
+            accessor: "item_name",
             style: { textAlign: "center" }
           },
           {
-            Header: "Org Name",
-            accessor: "orgName",
-            width: 500
+            Header: "Inbound Quality",
+            accessor: "item_qty",
+            Cell: row => <div>{numeral(row.value).format("0,0")}</div>,
+            width: 200,
+            style: { fontWeight: "bold", textAlign: "center", color: "green" }
           },
           {
-            Header: "Org Type",
-            accessor: "orgTypeName",
-            width: 100
-          },
-          {
-            Header: "GroupCode",
-            accessor: "groupCode",
-            style: { textAlign: "center" }
-          },
-          {
-            Header: "Total",
-            accessor: "grandtotal",
-            style: { textAlign: "right", fontWeight: "bold" }
-          },
-          {
-            Header: "Credit",
-            accessor: "credit",
-            style: { textAlign: "right" }
-          },
-          {
-            Header: "Cash",
-            accessor: "cash",
-            style: { textAlign: "right" }
-          },
-          {
-            Header: "RecordBy",
+            Header: "Record By",
             accessor: "RecordNameBy",
+            style: { textAlign: "center" }
+          },
+          {
+            Header: "Record Date",
+            accessor: "RecordDate_moment",
             style: { textAlign: "center" }
           }
         ]
@@ -85,7 +71,7 @@ class List extends Component {
     return (
       <div>
         <ReactTable
-          data={this.props.inbound_reports_po}
+          data={this.props.reports_inbound_item}
           noDataText="Oh Noes!"
           columns={this.settingColumn()}
           defaultPageSize={15}
@@ -96,4 +82,11 @@ class List extends Component {
   }
 }
 
-export default List;
+function mapStateToProps({ reports_inbound_item }) {
+  return { reports_inbound_item: _.reverse(reports_inbound_item) };
+}
+
+export default connect(
+  mapStateToProps,
+  { fetchInbound_ItemElement }
+)(List);

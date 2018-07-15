@@ -1,13 +1,13 @@
 import _ from "lodash";
 
-function resultOutboundInventory(inbound_reports_po) {
+function resultOutboundInventory(reports_po) {
   let result_array = [];
-  // const a = _.map(inbound_reports_po, ({ itemList }) => {
+  // const a = _.map(reports_po, ({ itemList }) => {
   //   return itemList;
   // });
 
   const temp_result = _.map(
-    _.map(inbound_reports_po, ({ itemList }) => {
+    _.map(reports_po, ({ itemList }) => {
       return itemList;
     }),
     value => {

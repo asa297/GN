@@ -91,8 +91,8 @@ class ReportPOList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.inbound_reports_po) {
-      _.map(nextProps.inbound_reports_po, (value, index) => {
+    if (nextProps.reports_po) {
+      _.map(nextProps.reports_po, (value, index) => {
         value.RecordDate_moment = new Date(
           value.RecordDate
         ).toLocaleDateString();
@@ -105,7 +105,7 @@ class ReportPOList extends Component {
     return (
       <div>
         <ReactTable
-          data={this.props.inbound_reports_po}
+          data={this.props.reports_po}
           noDataText="Oh Noes!"
           columns={this.settingColumn()}
           defaultPageSize={15}
@@ -117,10 +117,11 @@ class ReportPOList extends Component {
   }
 }
 
-function mapStateToProps({ inbound_reports_po }) {
-  return { inbound_reports_po: _.reverse(inbound_reports_po) };
+function mapStateToProps({ reports_po }) {
+  return { reports_po: _.reverse(reports_po) };
 }
 
-export default connect(mapStateToProps, { fetchInbound_ReportPO })(
-  ReportPOList
-);
+export default connect(
+  mapStateToProps,
+  { fetchInbound_ReportPO }
+)(ReportPOList);

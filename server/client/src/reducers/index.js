@@ -7,6 +7,7 @@ import groupReducer from "./groupReducer";
 import sellerReducer from "./sellerReducer";
 import itemReducer from "./itemReducer";
 import reportPOReducer from "./reportPOReducer";
+import reportInboundItem from "./reportInboundItemReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -15,6 +16,7 @@ export default combineReducers({
   groups: groupReducer,
   sellers: sellerReducer,
   items: itemReducer,
-  inbound_reports_po: reportPOReducer,
+  reports_po: reportPOReducer,
+  reports_inbound_item: reportInboundItem,
   form: reduxForm
 });

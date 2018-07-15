@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { reduxForm, Field, change } from "redux-form";
 import { withRouter } from "react-router-dom";
 import Select from "react-select";
-import { fetchInbound_Org, updateInbound_Item } from "../../../../actions";
+// import { fetch_Org, updateInbound_Item } from "../../../../actions";
 
 import ReportINVField from "../ReportINVField";
 import FIELDS from "../formFields";
@@ -66,27 +66,27 @@ class FormINVView extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchInbound_Org();
+    this.props.fetch_Org();
 
     if (this.state !== null) {
       _.map(this.state.orgChinaList, ({ _id, orgCom_B }) => {
         this.setState({ [_id]: orgCom_B });
-        this.props.dispatch(change("inbound_item", _id, orgCom_B));
+        this.props.dispatch(change("item_form", _id, orgCom_B));
       });
 
       _.map(FIELDS, ({ name, key }) => {
-        this.props.dispatch(change("inbound_item", name, this.state[name]));
+        this.props.dispatch(change("item_form", name, this.state[name]));
       });
       this.props.dispatch(
-        change("inbound_item", "item_type", this.state.itemType_selected)
+        change("item_form", "item_type", this.state.itemType_selected)
       );
     }
   }
 
-  componentWillReceiveProps({ form: { inbound_item }, orgs }) {
-    if (inbound_item.values && inbound_item.values.item_type) {
+  componentWillReceiveProps({ form: { item_form }, orgs }) {
+    if (item_form.values && item_form.values.item_type) {
       this.setState({
-        itemTypeId: inbound_item.values.item_type.itemTypeId
+        itemTypeId: item_form.values.item_type.itemTypeId
       });
     }
 
@@ -165,7 +165,7 @@ class FormINVView extends Component {
       }),
       values => {
         values.orgCom_B = parseInt(
-          this.props.form.inbound_item.values[values._id],
+          this.props.form.item_form.values[values._id],
           10
         );
       }
@@ -173,7 +173,7 @@ class FormINVView extends Component {
 
     this.props.updateInbound_Item(
       this.state._id,
-      this.props.form.inbound_item.values,
+      this.props.form.item_form.values,
       orgChinaList,
       this.props.history
     );
@@ -243,10 +243,10 @@ function mapStateToProps({ items, orgs, form }) {
 
 export default reduxForm({
   validate,
-  form: "inbound_item"
+  form: "item_form"
 })(
   connect(
     mapStateToProps,
-    { fetchInbound_Org, updateInbound_Item }
+    { fetch_Org, updateInbound_Item }
   )(withRouter(FormINVView))
 );

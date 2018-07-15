@@ -7,12 +7,12 @@ import numeral from "numeral";
 
 import "react-table/react-table.css";
 
-import { fetchInbound_Item } from "../../../actions";
+import { fetch_Item } from "../../../actions";
 import Report_INV_CSS from "../../../Style/CSS/Report_INV_CSS.css";
 
 class ReportPOList extends Component {
   componentDidMount() {
-    this.props.fetchInbound_Item();
+    this.props.fetch_Item();
   }
 
   settingColumn() {
@@ -141,5 +141,5 @@ function mapStateToProps({ items }) {
 
 export default connect(
   mapStateToProps,
-  { fetchInbound_Item }
+  { fetch_Item }
 )(ReportPOList);

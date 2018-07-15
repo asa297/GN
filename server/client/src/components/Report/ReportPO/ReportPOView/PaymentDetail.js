@@ -21,7 +21,7 @@ class PaymentDetail extends Component {
   }
 
   // componentDidMount() {
-  //   const report_PO = _.find(this.props.inbound_reports_po, ({ orderId }) => {
+  //   const report_PO = _.find(this.props.reports_po, ({ orderId }) => {
   //     return orderId === this.props.orderId;
   //   });
   //   if (report_PO) {
@@ -134,8 +134,8 @@ class PaymentDetail extends Component {
   }
 }
 
-function mapStateToProps({ inbound_reports_po, form: { report_po_edit } }) {
-  return { inbound_reports_po, report_po_edit };
+function mapStateToProps({ reports_po, form: { report_po_edit } }) {
+  return { reports_po, report_po_edit };
 }
 
 export default connect(mapStateToProps)(PaymentDetail);

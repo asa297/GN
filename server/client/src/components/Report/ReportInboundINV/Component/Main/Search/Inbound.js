@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { find_Item, fetchInbound_Org } from "../../../../../../actions";
+import { find_Item, fetch_Org } from "../../../../../../actions";
 import CircularLoaderBlue from "../../../../../utils/CircularLoaderBlue";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
@@ -8,7 +8,11 @@ import { withRouter } from "react-router-dom";
 const InboundItemField = ({ input, meta: { error, touched } }) => {
   return (
     <div>
-      <input {...input} style={{ marginBottom: "0px" }} />
+      <input
+        {...input}
+        style={{ marginBottom: "0px" }}
+        placeholder="inbound item"
+      />
       <div className="red-text" style={{ marginBottom: "20px" }}>
         {touched && error}
       </div>
@@ -31,7 +35,7 @@ class Inbound extends Component {
     await this.props.find_Item(item_code);
     this.setState({ ready: true });
     if (this.props.items) {
-      await this.props.fetchInbound_Org();
+      await this.props.fetch_Org();
       this.props.history.push({
         pathname: "/report/reportinboundinv/view/edit",
         state: { item_code }
@@ -73,7 +77,7 @@ export default reduxForm({
     mapStateToProps,
     {
       find_Item,
-      fetchInbound_Org
+      fetch_Org
     }
   )(withRouter(Inbound))
 );

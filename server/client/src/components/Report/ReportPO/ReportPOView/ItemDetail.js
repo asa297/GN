@@ -12,7 +12,7 @@ class ItemDetail extends Component {
   }
 
   // componentDidMount() {
-  //   const report_PO = _.find(this.props.inbound_reports_po, ({ orderId }) => {
+  //   const report_PO = _.find(this.props.reports_po, ({ orderId }) => {
   //     return orderId === this.props.orderId;
   //   });
   //   if (report_PO) {
@@ -65,8 +65,8 @@ class ItemDetail extends Component {
   }
 }
 
-function mapStateToProps({ inbound_reports_po }) {
-  return { inbound_reports_po };
+function mapStateToProps({ reports_po }) {
+  return { reports_po };
 }
 
 export default connect(mapStateToProps)(ItemDetail);
