@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import _ from "lodash";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ViewComponent from "./ViewComponent";
 
@@ -23,47 +22,83 @@ class viewItem extends Component {
       <div>
         <ViewComponent
           icon="business_center"
-          value={this.state.item_select.item_name}
+          value={
+            this.state.item_select.item_name
+              ? this.state.item_select.item_name
+              : ""
+          }
           title="Item Name"
         />
         <ViewComponent
           icon="code"
-          value={this.state.item_select.item_code}
+          value={
+            this.state.item_select.item_code
+              ? this.state.item_select.item_code
+              : ""
+          }
           title="Item Code"
         />
         <ViewComponent
           icon="flag"
-          value={this.state.item_select.itemTypeName}
+          value={
+            this.state.item_select.itemTypeName
+              ? this.state.item_select.itemTypeName
+              : ""
+          }
           title="Item Grade"
         />
         <ViewComponent
           icon="domain"
-          value={this.state.item_select.item_factory}
+          value={
+            this.state.item_select.item_factory
+              ? this.state.item_select.item_factory
+              : ""
+          }
           title="Item Factory"
         />
         <ViewComponent
           icon="turned_in"
-          value={this.state.item_select.item_skin}
+          value={
+            this.state.item_select.item_skin
+              ? this.state.item_select.item_skin
+              : ""
+          }
           title="Item Skin"
         />
         <ViewComponent
           icon="color_lens"
-          value={this.state.item_select.item_color}
+          value={
+            this.state.item_select.item_color
+              ? this.state.item_select.item_color
+              : ""
+          }
           title="Item Color"
         />
         <ViewComponent
           icon="attach_money"
-          value={this.state.item_select.item_price}
+          value={
+            this.state.item_select.item_price
+              ? this.state.item_select.item_price
+              : ""
+          }
           title="Item Price"
         />
         <ViewComponent
           icon="drafts"
-          value={this.state.item_select.item_qty}
+          value={
+            this.state.item_select.item_qty
+              ? this.state.item_select.item_qty
+              : ""
+          }
           title="Item Quality"
         />
         <ViewComponent
           icon="event_note"
-          value={this.state.item_select.item_remarks}
+          value={
+            this.state.item_select.item_remarks
+              ? this.state.item_select.item_remarks
+              : ""
+          }
           title="Item Remarks"
         />
         <ViewComponent

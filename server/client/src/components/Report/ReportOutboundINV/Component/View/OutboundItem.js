@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import _ from "lodash";
 import {
   updateStock_Item,
-  submitInbound_ItemElement
+  submitOutbound_ItemElement
 } from "../../../../../actions";
 import { connect } from "react-redux";
 import { reduxForm, Field, change } from "redux-form";
@@ -19,7 +19,7 @@ import {
   ZeroNumber
 } from "../../../../utils/validation";
 
-const InboundItemField = ({
+const OutboundItemField = ({
   valueField,
   input,
   label,
@@ -68,11 +68,11 @@ class Item extends Component {
   componentDidMount() {
     _.map(FIELDS, ({ name, key }) => {
       this.props.dispatch(
-        change("item_inbound_form", name, this.state.items[name])
+        change("item_outbound_form", name, this.state.items[name])
       );
     });
     this.props.dispatch(
-      change("item_inbound_form", "item_type", this.state.itemType_selected)
+      change("item_outbound_form", "item_type", this.state.itemType_selected)
     );
   }
 
@@ -80,13 +80,13 @@ class Item extends Component {
     return (
       <div className="header_report_view">
         <div>
-          <Link to="/report/reportinboundinv">
+          <Link to="/report/reportoutboundinv">
             <i className="medium material-icons">chevron_left</i>
           </Link>
         </div>
         <div>
           <h3 className="center" style={{ margin: "0px" }}>
-            Inbound Item : {this.state.item_code}
+            Outbound Item : {this.state.item_code}
           </h3>
         </div>
         <div />
@@ -124,7 +124,7 @@ class Item extends Component {
       return (
         <Field
           key={name}
-          component={InboundItemField}
+          component={OutboundItemField}
           disabled={disabled}
           type="text"
           label={label}
@@ -139,7 +139,7 @@ class Item extends Component {
             }))
           }
           validate={
-            name === "inbound_qty"
+            name === "outbound_qty"
               ? [required, isNumber, NagativeNumber, ZeroNumber]
               : []
           }
@@ -156,7 +156,7 @@ class Item extends Component {
           className="teal btn-flat center white-text"
           style={{ marginBottom: "10px" }}
         >
-          Inbound Item
+          Outbound Item
           <i className="material-icons left">save</i>
         </button>
         <div style={{ marginLeft: "10px" }}>
@@ -177,25 +177,25 @@ class Item extends Component {
     );
   }
 
-  async sumbitInboundItem() {
+  async sumbitOutboundItem() {
     const { _id } = this.state.items;
-    const { values } = this.props.item_inbound_form;
-    values.item_qty = values.item_qty + Number(values.inbound_qty);
+    const { values } = this.props.item_outbound_form;
+    values.item_qty = values.item_qty - Number(values.outbound_qty);
 
     this.setState({ saving: true });
 
     const status = await this.props.updateStock_Item(_id, values);
     if (status === 200) {
-      this.props.submitInbound_ItemElement(values);
+      this.props.submitOutbound_ItemElement(values);
       this.props.history.push({
-        pathname: "/report/reportinboundinv"
+        pathname: "/report/reportoutboundinv"
       });
     }
   }
 
   render() {
     return (
-      <form onSubmit={this.props.handleSubmit(() => this.sumbitInboundItem())}>
+      <form onSubmit={this.props.handleSubmit(() => this.sumbitOutboundItem())}>
         <div className="container">
           {this.state.items.length !== 0 ? this.renderContent() : "Not Found"}
         </div>
@@ -204,18 +204,18 @@ class Item extends Component {
   }
 }
 
-function mapStateToProps({ items, orgs, form: { item_inbound_form } }) {
-  return { items, orgs, item_inbound_form };
+function mapStateToProps({ items, orgs, form: { item_outbound_form } }) {
+  return { items, orgs, item_outbound_form };
 }
 
 export default reduxForm({
-  form: "item_inbound_form"
+  form: "item_outbound_form"
 })(
   connect(
     mapStateToProps,
     {
       updateStock_Item,
-      submitInbound_ItemElement
+      submitOutbound_ItemElement
     }
   )(withRouter(Item))
 );

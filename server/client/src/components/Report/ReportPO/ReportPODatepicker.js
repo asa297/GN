@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field, reset } from "redux-form";
-import { fetchInbound_ReportPO_Filter } from "../../../actions";
+import {
+  fetchInbound_ReportPO,
+  fetchInbound_ReportPO_Filter
+} from "../../../actions";
 
 import DatePicker from "react-datepicker";
 import moment from "moment";
@@ -23,8 +26,9 @@ class ReportPODatepicker extends Component {
     this.props.fetchInbound_ReportPO_Filter(time_selected);
   }
 
-  onClear() {
+  async handleClearSearch() {
     this.props.dispatch(reset("report_po"));
+    this.props.fetchInbound_ReportPO();
   }
 
   renderDateSelect() {
@@ -84,7 +88,7 @@ class ReportPODatepicker extends Component {
             <button
               type="button"
               className="red btn-flat white-text"
-              onClick={() => this.onClear()}
+              onClick={() => this.handleClearSearch()}
             >
               Clear
             </button>
@@ -121,5 +125,8 @@ export default reduxForm({
   validate,
   form: "report_po"
 })(
-  connect(mapStateToProps, { fetchInbound_ReportPO_Filter })(ReportPODatepicker)
+  connect(
+    mapStateToProps,
+    { fetchInbound_ReportPO, fetchInbound_ReportPO_Filter }
+  )(ReportPODatepicker)
 );

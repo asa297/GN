@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import _ from "lodash";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import { withRouter } from "react-router-dom";
@@ -6,13 +7,26 @@ import { withRouter } from "react-router-dom";
 import SearchINVBar from "./SearchINVBar";
 
 class SearchINV extends Component {
-  handleSearchSubmit() {
-    const { item_code } = this.props.search_item.values;
+  constructor() {
+    super();
 
-    this.props.history.push({
-      pathname: "/report/reportinv/view",
-      state: { item_code }
+    this.state = {
+      searching: false
+    };
+  }
+  async handleSearchSubmit() {
+    const { item_code } = this.props.search_item.values;
+    this.setState({ searching: true });
+    const result = _.find(this.props.items, value => {
+      return value.item_code === item_code;
     });
+    this.setState({ searching: false });
+    if (result) {
+      this.props.history.push({
+        pathname: "/report/reportinv/view",
+        state: { _id: result._id }
+      });
+    }
   }
 
   render() {
@@ -21,7 +35,7 @@ class SearchINV extends Component {
         <form
           onSubmit={this.props.handleSubmit(() => this.handleSearchSubmit())}
         >
-          <SearchINVBar />
+          <SearchINVBar searching={this.state.searching} />
         </form>
       </div>
     );
@@ -37,8 +51,8 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ form: { search_item } }) {
-  return { search_item };
+function mapStateToProps({ form: { search_item }, items }) {
+  return { search_item, items };
 }
 
 export default reduxForm({

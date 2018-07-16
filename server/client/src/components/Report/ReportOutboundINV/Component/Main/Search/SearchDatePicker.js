@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field, reset } from "redux-form";
 import {
-  fetchInbound_ItemElement,
-  fetchInbound_ItemElement_Filter
+  fetchOutbound_ItemElement,
+  fetchOutbound_ItemElement_Filter
 } from "../../../../../../actions";
 import moment from "moment";
 import CircularLoaderBlue from "../../../../../utils/CircularLoaderBlue";
@@ -22,7 +22,7 @@ class SearchDatePicker extends Component {
     const {
       start_date,
       end_date
-    } = this.props.report_inbound_inv_filter.values;
+    } = this.props.report_outbound_inv_filter.values;
 
     const time_selected = {
       start_date: moment(start_date),
@@ -30,14 +30,14 @@ class SearchDatePicker extends Component {
     };
 
     this.setState({ searching: true });
-    await this.props.fetchInbound_ItemElement_Filter(time_selected);
+    await this.props.fetchOutbound_ItemElement_Filter(time_selected);
     this.setState({ searching: false });
   }
 
   async handleClearSearch() {
-    this.props.dispatch(reset("report_inbound_inv_filter"));
+    this.props.dispatch(reset("report_outbound_inv_filter"));
     this.setState({ searching: true });
-    await this.props.fetchInbound_ItemElement();
+    await this.props.fetchOutbound_ItemElement();
     this.setState({ searching: false });
   }
 
@@ -124,16 +124,16 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ form: { report_inbound_inv_filter } }) {
-  return { report_inbound_inv_filter };
+function mapStateToProps({ form: { report_outbound_inv_filter } }) {
+  return { report_outbound_inv_filter };
 }
 
 export default reduxForm({
   validate,
-  form: "report_inbound_inv_filter"
+  form: "report_outbound_inv_filter"
 })(
   connect(
     mapStateToProps,
-    { fetchInbound_ItemElement, fetchInbound_ItemElement_Filter }
+    { fetchOutbound_ItemElement, fetchOutbound_ItemElement_Filter }
   )(SearchDatePicker)
 );

@@ -30,6 +30,8 @@ import ReportInventoryView from "../components/Report/ReportINV/ReportINVView";
 import ReportInBoundInventory from "../components/Report/ReportInboundINV/ReportView";
 import ReportInBoundInventoryView from "../components/Report/ReportInboundINV/Component/View/InboundItem";
 import ReportOutBoundInventory from "../components/Report/ReportOutboundINV/ReportView";
+import ReportOutBoundInventoryView from "../components/Report/ReportOutboundINV/Component/View/OutboundItem";
+// import ReportOutBoundInventory from "../components/Report/ReportOutboundINV/ReportView";
 import ReportDailyINV from "../components/Report/ReportDailyINV/Search/Search";
 import ReportDailyINVView from "../components/Report/ReportDailyINV/View/ReportView";
 
@@ -48,6 +50,11 @@ export default auth => {
               exact
               path="/report/reportdailyinv"
               component={ReportDailyINV}
+            />
+            <Route
+              exact
+              path="/report/reportoutboundinv/view/edit"
+              component={ReportOutBoundInventoryView}
             />
             <Route
               exact

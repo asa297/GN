@@ -7,6 +7,7 @@ const ItemElement = new Schema({
   stock_type: Number,
   stock_typeName: String,
   item_qty: Number,
+  remarks: String,
   RecordIdBy: { type: Schema.Types.ObjectId, ref: "users" },
   RecordNameBy: { type: String, ref: "users" },
   RecordDate: Date,

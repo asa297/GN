@@ -26,6 +26,7 @@ class ReportPOList extends Component {
             style: { textAlign: "center" }
           },
           {
+            Header: "",
             accessor: "_id",
             width: 50,
             Cell: row => (

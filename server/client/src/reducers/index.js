@@ -8,6 +8,7 @@ import sellerReducer from "./sellerReducer";
 import itemReducer from "./itemReducer";
 import reportPOReducer from "./reportPOReducer";
 import reportInboundItem from "./reportInboundItemReducer";
+import reportOutboundItem from "./reportOutboundItemReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -18,5 +19,6 @@ export default combineReducers({
   items: itemReducer,
   reports_po: reportPOReducer,
   reports_inbound_item: reportInboundItem,
+  reports_outbound_item: reportOutboundItem,
   form: reduxForm
 });

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import _ from "lodash";
 import { fetchInbound_ItemElement } from "../../../../../actions";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import ReactTable from "react-table";
 import numeral from "numeral";
 
@@ -16,9 +15,10 @@ class List extends Component {
   componentWillReceiveProps({ reports_inbound_item }) {
     if (reports_inbound_item) {
       _.map(reports_inbound_item, (value, index) => {
-        value.RecordDate_moment = new Date(
-          value.RecordDate
-        ).toLocaleDateString();
+        value.RecordDate_moment =
+          new Date(value.RecordDate).toLocaleDateString() +
+          " " +
+          new Date(value.RecordDate).toLocaleTimeString();
         value.index = index;
       });
     }
@@ -46,11 +46,17 @@ class List extends Component {
             style: { textAlign: "center" }
           },
           {
-            Header: "Inbound Quality",
+            Header: "Inbound Quantity",
             accessor: "item_qty",
             Cell: row => <div>{numeral(row.value).format("0,0")}</div>,
             width: 200,
             style: { fontWeight: "bold", textAlign: "center", color: "green" }
+          },
+          {
+            Header: "Remarks",
+            accessor: "remarks",
+            width: 300,
+            style: { textAlign: "center" }
           },
           {
             Header: "Record By",

@@ -10,7 +10,8 @@ import {
   FETCH_ITEM,
   FETCH_ITEM_FOR_PO,
   FETCH_REPORT_PO,
-  FETCH_INBOUND_REPORT
+  FETCH_INBOUND_REPORT,
+  FETCH_OUTBOUND_REPORT
 } from "./type";
 
 export const fetchUser = () => async dispatch => {
@@ -222,7 +223,7 @@ export const deleteInbound_ReportPO = (orderId, history) => async dispatch => {
   });
 };
 
-//ItemElement
+//Item Element Inbound
 export const submitInbound_ItemElement = values => async () => {
   const res = await axios
     .post("/api/itemelement/inbound", values)
@@ -236,7 +237,7 @@ export const submitInbound_ItemElement = values => async () => {
   return res;
 };
 
-export const fetchInbound_ItemElement = values => async dispatch => {
+export const fetchInbound_ItemElement = () => async dispatch => {
   const res = await axios
     .get("/api/itemelement/inbound")
     .then(response => {
@@ -247,4 +248,70 @@ export const fetchInbound_ItemElement = values => async dispatch => {
     });
 
   dispatch({ type: FETCH_INBOUND_REPORT, payload: res.data });
+};
+
+export const fetchInbound_ItemElement_Filter = filter => async dispatch => {
+  const res = await axios
+    .post("/api/itemelement/inbound/filter", filter)
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
+      return error;
+    });
+
+  dispatch({ type: FETCH_INBOUND_REPORT, payload: res.data });
+};
+
+//Item Element Outbound
+export const submitOutbound_ItemElement = values => async () => {
+  const res = await axios
+    .post("/api/itemelement/outbound", values)
+    .then(response => {
+      return response.status;
+    })
+    .catch(error => {
+      return error;
+    });
+
+  return res;
+};
+
+export const submitOutbound_ItemElement_PO = itemList => async () => {
+  const res = await axios
+    .post("/api/itemelement/outbound/po", itemList)
+    .then(response => {
+      return response.status;
+    })
+    .catch(error => {
+      return error;
+    });
+
+  return res;
+};
+
+export const fetchOutbound_ItemElement = () => async dispatch => {
+  const res = await axios
+    .get("/api/itemelement/outbound")
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
+      return error;
+    });
+
+  dispatch({ type: FETCH_OUTBOUND_REPORT, payload: res.data });
+};
+
+export const fetchOutbound_ItemElement_Filter = filter => async dispatch => {
+  const res = await axios
+    .post("/api/itemelement/outbound/filter", filter)
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
+      return error;
+    });
+
+  dispatch({ type: FETCH_OUTBOUND_REPORT, payload: res.data });
 };

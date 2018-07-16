@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
-import { fetch_Group, fetch_Seller, submitInboundOrder } from "../../actions";
+import {
+  fetch_Group,
+  fetch_Seller,
+  submitInboundOrder,
+  submitOutbound_ItemElement_PO
+} from "../../actions";
 import Collapsible from "react-collapsible";
 
 import POSelectGruop from "./POSelectGruop";
@@ -51,11 +56,14 @@ class PO extends Component {
   async handleSubmitPO() {
     this.setState({ loading: true });
 
-    const res = await this.props.submitInboundOrder(
-      this.props.inbound_po.values
-    );
+    const { values } = this.props.inbound_po;
+
+    const res = await this.props.submitInboundOrder(values);
 
     if (res) {
+      this.props.submitOutbound_ItemElement_PO({
+        itemList: values.itemList
+      });
       this.setState({ loading: false, print: true, print_value: res });
     }
   }
@@ -180,6 +188,11 @@ export default reduxForm({
 })(
   connect(
     mapStateToProps,
-    { fetch_Group, fetch_Seller, submitInboundOrder }
+    {
+      fetch_Group,
+      fetch_Seller,
+      submitInboundOrder,
+      submitOutbound_ItemElement_PO
+    }
   )(PO)
 );

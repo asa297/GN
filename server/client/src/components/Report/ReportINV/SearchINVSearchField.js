@@ -11,7 +11,7 @@ const SearchPOField = ({
       <input
         {...input}
         style={{ margin: "0px" }}
-        placeholder="Search Order ID"
+        placeholder="Search Item Code"
       />
       <div className="red-text"> {touched && error}</div>
     </div>
