@@ -315,3 +315,19 @@ export const fetchOutbound_ItemElement_Filter = filter => async dispatch => {
 
   dispatch({ type: FETCH_OUTBOUND_REPORT, payload: res.data });
 };
+
+//Daily Inventory report
+export const fetchDialy_Inventory_FIlter = filter => async dispatch => {
+  const res = await axios
+    .post("/api/itemelement/daily/filter", filter)
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
+      return error;
+    });
+
+  console.log(res);
+
+  // dispatch({ type: FETCH_OUTBOUND_REPORT, payload: res.data });
+};

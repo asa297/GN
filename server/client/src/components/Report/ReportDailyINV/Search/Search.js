@@ -7,26 +7,23 @@ import { withRouter } from "react-router-dom";
 import SearchHeader from "./SearchHeader";
 import SearchDatePicker from "./SearchDatePicker";
 
-import { fetchInbound_ReportPO_Filter } from "../../../../actions";
+import { fetchDialy_Inventory_FIlter } from "../../../../actions";
 import Report_CSS from "../../../../Style/CSS/Report_OUT_INV_CSS.css";
 
 class Search extends Component {
   async handleSearchSubmit() {
-    const { start_date } = this.props.report_outbound_inv.values;
+    const { start_date } = this.props.report_daily_inv.values;
 
     const time_selected = {
-      values: {
-        start_date: moment(start_date),
-        end_date: moment(start_date).add(1, "days")
-      }
+      select_date: moment(start_date)
     };
 
-    await this.props.fetchInbound_ReportPO_Filter(time_selected);
+    await this.props.fetchDialy_Inventory_FIlter(time_selected);
 
-    this.props.history.push({
-      pathname: "/report/reportoutinv/view",
-      state: { date: moment(start_date).format("YYYY-MM-DD") }
-    });
+    // this.props.history.push({
+    //   pathname: "/report/reportoutinv/view",
+    //   state: { date: moment(start_date).format("YYYY-MM-DD") }
+    // });
   }
 
   render() {
@@ -52,13 +49,16 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ form: { report_outbound_inv } }) {
-  return { report_outbound_inv };
+function mapStateToProps({ form: { report_daily_inv } }) {
+  return { report_daily_inv };
 }
 
 export default reduxForm({
   validate,
-  form: "report_outbound_inv"
+  form: "report_daily_inv"
 })(
-  connect(mapStateToProps, { fetchInbound_ReportPO_Filter })(withRouter(Search))
+  connect(
+    mapStateToProps,
+    { fetchDialy_Inventory_FIlter }
+  )(withRouter(Search))
 );

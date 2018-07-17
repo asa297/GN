@@ -180,6 +180,7 @@ class Item extends Component {
   async sumbitInboundItem() {
     const { _id } = this.state.items;
     const { values } = this.props.item_inbound_form;
+    values._id = _id;
     values.item_qty = values.item_qty + Number(values.inbound_qty);
 
     this.setState({ saving: true });

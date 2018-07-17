@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { find_Item, fetch_Org } from "../../../../../../actions";
+import { find_Item } from "../../../../../../actions";
 import CircularLoaderBlue from "../../../../../utils/CircularLoaderBlue";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
@@ -35,7 +35,6 @@ class Inbound extends Component {
     await this.props.find_Item(item_code);
     this.setState({ ready: true });
     if (this.props.items) {
-      await this.props.fetch_Org();
       this.props.history.push({
         pathname: "/report/reportinboundinv/view/edit",
         state: { item_code }
@@ -75,9 +74,6 @@ export default reduxForm({
 })(
   connect(
     mapStateToProps,
-    {
-      find_Item,
-      fetch_Org
-    }
+    { find_Item }
   )(withRouter(Inbound))
 );
