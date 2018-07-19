@@ -7,10 +7,17 @@ import { withRouter } from "react-router-dom";
 import SearchHeader from "./SearchHeader";
 import SearchDatePicker from "./SearchDatePicker";
 
-import { fetchDialy_Inventory_FIlter } from "../../../../actions";
+import { fetchDialy_Inventory_Filter } from "../../../../actions";
 import Report_CSS from "../../../../Style/CSS/Report_OUT_INV_CSS.css";
 
 class Search extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      searching: false
+    };
+  }
   async handleSearchSubmit() {
     const { start_date } = this.props.report_daily_inv.values;
 
@@ -18,12 +25,15 @@ class Search extends Component {
       select_date: moment(start_date)
     };
 
-    await this.props.fetchDialy_Inventory_FIlter(time_selected);
+    this.setState({ searching: true });
 
-    // this.props.history.push({
-    //   pathname: "/report/reportoutinv/view",
-    //   state: { date: moment(start_date).format("YYYY-MM-DD") }
-    // });
+    await this.props.fetchDialy_Inventory_Filter(time_selected);
+
+    this.setState({ searching: false });
+    this.props.history.push({
+      pathname: "/report/reportdailyinv/view",
+      state: { date: moment(start_date).format("YYYY-MM-DD") }
+    });
   }
 
   render() {
@@ -33,7 +43,7 @@ class Search extends Component {
         <form
           onSubmit={this.props.handleSubmit(() => this.handleSearchSubmit())}
         >
-          <SearchDatePicker />
+          <SearchDatePicker searching={this.state.searching} />
         </form>
       </div>
     );
@@ -59,6 +69,6 @@ export default reduxForm({
 })(
   connect(
     mapStateToProps,
-    { fetchDialy_Inventory_FIlter }
+    { fetchDialy_Inventory_Filter }
   )(withRouter(Search))
 );

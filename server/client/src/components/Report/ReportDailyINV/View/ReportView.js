@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import TableList from "./Com/TableList";
+import List from "./Com/List";
 import Header from "./Com/Header";
 
 import Report_CSS from "../../../../Style/CSS/Report_OUT_INV_CSS.css";
@@ -17,7 +17,7 @@ class ReportView extends Component {
     return (
       <div className={Report_CSS.container}>
         <Header date={this.state.date} />
-        <TableList />
+        <List />
       </div>
     );
   }

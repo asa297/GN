@@ -2,11 +2,12 @@ import React from "react";
 import { Field } from "redux-form";
 import moment from "moment";
 import DatePicker from "react-datepicker";
+import CircularLoaderBlue from "../../../utils/CircularLoaderBlue";
 import "react-datepicker/dist/react-datepicker.css";
 
 import Report_CSS from "../../../../Style/CSS/Report_OUT_INV_CSS.css";
 
-const SearchDatePicker = () => {
+const SearchDatePicker = ({ searching }) => {
   return (
     <div className={Report_CSS.datepicker}>
       <Field
@@ -39,6 +40,12 @@ const SearchDatePicker = () => {
       >
         Search
       </button>
+
+      {searching ? (
+        <div style={{ marginLeft: "5px" }}>
+          <CircularLoaderBlue />
+        </div>
+      ) : null}
     </div>
   );
 };

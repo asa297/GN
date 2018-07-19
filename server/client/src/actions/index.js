@@ -11,7 +11,8 @@ import {
   FETCH_ITEM_FOR_PO,
   FETCH_REPORT_PO,
   FETCH_INBOUND_REPORT,
-  FETCH_OUTBOUND_REPORT
+  FETCH_OUTBOUND_REPORT,
+  FETCH_DIALY_INV_REPORT
 } from "./type";
 
 export const fetchUser = () => async dispatch => {
@@ -317,7 +318,7 @@ export const fetchOutbound_ItemElement_Filter = filter => async dispatch => {
 };
 
 //Daily Inventory report
-export const fetchDialy_Inventory_FIlter = filter => async dispatch => {
+export const fetchDialy_Inventory_Filter = filter => async dispatch => {
   const res = await axios
     .post("/api/itemelement/daily/filter", filter)
     .then(response => {
@@ -327,7 +328,5 @@ export const fetchDialy_Inventory_FIlter = filter => async dispatch => {
       return error;
     });
 
-  console.log(res);
-
-  // dispatch({ type: FETCH_OUTBOUND_REPORT, payload: res.data });
+  dispatch({ type: FETCH_DIALY_INV_REPORT, payload: res.data });
 };
