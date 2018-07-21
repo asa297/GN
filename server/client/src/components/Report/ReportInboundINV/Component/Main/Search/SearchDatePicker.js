@@ -45,9 +45,6 @@ class SearchDatePicker extends Component {
     return (
       <form onSubmit={this.props.handleSubmit(() => this.handleSearchSubmit())}>
         <div className="datepicker_inboundINV">
-          <div style={{ marginRight: "5px" }}>
-            {this.state.searching ? <CircularLoaderBlue /> : null}
-          </div>
           <div style={{ marginRight: "10px" }}>
             <label>Filter Date</label>
           </div>
@@ -63,7 +60,9 @@ class SearchDatePicker extends Component {
                   }
                   onChange={props.input.onChange}
                   placeholderText={
-                    props.meta.error ? props.meta.error : "start date"
+                    props.meta.error && props.meta.touched
+                      ? props.meta.error
+                      : "start date"
                   }
                 />
               </div>
@@ -84,27 +83,34 @@ class SearchDatePicker extends Component {
                   }
                   onChange={props.input.onChange}
                   placeholderText={
-                    props.meta.error ? props.meta.error : "end date"
+                    props.meta.error && props.meta.touched
+                      ? props.meta.error
+                      : "end date"
                   }
                 />
               </div>
             )}
           />
 
-          <button
-            type="submit"
-            className="green btn-flat white-text"
-            style={{ marginLeft: "10px" }}
-          >
-            Search
-          </button>
-          <button
-            type="button"
-            className="red btn-flat white-text"
-            onClick={() => this.handleClearSearch()}
-          >
-            Clear
-          </button>
+          <div style={{ display: "flex" }}>
+            <div style={{ marginRight: "5px" }}>
+              {this.state.searching ? <CircularLoaderBlue /> : null}
+            </div>
+            <button
+              type="submit"
+              className="green btn-flat white-text"
+              style={{ marginLeft: "10px" }}
+            >
+              Search
+            </button>
+            <button
+              type="button"
+              className="red btn-flat white-text"
+              onClick={() => this.handleClearSearch()}
+            >
+              Clear
+            </button>
+          </div>
         </div>
       </form>
     );
@@ -113,12 +119,19 @@ class SearchDatePicker extends Component {
 
 function validate(values) {
   const errors = {};
-  if (values["start_date"] || values["end_date"]) {
-    if (!values["start_date"]) {
-      errors["start_date"] = "Require a value";
-    } else if (!values["end_date"]) {
-      errors["end_date"] = "Require a value";
-    }
+  // if (values["start_date"] || values["end_date"]) {
+  //   if (!values["start_date"]) {
+  //     errors["start_date"] = "Require a value";
+  //   } else if (!values["end_date"]) {
+  //     errors["end_date"] = "Require a value";
+  //   }
+  // }
+
+  if (!values["start_date"]) {
+    errors["start_date"] = "Require a value";
+  }
+  if (!values["end_date"]) {
+    errors["end_date"] = "Require a value";
   }
 
   return errors;

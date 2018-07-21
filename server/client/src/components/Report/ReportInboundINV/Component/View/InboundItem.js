@@ -79,17 +79,17 @@ class Item extends Component {
   renderHeader() {
     return (
       <div className="header_report_view">
-        <div>
+        {/* <div>
           <Link to="/report/reportinboundinv">
             <i className="medium material-icons">chevron_left</i>
           </Link>
-        </div>
+        </div> */}
         <div>
           <h3 className="center" style={{ margin: "0px" }}>
             Inbound Item : {this.state.item_code}
           </h3>
         </div>
-        <div />
+        {/* <div /> */}
       </div>
     );
   }
@@ -187,7 +187,7 @@ class Item extends Component {
 
     const status = await this.props.updateStock_Item(_id, values);
     if (status === 200) {
-      this.props.submitInbound_ItemElement(values);
+      await this.props.submitInbound_ItemElement(values);
       this.props.history.push({
         pathname: "/report/reportinboundinv"
       });

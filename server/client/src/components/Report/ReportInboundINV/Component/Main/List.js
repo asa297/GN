@@ -1,15 +1,42 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { fetchInbound_ItemElement } from "../../../../../actions";
+import { CSVLink } from "react-csv";
 import { connect } from "react-redux";
-import ReactTable from "react-table";
 import numeral from "numeral";
-
+import ReactTable from "react-table";
 import "react-table/react-table.css";
 
 class List extends Component {
+  constructor() {
+    super();
+    this.state = {
+      export_data: []
+    };
+  }
   componentDidMount() {
     this.props.fetchInbound_ItemElement();
+  }
+
+  prepareExportData(value) {
+    const {
+      index,
+      item_code,
+      item_name,
+      item_qty,
+      remarks,
+      RecordNameBy,
+      RecordDate_moment
+    } = value;
+    return {
+      "#": index,
+      item_code: `#${item_code}`,
+      item_name,
+      Inbound: item_qty,
+      remarks,
+      RecordNameBy,
+      RecordDate: RecordDate_moment
+    };
   }
 
   componentWillReceiveProps({ reports_inbound_item }) {
@@ -20,6 +47,10 @@ class List extends Component {
           " " +
           new Date(value.RecordDate).toLocaleTimeString();
         value.index = index;
+
+        const _data = this.prepareExportData(value);
+
+        this.state.export_data.push(_data);
       });
     }
   }
@@ -43,6 +74,7 @@ class List extends Component {
           {
             Header: "Item Name",
             accessor: "item_name",
+            width: 250,
             style: { textAlign: "center" }
           },
           {
@@ -66,6 +98,7 @@ class List extends Component {
           {
             Header: "Record Date",
             accessor: "RecordDate_moment",
+            width: 200,
             style: { textAlign: "center" }
           }
         ]
@@ -78,11 +111,19 @@ class List extends Component {
       <div>
         <ReactTable
           data={this.props.reports_inbound_item}
-          noDataText="Oh Noes!"
+          noDataText="No Data"
           columns={this.settingColumn()}
-          defaultPageSize={15}
           className="-striped -highlight"
         />
+        <CSVLink
+          data={this.state.export_data}
+          // headers={headers}
+          filename={"my-file.csv"}
+        >
+          <button className="waves-effect waves-light btn">
+            <i className="material-icons left">cloud_download</i>Download
+          </button>
+        </CSVLink>
       </div>
     );
   }

@@ -21,6 +21,7 @@
     "quagga": "^0.12.1",
     "react": "^16.3.2",
     "react-collapsible": "^2.2.0",
+    "react-csv": "^1.0.14",
     "react-datepicker": "^1.5.0",
     "react-dom": "^16.3.2",
     "react-modal": "^3.4.4",

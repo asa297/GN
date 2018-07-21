@@ -20,24 +20,26 @@
 
 .header_report {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
 .header_report_view {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
 .container_search {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .datepicker_inboundINV {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .search_inboundINV {

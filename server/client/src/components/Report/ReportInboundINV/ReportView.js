@@ -9,6 +9,7 @@ class ReportView extends Component {
       <div className="container_report">
         <Header />
         <Search />
+        <hr />
         <List />
       </div>
     );

@@ -187,7 +187,7 @@ class Item extends Component {
 
     const status = await this.props.updateStock_Item(_id, values);
     if (status === 200) {
-      this.props.submitOutbound_ItemElement(values);
+      await this.props.submitOutbound_ItemElement(values);
       this.props.history.push({
         pathname: "/report/reportoutboundinv"
       });
