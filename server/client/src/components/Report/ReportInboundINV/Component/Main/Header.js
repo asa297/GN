@@ -4,17 +4,17 @@ import { Link } from "react-router-dom";
 const SearchHeader = () => {
   return (
     <div className="header_report">
-      {/* <div>
+      <div>
         <Link to="/report">
           <i className="medium material-icons">chevron_left</i>
         </Link>
-      </div> */}
+      </div>
       <div>
         <h3 className="center" style={{ margin: "0px" }}>
           Inbound Inventory Report
         </h3>
       </div>
-      {/* <div /> */}
+      <div />
     </div>
   );
 };

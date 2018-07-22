@@ -17,7 +17,7 @@ class ReportView extends Component {
     return (
       <div className={Report_CSS.container}>
         <Header date={this.state.date} />
-        <List />
+        <List date={this.state.date} />
       </div>
     );
   }

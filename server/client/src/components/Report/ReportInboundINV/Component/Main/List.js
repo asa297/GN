@@ -4,6 +4,7 @@ import { fetchInbound_ItemElement } from "../../../../../actions";
 import { CSVLink } from "react-csv";
 import { connect } from "react-redux";
 import numeral from "numeral";
+import Preloader from "../../../../utils/Preloader";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 
@@ -11,6 +12,7 @@ class List extends Component {
   constructor() {
     super();
     this.state = {
+      ready: false,
       show_data: [],
       export_data: []
     };
@@ -42,6 +44,7 @@ class List extends Component {
 
   componentWillReceiveProps({ reports_inbound_item }) {
     if (reports_inbound_item) {
+      this.setState({ ready: false });
       let export_data = [];
       _.map(reports_inbound_item, (value, index) => {
         value.RecordDate_moment =
@@ -54,7 +57,11 @@ class List extends Component {
         export_data.push(_data);
       });
 
-      this.setState({ show_data: reports_inbound_item, export_data });
+      this.setState({
+        show_data: reports_inbound_item,
+        export_data,
+        ready: true
+      });
     }
   }
 
@@ -77,20 +84,20 @@ class List extends Component {
           {
             Header: "Item Name",
             accessor: "item_name",
-            width: 250,
+            // width: 250,
             style: { textAlign: "center" }
           },
           {
             Header: "Inbound Quantity",
             accessor: "item_qty",
             Cell: row => <div>{numeral(row.value).format("0,0")}</div>,
-            width: 200,
+            // width: 200,
             style: { fontWeight: "bold", textAlign: "center", color: "green" }
           },
           {
             Header: "Remarks",
             accessor: "remarks",
-            width: 300,
+            // width: 300,
             style: { textAlign: "center" }
           },
           {
@@ -112,21 +119,26 @@ class List extends Component {
   render() {
     return (
       <div>
-        <ReactTable
-          data={this.props.reports_inbound_item}
-          noDataText="No Data"
-          columns={this.settingColumn()}
-          className="-striped -highlight"
-        />
-        <CSVLink
-          data={this.state.export_data}
-          // headers={headers}
-          filename={"my-file.csv"}
-        >
-          <button className="waves-effect waves-light btn">
-            <i className="material-icons left">cloud_download</i>Download
-          </button>
-        </CSVLink>
+        {this.state.ready ? (
+          <div>
+            <ReactTable
+              data={this.state.show_data}
+              noDataText="No Data"
+              columns={this.settingColumn()}
+              className="-striped -highlight"
+            />
+            <CSVLink
+              data={this.state.export_data}
+              filename={"inboundinventoryreport.csv"}
+            >
+              <button className="waves-effect waves-light btn">
+                <i className="material-icons left">cloud_download</i>Download
+              </button>
+            </CSVLink>
+          </div>
+        ) : (
+          <Preloader />
+        )}
       </div>
     );
   }

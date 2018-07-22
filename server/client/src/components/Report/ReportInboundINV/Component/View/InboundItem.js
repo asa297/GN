@@ -79,17 +79,17 @@ class Item extends Component {
   renderHeader() {
     return (
       <div className="header_report_view">
-        {/* <div>
+        <div>
           <Link to="/report/reportinboundinv">
             <i className="medium material-icons">chevron_left</i>
           </Link>
-        </div> */}
+        </div>
         <div>
           <h3 className="center" style={{ margin: "0px" }}>
             Inbound Item : {this.state.item_code}
           </h3>
         </div>
-        {/* <div /> */}
+        <div />
       </div>
     );
   }

@@ -15,8 +15,6 @@ class ReportPO extends Component {
           <SearchPO />
           <ReportPODatepicker />
         </div>
-
-        <hr />
         <ReportPOList />
         <br />
       </div>

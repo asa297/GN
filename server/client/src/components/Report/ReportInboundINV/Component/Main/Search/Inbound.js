@@ -1,21 +1,17 @@
 import React, { Component } from "react";
+import _ from "lodash";
 import { find_Item } from "../../../../../../actions";
 import CircularLoaderBlue from "../../../../../utils/CircularLoaderBlue";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
 import { withRouter } from "react-router-dom";
+import { required, whitespace } from "../../../../../utils/validation";
 
 const InboundItemField = ({ input, meta: { error, touched } }) => {
   return (
     <div>
-      <input
-        {...input}
-        style={{ marginBottom: "0px" }}
-        placeholder="inbound item"
-      />
-      <div className="red-text" style={{ marginBottom: "20px" }}>
-        {touched && error}
-      </div>
+      <input {...input} placeholder="inbound item" />
+      <div className="red-text">{touched && error}</div>
     </div>
   );
 };
@@ -30,15 +26,18 @@ class Inbound extends Component {
   }
 
   async handleSearchSubmit() {
-    const { item_code } = this.props.report_inbound_inv.values;
-    this.setState({ ready: false });
-    await this.props.find_Item(item_code);
-    this.setState({ ready: true });
-    if (this.props.items) {
-      this.props.history.push({
-        pathname: "/report/reportinboundinv/view/edit",
-        state: { item_code }
-      });
+    if (this.props.report_inbound_inv.values) {
+      const { item_code } = this.props.report_inbound_inv.values;
+
+      this.setState({ ready: false });
+      await this.props.find_Item(item_code);
+      this.setState({ ready: true });
+      if (this.props.items) {
+        this.props.history.push({
+          pathname: "/report/reportinboundinv/view/edit",
+          state: { item_code }
+        });
+      }
     }
   }
 
@@ -46,7 +45,11 @@ class Inbound extends Component {
     return (
       <form onSubmit={this.props.handleSubmit(() => this.handleSearchSubmit())}>
         <div className="search_inboundINV">
-          <Field name="item_code" component={InboundItemField} />
+          <Field
+            name="item_code"
+            component={InboundItemField}
+            validate={[required, whitespace]}
+          />
           <button
             type="submit"
             className="green btn-flat white-text"

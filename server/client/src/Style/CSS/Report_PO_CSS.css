@@ -6,6 +6,7 @@
 :local(.filterbar) {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 :local(.datepicker) {
@@ -18,7 +19,7 @@
 :local(.searchbar) {
   display: flex;
   justify-content: flex-end;
-  align-items: flex-end;
+  align-items: center;
 }
 
 :local(.headerReport) {

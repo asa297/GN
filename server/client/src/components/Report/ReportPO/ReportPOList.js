@@ -1,17 +1,75 @@
 import React, { Component } from "react";
+import { fetch_ReportPO } from "../../../actions";
 import _ from "lodash";
 import { connect } from "react-redux";
-import ReactTable from "react-table";
+import { CSVLink } from "react-csv";
 import { Link } from "react-router-dom";
-
+import ReactTable from "react-table";
 import "react-table/react-table.css";
-
-import { fetchInbound_ReportPO } from "../../../actions";
+import Preloader from "../../utils/Preloader";
 import Report_PO_CSS from "../../../Style/CSS/Report_PO_CSS.css";
 
 class ReportPOList extends Component {
+  constructor() {
+    super();
+    this.state = {
+      ready: false,
+      show_data: [],
+      export_data: []
+    };
+  }
+
   componentDidMount() {
-    this.props.fetchInbound_ReportPO();
+    this.props.fetch_ReportPO();
+  }
+
+  prepareExportData(value) {
+    const {
+      index,
+      orderId,
+      RecordDate_moment,
+      orgTypeName,
+      groupCode,
+      total,
+      credit,
+      cash,
+      RecordNameBy
+    } = value;
+    return {
+      "#": index,
+      orderId: `#${orderId}`,
+      ReocrdDate: RecordDate_moment,
+      orgTypeName,
+      groupCode,
+      total,
+      credit,
+      cash,
+      RecordNameBy
+    };
+  }
+
+  componentWillReceiveProps({ reports_po }) {
+    if (reports_po) {
+      let export_data = [];
+      reports_po = _.orderBy(reports_po, "RecordDate", "desc");
+
+      _.map(reports_po, (value, index) => {
+        value.RecordDate_moment =
+          new Date(value.RecordDate).toLocaleDateString() +
+          " " +
+          new Date(value.RecordDate).toLocaleTimeString();
+        value.index = index;
+
+        const _data = this.prepareExportData(value);
+        export_data.push(_data);
+      });
+
+      this.setState({
+        show_data: reports_po,
+        export_data,
+        ready: true
+      });
+    }
   }
 
   settingColumn() {
@@ -43,6 +101,7 @@ class ReportPOList extends Component {
           {
             Header: "Order Id",
             accessor: "orderId",
+            width: 150,
             style: { fontWeight: "bold" }
           },
           {
@@ -90,38 +149,39 @@ class ReportPOList extends Component {
     ];
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.reports_po) {
-      _.map(nextProps.reports_po, (value, index) => {
-        value.RecordDate_moment = new Date(
-          value.RecordDate
-        ).toLocaleDateString();
-        value.index = index;
-      });
-    }
-  }
-
   render() {
     return (
       <div>
-        <ReactTable
-          data={this.props.reports_po}
-          noDataText="Oh Noes!"
-          columns={this.settingColumn()}
-          defaultPageSize={15}
-          className="-striped -highlight"
-        />
-        <br />
+        {this.state.ready ? (
+          <div>
+            <ReactTable
+              data={this.state.show_data}
+              noDataText="No Data"
+              columns={this.settingColumn()}
+              className="-striped -highlight"
+            />
+            <CSVLink
+              data={this.state.export_data}
+              filename={"purchaseorder.csv"}
+            >
+              <button className="waves-effect waves-light btn">
+                <i className="material-icons left">cloud_download</i>Download
+              </button>
+            </CSVLink>
+          </div>
+        ) : (
+          <Preloader />
+        )}
       </div>
     );
   }
 }
 
 function mapStateToProps({ reports_po }) {
-  return { reports_po: _.reverse(reports_po) };
+  return { reports_po };
 }
 
 export default connect(
   mapStateToProps,
-  { fetchInbound_ReportPO }
+  { fetch_ReportPO }
 )(ReportPOList);

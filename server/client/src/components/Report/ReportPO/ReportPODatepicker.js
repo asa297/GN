@@ -1,34 +1,48 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field, reset } from "redux-form";
-import {
-  fetchInbound_ReportPO,
-  fetchInbound_ReportPO_Filter
-} from "../../../actions";
+import { fetch_ReportPO, fetch_ReportPO_Filter } from "../../../actions";
 
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 
 import Report_PO_CSS from "../../../Style/CSS/Report_PO_CSS.css";
+import CircularLoaderBlue from "../../utils//CircularLoaderBlue";
 
 class ReportPODatepicker extends Component {
-  async handleSearchDateSubmit() {
-    const { start_date, end_date } = this.props.report_po.values;
+  constructor() {
+    super();
 
-    const time_selected = {
-      values: {
-        start_date: moment(start_date),
-        end_date: moment(end_date)
-      }
+    this.state = {
+      searching: false
     };
+  }
 
-    this.props.fetchInbound_ReportPO_Filter(time_selected);
+  async handleSearchDateSubmit() {
+    this.setState({ searching: true });
+    if (this.props.report_po.values) {
+      const { start_date, end_date } = this.props.report_po.values;
+
+      const time_selected = {
+        values: {
+          start_date: moment(start_date),
+          end_date: moment(end_date)
+        }
+      };
+
+      await this.props.fetch_ReportPO_Filter(time_selected);
+    }
+
+    this.setState({ searching: false });
   }
 
   async handleClearSearch() {
     this.props.dispatch(reset("report_po"));
-    this.props.fetchInbound_ReportPO();
+
+    this.setState({ searching: true });
+    await this.props.fetch_ReportPO();
+    this.setState({ searching: false });
   }
 
   renderDateSelect() {
@@ -40,6 +54,9 @@ class ReportPODatepicker extends Component {
           )}
         >
           <div className={Report_PO_CSS.datepicker}>
+            <div style={{ marginRight: "5px" }}>
+              {this.state.searching ? <CircularLoaderBlue /> : null}
+            </div>
             <div style={{ marginRight: "10px" }}>
               <label>Filter Date</label>
             </div>
@@ -54,12 +71,14 @@ class ReportPODatepicker extends Component {
                         : null
                     }
                     onChange={props.input.onChange}
-                    placeholderText={
-                      props.meta.error ? props.meta.error : "start date"
-                    }
+                    placeholderText={"start date"}
                   />
+                  {props.meta.error && props.meta.touched ? (
+                    <div className="red-text"> {props.meta.error}</div>
+                  ) : null}
                 </div>
               )}
+              // validate={[required]}
             />
             <div>
               <b>to</b>
@@ -75,12 +94,14 @@ class ReportPODatepicker extends Component {
                         : null
                     }
                     onChange={props.input.onChange}
-                    placeholderText={
-                      props.meta.error ? props.meta.error : "end date"
-                    }
+                    placeholderText={"end date"}
                   />
+                  {props.meta.error && props.meta.touched ? (
+                    <div className="red-text"> {props.meta.error}</div>
+                  ) : null}
                 </div>
               )}
+              // validate={[required]}
             />
             <button type="submit" className="green btn-flat white-text">
               Filter
@@ -106,12 +127,11 @@ class ReportPODatepicker extends Component {
 function validate(values) {
   const errors = {};
 
-  if (values["start_date"] || values["end_date"]) {
-    if (!values["start_date"]) {
-      errors["start_date"] = "Require a value";
-    } else if (!values["end_date"]) {
-      errors["end_date"] = "Require a value";
-    }
+  if (!values["start_date"]) {
+    errors["start_date"] = "Require a value";
+  }
+  if (!values["end_date"]) {
+    errors["end_date"] = "Require a value";
   }
 
   return errors;
@@ -127,6 +147,6 @@ export default reduxForm({
 })(
   connect(
     mapStateToProps,
-    { fetchInbound_ReportPO, fetchInbound_ReportPO_Filter }
+    { fetch_ReportPO, fetch_ReportPO_Filter }
   )(ReportPODatepicker)
 );

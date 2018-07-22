@@ -68,12 +68,20 @@ module.exports = app => {
   });
 
   app.get("/api/order", async (req, res) => {
-    const order = await orderModel.find({});
+    const order = await orderModel.find({
+      RecordDate: {
+        $gte: new Date(
+          moment()
+            .add(-7, "days")
+            .format("YYYY-MM-DD HH:mm:ss")
+        )
+      }
+    });
 
     res.send(order);
   });
 
-  app.post("/api/order_filter", async (req, res) => {
+  app.post("/api/order/filter", async (req, res) => {
     const { start_date, end_date } = req.body;
 
     const order = await orderModel.find({
@@ -138,5 +146,11 @@ module.exports = app => {
     await orderModel.remove({ orderId: req.params.id });
 
     res.send({});
+  });
+
+  app.get("/api/order/:orderId", async (req, res) => {
+    const item = await orderModel.findOne({ orderId: req.params.orderId });
+
+    res.send(item);
   });
 };

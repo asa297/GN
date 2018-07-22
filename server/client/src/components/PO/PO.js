@@ -4,7 +4,7 @@ import { reduxForm } from "redux-form";
 import {
   fetch_Group,
   fetch_Seller,
-  submitInboundOrder,
+  submit_Order,
   submitOutbound_ItemElement_PO
 } from "../../actions";
 import Collapsible from "react-collapsible";
@@ -58,7 +58,7 @@ class PO extends Component {
 
     const { values } = this.props.inbound_po;
 
-    const res = await this.props.submitInboundOrder(values);
+    const res = await this.props.submit_Order(values);
 
     if (res) {
       this.props.submitOutbound_ItemElement_PO({
@@ -191,7 +191,7 @@ export default reduxForm({
     {
       fetch_Group,
       fetch_Seller,
-      submitInboundOrder,
+      submit_Order,
       submitOutbound_ItemElement_PO
     }
   )(PO)

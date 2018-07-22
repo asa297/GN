@@ -19,19 +19,21 @@ class SearchDatePicker extends Component {
     };
   }
   async handleSearchSubmit() {
-    const {
-      start_date,
-      end_date
-    } = this.props.report_inbound_inv_filter.values;
+    if (this.props.report_inbound_inv_filter.values) {
+      const {
+        start_date,
+        end_date
+      } = this.props.report_inbound_inv_filter.values;
 
-    const time_selected = {
-      start_date: moment(start_date),
-      end_date: moment(end_date)
-    };
+      const time_selected = {
+        start_date: moment(start_date),
+        end_date: moment(end_date)
+      };
 
-    this.setState({ searching: true });
-    await this.props.fetchInbound_ItemElement_Filter(time_selected);
-    this.setState({ searching: false });
+      this.setState({ searching: true });
+      await this.props.fetchInbound_ItemElement_Filter(time_selected);
+      this.setState({ searching: false });
+    }
   }
 
   async handleClearSearch() {
@@ -59,12 +61,11 @@ class SearchDatePicker extends Component {
                       : null
                   }
                   onChange={props.input.onChange}
-                  placeholderText={
-                    props.meta.error && props.meta.touched
-                      ? props.meta.error
-                      : "start date"
-                  }
+                  placeholderText={"start date"}
                 />
+                {props.meta.error && props.meta.touched ? (
+                  <div className="red-text"> {props.meta.error}</div>
+                ) : null}
               </div>
             )}
           />
@@ -82,12 +83,11 @@ class SearchDatePicker extends Component {
                       : null
                   }
                   onChange={props.input.onChange}
-                  placeholderText={
-                    props.meta.error && props.meta.touched
-                      ? props.meta.error
-                      : "end date"
-                  }
+                  placeholderText={"end date"}
                 />
+                {props.meta.error && props.meta.touched ? (
+                  <div className="red-text"> {props.meta.error}</div>
+                ) : null}
               </div>
             )}
           />

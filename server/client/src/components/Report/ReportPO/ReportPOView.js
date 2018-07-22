@@ -5,7 +5,7 @@ import { reduxForm } from "redux-form";
 import { Link, withRouter } from "react-router-dom";
 
 import Report_CSS from "../../../Style/CSS/Report_PO_CSS.css";
-import { updateInbound_ReportPO } from "../../../actions";
+import { update_ReportPO } from "../../../actions";
 
 import Header from "./ReportPOView/Header";
 import GroupDetail from "./ReportPOView/GroupDetail";
@@ -33,7 +33,7 @@ class ReportPOView extends Component {
   }
 
   handleFormSubmit() {
-    this.props.updateInbound_ReportPO(
+    this.props.update_ReportPO(
       this.state.orderId,
       this.props.report_po_edit,
       this.props.history
@@ -151,6 +151,6 @@ export default reduxForm({
 })(
   connect(
     mapStateToProps,
-    { updateInbound_ReportPO }
+    { update_ReportPO }
   )(withRouter(ReportPOView))
 );

@@ -10,6 +10,7 @@ import {
   FETCH_ITEM,
   FETCH_ITEM_FOR_PO,
   FETCH_REPORT_PO,
+  FIND_REPORT_PO,
   FETCH_INBOUND_REPORT,
   FETCH_OUTBOUND_REPORT,
   FETCH_DIALY_INV_REPORT
@@ -175,7 +176,7 @@ export const deleteInbound_Item = (item_id, history) => async dispatch => {
 };
 
 //inbound order
-export const submitInboundOrder = values => async () => {
+export const submit_Order = values => async () => {
   const formvalues = validateOrder(values);
   const res = await axios
     .post("/api/order", formvalues)
@@ -189,16 +190,22 @@ export const submitInboundOrder = values => async () => {
   return res.data;
 };
 
-export const fetchInbound_ReportPO = () => async dispatch => {
+export const fetch_ReportPO = () => async dispatch => {
   const res = await axios.get("/api/order");
 
   dispatch({ type: FETCH_REPORT_PO, payload: res.data });
 };
 
-export const fetchInbound_ReportPO_Filter = formvalue => async dispatch => {
+export const find_ReportPO = orderId => async dispatch => {
+  const res = await axios.get("/api/order/" + orderId);
+
+  dispatch({ type: FIND_REPORT_PO, payload: res.data });
+};
+
+export const fetch_ReportPO_Filter = formvalue => async dispatch => {
   if (formvalue.values) {
     const { values } = formvalue;
-    const res = await axios.post("/api/order_filter", values);
+    const res = await axios.post("/api/order/filter", values);
     dispatch({ type: FETCH_REPORT_PO, payload: res.data });
   } else {
     const res = await axios.get("/api/order");
@@ -206,7 +213,7 @@ export const fetchInbound_ReportPO_Filter = formvalue => async dispatch => {
   }
 };
 
-export const updateInbound_ReportPO = (
+export const update_ReportPO = (
   orderId,
   formvalues,
   history
@@ -218,7 +225,7 @@ export const updateInbound_ReportPO = (
     });
 };
 
-export const deleteInbound_ReportPO = (orderId, history) => async dispatch => {
+export const delete_ReportPO = (orderId, history) => async dispatch => {
   await axios.delete("/api/order/" + orderId).then(response => {
     history.push("/report/reportpo");
   });
