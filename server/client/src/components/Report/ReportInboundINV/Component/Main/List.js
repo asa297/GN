@@ -11,6 +11,7 @@ class List extends Component {
   constructor() {
     super();
     this.state = {
+      show_data: [],
       export_data: []
     };
   }
@@ -41,6 +42,7 @@ class List extends Component {
 
   componentWillReceiveProps({ reports_inbound_item }) {
     if (reports_inbound_item) {
+      let export_data = [];
       _.map(reports_inbound_item, (value, index) => {
         value.RecordDate_moment =
           new Date(value.RecordDate).toLocaleDateString() +
@@ -49,9 +51,10 @@ class List extends Component {
         value.index = index;
 
         const _data = this.prepareExportData(value);
-
-        this.state.export_data.push(_data);
+        export_data.push(_data);
       });
+
+      this.setState({ show_data: reports_inbound_item, export_data });
     }
   }
 
@@ -107,6 +110,7 @@ class List extends Component {
   }
 
   render() {
+    console.log(this.state);
     return (
       <div>
         <ReactTable
