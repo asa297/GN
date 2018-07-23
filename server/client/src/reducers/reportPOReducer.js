@@ -5,7 +5,7 @@ export default function(state = [], action) {
     case FETCH_REPORT_PO:
       return action.payload;
     case FIND_REPORT_PO:
-      return [...state, action.payload];
+      return action.payload ? [...state, action.payload] : [...state];
     default:
       return state;
   }

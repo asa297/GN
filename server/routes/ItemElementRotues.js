@@ -9,7 +9,14 @@ const CreateDailyInventoryReport = require("../middlewares/CreateDailyInventoryR
 
 module.exports = app => {
   app.post("/api/itemelement/inbound", requireLogin, async (req, res) => {
-    const { _id, item_code, item_name, inbound_qty, item_qty } = req.body;
+    const {
+      _id,
+      item_code,
+      item_name,
+      inbound_qty,
+      item_qty,
+      inbound_remarks
+    } = req.body;
 
     const itemelement = await new itemElementsModel({
       item_id: _id,
@@ -19,7 +26,7 @@ module.exports = app => {
       stock_typeName: "Inbound",
       item_qty: inbound_qty,
       item_remain: item_qty,
-      remarks: "Deposit Inventory",
+      remarks: inbound_remarks ? inbound_remarks : "Deposit Inventory",
       RecordIdBy: req.user._id,
       RecordNameBy: req.user.firstName,
       RecordDate: Date.now()
@@ -29,7 +36,14 @@ module.exports = app => {
   });
 
   app.post("/api/itemelement/outbound", requireLogin, async (req, res) => {
-    const { _id, item_code, item_name, outbound_qty, item_qty } = req.body;
+    const {
+      _id,
+      item_code,
+      item_name,
+      outbound_qty,
+      item_qty,
+      outbound_remarks
+    } = req.body;
 
     const itemelement = await new itemElementsModel({
       item_id: _id,
@@ -39,7 +53,7 @@ module.exports = app => {
       stock_typeName: "Outbound",
       item_qty: outbound_qty,
       item_remain: item_qty,
-      remarks: "Withdraw Invertory",
+      remarks: outbound_remarks ? outbound_remarks : "Withdraw Invertory",
       RecordIdBy: req.user._id,
       RecordNameBy: req.user.firstName,
       RecordDate: Date.now()

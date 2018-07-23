@@ -26,19 +26,19 @@ class Inbound extends Component {
   }
 
   async handleSearchSubmit() {
-    if (this.props.report_inbound_inv.values) {
-      const { item_code } = this.props.report_inbound_inv.values;
+    // if (this.props.report_inbound_inv.values) {
+    const { item_code } = this.props.report_inbound_inv.values;
 
-      this.setState({ ready: false });
-      await this.props.find_Item(item_code);
-      this.setState({ ready: true });
-      if (this.props.items) {
-        this.props.history.push({
-          pathname: "/report/reportinboundinv/view/edit",
-          state: { item_code }
-        });
-      }
+    this.setState({ ready: false });
+    await this.props.find_Item(item_code);
+    this.setState({ ready: true });
+    if (this.props.items) {
+      this.props.history.push({
+        pathname: "/report/reportinboundinv/view/edit",
+        state: { item_code }
+      });
     }
+    // }
   }
 
   render() {

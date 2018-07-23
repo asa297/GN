@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
+import { CSVLink } from "react-csv";
 import ReactTable from "react-table";
 import { Link } from "react-router-dom";
 import numeral from "numeral";
@@ -8,11 +9,77 @@ import numeral from "numeral";
 import "react-table/react-table.css";
 
 import { fetch_Item } from "../../../actions";
+import Preloader from "../../utils/Preloader";
 import Report_INV_CSS from "../../../Style/CSS/Report_INV_CSS.css";
 
 class ReportPOList extends Component {
+  constructor() {
+    super();
+    this.state = {
+      ready: false,
+      show_data: [],
+      export_data: []
+    };
+  }
+
   componentDidMount() {
     this.props.fetch_Item();
+  }
+
+  prepareExportData(value) {
+    const {
+      index,
+      item_factory,
+      item_code,
+      item_name,
+      item_price,
+      item_remarks,
+      item_skin,
+      item_color,
+      item_qty,
+      itemTypeName,
+      LastModifyDate_moment,
+      LastModifyByName
+    } = value;
+    return {
+      "#": index,
+      item_factory,
+      item_code: `#${item_code}`,
+      item_name,
+      item_price,
+      item_remarks,
+      item_skin,
+      item_color,
+      item_qty,
+      itemTypeName,
+      Date: LastModifyDate_moment,
+      LastModifyByName
+    };
+  }
+
+  componentWillReceiveProps({ items }) {
+    if (items) {
+      let export_data = [];
+      items = _.orderBy(items, "item_code", "asc");
+
+      _.map(items, (value, index) => {
+        value.LastModifyDate_moment =
+          new Date(value.LastModifyDate).toLocaleDateString() +
+          " " +
+          new Date(value.LastModifyDate).toLocaleTimeString();
+
+        value.index = index;
+
+        const _data = this.prepareExportData(value);
+        export_data.push(_data);
+      });
+
+      this.setState({
+        show_data: items,
+        export_data,
+        ready: true
+      });
+    }
   }
 
   settingColumn() {
@@ -107,37 +174,33 @@ class ReportPOList extends Component {
     ];
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.items) {
-      _.map(nextProps.items, (value, index) => {
-        value.LastModifyDate_moment =
-          new Date(value.LastModifyDate).toLocaleDateString() +
-          " " +
-          new Date(value.LastModifyDate).toLocaleTimeString();
-
-        value.index = index;
-      });
-    }
-  }
-
   render() {
     return (
       <div>
-        <ReactTable
-          data={this.props.items}
-          noDataText="Oh Noes!"
-          columns={this.settingColumn()}
-          defaultPageSize={15}
-          className="-striped -highlight"
-        />
-        <br />
+        {this.state.ready ? (
+          <div>
+            <ReactTable
+              data={this.state.show_data}
+              noDataText="No Data"
+              columns={this.settingColumn()}
+              className="-striped -highlight"
+            />
+            <CSVLink data={this.state.export_data} filename={"inventory.csv"}>
+              <button className="waves-effect waves-light btn">
+                <i className="material-icons left">cloud_download</i>Download
+              </button>
+            </CSVLink>
+          </div>
+        ) : (
+          <Preloader />
+        )}
       </div>
     );
   }
 }
 
 function mapStateToProps({ items }) {
-  return { items: _.orderBy(items, ["item_code"], ["asc"]) };
+  return { items };
 }
 
 export default connect(

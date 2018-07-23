@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import _ from "lodash";
 import { find_ReportPO } from "../../../actions";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
@@ -18,10 +19,15 @@ class SearchPO extends Component {
     this.setState({ searching: true });
     await this.props.find_ReportPO(orderId);
     this.setState({ searching: false });
-    this.props.history.push({
-      pathname: "/report/reportpo/view",
-      state: { orderId: parseInt(orderId, 10) }
+    const _found = _.find(this.props.reports_po, ({ orderId: _orderId }) => {
+      return _orderId === parseInt(orderId, 10);
     });
+    if (_found) {
+      this.props.history.push({
+        pathname: "/report/reportpo/view",
+        state: { orderId: parseInt(orderId, 10) }
+      });
+    }
   }
 
   render() {
@@ -50,8 +56,8 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ form: { search_po } }) {
-  return { search_po };
+function mapStateToProps({ form: { search_po }, reports_po }) {
+  return { search_po, reports_po };
 }
 
 export default reduxForm({

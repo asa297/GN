@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { fetchDialy_Inventory_Filter } from "../../../../../actions";
+
 import _ from "lodash";
 import { connect } from "react-redux";
 import { CSVLink } from "react-csv";

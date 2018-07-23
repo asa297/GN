@@ -16,7 +16,8 @@ class Group extends Component {
       showReview: false,
       index: 0,
       _id: 0,
-      ready: false
+      ready: false,
+      searchTerm: ""
     };
   }
 
@@ -25,8 +26,8 @@ class Group extends Component {
     this.props.fetch_Group();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.groups) {
+  componentWillReceiveProps({ groups }) {
+    if (groups) {
       this.setState({ ready: true });
     }
   }
@@ -34,21 +35,42 @@ class Group extends Component {
   renderList() {
     return (
       <div>
-        <h3>
-          InBound-Group
-          <Link
-            to="/Group/new"
-            className="btn-small blue"
-            style={{ marginLeft: "20px" }}
-          >
-            <i className="material-icons">add</i>
-          </Link>
-        </h3>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            marginTop: "20px",
+            marginBottom: "20px"
+          }}
+        >
+          <div style={{ width: "60%" }}>
+            <h3 style={{ margin: "0px" }}>
+              InBound-Group
+              <Link
+                to="/Group/new"
+                className="btn-small blue"
+                style={{ marginLeft: "20px" }}
+              >
+                <i className="material-icons">add</i>
+              </Link>
+            </h3>
+          </div>
+          <div style={{ width: "40%" }}>
+            <input
+              placeholder="search a group"
+              onChange={event => {
+                this.setState({ searchTerm: event.target.value });
+              }}
+            />
+          </div>
+        </div>
         <GroupList
           onSelect={(index, _id) => {
             this.setState({ showEdit: true, index, _id });
           }}
           onDelete={group_id => this.props.delete_Group(group_id)}
+          searchTerm={this.state.searchTerm}
         />
       </div>
     );

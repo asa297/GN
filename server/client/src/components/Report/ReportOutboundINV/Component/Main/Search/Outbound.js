@@ -4,6 +4,7 @@ import CircularLoaderBlue from "../../../../../utils/CircularLoaderBlue";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
 import { withRouter } from "react-router-dom";
+import { required, whitespace } from "../../../../../utils/validation";
 
 const OutboundItemField = ({ input, meta: { error, touched } }) => {
   return (
@@ -47,7 +48,11 @@ class Outbound extends Component {
     return (
       <form onSubmit={this.props.handleSubmit(() => this.handleSearchSubmit())}>
         <div className="search_inboundINV">
-          <Field name="item_code" component={OutboundItemField} />
+          <Field
+            name="item_code"
+            component={OutboundItemField}
+            validate={[required, whitespace]}
+          />
           <button
             type="submit"
             className="green btn-flat white-text"
