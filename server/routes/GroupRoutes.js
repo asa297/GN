@@ -57,15 +57,19 @@ module.exports = app => {
 
   app.get("/api/group", requireLogin, async (req, res) => {
     const group_form = await GroupModel.find({});
+    res.send(group_form);
+  });
 
-    // client.get("group", (err, result) => {
-    //   if (result) {
-    //     res.send(result);
-    //   } else {
-    //     client.setex("group", 3600, JSON.stringify(group_form));
-    //   }
-    // });
-
+  app.get("/api/group/filter", requireLogin, async (req, res) => {
+    const group_form = await GroupModel.find({
+      RecordDate: {
+        $gte: new Date(
+          moment()
+            .add(-7, "days")
+            .format("YYYY-MM-DD HH:mm:ss")
+        )
+      }
+    });
     res.send(group_form);
   });
 

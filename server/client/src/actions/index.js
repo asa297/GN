@@ -66,6 +66,12 @@ export const fetch_Group = () => async dispatch => {
   dispatch({ type: FETCH_GROUP, payload: res.data });
 };
 
+export const fetch_Group_Filter = () => async dispatch => {
+  const res = await axios.get("/api/group/filter");
+
+  dispatch({ type: FETCH_GROUP, payload: res.data });
+};
+
 export const update_Group = (
   group_id,
   values,

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import {
-  fetch_Group,
+  fetch_Group_Filter,
   fetch_Seller,
   submit_Order,
   submitOutbound_ItemElement_PO
@@ -35,7 +35,7 @@ class PO extends Component {
 
   componentDidMount() {
     this.props.fetch_Seller();
-    this.props.fetch_Group();
+    this.props.fetch_Group_Filter();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -189,7 +189,7 @@ export default reduxForm({
   connect(
     mapStateToProps,
     {
-      fetch_Group,
+      fetch_Group_Filter,
       fetch_Seller,
       submit_Order,
       submitOutbound_ItemElement_PO

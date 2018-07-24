@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetch_Org, fetch_Group, delete_Group } from "../../actions";
+import { fetch_Org, fetch_Group_Filter, delete_Group } from "../../actions";
 import GroupList from "./GroupList";
 import GroupEdit from "./GroupEdit";
 import GroupReview from "./GroupReview";
@@ -23,7 +23,7 @@ class Group extends Component {
 
   componentDidMount() {
     this.props.fetch_Org();
-    this.props.fetch_Group();
+    this.props.fetch_Group_Filter();
   }
 
   componentWillReceiveProps({ groups }) {
@@ -56,13 +56,23 @@ class Group extends Component {
               </Link>
             </h3>
           </div>
-          <div style={{ width: "40%" }}>
-            <input
-              placeholder="search a group"
-              onChange={event => {
-                this.setState({ searchTerm: event.target.value });
-              }}
-            />
+          <div style={{ width: "40%", display: "flex", alignItems: "center" }}>
+            <div
+              className="input-field"
+              style={{ width: "100%", margin: "0px" }}
+            >
+              <i className="material-icons prefix">search</i>
+              <input
+                id="icon_prefix"
+                type="text"
+                className="validate"
+                style={{ marginBottom: "0px" }}
+                onChange={event => {
+                  this.setState({ searchTerm: event.target.value });
+                }}
+              />
+              <label htmlFor="icon_prefix">Group Search</label>
+            </div>
           </div>
         </div>
         <GroupList
@@ -123,7 +133,7 @@ export default connect(
   mapStateToProps,
   {
     fetch_Org,
-    fetch_Group,
+    fetch_Group_Filter,
     delete_Group
   }
 )(Group);

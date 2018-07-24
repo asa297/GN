@@ -1,23 +1,25 @@
 import React, { Component } from "react";
+import _ from "lodash";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { fetch_Group } from "../../actions";
+import { fetch_Group_Filter } from "../../actions";
 import Modal from "react-modal";
 import ModalStyle from "../../Style/JS/modalStyle";
 import ReactModalCSS from "../../Style/CSS/ReactModal.css";
 
 class GroupList extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       modalIsOpen: false,
-      group_id: 0
+      group_id: 0,
+      currentlyDisplayed: props.groups
     };
   }
 
   componentDidMount() {
-    this.props.fetch_Group();
+    this.props.fetch_Group_Filter();
   }
 
   openModal(group_id) {
@@ -33,6 +35,17 @@ class GroupList extends Component {
       pathname: "/Group/view",
       state: { _id }
     });
+  }
+
+  componentWillReceiveProps({ searchTerm, groups }) {
+    if (searchTerm) {
+      let currentlyDisplayed = _.filter(groups, ({ groupCode }) =>
+        groupCode.includes(searchTerm)
+      );
+      this.setState({ currentlyDisplayed });
+    } else {
+      this.setState({ currentlyDisplayed: groups });
+    }
   }
 
   componentWillMount() {
@@ -76,7 +89,7 @@ class GroupList extends Component {
   }
 
   renderGroupList() {
-    return this.props.groups.map(
+    return this.state.currentlyDisplayed.map(
       (
         { _id, groupCode, guideName, LastModifyByName, LastModifyDate },
         index
@@ -149,5 +162,5 @@ function mapStateToProps({ orgs, groups, auth }) {
 
 export default connect(
   mapStateToProps,
-  { fetch_Group }
+  { fetch_Group_Filter }
 )(withRouter(GroupList));
