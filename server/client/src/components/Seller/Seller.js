@@ -20,30 +20,78 @@ class Seller extends Component {
     this.props.fetch_Seller();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.sellers) {
+  componentWillReceiveProps({ sellers }) {
+    if (sellers) {
       this.setState({ ready: true });
     }
+  }
+
+  componentWillUnmount() {
+    this.setState({ ready: false });
+  }
+
+  async onUpdateSeller() {
+    this.setState({ ready: false, showEdit: false, showReview: false });
+    await this.props.fetch_Seller();
+    this.setState({ ready: true });
+  }
+
+  async onDeleteSeller(seller_id) {
+    this.setState({ ready: false });
+    await this.props.delete_Seller(seller_id);
+    await this.props.fetch_Seller();
+    this.setState({ ready: true });
   }
 
   renderList() {
     return (
       <div>
-        <h3>
-          InBound-Seller
-          <Link
-            to="/Seller/new"
-            className="btn-small blue"
-            style={{ marginLeft: "20px" }}
-          >
-            <i className="material-icons">add</i>
-          </Link>
-        </h3>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            marginTop: "20px",
+            marginBottom: "20px"
+          }}
+        >
+          <div style={{ width: "60%" }}>
+            <h3 style={{ margin: "0px" }}>
+              Seller
+              <Link
+                to="/Seller/new"
+                className="btn-small blue"
+                style={{ marginLeft: "20px" }}
+              >
+                <i className="material-icons">add</i>
+              </Link>
+            </h3>
+          </div>
+          <div style={{ width: "40%", display: "flex", alignItems: "center" }}>
+            <div
+              className="input-field"
+              style={{ width: "100%", margin: "0px" }}
+            >
+              <i className="material-icons prefix">search</i>
+              <input
+                id="icon_prefix"
+                type="text"
+                className="validate"
+                style={{ marginBottom: "0px" }}
+                onChange={event => {
+                  this.setState({ searchTerm: event.target.value });
+                }}
+              />
+              <label htmlFor="icon_prefix">Seller Search</label>
+            </div>
+          </div>
+        </div>
         <SellerList
-          onSelect={(index, _id) => {
+          onEdit={(index, _id) => {
             this.setState({ showEdit: true, index, _id });
           }}
-          onDelete={seller_id => this.props.delete_Seller(seller_id)}
+          onDelete={seller_id => this.onDeleteSeller(seller_id)}
+          searchTerm={this.state.searchTerm}
         />
       </div>
     );
@@ -68,9 +116,7 @@ class Seller extends Component {
       return (
         <SellerReview
           onCancel={() => this.setState({ showEdit: true, showReview: false })}
-          onUpdateSeller={() =>
-            this.setState({ showEdit: false, showReview: false })
-          }
+          onUpdateSeller={() => this.onUpdateSeller()}
           seller_id={this.state._id}
         />
       );

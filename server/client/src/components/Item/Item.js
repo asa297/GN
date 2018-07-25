@@ -15,7 +15,8 @@ class Item extends Component {
       showReview: false,
       index: 0,
       _id: 0,
-      ready: false
+      ready: false,
+      searchTerm: ""
     };
   }
 
@@ -24,30 +25,78 @@ class Item extends Component {
     this.props.fetch_Org();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.items) {
+  componentWillReceiveProps({ orgs }) {
+    if (orgs) {
       this.setState({ ready: true });
     }
+  }
+
+  componentWillUnmount() {
+    this.setState({ ready: false });
+  }
+
+  async onUpdateItem() {
+    this.setState({ ready: false, showEdit: false, showReview: false });
+    await this.props.fetch_Item();
+    this.setState({ ready: true });
+  }
+
+  async onDeleteItem(item_id) {
+    this.setState({ ready: false });
+    await this.props.delete_Item(item_id);
+    await this.props.fetch_Item();
+    this.setState({ ready: true });
   }
 
   renderList() {
     return (
       <div>
-        <h3>
-          InBound-Item
-          <Link
-            to="/Item/new"
-            className="btn-small blue"
-            style={{ marginLeft: "20px" }}
-          >
-            <i className="material-icons">add</i>
-          </Link>
-        </h3>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            marginTop: "20px",
+            marginBottom: "20px"
+          }}
+        >
+          <div style={{ width: "60%" }}>
+            <h3 style={{ margin: "0px" }}>
+              Item
+              <Link
+                to="/Item/new"
+                className="btn-small blue"
+                style={{ marginLeft: "20px" }}
+              >
+                <i className="material-icons">add</i>
+              </Link>
+            </h3>
+          </div>
+          <div style={{ width: "40%", display: "flex", alignItems: "center" }}>
+            <div
+              className="input-field"
+              style={{ width: "100%", margin: "0px" }}
+            >
+              <i className="material-icons prefix">search</i>
+              <input
+                id="icon_prefix"
+                type="text"
+                className="validate"
+                style={{ marginBottom: "0px" }}
+                onChange={event => {
+                  this.setState({ searchTerm: event.target.value });
+                }}
+              />
+              <label htmlFor="icon_prefix">Item Search</label>
+            </div>
+          </div>
+        </div>
         <ItemList
-          onSelect={(index, _id) => {
+          onEdit={(index, _id) => {
             this.setState({ showEdit: true, index, _id });
           }}
-          onDelete={item_id => this.props.delete_Item(item_id)}
+          onDelete={item_id => this.onDeleteItem(item_id)}
+          searchTerm={this.state.searchTerm}
         />
       </div>
     );
@@ -73,9 +122,7 @@ class Item extends Component {
       return (
         <ItemReview
           onCancel={() => this.setState({ showEdit: true, showReview: false })}
-          onUpdateItem={() =>
-            this.setState({ showEdit: false, showReview: false })
-          }
+          onUpdateItem={() => this.onUpdateItem()}
           item_id={this.state._id}
         />
       );
@@ -93,8 +140,8 @@ class Item extends Component {
   }
 }
 
-function mapStateToProps({ items }) {
-  return { items };
+function mapStateToProps({ orgs }) {
+  return { orgs };
 }
 
 export default connect(

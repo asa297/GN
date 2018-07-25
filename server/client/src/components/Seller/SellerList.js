@@ -1,22 +1,19 @@
 import React, { Component } from "react";
+import _ from "lodash";
 import { connect } from "react-redux";
-import { fetch_Seller } from "../../actions";
 import Modal from "react-modal";
 import ModalStyle from "../../Style/JS/modalStyle";
 import ReactModalCSS from "../../Style/CSS/ReactModal.css";
 
 class SellerList extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       modalIsOpen: false,
-      seller_id: 0
+      seller_id: 0,
+      currentlyDisplayed: props.sellers
     };
-  }
-
-  componentDidMount() {
-    this.props.fetch_Seller();
   }
 
   openModal(seller_id) {
@@ -29,6 +26,19 @@ class SellerList extends Component {
 
   componentWillMount() {
     Modal.setAppElement("body");
+  }
+
+  componentWillReceiveProps({ searchTerm, sellers }) {
+    if (searchTerm) {
+      let currentlyDisplayed = _.filter(
+        sellers,
+        ({ sellerName, sellerCode }) =>
+          sellerName.includes(searchTerm) || sellerCode.includes(searchTerm)
+      );
+      this.setState({ currentlyDisplayed });
+    } else {
+      this.setState({ currentlyDisplayed: sellers });
+    }
   }
 
   renderModal() {
@@ -68,7 +78,7 @@ class SellerList extends Component {
   }
 
   renderSellerList() {
-    return this.props.sellers.map(
+    return this.state.currentlyDisplayed.map(
       (
         {
           _id,
@@ -120,7 +130,7 @@ class SellerList extends Component {
                   <button
                     className="teal btn-flat  white-text"
                     style={{ width: "50%" }}
-                    onClick={() => this.props.onSelect(index, _id)}
+                    onClick={() => this.props.onEdit(index, _id)}
                   >
                     <i className="material-icons center">edit</i>
                   </button>
@@ -150,7 +160,4 @@ function mapStateToProps({ sellers, auth }) {
   return { sellers, auth };
 }
 
-export default connect(
-  mapStateToProps,
-  { fetch_Seller }
-)(SellerList);
+export default connect(mapStateToProps)(SellerList);

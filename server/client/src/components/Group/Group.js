@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetch_Org, fetch_Group_Filter, delete_Group } from "../../actions";
+import { fetch_Group_Filter, fetch_Org, delete_Group } from "../../actions";
 import GroupList from "./GroupList";
 import GroupEdit from "./GroupEdit";
 import GroupReview from "./GroupReview";
@@ -22,14 +22,31 @@ class Group extends Component {
   }
 
   componentDidMount() {
-    this.props.fetch_Org();
     this.props.fetch_Group_Filter();
+    this.props.fetch_Org();
   }
 
-  componentWillReceiveProps({ groups }) {
-    if (groups) {
+  componentWillReceiveProps({ orgs }) {
+    if (orgs) {
       this.setState({ ready: true });
     }
+  }
+
+  componentWillUnmount() {
+    this.setState({ ready: false });
+  }
+
+  async onUpdateGroup() {
+    this.setState({ ready: false, showEdit: false, showReview: false });
+    await this.props.fetch_Group_Filter();
+    this.setState({ ready: true });
+  }
+
+  async onDeleteGroup(group_id) {
+    this.setState({ ready: false });
+    await this.props.delete_Group(group_id);
+    await this.props.fetch_Group_Filter();
+    this.setState({ ready: true });
   }
 
   renderList() {
@@ -46,7 +63,7 @@ class Group extends Component {
         >
           <div style={{ width: "60%" }}>
             <h3 style={{ margin: "0px" }}>
-              InBound-Group
+              Group
               <Link
                 to="/Group/new"
                 className="btn-small blue"
@@ -76,10 +93,10 @@ class Group extends Component {
           </div>
         </div>
         <GroupList
-          onSelect={(index, _id) => {
+          onEdit={(index, _id) => {
             this.setState({ showEdit: true, index, _id });
           }}
-          onDelete={group_id => this.props.delete_Group(group_id)}
+          onDelete={group_id => this.onDeleteGroup(group_id)}
           searchTerm={this.state.searchTerm}
         />
       </div>
@@ -105,9 +122,7 @@ class Group extends Component {
       return (
         <GroupReview
           onCancel={() => this.setState({ showEdit: true, showReview: false })}
-          onUpdateGroup={() =>
-            this.setState({ showEdit: false, showReview: false })
-          }
+          onUpdateGroup={() => this.onUpdateGroup()}
           group_id={this.state._id}
         />
       );
@@ -125,15 +140,15 @@ class Group extends Component {
   }
 }
 
-function mapStateToProps({ groups }) {
-  return { groups };
+function mapStateToProps({ orgs }) {
+  return { orgs };
 }
 
 export default connect(
   mapStateToProps,
   {
-    fetch_Org,
     fetch_Group_Filter,
+    fetch_Org,
     delete_Group
   }
 )(Group);

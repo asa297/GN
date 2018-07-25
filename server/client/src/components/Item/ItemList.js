@@ -1,23 +1,20 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { fetch_Item } from "../../actions";
+
 import { withRouter } from "react-router-dom";
 import Modal from "react-modal";
 import ModalStyle from "../../Style/JS/modalStyle";
 
 class ItemList extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       modalIsOpen: false,
-      item_id: 0
+      item_id: 0,
+      currentlyDisplayed: props.items
     };
-  }
-
-  componentDidMount() {
-    this.props.fetch_Item();
   }
 
   componentWillMount() {
@@ -37,6 +34,19 @@ class ItemList extends Component {
       pathname: "/Item/view",
       state: { _id }
     });
+  }
+
+  componentWillReceiveProps({ searchTerm, items }) {
+    if (searchTerm) {
+      let currentlyDisplayed = _.filter(
+        items,
+        ({ item_code, item_name }) =>
+          item_code.includes(searchTerm) || item_name.includes(searchTerm)
+      );
+      this.setState({ currentlyDisplayed });
+    } else {
+      this.setState({ currentlyDisplayed: items });
+    }
   }
 
   renderModal() {
@@ -75,7 +85,7 @@ class ItemList extends Component {
   }
 
   renderInboundItem() {
-    return this.props.items.map(
+    return this.state.currentlyDisplayed.map(
       (
         {
           _id,
@@ -125,7 +135,7 @@ class ItemList extends Component {
                   <button
                     className="teal btn-flat  white-text"
                     style={{ width: "50%" }}
-                    onClick={() => this.props.onSelect(index, _id)}
+                    onClick={() => this.props.onEdit(index, _id)}
                   >
                     <i className="material-icons center">edit</i>
                   </button>
@@ -152,13 +162,7 @@ class ItemList extends Component {
 }
 
 function mapStateToProps({ items, auth }) {
-  return {
-    items: _.orderBy(items, ["item_code"], ["asc"]),
-    auth
-  };
+  return { items, auth };
 }
 
-export default connect(
-  mapStateToProps,
-  { fetch_Item }
-)(withRouter(ItemList));
+export default connect(mapStateToProps)(withRouter(ItemList));

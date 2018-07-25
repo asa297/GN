@@ -1,18 +1,20 @@
 import React, { Component } from "react";
+import _ from "lodash";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { fetch_Org } from "../../actions";
+
 import Modal from "react-modal";
 import ModalStyle from "../../Style/JS/modalStyle";
 import ReactModalCSS from "../../Style/CSS/ReactModal.css";
 
 class OrgList extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       modalIsOpen: false,
-      org_id: 0
+      org_id: 0,
+      currentlyDisplayed: props.orgs
     };
   }
 
@@ -31,8 +33,15 @@ class OrgList extends Component {
     });
   }
 
-  componentDidMount() {
-    this.props.fetch_Org();
+  componentWillReceiveProps({ searchTerm, orgs }) {
+    if (searchTerm) {
+      let currentlyDisplayed = _.filter(orgs, ({ orgName }) =>
+        orgName.includes(searchTerm)
+      );
+      this.setState({ currentlyDisplayed });
+    } else {
+      this.setState({ currentlyDisplayed: orgs });
+    }
   }
 
   componentWillMount() {
@@ -76,7 +85,7 @@ class OrgList extends Component {
   }
 
   renderOrgList() {
-    return this.props.orgs.map(
+    return this.state.currentlyDisplayed.map(
       (
         { _id, orgName, orgTypeId, LastModifyByName, LastModifyDate },
         index
@@ -115,7 +124,7 @@ class OrgList extends Component {
                   <button
                     className="teal btn-flat  white-text"
                     style={{ width: "50%" }}
-                    onClick={() => this.props.onSelect(index, _id)}
+                    onClick={() => this.props.onEdit(index, _id)}
                   >
                     <i className="material-icons center">edit</i>
                   </button>
@@ -141,11 +150,8 @@ class OrgList extends Component {
   }
 }
 
-function mapStateToProps({ orgs, typeorgs, auth }) {
-  return { orgs, typeorgs, auth };
+function mapStateToProps({ orgs, auth }) {
+  return { orgs, auth };
 }
 
-export default connect(
-  mapStateToProps,
-  { fetch_Org }
-)(withRouter(OrgList));
+export default connect(mapStateToProps)(withRouter(OrgList));

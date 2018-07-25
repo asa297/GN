@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchOrgType, delete_Org } from "../../actions";
+import { fetch_Org, fetchOrgType, delete_Org } from "../../actions";
 import OrgList from "./OrgList";
 import OrgEdit from "./OrgEdit";
 import OrgReview from "./OrgReview";
@@ -15,40 +15,88 @@ class Org extends Component {
       showReview: false,
       index: 0,
       _id: 0,
-      ready: false
+      ready: false,
+      searchTerm: ""
     };
   }
 
   componentDidMount() {
+    this.props.fetch_Org();
     this.props.fetchOrgType();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.typeorgs) {
+  componentWillReceiveProps({ typeorgs }) {
+    if (typeorgs) {
       this.setState({ ready: true });
     }
+  }
+
+  componentWillUnmount() {
+    this.setState({ ready: false });
+  }
+
+  async onUpdateOrg() {
+    this.setState({ ready: false, showEdit: false, showReview: false });
+    await this.props.fetch_Org();
+    this.setState({ ready: true });
+  }
+
+  async onDeleteOrg(org_id) {
+    this.setState({ ready: false });
+    await this.props.delete_Org(org_id);
+    await this.props.fetch_Org();
+    this.setState({ ready: true });
   }
 
   renderList() {
     return (
       <div>
-        <div>
-          <h3>
-            Organization
-            <Link
-              to="/Org/new"
-              className="btn-small blue"
-              style={{ marginLeft: "20px" }}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            marginTop: "20px",
+            marginBottom: "20px"
+          }}
+        >
+          <div style={{ width: "60%" }}>
+            <h3 style={{ margin: "0px" }}>
+              Organization
+              <Link
+                to="/Org/new"
+                className="btn-small blue"
+                style={{ marginLeft: "20px" }}
+              >
+                <i className="material-icons">add</i>
+              </Link>
+            </h3>
+          </div>
+          <div style={{ width: "40%", display: "flex", alignItems: "center" }}>
+            <div
+              className="input-field"
+              style={{ width: "100%", margin: "0px" }}
             >
-              <i className="material-icons">add</i>
-            </Link>
-          </h3>
+              <i className="material-icons prefix">search</i>
+              <input
+                id="icon_prefix"
+                type="text"
+                className="validate"
+                style={{ marginBottom: "0px" }}
+                onChange={event => {
+                  this.setState({ searchTerm: event.target.value });
+                }}
+              />
+              <label htmlFor="icon_prefix">Org Search</label>
+            </div>
+          </div>
         </div>
         <OrgList
-          onSelect={(index, _id) => {
+          onEdit={(index, _id) => {
             this.setState({ showEdit: true, index, _id });
           }}
-          onDelete={org_id => this.props.delete_Org(org_id)}
+          onDelete={org_id => this.onDeleteOrg(org_id)}
+          searchTerm={this.state.searchTerm}
         />
       </div>
     );
@@ -73,9 +121,7 @@ class Org extends Component {
       return (
         <OrgReview
           onCancel={() => this.setState({ showEdit: true, showReview: false })}
-          onUpdateOrg={() =>
-            this.setState({ showEdit: false, showReview: false })
-          }
+          onUpdateOrg={() => this.onUpdateOrg()}
           org_id={this.state._id}
         />
       );
@@ -99,5 +145,5 @@ function mapStateToProps({ orgs, typeorgs }) {
 
 export default connect(
   mapStateToProps,
-  { fetchOrgType, delete_Org }
+  { fetch_Org, fetchOrgType, delete_Org }
 )(Org);

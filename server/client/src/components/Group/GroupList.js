@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { fetch_Group_Filter } from "../../actions";
+
 import Modal from "react-modal";
 import ModalStyle from "../../Style/JS/modalStyle";
 import ReactModalCSS from "../../Style/CSS/ReactModal.css";
@@ -16,10 +16,6 @@ class GroupList extends Component {
       group_id: 0,
       currentlyDisplayed: props.groups
     };
-  }
-
-  componentDidMount() {
-    this.props.fetch_Group_Filter();
   }
 
   openModal(group_id) {
@@ -39,8 +35,10 @@ class GroupList extends Component {
 
   componentWillReceiveProps({ searchTerm, groups }) {
     if (searchTerm) {
-      let currentlyDisplayed = _.filter(groups, ({ groupCode }) =>
-        groupCode.includes(searchTerm)
+      let currentlyDisplayed = _.filter(
+        groups,
+        ({ groupCode, guideName }) =>
+          groupCode.includes(searchTerm) || guideName.includes(searchTerm)
       );
       this.setState({ currentlyDisplayed });
     } else {
@@ -130,7 +128,7 @@ class GroupList extends Component {
                   <button
                     className="teal btn-flat  white-text"
                     style={{ width: "50%" }}
-                    onClick={() => this.props.onSelect(index, _id)}
+                    onClick={() => this.props.onEdit(index, _id)}
                   >
                     <i className="material-icons center">edit</i>
                   </button>
@@ -160,7 +158,4 @@ function mapStateToProps({ orgs, groups, auth }) {
   return { orgs, groups, auth };
 }
 
-export default connect(
-  mapStateToProps,
-  { fetch_Group_Filter }
-)(withRouter(GroupList));
+export default connect(mapStateToProps)(withRouter(GroupList));
