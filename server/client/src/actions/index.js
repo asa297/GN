@@ -13,7 +13,8 @@ import {
   FIND_REPORT_PO,
   FETCH_INBOUND_REPORT,
   FETCH_OUTBOUND_REPORT,
-  FETCH_DIALY_INV_REPORT
+  FETCH_DIALY_INV_REPORT,
+  FETCH_DIALY_CASHBALANCE_REPORT
 } from "./type";
 
 export const fetchUser = () => async dispatch => {
@@ -342,4 +343,18 @@ export const fetchDialy_Inventory_Filter = filter => async dispatch => {
     });
 
   dispatch({ type: FETCH_DIALY_INV_REPORT, payload: res.data });
+};
+
+//Daily Cash Balance report
+export const fetchDialy_CashBalance_Filter = filter => async dispatch => {
+  const res = await axios
+    .post("/api/order/daily/filter", filter)
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
+      return error;
+    });
+
+  dispatch({ type: FETCH_DIALY_CASHBALANCE_REPORT, payload: res.data });
 };

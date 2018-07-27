@@ -5,7 +5,7 @@ module.exports = ({ inbound, outbound }) => {
     return e.item_code;
   });
 
-  const result = _.map(_ItemCodeArray, ({ item_code , item_name }) => {
+  const result = _.map(_ItemCodeArray, ({ item_code, item_name }) => {
     const _Inbound = _.filter(_unionArray, e => {
       return e.item_code === item_code && e.stock_type === 1;
     });

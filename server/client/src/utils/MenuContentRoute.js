@@ -31,9 +31,10 @@ import ReportInBoundInventory from "../components/Report/ReportInboundINV/Report
 import ReportInBoundInventoryView from "../components/Report/ReportInboundINV/Component/View/InboundItem";
 import ReportOutBoundInventory from "../components/Report/ReportOutboundINV/ReportView";
 import ReportOutBoundInventoryView from "../components/Report/ReportOutboundINV/Component/View/OutboundItem";
-// import ReportOutBoundInventory from "../components/Report/ReportOutboundINV/ReportView";
 import ReportDailyINV from "../components/Report/ReportDailyINV/Search/Search";
 import ReportDailyINVView from "../components/Report/ReportDailyINV/View/ReportView";
+import ReportDailyCashBalance from "../components/Report/ReportDailyCashBalance/Search/Search";
+import ReportDailyCashBalanceView from "../components/Report/ReportDailyCashBalance/View/ReportView";
 
 export default auth => {
   if (!_.isNil(auth)) {
@@ -41,6 +42,16 @@ export default auth => {
       case 1:
         return (
           <div>
+            <Route
+              exact
+              path="/report/reportdialycashbalance/view"
+              component={ReportDailyCashBalanceView}
+            />
+            <Route
+              exact
+              path="/report/reportdialycashbalance"
+              component={ReportDailyCashBalance}
+            />
             <Route
               exact
               path="/report/reportdailyinv/view"

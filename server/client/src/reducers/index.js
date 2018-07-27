@@ -7,9 +7,10 @@ import groupReducer from "./groupReducer";
 import sellerReducer from "./sellerReducer";
 import itemReducer from "./itemReducer";
 import reportPOReducer from "./reportPOReducer";
-import reportInboundItem from "./reportInboundItemReducer";
-import reportOutboundItem from "./reportOutboundItemReducer";
-import reportDailyInventoryItem from "./reportDailyItemReducer";
+import reportInboundItemReducer from "./reportInboundItemReducer";
+import reportOutboundItemReducer from "./reportOutboundItemReducer";
+import reportDailyItemReducer from "./reportDailyItemReducer";
+import reportDailyCashBalanceReducer from "./reportDailyCashBalanceReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -19,8 +20,9 @@ export default combineReducers({
   sellers: sellerReducer,
   items: itemReducer,
   reports_po: reportPOReducer,
-  reports_inbound_item: reportInboundItem,
-  reports_outbound_item: reportOutboundItem,
-  reports_daily_inv_item: reportDailyInventoryItem,
+  reports_inbound_item: reportInboundItemReducer,
+  reports_outbound_item: reportOutboundItemReducer,
+  reports_daily_inv_item: reportDailyItemReducer,
+  reports_daily_cashbalance: reportDailyCashBalanceReducer,
   form: reduxForm
 });

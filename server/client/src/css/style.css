@@ -51,3 +51,25 @@
   display: flex;
   justify-content: center;
 }
+
+.header_report_daily_cashbalance {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container_report_daily_cashbalance {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.container_report_daily_cashbalance {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.datepicker_report_daily_cashbalance {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}

@@ -23,6 +23,11 @@ export default auth => {
             <li>
               <Link to="/report/reportdailyinv">Daily Inventory</Link>
             </li>
+            <li>
+              <Link to="/report/reportdialycashbalance">
+                Daily Cash Balance
+              </Link>
+            </li>
           </div>
         );
       default:
