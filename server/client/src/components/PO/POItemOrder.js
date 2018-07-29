@@ -150,10 +150,10 @@ class POItemOrder extends Component {
           <tr>
             <th style={{ width: "10px" }} />
             <th style={{ width: "10px" }} />
-            <th>item_code</th>
-            <th>item_name</th>
-            <th>QTY</th>
-            <th>Price</th>
+            <th>รหัสสินค้า</th>
+            <th>ชื่อสินค้า</th>
+            <th>จำนวนสินค้า</th>
+            <th>ราคาต่อหน่วย</th>
           </tr>
         </thead>
         <tbody>

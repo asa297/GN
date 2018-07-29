@@ -1,5 +1,5 @@
 export default [
-  { label: "Group Code", name: "group_code", key: "groupCode" },
-  { label: "Guide Name", name: "guide_name", key: "guideName" },
-  { label: "Group Remark", name: "group_remark", key: "groupRemarks" }
+  { label: "Group Code (รหัสกรุ๊ป)", name: "group_code", key: "groupCode" },
+  { label: "Guide Name (ชื่อไกด์)", name: "guide_name", key: "guideName" },
+  { label: "Group Remark (หมายเหตุ)", name: "group_remark", key: "groupRemarks" }
 ];

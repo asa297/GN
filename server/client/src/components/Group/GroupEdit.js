@@ -86,7 +86,7 @@ class GroupEdit extends Component {
 
     return (
       <div>
-        <label>Organization</label>
+        <label>Organization (บริษัททัวร์)</label>
 
         <Field
           name="org_option"

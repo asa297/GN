@@ -55,14 +55,14 @@ class Item extends Component {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            alignItems: "flex-start",
+            alignItems: "flex-end",
             marginTop: "20px",
             marginBottom: "20px"
           }}
         >
           <div style={{ width: "60%" }}>
-            <h3 style={{ margin: "0px" }}>
-              Item
+            <h5 style={{ margin: "0px" }}>
+              Product List (ผลิตภัณฑ์)
               <Link
                 to="/Item/new"
                 className="btn-small blue"
@@ -70,7 +70,7 @@ class Item extends Component {
               >
                 <i className="material-icons">add</i>
               </Link>
-            </h3>
+            </h5>
           </div>
           <div style={{ width: "40%", display: "flex", alignItems: "center" }}>
             <div

@@ -43,7 +43,7 @@ class OrgForm extends Component {
 
     return (
       <div>
-        <label>Organization Type</label>
+        <label>Organization Type (ประเภทบริษัท)</label>
 
         <Field
           name="org_type"
@@ -72,7 +72,7 @@ class OrgForm extends Component {
           {this.renderField()}
 
           <Link to="/Org" className="red btn-flat white-text">
-            Cancal
+            Cancel
           </Link>
           <button type="submit" className="teal btn-flat right white-text">
             Next

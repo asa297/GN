@@ -1,5 +1,5 @@
 export default [
-  { label: "Discount", name: "discount" },
-  { label: "Credit", name: "credit" },
-  { label: "Credit Charge", name: "credit_charge" }
+  { label: "Discount (ส่วนลด : ฿)", name: "discount" },
+  { label: "Credit (จำนวนชำระเครดิต : ฿) ", name: "credit" },
+  { label: "Credit Charge (เครดิตชาร์จ : %)", name: "credit_charge" }
 ];

@@ -38,8 +38,8 @@ class PO extends Component {
     this.props.fetch_Group_Filter();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.groups.length > 0) {
+  componentWillReceiveProps({groups}) {
+    if (groups) {
       this.setState({ ready: true });
     }
   }
@@ -85,9 +85,9 @@ class PO extends Component {
 
     return (
       <form onSubmit={this.props.handleSubmit(() => this.handleSubmitPO())}>
-        <h3 className="center">New Purchase Order</h3>
+        <h3 className="center">New Purchase Order (รายการขายใหม่)</h3>
         <h5>
-          <i>Header</i>
+          <i>Section 1 : ส่วนที่ 1</i>
         </h5>
         <hr />
         <div className={PO_CSS.headerPO_con}>
@@ -98,15 +98,15 @@ class PO extends Component {
             <POSelectSeller />
           </div>
         </div>
-        <Collapsible trigger={this.headerCollapseItem("Item")}>
+        <Collapsible trigger={this.headerCollapseItem("Section 2 : ส่วนที่ 2")}>
           <POItemOrder />
         </Collapsible>
 
-        <Collapsible trigger={this.headerCollapseItem("Payments")}>
+        <Collapsible trigger={this.headerCollapseItem("Section 3 : ส่วนลดและเครดิต")}>
           <POPayment />
         </Collapsible>
 
-        <Collapsible trigger={this.headerCollapseItem("Summary Payments")}>
+        <Collapsible trigger={this.headerCollapseItem("Payments รายละเอียดการชำระเงิน")}>
           <POSummaryPayment
             onDataGrandTotal={data => (grand_total = data)}
             onDataReceiveCash={receivecash => this.setState({ receivecash })}

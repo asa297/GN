@@ -73,7 +73,7 @@ class OrgEdit extends Component {
 
     return (
       <div>
-        <label>Organization Type</label>
+        <label>Organization Type (ประเภทบริษัท)</label>
 
         <Field
           name="org_type"
