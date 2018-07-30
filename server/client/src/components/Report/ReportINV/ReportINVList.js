@@ -110,7 +110,7 @@ class ReportPOList extends Component {
             )
           },
           {
-            Header: "S.V.",
+            Header: "F.P.",
             accessor: "item_factory",
             style: { textAlign: "center" },
             width: 100

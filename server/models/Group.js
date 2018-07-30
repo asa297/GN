@@ -9,6 +9,7 @@ const GroupSchema = new Schema({
   orgCode: String,
   orgCom: Number,
   groupCode: String,
+  groupStickerNumber: { type: String, default: "" },
   groupRemarks: String,
   guideName: String,
   RecordIdBy: { type: Schema.Types.ObjectId, ref: "users" },

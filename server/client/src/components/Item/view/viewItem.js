@@ -27,47 +27,47 @@ class viewItem extends Component {
         <ViewComponent
           icon="business_center"
           value={this.state.item_select.item_name}
-          title="Item Name"
+          title="Product Barcode (บาร์โค้ดสินค้า)"
         />
         <ViewComponent
           icon="code"
           value={this.state.item_select.item_code}
-          title="Item Code"
+          title="Product Name (ชื่อสินค้า)"
         />
         <ViewComponent
           icon="flag"
           value={this.state.item_select.itemTypeName}
-          title="Item Grade"
+          title="Product Type (ประเภทผลิตภัณฑ์)"
         />
         <ViewComponent
           icon="domain"
           value={this.state.item_select.item_factory}
-          title="Item Factory"
+          title="Factory (โรงงาน)"
         />
         <ViewComponent
           icon="turned_in"
           value={this.state.item_select.item_skin}
-          title="Item Skin"
+          title="Leatter Type (ประเภทหนัง)"
         />
         <ViewComponent
           icon="color_lens"
           value={this.state.item_select.item_color}
-          title="Item Color"
+          title="Product Color / Pattern (สี/ลาย)"
         />
         <ViewComponent
           icon="attach_money"
           value={this.state.item_select.item_price}
-          title="Item Price"
+          title="Unit Price (ราคาต่อหน่วย)"
         />
         <ViewComponent
           icon="drafts"
           value={this.state.item_select.item_qty}
-          title="Item Quality"
+          title="Product Quality (จำนวนสินค้า)"
         />
         <ViewComponent
           icon="event_note"
           value={this.state.item_select.item_remarks}
-          title="Item Remarks"
+          title="Product Remarks (หมายเหตุ)"
         />
         <ViewComponent
           icon="history"
@@ -80,7 +80,7 @@ class viewItem extends Component {
             this.state.item_select.RecordNameBy +
             ")"
           }
-          title="Record"
+          title="Record (วันเวลาและบุคคลที่เพิ่มข้อมูลครั้งแรก)"
         />
         <ViewComponent
           icon="update"
@@ -97,7 +97,7 @@ class viewItem extends Component {
             this.state.item_select.LastModifyByName +
             ")"
           }
-          title="LastModify"
+          title="LastModify (วันเวลาและบุคคลที่ทำการแก้ไขข้อมูลล่าสุด)"
         />
       </div>
     );

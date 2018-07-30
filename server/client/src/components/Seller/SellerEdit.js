@@ -70,7 +70,7 @@ function validate(values) {
   const errors = {};
 
   _.each(FIELDS, ({ name }) => {
-    if (!values[name] && name !== "seller_remarks") {
+    if (!values[name] && name !== "seller_remarks" && name !== "seller_com") {
       errors[name] = "Require a value";
     }
 

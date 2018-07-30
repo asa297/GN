@@ -96,10 +96,22 @@ function validate(values) {
   }
 
   _.each(FIELDS, ({ name }) => {
-    if (!values[name] && name !== "group_remark") {
+    if (
+      !values[name] &&
+      name !== "group_remark" &&
+      name !== "group_stickernumber"
+    ) {
       errors[name] = "Require a value";
     }
   });
+
+  if (values["group_stickernumber"] && isNaN(values["group_stickernumber"])) {
+    errors["group_stickernumber"] = "Require a number only";
+  } else {
+    if (values["group_stickernumber"] < 0) {
+      errors["group_stickernumber"] = "NOT SUPPORT NEGATIVE PRICE";
+    }
+  }
 
   return errors;
 }

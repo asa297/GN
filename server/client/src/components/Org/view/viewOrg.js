@@ -26,22 +26,22 @@ class viewOrg extends Component {
         <ViewComponent
           icon="business"
           value={this.state.org_select.orgName}
-          title="Organization Name"
+          title="Organization Name (ชื่อบริษัท)"
         />
         <ViewComponent
           icon="code"
           value={this.state.org_select.orgCode}
-          title="Organization Code"
+          title="Organization Code (รหัสบริษัท)"
         />
         <ViewComponent
           icon="flag"
           value={this.state.org_select.orgTypeName}
-          title="Organization Type"
+          title="Organization Type (ประเภทบริษัท)"
         />
         <ViewComponent
           icon="attach_money"
           value={this.state.org_select.orgCom + "%"}
-          title="Organization Commission"
+          title="Organization Commission (ค่าคอมมิชชั่น)"
         />
         <ViewComponent
           icon="history"
@@ -54,7 +54,7 @@ class viewOrg extends Component {
             this.state.org_select.RecordNameBy +
             ")"
           }
-          title="Record"
+          title="Record (วันเวลาและบุคคลที่เพิ่มข้อมูลครั้งแรก)"
         />
         <ViewComponent
           icon="update"
@@ -71,7 +71,7 @@ class viewOrg extends Component {
             this.state.org_select.LastModifyByName +
             ")"
           }
-          title="LastModify"
+          title="LastModify (วันเวลาและบุคคลที่ทำการแก้ไขข้อมูลล่าสุด)"
         />
       </div>
     );
