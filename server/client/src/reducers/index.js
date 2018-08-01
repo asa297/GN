@@ -11,6 +11,7 @@ import reportInboundItemReducer from "./reportInboundItemReducer";
 import reportOutboundItemReducer from "./reportOutboundItemReducer";
 import reportDailyItemReducer from "./reportDailyItemReducer";
 import reportDailyCashBalanceReducer from "./reportDailyCashBalanceReducer";
+import reportDailyComReducer from "./reportDailyComReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -24,5 +25,6 @@ export default combineReducers({
   reports_outbound_item: reportOutboundItemReducer,
   reports_daily_inv_item: reportDailyItemReducer,
   reports_daily_cashbalance: reportDailyCashBalanceReducer,
+  report_daily_com: reportDailyComReducer,
   form: reduxForm
 });

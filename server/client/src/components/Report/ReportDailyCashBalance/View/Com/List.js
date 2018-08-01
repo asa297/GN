@@ -18,11 +18,11 @@ class List extends Component {
   }
 
   componentDidMount() {
-    const { reports_daily_inv_item } = this.props;
-    let result = _.sortBy(reports_daily_inv_item, "item_code");
+    const { reports_daily_cashbalance } = this.props;
+
     let export_data = [];
 
-    _.map(result, (value, index) => {
+    _.map(reports_daily_cashbalance, (value, index) => {
       value.index = index;
 
       const _data = this.prepareExportData(value);
@@ -30,29 +30,19 @@ class List extends Component {
     });
 
     this.setState({
-      show_data: result,
+      show_data: reports_daily_cashbalance,
       export_data
     });
   }
 
   prepareExportData(value) {
-    const {
-      index,
-      item_code,
-      item_name,
-      Inbound,
-      Outbound,
-      Sold,
-      Remain
-    } = value;
+    const { index, RecordNameBy, Receivecash, Grandtotal, Changecash } = value;
     return {
       "#": index,
-      item_code: `#${item_code}`,
-      item_name,
-      Inbound,
-      Outbound,
-      Sold,
-      Remain
+      "Cashier Name": RecordNameBy,
+      "Receive Cash": Receivecash,
+      "Grand Total": Grandtotal,
+      Change: Changecash
     };
   }
 
@@ -67,36 +57,25 @@ class List extends Component {
             style: { textAlign: "center" }
           },
           {
-            Header: "Item Code",
-            accessor: "item_code",
-            width: 100,
+            Header: "Cashier Name",
+            accessor: "RecordNameBy",
+            width: 500,
             style: { textAlign: "center", fontWeight: "bold" }
           },
           {
-            Header: "Item Name",
-            accessor: "item_name",
-            // width: 300,
-            style: { textAlign: "center" }
-          },
-          {
-            Header: "Inbound",
-            accessor: "Inbound",
+            Header: "Receivecash",
+            accessor: "Receivecash",
             style: { textAlign: "center", color: "green", fontWeight: "bold" }
           },
           {
-            Header: "Outbound",
-            accessor: "Outbound",
-            style: { textAlign: "center", color: "red", fontWeight: "bold" }
-          },
-          {
-            Header: "SOLD",
-            accessor: "Sold",
-            style: { textAlign: "center", color: "red", fontWeight: "bold" }
-          },
-          {
-            Header: "Remain",
-            accessor: "Remain",
+            Header: "Grandtotal",
+            accessor: "Grandtotal",
             style: { textAlign: "center", color: "blue", fontWeight: "bold" }
+          },
+          {
+            Header: "Change",
+            accessor: "Changecash",
+            style: { textAlign: "center", color: "red", fontWeight: "bold" }
           }
         ]
       }
@@ -114,7 +93,7 @@ class List extends Component {
         />
         <CSVLink
           data={this.state.export_data}
-          filename={`daily-inv-${this.state.filename}.csv`}
+          filename={`daily-cash-balance-${this.state.filename}.csv`}
         >
           <button className="waves-effect waves-light btn">
             <i className="material-icons left">cloud_download</i>Download
@@ -125,8 +104,8 @@ class List extends Component {
   }
 }
 
-function mapStateToProps({ reports_daily_inv_item }) {
-  return { reports_daily_inv_item };
+function mapStateToProps({ reports_daily_cashbalance }) {
+  return { reports_daily_cashbalance };
 }
 
 export default connect(mapStateToProps)(List);

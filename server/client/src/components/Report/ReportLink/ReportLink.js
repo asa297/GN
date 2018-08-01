@@ -28,6 +28,9 @@ export default auth => {
                 Daily Cash Balance
               </Link>
             </li>
+            <li>
+              <Link to="/report/reportdialycom">Daily Commission Group</Link>
+            </li>
           </div>
         );
       default:

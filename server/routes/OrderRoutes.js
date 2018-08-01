@@ -4,6 +4,7 @@ const moment = require("moment");
 const orderModel = mongoose.model("orders");
 const itemModel = mongoose.model("items");
 const CreateDailyCashBalanceReport = require("../middlewares/CreateDailyCashBalanceReport");
+const CreateDailyComGroupReport = require("../middlewares/CreateDailyComGroupReport");
 
 module.exports = app => {
   app.post("/api/order", async (req, res) => {
@@ -155,7 +156,7 @@ module.exports = app => {
     res.send(item);
   });
 
-  app.post("/api/order/daily/filter", async (req, res) => {
+  app.post("/api/order/daily/cashbalance/filter", async (req, res) => {
     const { select_date } = req.body;
 
     const order = await orderModel.find({
@@ -169,8 +170,27 @@ module.exports = app => {
       }
     });
 
-    CreateDailyCashBalanceReport(order);
+    const result = await CreateDailyCashBalanceReport(order);
 
-    res.send();
+    res.send(result);
+  });
+
+  app.post("/api/order/daily/com/filter", async (req, res) => {
+    const { select_date } = req.body;
+
+    const order = await orderModel.find({
+      RecordDate: {
+        $gte: new Date(moment(select_date).format("YYYY-MM-DD HH:mm:ss")),
+        $lt: new Date(
+          moment(select_date)
+            .add(1, "days")
+            .format("YYYY-MM-DD HH:mm:ss")
+        )
+      }
+    });
+
+    const result = CreateDailyComGroupReport(order);
+
+    res.send(result);
   });
 };

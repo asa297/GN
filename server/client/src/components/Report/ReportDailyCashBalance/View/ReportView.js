@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-// import List from "./Com/List";
-// import Header from "./Com/Header";
+import List from "./Com/List";
+import Header from "./Com/Header";
 
 class ReportView extends Component {
   constructor(props) {
@@ -14,9 +14,8 @@ class ReportView extends Component {
   render() {
     return (
       <div className="container_report_daily_cashbalance">
-        test
-        {/* <Header date={this.state.date} />
-        <List date={this.state.date} /> */}
+        <Header date={this.state.date} />
+        <List date={this.state.date} />
       </div>
     );
   }

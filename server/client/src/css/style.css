@@ -73,3 +73,25 @@
   align-items: center;
   height: 300px;
 }
+
+.header_report_daily_com {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container_report_daily_com {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.container_report_daily_com {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.datepicker_report_daily_com {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
