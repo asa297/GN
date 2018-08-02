@@ -36,6 +36,7 @@ import ReportDailyINVView from "../components/Report/ReportDailyINV/View/ReportV
 import ReportDailyCashBalance from "../components/Report/ReportDailyCashBalance/Search/Search";
 import ReportDailyCashBalanceView from "../components/Report/ReportDailyCashBalance/View/ReportView";
 import ReportDailyCommissionGroup from "../components/Report/ReportDailyCom/Search/Search";
+import ReportDailyCommissionGroupView from "../components/Report/ReportDailyCom/View/ReportView";
 
 export default auth => {
   if (!_.isNil(auth)) {
@@ -45,10 +46,14 @@ export default auth => {
           <div>
             <Route
               exact
+              path="/report/reportdialycom/view"
+              component={ReportDailyCommissionGroupView}
+            />
+            <Route
+              exact
               path="/report/reportdialycom"
               component={ReportDailyCommissionGroup}
             />
-
             <Route
               exact
               path="/report/reportdialycashbalance/view"

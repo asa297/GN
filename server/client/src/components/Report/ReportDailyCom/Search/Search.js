@@ -28,11 +28,11 @@ class Search extends Component {
 
     await this.props.fetchDialy_Com_Filter(time_selected);
 
-    // this.setState({ searching: false });
-    // this.props.history.push({
-    //   pathname: "/report/reportdialycom/view",
-    //   state: { date: moment(start_date).format("YYYY-MM-DD") }
-    // });
+    this.setState({ searching: false });
+    this.props.history.push({
+      pathname: "/report/reportdialycom/view",
+      state: { date: moment(start_date).format("YYYY-MM-DD") }
+    });
   }
 
   render() {

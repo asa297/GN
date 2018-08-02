@@ -189,7 +189,7 @@ module.exports = app => {
       }
     });
 
-    const result = CreateDailyComGroupReport(order);
+    const result = CreateDailyComGroupReport(order, select_date);
 
     res.send(result);
   });
