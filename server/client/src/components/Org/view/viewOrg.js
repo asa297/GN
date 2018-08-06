@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import _ from "lodash";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import ViewComponent from "./ViewComponent";
 
 class viewOrg extends Component {
   constructor(props) {
     super(props);
+    console.log(props.location.state);
 
     const org_id = props.location.state._id;
     this.state = { org_id };
@@ -97,4 +98,4 @@ function mapStateToProps({ orgs }) {
   return { orgs };
 }
 
-export default connect(mapStateToProps)(viewOrg);
+export default connect(mapStateToProps)(withRouter(viewOrg));

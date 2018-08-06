@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import _ from "lodash";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import ViewComponent from "./ViewComponent";
 
@@ -117,4 +117,4 @@ function mapStateToProps({ groups }) {
   return { groups };
 }
 
-export default connect(mapStateToProps)(viewGroup);
+export default connect(mapStateToProps)(withRouter(viewGroup));

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Report_CSS from "../../../Style/CSS/Report_INV_CSS.css";
 // import FormINVView from "./ReportINVView/FormINVView";
 import ViewItem from "./view/viewItem";
@@ -41,4 +41,4 @@ class ReportINVView extends Component {
   }
 }
 
-export default ReportINVView;
+export default withRouter(ReportINVView);

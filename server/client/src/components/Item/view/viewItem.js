@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import _ from "lodash";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import ViewComponent from "./ViewComponent";
 
@@ -123,4 +123,4 @@ function mapStateToProps({ items }) {
   return { items };
 }
 
-export default connect(mapStateToProps)(viewItem);
+export default connect(mapStateToProps)(withRouter(viewItem));

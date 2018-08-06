@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import List from "./Com/List";
 import Header from "./Com/Header";
 
@@ -21,4 +22,4 @@ class ReportView extends Component {
   }
 }
 
-export default ReportView;
+export default withRouter(ReportView);
