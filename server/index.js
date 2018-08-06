@@ -1,5 +1,7 @@
-const http = require("http");
 const express = require("express");
+const app = express();
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
 const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieSession = require("cookie-session");
@@ -19,8 +21,6 @@ require("./services/passport");
 
 mongoose.connect(keys.mongoURI);
 
-const app = express();
-
 app.use(cors());
 
 app.use(bodyParser.json());
@@ -34,6 +34,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+require("./socket")(io);
 require("./routes/authRoutes")(app);
 require("./routes/orgTypeRotues")(app);
 require("./routes/OrgRoutes")(app);
@@ -53,4 +54,4 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT);
+server.listen(PORT);

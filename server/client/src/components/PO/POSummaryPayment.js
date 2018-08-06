@@ -4,57 +4,86 @@ import { reduxForm, Field } from "redux-form";
 import numeral from "numeral";
 import POItemField from "./POItemField";
 
+import io from "socket.io-client";
+
 class POSummaryPayment extends Component {
   constructor() {
     super();
     this.state = {
-      resultGrandTotal: 0
+      resultGrandTotal: 0,
+      endpoint: "http://localhost:5000"
     };
   }
 
   componentWillReceiveProps({ inbound_po }) {
     if (inbound_po.values) {
-      const { total, discount, credit, credit_charge } = inbound_po.values;
+      let { total, discount, credit, credit_charge } = inbound_po.values;
+      let resultDiscount;
+      let resultCreditCharge;
 
-      if (total) {
-        this.setState({ total });
-      }
+      this.setState({ total });
 
       this.setState({ discount });
       const DC = parseInt(discount, 10);
       if (DC > 0 && DC <= 100) {
-        let resultDiscount = this.state.total * (DC / 100);
+        resultDiscount = this.state.total * (DC / 100);
         this.setState({ resultDiscount });
       } else {
+        resultDiscount = 0;
         this.setState({ resultDiscount: 0 });
       }
 
       if (credit) {
         this.setState({ credit });
       } else {
+        credit = 0;
         this.setState({ credit: 0 });
       }
 
       this.setState({ credit_charge });
       const credit_charge_temp = parseInt(credit_charge, 10);
       if (credit_charge_temp > 0 && credit_charge_temp <= 100) {
-        let resultCreditCharge = this.state.credit * (credit_charge_temp / 100);
+        resultCreditCharge = this.state.credit * (credit_charge_temp / 100);
         this.setState({ resultCreditCharge });
       } else {
+        resultCreditCharge = 0;
         this.setState({ resultCreditCharge: 0 });
       }
 
-      this.resultGrandTotal();
+      let resultGrandTotal =
+        total - resultDiscount - credit + resultCreditCharge;
+
+      this.props.onDataGrandTotal(resultGrandTotal);
+      this.setState({ resultGrandTotal });
+
+      const { endpoint } = this.state;
+      const socket = io(endpoint);
+      socket.emit("grandtotal", resultGrandTotal);
+
+      // this.resultGrandTotal();
     }
   }
 
-  resultGrandTotal() {
-    const { total, resultDiscount, credit, resultCreditCharge } = this.state;
-    let resultGrandTotal = total - resultDiscount - credit + resultCreditCharge;
+  // resultGrandTotal() {
+  //   const {
+  //     total,
+  //     resultDiscount,
+  //     credit,
+  //     resultCreditCharge,
+  //     endpoint
+  //   } = this.state;
 
-    this.props.onDataGrandTotal(resultGrandTotal);
-    this.setState({ resultGrandTotal });
-  }
+  //   console.log(this.state);
+
+  //   let resultGrandTotal = total - resultDiscount - credit + resultCreditCharge;
+
+  //   // const socket = io(endpoint);
+
+  //   // socket.emit("grandtotal", resultGrandTotal);
+
+  //   this.props.onDataGrandTotal(resultGrandTotal);
+  //   this.setState({ resultGrandTotal });
+  // }
 
   render() {
     return (
@@ -93,13 +122,15 @@ class POSummaryPayment extends Component {
               </td>
             </tr>
             <tr>
-              <td style={{fontWeight : "bold"}}>Grand Total (ยอดที่ต้องชำระ)</td>
+              <td style={{ fontWeight: "bold" }}>
+                Grand Total (ยอดที่ต้องชำระ)
+              </td>
               <td className="center grey">
                 {numeral(this.state.resultGrandTotal).format("0,0.00")}
               </td>
             </tr>
             <tr>
-              <td style={{fontWeight : "bold"}}>Receive Cash (รับเงิน)</td>
+              <td style={{ fontWeight: "bold" }}>Receive Cash (รับเงิน)</td>
               <td className="center yellow">
                 <div>
                   <Field
@@ -116,7 +147,7 @@ class POSummaryPayment extends Component {
               </td>
             </tr>
             <tr>
-              <td style={{fontWeight : "bold"}}>Change (เงินทอน)</td>
+              <td style={{ fontWeight: "bold" }}>Change (เงินทอน)</td>
               <td className="center orange">
                 {numeral(
                   this.state.receivecash - this.state.resultGrandTotal
@@ -136,9 +167,4 @@ function mapStateToProps({ form: { inbound_po } }) {
 
 export default reduxForm({
   form: "inbound_po"
-})(
-  connect(
-    mapStateToProps,
-    null
-  )(POSummaryPayment)
-);
+})(connect(mapStateToProps)(POSummaryPayment));

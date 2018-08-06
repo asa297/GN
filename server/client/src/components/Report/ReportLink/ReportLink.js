@@ -9,27 +9,31 @@ export default auth => {
         return (
           <div>
             <li>
-              <Link to="/report/reportpo">Purchase Order</Link>
-            </li>
-            <li>
-              <Link to="/report/reportinv">Inventory</Link>
-            </li>
-            <li>
-              <Link to="/report/reportinboundinv">Inbound Inventory</Link>
-            </li>
-            <li>
-              <Link to="/report/reportoutboundinv">Outbound Inventory</Link>
-            </li>
-            <li>
-              <Link to="/report/reportdailyinv">Daily Inventory</Link>
+              <Link to="/report/reportpo">#101 Purchase Order</Link>
             </li>
             <li>
               <Link to="/report/reportdialycashbalance">
-                Daily Cash Balance
+                #102 Daily Cash Balance
               </Link>
             </li>
             <li>
-              <Link to="/report/reportdialycom">Daily Commission Group</Link>
+              <Link to="/report/reportdialycom">
+                #103 Daily Commission Group
+              </Link>
+            </li>
+            <li>
+              <Link to="/report/reportinv">#201 Inventory</Link>
+            </li>
+            <li>
+              <Link to="/report/reportinboundinv">#202 Inbound Inventory</Link>
+            </li>
+            <li>
+              <Link to="/report/reportoutboundinv">
+                #203 Outbound Inventory
+              </Link>
+            </li>
+            <li>
+              <Link to="/report/reportdailyinv">#204 Daily Inventory</Link>
             </li>
           </div>
         );

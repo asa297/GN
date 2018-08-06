@@ -2,6 +2,8 @@ import React from "react";
 import _ from "lodash";
 import { Route } from "react-router-dom";
 
+import Header from "../components/Header";
+
 import Home from "../components/Home";
 import DefaultHome from "../components/DefaultHome";
 //Org
@@ -38,93 +40,321 @@ import ReportDailyCashBalanceView from "../components/Report/ReportDailyCashBala
 import ReportDailyCommissionGroup from "../components/Report/ReportDailyCom/Search/Search";
 import ReportDailyCommissionGroupView from "../components/Report/ReportDailyCom/View/ReportView";
 
+//Customer Display
+import CustomerDisplay from "../components/CustomerMonitors/CustomerDisplay";
+
 export default auth => {
   if (!_.isNil(auth)) {
     switch (auth.priority) {
       case 1:
         return (
           <div>
+            <Route exact path="/openpo" component={CustomerDisplay} />
             <Route
               exact
               path="/report/reportdialycom/view"
-              component={ReportDailyCommissionGroupView}
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDailyCommissionGroupView />
+                </div>
+              )}
             />
             <Route
               exact
               path="/report/reportdialycom"
-              component={ReportDailyCommissionGroup}
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDailyCommissionGroup />
+                </div>
+              )}
             />
             <Route
               exact
               path="/report/reportdialycashbalance/view"
-              component={ReportDailyCashBalanceView}
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDailyCashBalanceView />
+                </div>
+              )}
             />
             <Route
               exact
               path="/report/reportdialycashbalance"
-              component={ReportDailyCashBalance}
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDailyCashBalance />
+                </div>
+              )}
             />
             <Route
               exact
               path="/report/reportdailyinv/view"
-              component={ReportDailyINVView}
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDailyINVView />
+                </div>
+              )}
             />
             <Route
               exact
               path="/report/reportdailyinv"
-              component={ReportDailyINV}
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDailyINV />
+                </div>
+              )}
             />
             <Route
               exact
               path="/report/reportoutboundinv/view/edit"
-              component={ReportOutBoundInventoryView}
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportOutBoundInventoryView />
+                </div>
+              )}
             />
             <Route
               exact
               path="/report/reportoutboundinv"
-              component={ReportOutBoundInventory}
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportOutBoundInventory />
+                </div>
+              )}
             />
             <Route
               exact
               path="/report/reportinboundinv/view/edit"
-              component={ReportInBoundInventoryView}
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportInBoundInventoryView />
+                </div>
+              )}
             />
             <Route
               exact
               path="/report/reportinboundinv"
-              component={ReportInBoundInventory}
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportInBoundInventory />
+                </div>
+              )}
             />
             <Route
               exact
               path="/report/reportinv/view"
-              component={ReportInventoryView}
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportInventoryView />
+                </div>
+              )}
             />
-            <Route exact path="/report/reportinv" component={ReportInventory} />
+            <Route
+              exact
+              path="/report/reportinv"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportInventory />
+                </div>
+              )}
+            />
             <Route
               exact
               path="/report/reportpo/view"
-              component={ReportPOView}
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportPOView />
+                </div>
+              )}
             />
-            <Route exact path="/report/reportpo" component={ReportPO} />
-            <Route exact path="/report" component={Report} />
-            <Route exact path="/inboundpo" component={InboundPO} />
-            <Route exact path="/Item/view" component={ItemView} />
-            <Route exact path="/Item/new" component={ItemNew} />
-            <Route exact path="/Item" component={Item} />
-            <Route exact path="/Seller/new" component={SellerNew} />
-            <Route exact path="/Seller" component={Seller} />
-            <Route exact path="/Group/view" component={GroupView} />
-            <Route exact path="/Group/new" component={GroupNew} />
-            <Route exact path="/Group" component={Group} />
-            <Route exact path="/Org/view" component={OrgView} />
-            <Route exact path="/Org/new" component={OrgNew} />
-            <Route exact path="/Org" component={Org} />
-            <Route exact path="/home" component={Home} />
-            <Route exact path="/" component={DefaultHome} />
+            <Route
+              exact
+              path="/report/reportpo"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportPO />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/report"
+              render={() => (
+                <div>
+                  <Header />
+                  <Report />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/inboundpo"
+              render={() => (
+                <div>
+                  <Header />
+                  <InboundPO />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/Item/view"
+              render={() => (
+                <div>
+                  <Header />
+                  <ItemView />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/Item/new"
+              render={() => (
+                <div>
+                  <Header />
+                  <ItemNew />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/Item"
+              render={() => (
+                <div>
+                  <Header />
+                  <Item />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/Seller/new"
+              render={() => (
+                <div>
+                  <Header />
+                  <SellerNew />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/Seller"
+              render={() => (
+                <div>
+                  <Header />
+                  <Seller />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/Group/view"
+              render={() => (
+                <div>
+                  <Header />
+                  <GroupView />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/Group/new"
+              render={() => (
+                <div>
+                  <Header />
+                  <GroupNew />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/Group"
+              render={() => (
+                <div>
+                  <Header />
+                  <Group />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/Org/view"
+              render={() => (
+                <div>
+                  <Header />
+                  <OrgView />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/Org/new"
+              render={() => (
+                <div>
+                  <Header />
+                  <OrgNew />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/Org"
+              render={() => (
+                <div>
+                  <Header />
+                  <Org />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/home"
+              render={() => (
+                <div>
+                  <Header />
+                  <Home />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <div>
+                  <Header />
+                  <DefaultHome />
+                </div>
+              )}
+            />
           </div>
         );
       default:
-        return <Route exact path="/home" component={Home} />;
+        return (
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <div>
+                <Header />
+                <DefaultHome />
+              </div>
+            )}
+          />
+        );
     }
   }
 };

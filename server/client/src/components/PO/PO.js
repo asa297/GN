@@ -21,6 +21,7 @@ import CircularLoader from "../utils/CircularLoader";
 import PO_CSS from "../../Style/CSS/PO_CSS.css";
 
 let grand_total;
+
 class PO extends Component {
   constructor() {
     super();
@@ -38,8 +39,8 @@ class PO extends Component {
     this.props.fetch_Group_Filter();
   }
 
-  componentWillReceiveProps({groups}) {
-    if (groups) {
+  componentWillReceiveProps({ groups }) {
+    if (groups.length > 0) {
       this.setState({ ready: true });
     }
   }
@@ -102,11 +103,15 @@ class PO extends Component {
           <POItemOrder />
         </Collapsible>
 
-        <Collapsible trigger={this.headerCollapseItem("Section 3 : ส่วนลดและเครดิต")}>
+        <Collapsible
+          trigger={this.headerCollapseItem("Section 3 : ส่วนลดและเครดิต")}
+        >
           <POPayment />
         </Collapsible>
 
-        <Collapsible trigger={this.headerCollapseItem("Payments รายละเอียดการชำระเงิน")}>
+        <Collapsible
+          trigger={this.headerCollapseItem("Payments รายละเอียดการชำระเงิน")}
+        >
           <POSummaryPayment
             onDataGrandTotal={data => (grand_total = data)}
             onDataReceiveCash={receivecash => this.setState({ receivecash })}

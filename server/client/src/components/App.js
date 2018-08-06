@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
+
 import MenuContentRoute from "../utils/MenuContentRoute";
 
 import Header from "./Header";
@@ -13,18 +14,15 @@ class App extends Component {
   }
 
   RenderMenuContentRoute() {
-    return MenuContentRoute(this.props.auth ? this.props.auth : null);
+    return (
+      <div>
+        {MenuContentRoute(this.props.auth ? this.props.auth : <Header />)}
+      </div>
+    );
   }
 
   render() {
-    return (
-      <BrowserRouter>
-        <div>
-          <Header />
-          {this.RenderMenuContentRoute()}
-        </div>
-      </BrowserRouter>
-    );
+    return <BrowserRouter>{this.RenderMenuContentRoute()}</BrowserRouter>;
   }
 }
 

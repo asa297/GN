@@ -13,6 +13,8 @@ import CircularLoader from "../utils/CircularLoader";
 
 import Toggle from "react-toggle";
 
+import io from "socket.io-client";
+
 class POItemOrder extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +22,8 @@ class POItemOrder extends Component {
       itemCode: 0,
       itemList: [],
       scanStatus: false,
-      loading: false
+      loading: false,
+      endpoint: "http://localhost:5000"
     };
   }
 
@@ -65,15 +68,11 @@ class POItemOrder extends Component {
   }
 
   async setItemList() {
+    const { endpoint } = this.state;
+    const socket = io(endpoint);
+
     this.setState({ loading: true });
     await this.props.find_Item(this.state.itemCode);
-
-    // const index_item = _.findIndex(
-    //   this.props.items,
-    //   ({ item_code }) => {
-    //     return item_code === this.state.itemCode;
-    //   }
-    // );
 
     const index_item_itemList = _.findIndex(
       this.state.itemList,
@@ -92,15 +91,24 @@ class POItemOrder extends Component {
         this.setState({
           itemList: [...this.state.itemList, value]
         });
+
+        const _getCustomer = this.getCustomerMonitorItem(value._id);
+        _getCustomer.status = 1;
+
+        socket.emit("showitem", _getCustomer);
       }
     } else if (index_item_itemList !== -1) {
       let clone_state = this.state.itemList.slice();
 
-      const { countQty, item_qty } = clone_state[index_item_itemList];
+      const { countQty, item_qty, _id } = clone_state[index_item_itemList];
 
       if (countQty < item_qty) {
         clone_state[index_item_itemList].countQty += 1;
         this.setState({ itemList: clone_state });
+
+        const _getCustomer = this.getCustomerMonitorItem(_id);
+        _getCustomer.status = 1;
+        socket.emit("showitem", _getCustomer);
       }
     }
 
@@ -108,6 +116,9 @@ class POItemOrder extends Component {
   }
 
   deleteItemList(data) {
+    const { endpoint } = this.state;
+    const socket = io(endpoint);
+
     const index_item = _.findIndex(this.state.itemList, ({ _id }) => {
       return _id === data;
     });
@@ -122,13 +133,27 @@ class POItemOrder extends Component {
       });
 
       this.setState({ itemList: value });
+
+      const _getCustomer = this.getCustomerMonitorItem(data);
+      _getCustomer.status = 2;
+
+      socket.emit("showitem", _getCustomer);
     } else {
       clone_state[index_item].countQty -= 1;
+
       this.setState({ itemList: clone_state });
+
+      const _getCustomer = this.getCustomerMonitorItem(data);
+      _getCustomer.status = 2;
+
+      socket.emit("showitem", _getCustomer);
     }
   }
 
   addItemList(data) {
+    const { endpoint } = this.state;
+    const socket = io(endpoint);
+
     const index_item = _.findIndex(this.state.itemList, ({ _id }) => {
       return _id === data;
     });
@@ -139,8 +164,22 @@ class POItemOrder extends Component {
 
     if (countQty < item_qty) {
       clone_state[index_item].countQty += 1;
+
       this.setState({ itemList: clone_state });
+
+      const _getCustomer = this.getCustomerMonitorItem(data);
+      _getCustomer.status = 1;
+
+      socket.emit("showitem", _getCustomer);
     }
+  }
+
+  getCustomerMonitorItem(_id) {
+    const index_item = _.findIndex(this.state.itemList, ({ _id: __id }) => {
+      return _id === __id;
+    });
+
+    return this.state.itemList[index_item];
   }
 
   renderTableList() {
