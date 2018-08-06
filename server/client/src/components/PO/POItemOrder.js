@@ -23,7 +23,7 @@ class POItemOrder extends Component {
       itemList: [],
       scanStatus: false,
       loading: false,
-      endpoint: "http://127.0.0.1:5000"
+      endpoint: "http://127.0.0.1"
     };
   }
 
