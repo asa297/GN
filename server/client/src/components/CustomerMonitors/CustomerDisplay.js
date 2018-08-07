@@ -10,8 +10,8 @@ class CustomerDisplay extends Component {
       showprice: "",
       status: -1,
       grandtotal: 0,
-      endpoint: ":5000"
-      // endpoint: "https://gionie.herokuapp.com"
+      // endpoint: ":5000"
+      endpoint: "https://gionie.herokuapp.com"
     };
   }
   componentDidMount() {
