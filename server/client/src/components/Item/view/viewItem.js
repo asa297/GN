@@ -21,7 +21,6 @@ class viewItem extends Component {
   }
 
   renderContent() {
-    console.log(this.state);
     return (
       <div>
         <ViewComponent

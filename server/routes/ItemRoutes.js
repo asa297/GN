@@ -22,12 +22,12 @@ module.exports = app => {
     const item = await new itemModel({
       item_code,
       item_name,
-      item_factory: item_factory ? item_factory : null,
-      item_color: item_color ? item_color : null,
-      item_skin: item_skin ? item_skin : null,
+      item_factory: item_factory ? item_factory : "",
+      item_color: item_color ? item_color : "",
+      item_skin: item_skin ? item_skin : "",
       item_price,
       item_qty,
-      item_remarks: item_remarks ? item_remarks : null,
+      item_remarks: item_remarks ? item_remarks : "",
       itemTypeId,
       itemTypeName,
       orgChinaList: orgChinaList
@@ -82,12 +82,12 @@ module.exports = app => {
           $set: {
             item_code,
             item_name,
-            item_factory: item_factory ? item_factory : null,
-            item_color: item_color ? item_color : null,
-            item_skin: item_skin ? item_skin : null,
+            item_factory: item_factory ? item_factory : "",
+            item_color: item_color ? item_color : "",
+            item_skin: item_skin ? item_skin : "",
             item_price,
             item_qty,
-            item_remarks: item_remarks ? item_remarks : null,
+            item_remarks: item_remarks ? item_remarks : "",
             itemTypeId,
             itemTypeName,
             orgChinaList: orgChinaList

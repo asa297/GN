@@ -10,7 +10,7 @@ class CustomerDisplay extends Component {
       showprice: "",
       status: -1,
       grandtotal: 0,
-      endpoint: "http://127.0.0.1:5000"
+      endpoint: ":5000"
       // endpoint: "https://gionie.herokuapp.com"
     };
   }
@@ -39,7 +39,6 @@ class CustomerDisplay extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div style={{ height: "100vh" }}>
         <div className="customer_upper">
