@@ -23,8 +23,8 @@ class POItemOrder extends Component {
       itemList: [],
       scanStatus: false,
       loading: false,
-      // endpoint: ":5000"
-      endpoint: "https://gionie.herokuapp.com"
+      endpoint: ":5000"
+      // endpoint: "https://gionie.herokuapp.com"
     };
   }
 
@@ -70,7 +70,9 @@ class POItemOrder extends Component {
 
   async setItemList() {
     const { endpoint } = this.state;
-    const socket = io(endpoint);
+    const socket = io(endpoint, {
+      transports: ["websocket"]
+    });
 
     this.setState({ loading: true });
     await this.props.find_Item(this.state.itemCode);

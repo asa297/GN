@@ -4,15 +4,11 @@ import { reduxForm, Field } from "redux-form";
 import numeral from "numeral";
 import POItemField from "./POItemField";
 
-import io from "socket.io-client";
-
 class POSummaryPayment extends Component {
   constructor() {
     super();
     this.state = {
-      resultGrandTotal: 0,
-      // endpoint: ":5000"
-      endpoint: "https://gionie.herokuapp.com"
+      resultGrandTotal: 0
     };
   }
 
@@ -27,7 +23,8 @@ class POSummaryPayment extends Component {
       this.setState({ discount });
       const DC = parseInt(discount, 10);
       if (DC > 0 && DC <= 100) {
-        resultDiscount = this.state.total * (DC / 100);
+        resultDiscount = total * (DC / 100);
+
         this.setState({ resultDiscount });
       } else {
         resultDiscount = 0;
@@ -44,7 +41,7 @@ class POSummaryPayment extends Component {
       this.setState({ credit_charge });
       const credit_charge_temp = parseInt(credit_charge, 10);
       if (credit_charge_temp > 0 && credit_charge_temp <= 100) {
-        resultCreditCharge = this.state.credit * (credit_charge_temp / 100);
+        resultCreditCharge = credit * (credit_charge_temp / 100);
         this.setState({ resultCreditCharge });
       } else {
         resultCreditCharge = 0;
@@ -56,10 +53,6 @@ class POSummaryPayment extends Component {
 
       this.props.onDataGrandTotal(resultGrandTotal);
       this.setState({ resultGrandTotal });
-
-      const { endpoint } = this.state;
-      const socket = io(endpoint);
-      socket.emit("grandtotal", resultGrandTotal);
 
       // this.resultGrandTotal();
     }

@@ -6,12 +6,15 @@ import POItemField from "./POItemField";
 import formFields from "./formFields";
 
 import PO_CSS from "../../Style/CSS/PO_CSS.css";
+import io from "socket.io-client";
 
 class POPayment extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      credit_charge_status: false
+      credit_charge_status: false,
+      // endpoint: ":5000",
+      endpoint: "https://gionie.herokuapp.com"
     };
   }
 
@@ -40,8 +43,28 @@ class POPayment extends Component {
         component={POItemField}
         type="text"
         onChange={event => this.setState({ discount: event.target.value })}
+        onBlur={event => this.onBlurDC(event)}
       />
     );
+  }
+
+  onBlurDC(event) {
+    let { value } = event.target;
+    if (value || value === "") {
+      if (value === "") {
+        value = parseInt(0, 10);
+      } else {
+        value = parseInt(value, 10);
+      }
+
+      if (value >= 0 && value <= 100) {
+        const { endpoint } = this.state;
+        const socket = io(endpoint, {
+          transports: ["websocket"]
+        });
+        socket.emit("dc", value);
+      }
+    }
   }
 
   renderFieldCredit() {
@@ -54,8 +77,28 @@ class POPayment extends Component {
         component={POItemField}
         type="text"
         onChange={event => this.setState({ credit: event.target.value })}
+        onBlur={event => this.onBlurCredit(event)}
       />
     );
+  }
+
+  onBlurCredit(event) {
+    let { value } = event.target;
+    if (value || value === "") {
+      if (value === "") {
+        value = parseInt(0, 10);
+      } else {
+        value = parseInt(value, 10);
+      }
+
+      if (value >= 0) {
+        const { endpoint } = this.state;
+        const socket = io(endpoint, {
+          transports: ["websocket"]
+        });
+        socket.emit("credit", value);
+      }
+    }
   }
 
   renderFieldCreditCharge() {
@@ -68,8 +111,28 @@ class POPayment extends Component {
         component={POItemField}
         type="text"
         onChange={event => this.setState({ credit_charge: event.target.value })}
+        onBlur={event => this.onBlurCreditCharge(event)}
       />
     );
+  }
+
+  onBlurCreditCharge(event) {
+    let { value } = event.target;
+    if (value || value === "") {
+      if (value === "") {
+        value = parseInt(0, 10);
+      } else {
+        value = parseInt(value, 10);
+      }
+
+      if (value >= 0) {
+        const { endpoint } = this.state;
+        const socket = io(endpoint, {
+          transports: ["websocket"]
+        });
+        socket.emit("creditcharge", value);
+      }
+    }
   }
 
   render() {

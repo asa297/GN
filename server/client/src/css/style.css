@@ -98,12 +98,12 @@
 
 .customer_upper {
   width: 100%;
-  height: 20%;
+  height: 30%;
   border: 1px solid red;
 }
 
 .customer_lower {
   width: 100%;
-  height: 80%;
+  height: 70%;
   border: 1px solid blue;
 }

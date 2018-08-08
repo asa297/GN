@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import numeral from "numeral";
+import logo from "./logo.png";
 
 class Upper extends Component {
   constructor() {
@@ -32,7 +33,20 @@ class Upper extends Component {
       <div style={{ height: "100%", padding: "20px" }}>
         <div
           style={{
-            height: "40%",
+            height: "35%",
+            display: "flex",
+            justifyContent: "center"
+          }}
+        >
+          <img
+            src={logo}
+            alt={"logo"}
+            style={{ width: "200px", height: "100%" }}
+          />
+        </div>
+        <div
+          style={{
+            height: "20%",
             display: "flex",
             justifyContent: "space-between"
           }}
@@ -43,7 +57,7 @@ class Upper extends Component {
           </h4>
         </div>
         <div
-          style={{ height: "60%", display: "flex", justifyContent: "flex-end" }}
+          style={{ height: "25%", display: "flex", justifyContent: "flex-end" }}
         >
           <h1 style={{ fontWeight: "bold" }}>
             {numeral(this.state.grandtotal).format("0,0.00")} THB

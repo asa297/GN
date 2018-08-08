@@ -10,13 +10,19 @@ class CustomerDisplay extends Component {
       showprice: "",
       status: -1,
       grandtotal: 0,
+      subtotal: 0,
+      discount: 0,
+      credit: 0,
+      creditcharge: 0,
       // endpoint: ":5000"
       endpoint: "https://gionie.herokuapp.com"
     };
   }
   componentDidMount() {
     const { endpoint } = this.state;
-    const socket = io(endpoint);
+    const socket = io(endpoint, {
+      transports: ["websocket"]
+    });
 
     socket.on("showitem", data => {
       const {
@@ -25,17 +31,44 @@ class CustomerDisplay extends Component {
         item_color,
         item_skin,
         item_price,
+        countQty,
         status
       } = data;
       this.setState({
         showitem: `${item_code} - ${item_name} (${item_color})(${item_skin})`,
         showprice: `${status === 2 ? "-" : ""}${item_price}`,
+        subtotal: countQty * item_price,
         status
       });
+
+      this.recalculate();
     });
-    socket.on("grandtotal", data => {
-      this.setState({ grandtotal: data });
+
+    socket.on("dc", data => {
+      this.setState({ discount: data });
+      this.recalculate();
     });
+
+    socket.on("credit", data => {
+      this.setState({ credit: data });
+      this.recalculate();
+    });
+
+    socket.on("creditcharge", data => {
+      this.setState({ creditcharge: data });
+      this.recalculate();
+    });
+  }
+
+  recalculate() {
+    const { subtotal, discount, credit, creditcharge } = this.state;
+
+    const resultDiscount = subtotal * (discount / 100);
+    const resultCreditCharge = credit * (creditcharge / 100);
+    const resultGrandTotal =
+      subtotal - resultDiscount - credit + resultCreditCharge;
+
+    this.setState({ grandtotal: resultGrandTotal });
   }
 
   render() {
