@@ -23,8 +23,8 @@ class POItemOrder extends Component {
       itemList: [],
       scanStatus: false,
       loading: false,
-      endpoint: ":5000"
-      // endpoint: "https://gionie.herokuapp.com"
+      // endpoint: ":5000"
+      endpoint: "https://gionie.herokuapp.com"
     };
   }
 
@@ -120,7 +120,9 @@ class POItemOrder extends Component {
 
   deleteItemList(data) {
     const { endpoint } = this.state;
-    const socket = io(endpoint);
+    const socket = io(endpoint, {
+      transports: ["websocket"]
+    });
 
     const index_item = _.findIndex(this.state.itemList, ({ _id }) => {
       return _id === data;
@@ -155,7 +157,9 @@ class POItemOrder extends Component {
 
   addItemList(data) {
     const { endpoint } = this.state;
-    const socket = io(endpoint);
+    const socket = io(endpoint, {
+      transports: ["websocket"]
+    });
 
     const index_item = _.findIndex(this.state.itemList, ({ _id }) => {
       return _id === data;
