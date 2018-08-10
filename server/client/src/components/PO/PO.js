@@ -33,8 +33,8 @@ class PO extends Component {
       loading: false,
       print: false,
       print_value: {},
-      endpoint: ":5000"
-      // endpoint: "https://gionie.herokuapp.com"
+      // endpoint: ":5000"
+      endpoint: "https://gionie.herokuapp.com"
     };
   }
 

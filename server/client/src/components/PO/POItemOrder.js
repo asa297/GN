@@ -23,8 +23,8 @@ class POItemOrder extends Component {
       itemList: [],
       scanStatus: false,
       loading: false,
-      endpoint: ":5000"
-      // endpoint: "https://gionie.herokuapp.com"
+      // endpoint: ":5000"
+      endpoint: "https://gionie.herokuapp.com"
     };
   }
 
