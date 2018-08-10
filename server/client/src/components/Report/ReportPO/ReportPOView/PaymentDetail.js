@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import numeral from "numeral";
 import _ from "lodash";
 import { connect } from "react-redux";
 import { Field, change } from "redux-form";
@@ -11,12 +12,14 @@ class PaymentDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      total: null,
-      discount: null,
-      credit: null,
-      cash: null,
-      receivecash: null,
-      changecash: null
+      total: 0,
+      discount: 0,
+      credit: 0,
+      cash: 0,
+      receivecash: 0,
+      changecash: 0,
+      creditcharge: 0,
+      grandtotal: 0
     };
   }
 
@@ -78,50 +81,60 @@ class PaymentDetail extends Component {
     if (check) {
       return (
         <div className={ReportPOViewCSS.ReportPOView_PaymentDetail}>
-          <div style={{ width: "45%" }}>
+          <div style={{ width: "22.5%" }}>
             <label>Total</label>
-            <input defaultValue={this.state.total} readOnly />
-          </div>
-          <div style={{ width: "45%" }}>
-            <Field
-              key={"discount"}
-              component={ReportPOViewField}
-              type="text"
-              label={"discount"}
-              name={"discount"}
-              valueField={this.state.discount}
-              onChange={event =>
-                // this.setState({ discount: event.target.value })
-                this.gg(event)
-              }
+            <input
+              defaultValue={numeral(this.state.total).format("0,0.00")}
+              style={{ marginBottom: "25px" }}
+              disabled
             />
           </div>
-          <div style={{ width: "45%" }}>
+          <div style={{ width: "22.5%" }}>
+            <label>Discount</label>
+            <input
+              defaultValue={numeral(this.state.discount).format("0,0.00")}
+              style={{ marginBottom: "25px" }}
+              disabled
+            />
+          </div>
+          <div style={{ width: "22.5%" }}>
             <label>Credit</label>
-            <input defaultValue={this.state.credit} readOnly />
-          </div>
-          <div style={{ width: "45%" }}>
-            <Field
-              key={"cash"}
-              component={ReportPOViewField}
-              type="text"
-              label={"cash"}
-              name={"cash"}
-              valueField={this.state.cash}
+            <input
+              defaultValue={numeral(this.state.credit).format("0,0.00")}
+              style={{ marginBottom: "25px" }}
+              disabled
             />
           </div>
-          <div style={{ width: "45%" }}>
-            <label>Receive Cash</label>
-            <input defaultValue={this.state.receivecash} readOnly />
+          <div style={{ width: "22.5%" }}>
+            <label>Credit Charge</label>
+            <input
+              defaultValue={numeral(this.state.creditcharge).format("0,0.00")}
+              style={{ marginBottom: "25px" }}
+              disabled
+            />
           </div>
-          <div style={{ width: "45%" }}>
-            <Field
-              key={"changecash"}
-              component={ReportPOViewField}
-              type="text"
-              label={"changecash"}
-              name={"changecash"}
-              valueField={this.state.changecash}
+          <div style={{ width: "30%" }}>
+            <label>Grand Total</label>
+            <input
+              defaultValue={numeral(this.state.grandtotal).format("0,0.00")}
+              style={{ marginBottom: "25px" }}
+              disabled
+            />
+          </div>
+          <div style={{ width: "30%" }}>
+            <label>Receive Cash</label>
+            <input
+              defaultValue={numeral(this.state.receivecash).format("0,0.00")}
+              style={{ marginBottom: "25px" }}
+              disabled
+            />
+          </div>
+          <div style={{ width: "30%" }}>
+            <label>Change</label>
+            <input
+              defaultValue={numeral(this.state.changecash).format("0,0.00")}
+              style={{ marginBottom: "25px" }}
+              disabled
             />
           </div>
         </div>
@@ -135,6 +148,7 @@ class PaymentDetail extends Component {
 }
 
 function mapStateToProps({ reports_po, form: { report_po_edit } }) {
+  // console.log(report_po_edit);
   return { reports_po, report_po_edit };
 }
 

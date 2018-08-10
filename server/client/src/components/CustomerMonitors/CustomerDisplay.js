@@ -14,8 +14,8 @@ class CustomerDisplay extends Component {
       discount: 0,
       credit: 0,
       creditcharge: 0,
-      // endpoint: ":5000"
-      endpoint: "https://gionie.herokuapp.com"
+      endpoint: ":5000"
+      // endpoint: "https://gionie.herokuapp.com"
     };
   }
   componentDidMount() {
@@ -57,6 +57,32 @@ class CustomerDisplay extends Component {
     socket.on("creditcharge", data => {
       this.setState({ creditcharge: data });
       this.recalculate();
+    });
+
+    socket.on("closepo", data => {
+      this.setState({
+        showitem: "",
+        showprice: "",
+        status: -1,
+        grandtotal: 0,
+        subtotal: 0,
+        discount: 0,
+        credit: 0,
+        creditcharge: 0
+      });
+    });
+
+    socket.on("openpo", data => {
+      this.setState({
+        showitem: "",
+        showprice: "",
+        status: -1,
+        grandtotal: 0,
+        subtotal: 0,
+        discount: 0,
+        credit: 0,
+        creditcharge: 0
+      });
     });
   }
 

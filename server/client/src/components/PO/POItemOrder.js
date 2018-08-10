@@ -23,8 +23,8 @@ class POItemOrder extends Component {
       itemList: [],
       scanStatus: false,
       loading: false,
-      // endpoint: ":5000"
-      endpoint: "https://gionie.herokuapp.com"
+      endpoint: ":5000"
+      // endpoint: "https://gionie.herokuapp.com"
     };
   }
 
@@ -140,6 +140,7 @@ class POItemOrder extends Component {
       this.setState({ itemList: value });
 
       const _getCustomer = this.getCustomerMonitorItem(data);
+      _getCustomer.countQty = 0;
       _getCustomer.status = 2;
 
       socket.emit("showitem", _getCustomer);
@@ -274,7 +275,7 @@ class POItemOrder extends Component {
             ) : (
               <button
                 className="blue btn-flat white-text"
-                type="button"
+                type="submit"
                 onClick={() => {
                   this.setItemList();
                 }}

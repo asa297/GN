@@ -112,21 +112,17 @@ function validate(values) {
     }
   }
 
-  if (!values["sellerName"]) {
-    errors["sellerName"] = "Require a value";
+  // if (!values["sellerName"]) {
+  //   errors["sellerName"] = "Require a value";
+  // }
+
+  if (values["orgCom"] && isNaN(values["sellerCom"])) {
+    errors["sellerCom"] = "Require a number only";
+  } else if (values["sellerCom"] < 0 || values["sellerCom"] > 100) {
+    errors["sellerCom"] = "0% - 100%";
   }
 
-  if (!values["sellerCom"]) {
-    errors["sellerCom"] = "Require a value";
-  } else {
-    if (isNaN(values["sellerCom"])) {
-      errors["sellerCom"] = "Require a number only";
-    } else if (values["sellerCom"] < 0 || values["sellerCom"] > 100) {
-      errors["sellerCom"] = "0% - 100%";
-    }
-  }
-
-  if (!values["discount"]) {
+  if (!values["discount"] && values["discount"] !== 0) {
     errors["discount"] = "Require a value";
   }
 

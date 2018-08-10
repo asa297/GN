@@ -14,18 +14,7 @@ class Upper extends Component {
   }
 
   componentWillReceiveProps({ grandtotal, showitem, showprice, status }) {
-    if (grandtotal >= 0) {
-      this.setState({ grandtotal });
-    }
-    if (showitem) {
-      this.setState({ showitem });
-    }
-    if (showprice) {
-      this.setState({ showprice });
-    }
-    if (status) {
-      this.setState({ status });
-    }
+    this.setState({ grandtotal, showitem, showprice, status });
   }
 
   render() {

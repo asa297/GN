@@ -23,5 +23,15 @@ module.exports = io => {
       console.log("send creditcharge");
       io.to(parserCookie["session.sig"]).emit("creditcharge", data);
     });
+
+    client.on("closepo", function(data) {
+      console.log("closepo");
+      io.to(parserCookie["session.sig"]).emit("closepo", data);
+    });
+
+    client.on("openpo", function(data) {
+      console.log("openpo");
+      io.to(parserCookie["session.sig"]).emit("openpo", data);
+    });
   });
 };

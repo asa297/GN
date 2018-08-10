@@ -89,13 +89,18 @@ class Footer extends Component {
           fontSize="12px"
         />
         <Payment
-          label="เงินทอน Change Cash"
-          text={this.state.changecash}
+          label="ยอดสุดท้าย Grand Total"
+          text={this.state.grandtotal}
           fontSize="12px"
         />
         <Payment
-          label="ยอดสุดท้าย Grand Total"
-          text={this.state.grandtotal}
+          label="เงินที่รับ Receive Cash"
+          text={this.state.receivecash}
+          fontSize="12px"
+        />
+        <Payment
+          label="เงินทอน Change Cash"
+          text={this.state.changecash}
           fontSize="12px"
         />
       </div>
@@ -109,13 +114,18 @@ class Footer extends Component {
           fontSize="12px"
         />
         <Payment
-          label="เงินทอน Change Cash"
-          text={this.state.changecash}
+          label="ยอดสุดท้าย Grand Total"
+          text={this.state.grandtotal}
           fontSize="12px"
         />
         <Payment
-          label="ยอดสุดท้าย Grand Total"
-          text={this.state.grandtotal}
+          label="เงินที่รับ Receive Cash"
+          text={this.state.receivecash}
+          fontSize="12px"
+        />
+        <Payment
+          label="เงินทอน Change Cash"
+          text={this.state.changecash}
           fontSize="12px"
         />
       </div>
@@ -124,13 +134,18 @@ class Footer extends Component {
       <div>
         <Payment label="ยอดรวม Total" text={this.state.total} fontSize="12px" />
         <Payment
-          label="เงินทอน Change Cash"
-          text={this.state.changecash}
+          label="ยอดสุดท้าย Grand Total"
+          text={this.state.grandtotal}
           fontSize="12px"
         />
         <Payment
-          label="ยอดสุดท้าย Grand Total"
-          text={this.state.grandtotal}
+          label="เงินที่รับ Receive Cash"
+          text={this.state.receivecash}
+          fontSize="12px"
+        />
+        <Payment
+          label="เงินทอน Change Cash"
+          text={this.state.changecash}
           fontSize="12px"
         />
       </div>

@@ -20,6 +20,8 @@ import Preloader from "../utils/Preloader";
 import CircularLoader from "../utils/CircularLoader";
 import PO_CSS from "../../Style/CSS/PO_CSS.css";
 
+import io from "socket.io-client";
+
 let grand_total;
 
 class PO extends Component {
@@ -30,19 +32,37 @@ class PO extends Component {
       ready: false,
       loading: false,
       print: false,
-      print_value: {}
+      print_value: {},
+      endpoint: ":5000"
+      // endpoint: "https://gionie.herokuapp.com"
     };
   }
 
   componentDidMount() {
     this.props.fetch_Seller();
     this.props.fetch_Group_Filter();
+
+    const { endpoint } = this.state;
+    const socket = io(endpoint, {
+      transports: ["websocket"]
+    });
+
+    socket.emit("openpo", {});
   }
 
   componentWillReceiveProps({ groups }) {
     if (groups.length > 0) {
       this.setState({ ready: true });
     }
+  }
+
+  componentWillUnmount() {
+    const { endpoint } = this.state;
+    const socket = io(endpoint, {
+      transports: ["websocket"]
+    });
+
+    socket.emit("closepo", {});
   }
 
   headerCollapseItem(header) {
