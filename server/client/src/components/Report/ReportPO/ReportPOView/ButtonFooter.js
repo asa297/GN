@@ -4,6 +4,7 @@ import Modal from "react-modal";
 import ModalStyle from "../../../../Style/JS/modalStyle";
 import { delete_ReportPO } from "../../../../actions";
 import { withRouter } from "react-router-dom";
+import CircularLoaderBlue from "../../../utils/CircularLoaderBlue";
 
 class ButtonFooter extends Component {
   constructor(props) {
@@ -13,12 +14,17 @@ class ButtonFooter extends Component {
 
     this.state = {
       modalIsOpen: false,
-      orderId
+      orderId,
+      clickSubmit: false
     };
   }
 
   componentWillMount() {
     Modal.setAppElement("body");
+  }
+
+  componentWillReceiveProps({ clickSubmit }) {
+    this.setState({ clickSubmit });
   }
 
   openModal() {
@@ -70,21 +76,28 @@ class ButtonFooter extends Component {
     if (this.props.auth.priority === 1) {
       return (
         <div>
-          <button
-            className="red btn-flat white-text left"
-            style={{ marginTop: "30px" }}
-            type="button"
-            onClick={() => this.openModal()}
-          >
-            Delete
-          </button>
-          <button
-            className="green btn-flat white-text right"
-            style={{ marginTop: "30px" }}
-            type="submit"
-          >
-            Save
-          </button>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <button
+              className="red btn-flat white-text left"
+              style={{ marginTop: "30px" }}
+              type="button"
+              onClick={() => this.openModal()}
+            >
+              Delete
+            </button>
+            <div />
+            <div style={{ display: "flex", alignItems: "flex-end" }}>
+              {this.state.clickSubmit ? <CircularLoaderBlue /> : null}
+              <button
+                className="green btn-flat white-text right"
+                style={{ marginTop: "30px" }}
+                type="submit"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+
           {this.renderModal()}
         </div>
       );

@@ -71,7 +71,7 @@ class ItemForm extends Component {
                 options={itemType_list}
                 onChange={props.input.onChange}
                 placeholder={props.meta.touched && props.meta.error}
-                className="form-control"
+                className="basic-single"
                 simpleValue
               />
             </div>

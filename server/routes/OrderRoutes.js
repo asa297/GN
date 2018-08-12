@@ -24,6 +24,7 @@ module.exports = app => {
 
     const orderId = Date.now();
 
+    console.log(seller_select);
     const order = await orderModel({
       orderId,
       groupId: group_select._id,
@@ -35,9 +36,11 @@ module.exports = app => {
       orgTypeName: group_select.orgTypeName,
       orgCode: group_select.orgCode,
       orgCom: group_select.orgCom,
-      sellerId: seller_select._id,
-      sellerName: seller_select.sellerName,
-      sellerCom: seller_select.sellerCom,
+      sellerId: seller_select ? seller_select._id : null,
+      sellerName: seller_select ? seller_select.sellerName : "",
+      sellerCode: seller_select ? seller_select.sellerCode : "",
+      sellerCom: seller_select ? seller_select.sellerCom : 0,
+      sellerRemarks: seller_select ? seller_select.sellerRemarks : "",
       itemList,
       total,
       discount,

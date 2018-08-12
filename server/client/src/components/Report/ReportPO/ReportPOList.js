@@ -8,6 +8,7 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import Preloader from "../../utils/Preloader";
 import Report_PO_CSS from "../../../Style/CSS/Report_PO_CSS.css";
+import numeral from "numeral";
 
 class ReportPOList extends Component {
   constructor() {
@@ -31,19 +32,28 @@ class ReportPOList extends Component {
       orgTypeName,
       groupCode,
       total,
+      discount,
       credit,
-      cash,
+      creditcharge,
+      grandtotal,
+      receivecash,
+      changecash,
       RecordNameBy
     } = value;
+
     return {
       "#": index,
       orderId: `#${orderId}`,
       ReocrdDate: RecordDate_moment,
       orgTypeName,
       groupCode,
-      total,
-      credit,
-      cash,
+      total: numeral(total).format("0,0"),
+      discount: `${numeral(discount).format("0,0")}`,
+      credit: numeral(credit).format("0,0"),
+      creditcharge: numeral(creditcharge).format("0,0"),
+      grandtotal: numeral(grandtotal).format("0,0"),
+      receivecash: numeral(receivecash).format("0,0"),
+      changecash: numeral(changecash).format("0,0"),
       RecordNameBy
     };
   }
@@ -112,7 +122,7 @@ class ReportPOList extends Component {
           {
             Header: "Org Name",
             accessor: "orgName",
-            width: 500
+            width: 350
           },
           {
             Header: "Org Type",
@@ -126,18 +136,45 @@ class ReportPOList extends Component {
           },
           {
             Header: "Total",
-            accessor: "grandtotal",
-            style: { textAlign: "right", fontWeight: "bold" }
+            accessor: "total",
+            Cell: row => <div>{numeral(row.value).format("0,0.00")}</div>,
+            style: { textAlign: "right" }
+          },
+          {
+            Header: "Discount",
+            accessor: "discount",
+            Cell: row => <div>{numeral(row.value).format("0,0.00")}</div>,
+            style: { textAlign: "right" }
           },
           {
             Header: "Credit",
             accessor: "credit",
+            Cell: row => <div>{numeral(row.value).format("0,0.00")}</div>,
             style: { textAlign: "right" }
           },
           {
-            Header: "Cash",
-            accessor: "cash",
+            Header: "Credit Charge",
+            accessor: "creditcharge",
+            Cell: row => <div>{numeral(row.value).format("0,0.00")}</div>,
             style: { textAlign: "right" }
+          },
+          {
+            Header: "Grand Total",
+            accessor: "grandtotal",
+            Cell: row => <div>{numeral(row.value).format("0,0.00")}</div>,
+            style: { textAlign: "right", fontWeight: "bold", color: "blue" }
+          },
+          {
+            Header: "Receive Cash",
+            accessor: "receivecash",
+            Cell: row => <div>{numeral(row.value).format("0,0.00")}</div>,
+            style: { textAlign: "right", fontWeight: "bold", color: "green" }
+          },
+          {
+            Header: "Change Cash",
+            accessor: "changecash",
+            Cell: row => <div>{numeral(row.value).format("0,0.00")}</div>,
+            style: { textAlign: "right", fontWeight: "bold", color: "red" }
           },
           {
             Header: "RecordBy",
@@ -162,10 +199,11 @@ class ReportPOList extends Component {
             />
             <CSVLink
               data={this.state.export_data}
-              filename={"purchaseorder.csv"}
+              filename={"#101-purchaseorder.csv"}
             >
               <button className="waves-effect waves-light btn">
-                <i className="material-icons left">cloud_download</i>Download
+                <i className="material-icons left">cloud_download</i>
+                Download
               </button>
             </CSVLink>
           </div>

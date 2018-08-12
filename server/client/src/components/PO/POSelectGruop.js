@@ -45,7 +45,7 @@ class POSelectGruop extends Component {
                   options={group_list}
                   onChange={props.input.onChange}
                   placeholder="Select Group"
-                  className="form-control"
+                  className="basic-single"
                   simpleValue
                 />
               </div>

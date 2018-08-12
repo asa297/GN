@@ -115,7 +115,7 @@ export const update_Seller = (
 export const delete_Seller = seller_id => async dispatch => {
   const res = await axios.delete("/api/seller/" + seller_id);
 
-  dispatch({ type: FETCH_SELLER, payload: res.data });
+  dispatch({ type: FETCH_SELLER, payload: res.data }, dispatch);
 };
 
 //inbound item

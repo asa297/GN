@@ -84,7 +84,7 @@ class OrgEdit extends Component {
                 options={orgType_list}
                 onChange={props.input.onChange}
                 placeholder={props.meta.touched && props.meta.error}
-                className="form-control"
+                className="basic-single"
                 simpleValue
               />
             </div>

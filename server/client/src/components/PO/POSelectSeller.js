@@ -11,11 +11,13 @@ class POSelectSeller extends Component {
   renderSellerFieldSelect() {
     const seller_list = _.map(
       this.props.sellers,
-      ({ _id, sellerName, sellerCom }) => {
+      ({ _id, sellerName, sellerCode, sellerCom, sellerRemarks }) => {
         return {
           _id,
           sellerName,
+          sellerCode,
           sellerCom,
+          sellerRemarks,
           label: sellerName,
           value: sellerName
         };
@@ -34,7 +36,7 @@ class POSelectSeller extends Component {
                   options={seller_list}
                   onChange={props.input.onChange}
                   placeholder="Select Seller"
-                  className="form-control"
+                  className="basic-single"
                   simpleValue
                 />
               </div>

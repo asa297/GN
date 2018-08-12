@@ -21,7 +21,8 @@ class ReportPOView extends Component {
 
     this.state = {
       orderId,
-      report_PO: null
+      report_PO: undefined,
+      clickSubmit: false
     };
   }
 
@@ -32,12 +33,14 @@ class ReportPOView extends Component {
     this.setState({ report_PO });
   }
 
-  handleFormSubmit() {
-    this.props.update_ReportPO(
+  async handleFormSubmit() {
+    this.setState({ clickSubmit: true });
+    await this.props.update_ReportPO(
       this.state.orderId,
       this.props.report_po_edit,
       this.props.history
     );
+    this.setState({ clickSubmit: false });
   }
 
   renderReportPOView() {
@@ -74,7 +77,10 @@ class ReportPOView extends Component {
           <h5>Payments Detail</h5>
         </div>
         <PaymentDetail report_PO={this.state.report_PO} />
-        <ButtonFooter orderId={this.state.orderId} />
+        <ButtonFooter
+          orderId={this.state.orderId}
+          clickSubmit={this.state.clickSubmit}
+        />
       </form>
     );
   }
@@ -116,7 +122,7 @@ function validate(values) {
   //   errors["sellerName"] = "Require a value";
   // }
 
-  if (values["orgCom"] && isNaN(values["sellerCom"])) {
+  if (values["sellerCom"] && isNaN(values["sellerCom"])) {
     errors["sellerCom"] = "Require a number only";
   } else if (values["sellerCom"] < 0 || values["sellerCom"] > 100) {
     errors["sellerCom"] = "0% - 100%";

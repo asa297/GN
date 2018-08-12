@@ -4,7 +4,7 @@ export function validateOrder(formvalues) {
     let resultCreditCharge = 0;
     let grandtotal = 0;
     let {
-      seller_select,
+      // seller_select,
       total,
       discount,
       credit,
@@ -12,12 +12,12 @@ export function validateOrder(formvalues) {
       receivecash
     } = formvalues;
 
-    if (!seller_select) {
-      formvalues.seller_select = {};
-      formvalues.seller_select._id = "507f1f77bcf86cd799439011";
-      formvalues.seller_select.sellerName = "";
-      formvalues.seller_select.sellerCom = 0;
-    }
+    // if (!seller_select) {
+    //   formvalues.seller_select = {};
+    //   formvalues.seller_select._id = "507f1f77bcf86cd799439011507f1f77bcf86cd799439011";
+    //   formvalues.seller_select.sellerName = "";
+    //   formvalues.seller_select.sellerCom = 0;
+    // }
 
     const DC = parseInt(discount, 10);
     if (DC > 0 && DC <= 100) {
