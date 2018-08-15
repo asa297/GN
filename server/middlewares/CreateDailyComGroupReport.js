@@ -2,21 +2,21 @@ const _ = require("lodash");
 
 module.exports = (order, select_date) => {
   const _Group = _.uniqBy(order, e => {
-    return e.groupId.toString();
+    return e.group.groupId.toString();
   });
 
   const result = _.map(
     _Group,
     ({
-      orgName,
-      orgCode,
-      orgCom,
-      guideName,
-      groupId,
-      groupCode,
-      groupStickerNumber
+      org: { orgName },
+      org: { orgCode },
+      org: { orgCom },
+      group: { guideName },
+      group: { groupId },
+      group: { groupCode },
+      group: { groupStickerNumber }
     }) => {
-      const _PO = _.filter(order, ({ groupId: _groupId }) => {
+      const _PO = _.filter(order, ({ group: { groupId: _groupId } }) => {
         return groupId.toString() === _groupId.toString();
       });
 

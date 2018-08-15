@@ -1,33 +1,15 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
+
 import _ from "lodash";
 import numeral from "numeral";
 
 class ItemDetail extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      itemList: []
-    };
-  }
 
-  // componentDidMount() {
-  //   const report_PO = _.find(this.props.reports_po, ({ orderId }) => {
-  //     return orderId === this.props.orderId;
-  //   });
-  //   if (report_PO) {
-  //     _.map(this.state, (value, key) => {
-  //       this.setState({ [key]: report_PO[key] });
-  //     });
-  //   }
-  // }
+    const { itemList } = props.report_PO;
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.report_PO) {
-      _.map(this.state, (value, key) => {
-        this.setState({ [key]: nextProps.report_PO[key] });
-      });
-    }
+    this.state = { itemList };
   }
 
   renderitemList() {
@@ -65,8 +47,4 @@ class ItemDetail extends Component {
   }
 }
 
-function mapStateToProps({ reports_po }) {
-  return { reports_po };
-}
-
-export default connect(mapStateToProps)(ItemDetail);
+export default ItemDetail;

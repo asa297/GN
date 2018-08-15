@@ -7,31 +7,13 @@ import PO_CSS from "../../Style/CSS/PO_CSS.css";
 
 class POSelectGruop extends Component {
   renderGroupFieldSelect() {
-    const group_list = _.map(
-      this.props.groups,
-      ({
+    const group_list = _.map(this.props.groups, ({ _id, groupCode }) => {
+      return {
         _id,
-        orgId,
-        groupCode,
-        orgTypeId,
-        orgTypeName,
-        orgCom,
-        orgName,
-        guideName
-      }) => {
-        return {
-          _id,
-          groupCode,
-          orgName,
-          orgCom,
-          orgTypeId,
-          orgTypeName,
-          guideName,
-          label: groupCode,
-          value: groupCode
-        };
-      }
-    );
+        label: groupCode,
+        value: groupCode
+      };
+    });
     return (
       <Field
         name="group_select"

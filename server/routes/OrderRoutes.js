@@ -3,6 +3,8 @@ const _ = require("lodash");
 const moment = require("moment");
 const orderModel = mongoose.model("orders");
 const itemModel = mongoose.model("items");
+const groupModel = mongoose.model("groups");
+const sellerModel = mongoose.model("sellers");
 const CreateDailyCashBalanceReport = require("../middlewares/CreateDailyCashBalanceReport");
 const CreateDailyComGroupReport = require("../middlewares/CreateDailyComGroupReport");
 
@@ -24,23 +26,51 @@ module.exports = app => {
 
     const orderId = Date.now();
 
-    console.log(seller_select);
+    const group_select_query = groupModel.findOne({ _id: group_select._id });
+    const seller_select_query = seller_select
+      ? sellerModel.findOne({ _id: seller_select._id })
+      : null;
+
+    const result = await Promise.all([group_select_query, seller_select_query])
+      .then(result => {
+        return {
+          group_select: result[0],
+          seller_select: result[1]
+        };
+      })
+      .catch(function(err) {
+        return err;
+      });
+
     const order = await orderModel({
       orderId,
-      groupId: group_select._id,
-      groupCode: group_select.groupCode,
-      guideName: group_select.guideName,
-      orgId: group_select.orgId,
-      orgName: group_select.orgName,
-      orgTypeId: group_select.orgTypeId,
-      orgTypeName: group_select.orgTypeName,
-      orgCode: group_select.orgCode,
-      orgCom: group_select.orgCom,
-      sellerId: seller_select ? seller_select._id : null,
-      sellerName: seller_select ? seller_select.sellerName : "",
-      sellerCode: seller_select ? seller_select.sellerCode : "",
-      sellerCom: seller_select ? seller_select.sellerCom : 0,
-      sellerRemarks: seller_select ? seller_select.sellerRemarks : "",
+      //
+      group: {
+        groupId: result["group_select"]._id,
+        groupCode: result["group_select"].groupCode,
+        groupStickerNumber: result["group_select"].groupStickerNumber,
+        groupRemarks: result["group_select"].groupRemarks,
+        guideName: result["group_select"].guideName
+      },
+      org: {
+        orgId: result["group_select"].orgId,
+        orgName: result["group_select"].orgName,
+        orgTypeId: result["group_select"].orgTypeId,
+        orgTypeName: result["group_select"].orgTypeName,
+        orgCode: result["group_select"].orgCode,
+        orgCom: result["group_select"].orgCom
+      },
+      //
+      seller: {
+        sellerId: seller_select ? result["seller_select"]._id : null,
+        sellerName: seller_select ? result["seller_select"].sellerName : "",
+        sellerCode: seller_select ? result["seller_select"].sellerCode : "",
+        sellerCom: seller_select ? result["seller_select"].sellerCom : 0,
+        sellerRemarks: seller_select
+          ? result["seller_select"].sellerRemarks
+          : ""
+      },
+      //
       itemList,
       total,
       discount,
@@ -100,21 +130,7 @@ module.exports = app => {
   });
 
   app.post("/api/order/edit/:id", async (req, res) => {
-    const {
-      groupCode,
-      guideName,
-      orgName,
-      orgTypeName,
-      orgCom,
-      sellerName,
-      sellerCom,
-      total,
-      discount,
-      credit,
-      cash,
-      receivecash,
-      changecash
-    } = req.body;
+    const { group_select, orgCom, seller_select, sellerCom } = req.body;
 
     await orderModel
       .updateOne(
@@ -123,19 +139,29 @@ module.exports = app => {
         },
         {
           $set: {
-            groupCode,
-            guideName,
-            orgName,
-            orgTypeName,
-            orgCom,
-            sellerName,
-            sellerCom,
-            total,
-            discount,
-            credit,
-            cash,
-            receivecash,
-            changecash,
+            group: {
+              groupId: group_select._id,
+              groupCode: group_select.groupCode,
+              groupStickerNumber: group_select.groupStickerNumber,
+              groupRemarks: group_select.groupRemarks,
+              guideName: group_select.guideName
+            },
+            org: {
+              orgId: group_select.orgId,
+              orgName: group_select.orgName,
+              orgTypeId: group_select.orgTypeId,
+              orgTypeName: group_select.orgTypeName,
+              orgCode: group_select.orgCode,
+              orgCom
+            },
+            seller: {
+              sellerId: seller_select ? seller_select._id : null,
+              sellerName: seller_select ? seller_select.sellerName : "",
+              sellerCode: seller_select ? seller_select.sellerCode : "",
+              sellerCom: seller_select ? seller_select.sellerCom : 0,
+              sellerRemarks: seller_select ? seller_select.sellerRemarks : ""
+            },
+
             LastModifyById: req.user._id,
             LastModifyByName: req.user.firstName,
             LastModifyDate: Date.now()

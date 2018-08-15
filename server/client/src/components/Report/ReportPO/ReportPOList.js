@@ -29,8 +29,8 @@ class ReportPOList extends Component {
       index,
       orderId,
       RecordDate_moment,
-      orgTypeName,
-      groupCode,
+      org,
+      group,
       total,
       discount,
       credit,
@@ -43,17 +43,19 @@ class ReportPOList extends Component {
 
     return {
       "#": index,
-      orderId: `#${orderId}`,
+      OrderId: `#${orderId}`,
       ReocrdDate: RecordDate_moment,
-      orgTypeName,
-      groupCode,
-      total: numeral(total).format("0,0"),
-      discount: `${numeral(discount).format("0,0")}`,
-      credit: numeral(credit).format("0,0"),
-      creditcharge: numeral(creditcharge).format("0,0"),
-      grandtotal: numeral(grandtotal).format("0,0"),
-      receivecash: numeral(receivecash).format("0,0"),
-      changecash: numeral(changecash).format("0,0"),
+      OrgName: org.orgName,
+      OrgTypeName: org.orgTypeName,
+      GroupCode: group.groupCode,
+      StickerNumber: group.groupStickerNumber,
+      Total: numeral(total).format("0,0"),
+      Discount: `${numeral(discount).format("0,0")}`,
+      Credit: numeral(credit).format("0,0"),
+      Creditcharge: numeral(creditcharge).format("0,0"),
+      Grandtotal: numeral(grandtotal).format("0,0"),
+      Receivecash: numeral(receivecash).format("0,0"),
+      Changecash: numeral(changecash).format("0,0"),
       RecordNameBy
     };
   }
@@ -121,17 +123,23 @@ class ReportPOList extends Component {
           },
           {
             Header: "Org Name",
-            accessor: "orgName",
-            width: 350
+            accessor: "org.orgName",
+            width: 350,
+            style: { textAlign: "center" }
           },
           {
             Header: "Org Type",
-            accessor: "orgTypeName",
+            accessor: "org.orgTypeName",
             width: 100
           },
           {
             Header: "GroupCode",
-            accessor: "groupCode",
+            accessor: "group.groupCode",
+            style: { textAlign: "center" }
+          },
+          {
+            Header: "Sticker Number",
+            accessor: "group.groupStickerNumber",
             style: { textAlign: "center" }
           },
           {

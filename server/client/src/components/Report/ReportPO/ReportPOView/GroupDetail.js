@@ -5,125 +5,247 @@ import { Field, change } from "redux-form";
 import ReportPOViewField from "./ReportPOViewField";
 
 import ReportPOViewCSS from "./ReportPOView.css";
+import Select from "react-select";
 
-let check = false;
 class GroupDetail extends Component {
   constructor(props) {
     super(props);
+    const { group, org } = props.report_PO;
+
+    const {
+      groupId,
+      groupCode,
+      groupStickerNumber,
+      groupRemarks,
+      guideName
+    } = group;
+
+    const { orgId, orgName, orgTypeId, orgTypeName, orgCode, orgCom } = org;
+
     this.state = {
-      groupCode: null,
-      guideName: null,
-      orgName: null,
-      orgTypeName: null,
-      orgCom: null
+      groupId,
+      groupCode,
+      groupStickerNumber,
+      groupRemarks,
+      guideName,
+      orgId,
+      orgName,
+      orgTypeId,
+      orgTypeName,
+      orgCode,
+      orgCom
     };
   }
 
-  // componentDidMount() {
-  //   const report_PO = _.find(this.props.reports_po, ({ orderId }) => {
-  //     return orderId === this.props.orderId;
-  //   });
-  //   if (report_PO) {
-  //     _.map(this.state, (value, key) => {
-  //       this.setState({ [key]: report_PO[key] });
-  //     });
-
-  //     this.handleInitialize(report_PO);
-
-  //     check = true;
-  //   }
-  // }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.report_PO) {
-      _.map(this.state, (value, key) => {
-        this.setState({ [key]: nextProps.report_PO[key] });
-      });
-
-      this.handleInitialize(nextProps.report_PO);
-
-      check = true;
-    }
-  }
-
-  handleInitialize(report_PO) {
-    _.map(this.state, (value, key) => {
-      this.props.dispatch(change("report_po_edit", key, report_PO[key]));
+  componentDidMount() {
+    const group_select = _.find(this.props.groups, ({ _id }) => {
+      return this.state.groupId === _id;
     });
-  }
 
-  componentWillUnmount() {
-    check = false;
-  }
+    if (group_select) {
+      group_select.label = `${group_select.groupCode}(${
+        group_select.groupStickerNumber
+      })`;
+      group_select.value = `${group_select.groupCode}(${
+        group_select.groupStickerNumber
+      })`;
 
-  GroupDetail() {
-    if (check) {
-      return (
-        <div className={ReportPOViewCSS.ReportPOView_GroupDetail}>
-          <div style={{ width: "45%" }}>
-            <Field
-              key={"groupCode"}
-              component={ReportPOViewField}
-              type="text"
-              label={"groupCode"}
-              name={"groupCode"}
-              valueField={this.state.groupCode}
-              onChange={event =>
-                this.setState({ groupCode: event.target.value })
-              }
-            />
-          </div>
-          <div style={{ width: "45%" }}>
-            <Field
-              key={"guideName"}
-              component={ReportPOViewField}
-              type="text"
-              label={"guideName"}
-              name={"guideName"}
-              valueField={this.state.guideName}
-              onChange={event =>
-                this.setState({ guideName: event.target.value })
-              }
-            />
-          </div>
-          <div style={{ width: "30%" }}>
-            <Field
-              key={"orgName"}
-              component={ReportPOViewField}
-              type="text"
-              label={"orgName"}
-              name={"orgName"}
-              valueField={this.state.orgName}
-              onChange={event => this.setState({ orgName: event.target.value })}
-            />
-          </div>
-          <div style={{ width: "30%" }}>
-            <label>orgTypeName</label>
-            <input defaultValue={this.state.orgTypeName} readOnly />
-          </div>
-          <div style={{ width: "30%" }}>
-            <Field
-              key={"orgCom"}
-              component={ReportPOViewField}
-              type="text"
-              label={"orgCom"}
-              name={"orgCom"}
-              valueField={this.state.orgCom}
-              onChange={event => this.setState({ orgCom: event.target.value })}
-            />
-          </div>
-        </div>
+      this.props.dispatch(
+        change("report_po_edit", "group_select", group_select)
+      );
+      this.props.dispatch(
+        change("report_po_edit", "orgCom", group_select.orgCom)
       );
     }
   }
 
+  renderGroupDetails() {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          flexWrap: "wrap"
+        }}
+      >
+        <div style={{ width: "22.5%" }}>
+          <label>Group Code</label>
+          <input
+            value={this.state.groupCode}
+            style={{ marginBottom: "25px" }}
+            disabled
+          />
+        </div>
+        <div style={{ width: "22.5%" }}>
+          <label>Group Sticker Number</label>
+          <input
+            value={this.state.groupStickerNumber}
+            style={{ marginBottom: "25px" }}
+            disabled
+          />
+        </div>
+        <div style={{ width: "22.5%" }}>
+          <label>Guide Name</label>
+          <input
+            value={this.state.guideName}
+            style={{ marginBottom: "25px" }}
+            disabled
+          />
+        </div>
+        <div style={{ width: "22.5%" }}>
+          <label>Group Remarks</label>
+          <input
+            value={this.state.groupRemarks}
+            style={{ marginBottom: "25px" }}
+            disabled
+          />
+        </div>
+        <div style={{ width: "22.5%" }}>
+          <label>Org Name</label>
+          <input
+            value={this.state.orgName}
+            style={{ marginBottom: "25px" }}
+            disabled
+          />
+        </div>
+        <div style={{ width: "22.5%" }}>
+          <label>Org Code</label>
+          <input
+            value={this.state.orgCode}
+            style={{ marginBottom: "25px" }}
+            disabled
+          />
+        </div>
+        <div style={{ width: "22.5%" }}>
+          <Field
+            key={"orgCom"}
+            component={ReportPOViewField}
+            type="text"
+            label={"orgCom"}
+            name={"orgCom"}
+            valueField={this.state.orgCom}
+            onChange={event => this.setState({ orgCom: event.target.value })}
+          />
+        </div>
+        <div style={{ width: "22.5%" }}>
+          <label>Org Type Name</label>
+          <input
+            value={this.state.orgTypeName}
+            style={{ marginBottom: "25px" }}
+            disabled
+          />
+        </div>
+      </div>
+    );
+  }
+
+  renderGroups() {
+    const group_list = _.map(
+      this.props.groups,
+      ({
+        _id,
+        groupCode,
+        groupStickerNumber,
+        groupRemarks,
+        guideName,
+        orgId,
+        orgName,
+        orgTypeId,
+        orgTypeName,
+        orgCode,
+        orgCom
+      }) => {
+        return {
+          _id,
+          groupCode,
+          groupStickerNumber,
+          groupRemarks,
+          guideName,
+          orgId,
+          orgName,
+          orgTypeId,
+          orgTypeName,
+          orgCode,
+          orgCom,
+          label: `${groupCode}(${groupStickerNumber})`,
+          value: `${groupCode}(${groupStickerNumber})`
+        };
+      }
+    );
+
+    return (
+      <div className={ReportPOViewCSS.ReportPOView_GroupDetail}>
+        <Field
+          name="group_select"
+          component={props => (
+            <div style={{ width: "100%" }}>
+              <label>Groups&nbsp;:&nbsp;</label>
+              <div style={{ width: "100%" }}>
+                <Select
+                  value={props.input.value}
+                  options={group_list}
+                  onChange={event => {
+                    this.onChangeGruopSelect(event);
+                  }}
+                  placeholder="Select Groups"
+                  className="basic-single"
+                  simpleValue
+                />
+              </div>
+              <div className="red-text" style={{ marginBottom: "20px" }}>
+                {props.meta.touched && props.meta.error}
+              </div>
+            </div>
+          )}
+        />
+        <div style={{ width: "100%" }}>{this.renderGroupDetails()}</div>
+      </div>
+    );
+  }
+
+  onChangeGruopSelect(values) {
+    if (values) {
+      const {
+        _id,
+        groupCode,
+        groupStickerNumber,
+        groupRemarks,
+        guideName,
+        orgId,
+        orgName,
+        orgTypeId,
+        orgTypeName,
+        orgCode,
+        orgCom
+      } = values;
+      this.setState({
+        groupId: _id,
+        groupCode,
+        groupStickerNumber,
+        groupRemarks,
+        guideName,
+        orgId,
+        orgName,
+        orgTypeId,
+        orgTypeName,
+        orgCode,
+        orgCom
+      });
+
+      values.label = `${groupCode}(${groupStickerNumber})`;
+      values.value = `${groupCode}(${groupStickerNumber})`;
+
+      this.props.dispatch(change("report_po_edit", "group_select", values));
+    }
+  }
+
   render() {
-    return <div>{this.GroupDetail()}</div>;
+    return <div>{this.renderGroups()}</div>;
   }
 }
 
-function mapStateToProps({ reports_po }) {
-  return { reports_po };
+function mapStateToProps({ groups }) {
+  return { groups };
 }
 
 export default connect(mapStateToProps)(GroupDetail);

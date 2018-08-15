@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import _ from "lodash";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { fetch_Seller } from "../../../../actions";
 import { Field, change } from "redux-form";
 
 import ReportPOView from "./ReportPOView.css";
@@ -12,15 +10,16 @@ import Select from "react-select";
 class SellerDetail extends Component {
   constructor(props) {
     super(props);
+    const { seller } = props.report_PO;
+
     const {
       sellerId,
       sellerName,
       sellerCode,
       sellerCom,
       sellerRemarks
-    } = props.report_PO;
+    } = seller;
     this.state = {
-      ready: false,
       sellerId,
       sellerName,
       sellerCode,
@@ -29,49 +28,37 @@ class SellerDetail extends Component {
     };
   }
 
-  async componentDidMount() {
-    const { report_PO } = this.props;
+  componentDidMount() {
+    const seller_select = _.find(this.props.sellers, ({ _id }) => {
+      return this.state.sellerId === _id;
+    });
 
-    if (report_PO) {
-      await this.props.fetch_Seller();
-      _.map(this.state, (value, key) => {
-        if (key !== "ready") {
-          this.props.dispatch(change("report_po_edit", key, this.state[key]));
-        }
-      });
+    if (seller_select) {
+      seller_select.label = `${seller_select.sellerName}(${
+        seller_select.sellerCode
+      })`;
+      seller_select.value = `${seller_select.sellerName}(${
+        seller_select.sellerCode
+      })`;
 
-      const seller_select = _.find(this.props.sellers, ({ _id }) => {
-        return this.state.sellerId === _id;
-      });
+      this.props.dispatch(
+        change("report_po_edit", "seller_select", seller_select)
+      );
 
-      if (seller_select) {
-        this.props.dispatch(
-          change("report_po_edit", "seller_select", {
-            _id: seller_select._id,
-            sellerName: seller_select.sellerName,
-            sellerCode: seller_select.sellerCode,
-            sellerCom: seller_select.sellerCom,
-            sellerRemarks: seller_select.sellerRemarks,
-            label:
-              seller_select.sellerName + " (" + seller_select.sellerCode + ")",
-            value:
-              seller_select.sellerName + " (" + seller_select.sellerCode + ")"
-          })
-        );
-      }
+      this.props.dispatch(
+        change("report_po_edit", "sellerCom", seller_select.sellerCom)
+      );
     }
-
-    this.setState({ ready: true });
   }
 
   renderSellerDetails() {
-    if (this.state.ready && this.state.sellerId) {
+    if (this.state.sellerId) {
       return (
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div style={{ width: "22.5%" }}>
             <label>Seller Name</label>
             <input
-              defaultValue={this.state.sellerName}
+              value={this.state.sellerName}
               style={{ marginBottom: "25px" }}
               disabled
             />
@@ -79,7 +66,7 @@ class SellerDetail extends Component {
           <div style={{ width: "22.5%" }}>
             <label>Seller Code</label>
             <input
-              defaultValue={this.state.sellerCode}
+              value={this.state.sellerCode}
               style={{ marginBottom: "25px" }}
               disabled
             />
@@ -100,7 +87,7 @@ class SellerDetail extends Component {
           <div style={{ width: "22.5%" }}>
             <label>Seller Remarks</label>
             <input
-              defaultValue={this.state.sellerRemarks}
+              value={this.state.sellerRemarks}
               style={{ marginBottom: "25px" }}
               disabled
             />
@@ -126,39 +113,36 @@ class SellerDetail extends Component {
       }
     );
 
-    if (this.state.ready) {
-      return (
-        <div className={ReportPOView.ReportPOView_GroupDetail}>
-          <Field
-            name="seller_select"
-            component={props => (
+    return (
+      <div className={ReportPOView.ReportPOView_GroupDetail}>
+        <Field
+          name="seller_select"
+          component={props => (
+            <div style={{ width: "100%" }}>
+              <label>Seller&nbsp;:&nbsp;</label>
               <div style={{ width: "100%" }}>
-                <label>Seller&nbsp;:&nbsp;</label>
-                <div style={{ width: "100%" }}>
-                  <Select
-                    value={props.input.value}
-                    options={seller_list}
-                    // onChange={props.input.onChange}
-                    onChange={event => {
-                      this.onChangeSellerSelect(event);
-                    }}
-                    placeholder="Select Seller"
-                    className="basic-single"
-                    simpleValue
-                    isClearable={true}
-                  />
-                </div>
-                <div className="red-text" style={{ marginBottom: "20px" }}>
-                  {props.meta.touched && props.meta.error}
-                </div>
+                <Select
+                  value={props.input.value}
+                  options={seller_list}
+                  onChange={event => {
+                    this.onChangeSellerSelect(event);
+                  }}
+                  placeholder="Select Seller"
+                  className="basic-single"
+                  simpleValue
+                  isClearable={true}
+                />
               </div>
-            )}
-          />
+              <div className="red-text" style={{ marginBottom: "20px" }}>
+                {props.meta.touched && props.meta.error}
+              </div>
+            </div>
+          )}
+        />
 
-          <div style={{ width: "100%" }}>{this.renderSellerDetails()}</div>
-        </div>
-      );
-    }
+        <div style={{ width: "100%" }}>{this.renderSellerDetails()}</div>
+      </div>
+    );
   }
 
   onChangeSellerSelect(values) {
@@ -171,18 +155,11 @@ class SellerDetail extends Component {
         sellerCom,
         sellerRemarks
       });
+      values.label = `${sellerName}(${sellerCode})`;
+      values.value = `${sellerName}(${sellerCode})`;
 
-      this.props.dispatch(
-        change("report_po_edit", "seller_select", {
-          _id: values._id,
-          sellerName: values.sellerName,
-          sellerCode: values.sellerCode,
-          sellerCom: values.sellerCom,
-          sellerRemarks: values.sellerRemarks,
-          label: values.sellerName + " (" + values.sellerCode + ")",
-          value: values.sellerName + " (" + values.sellerCode + ")"
-        })
-      );
+      this.props.dispatch(change("report_po_edit", "seller_select", values));
+      this.props.dispatch(change("report_po_edit", "sellerCom", sellerCom));
     } else {
       this.setState({
         sellerId: null,
@@ -193,6 +170,8 @@ class SellerDetail extends Component {
       });
 
       this.props.dispatch(change("report_po_edit", "seller_select", null));
+
+      this.props.dispatch(change("report_po_edit", "sellerCom", null));
     }
   }
 
@@ -205,19 +184,4 @@ function mapStateToProps({ sellers }) {
   return { sellers };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-    ...bindActionCreators(
-      {
-        fetch_Seller
-      },
-      dispatch
-    )
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SellerDetail);
+export default connect(mapStateToProps)(SellerDetail);

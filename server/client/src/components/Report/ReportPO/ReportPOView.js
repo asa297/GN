@@ -5,7 +5,7 @@ import { reduxForm } from "redux-form";
 import { Link, withRouter } from "react-router-dom";
 
 import Report_CSS from "../../../Style/CSS/Report_PO_CSS.css";
-import { update_ReportPO } from "../../../actions";
+import { update_ReportPO, fetch_Seller, fetch_Group } from "../../../actions";
 
 import Header from "./ReportPOView/Header";
 import GroupDetail from "./ReportPOView/GroupDetail";
@@ -22,7 +22,8 @@ class ReportPOView extends Component {
     this.state = {
       orderId,
       report_PO: undefined,
-      clickSubmit: false
+      clickSubmit: false,
+      ready: false
     };
   }
 
@@ -31,6 +32,8 @@ class ReportPOView extends Component {
       return orderId === this.state.orderId;
     });
     this.setState({ report_PO });
+    this.props.fetch_Group();
+    this.props.fetch_Seller();
   }
 
   async handleFormSubmit() {
@@ -40,49 +43,58 @@ class ReportPOView extends Component {
       this.props.report_po_edit,
       this.props.history
     );
-    this.setState({ clickSubmit: false });
+  }
+
+  componentWillReceiveProps({ sellers, groups }) {
+    if (!_.isEmpty(sellers) && !_.isEmpty(groups)) {
+      this.setState({ ready: true });
+    }
   }
 
   renderReportPOView() {
-    return (
-      <form onSubmit={this.props.handleSubmit(() => this.handleFormSubmit())}>
-        <div className={Report_CSS.viewReportPOHeader}>
-          <Link to="/report/reportpo">
-            <i className="medium material-icons">chevron_left</i>
-          </Link>
-          <h3>PO Report : {this.state.orderId}</h3>
-          <div />
-        </div>
+    if (this.state.ready) {
+      return (
+        <form onSubmit={this.props.handleSubmit(() => this.handleFormSubmit())}>
+          <div className={Report_CSS.viewReportPOHeader}>
+            <Link to="/report/reportpo">
+              <i className="medium material-icons">chevron_left</i>
+            </Link>
+            <h3>PO Report : {this.state.orderId}</h3>
+            <div />
+          </div>
 
-        <Header report_PO={this.state.report_PO} />
-        <hr />
-        <div className="center">
-          <h5>Group Detail</h5>
-        </div>
-        <GroupDetail report_PO={this.state.report_PO} />
-        <hr />
+          <Header report_PO={this.state.report_PO} />
+          <hr />
+          <div className="center">
+            <h5>Group Detail</h5>
+          </div>
+          <GroupDetail report_PO={this.state.report_PO} />
+          <hr />
 
-        <div className="center">
-          <h5>Seller Detail</h5>
-        </div>
-        <SellerDetail report_PO={this.state.report_PO} />
-        <hr />
+          <div className="center">
+            <h5>Seller Detail</h5>
+          </div>
+          <SellerDetail report_PO={this.state.report_PO} />
+          <hr />
 
-        <div className="center">
-          <h5>Item Detail</h5>
-        </div>
-        <DetailItem report_PO={this.state.report_PO} />
-        <hr />
-        <div className="center">
-          <h5>Payments Detail</h5>
-        </div>
-        <PaymentDetail report_PO={this.state.report_PO} />
-        <ButtonFooter
-          orderId={this.state.orderId}
-          clickSubmit={this.state.clickSubmit}
-        />
-      </form>
-    );
+          <div className="center">
+            <h5>Item Detail</h5>
+          </div>
+          <DetailItem report_PO={this.state.report_PO} />
+          <hr />
+          <div className="center">
+            <h5>Payments Detail</h5>
+          </div>
+          <PaymentDetail report_PO={this.state.report_PO} />
+          <ButtonFooter
+            orderId={this.state.orderId}
+            clickSubmit={this.state.clickSubmit}
+          />
+        </form>
+      );
+    } else {
+      return <div />;
+    }
   }
 
   render() {
@@ -96,17 +108,6 @@ class ReportPOView extends Component {
 
 function validate(values) {
   const errors = {};
-  if (!values["groupCode"]) {
-    errors["groupCode"] = "Require a value";
-  }
-
-  if (!values["guideName"]) {
-    errors["guideName"] = "Require a value";
-  }
-
-  if (!values["orgName"]) {
-    errors["orgName"] = "Require a value";
-  }
 
   if (!values["orgCom"]) {
     errors["orgCom"] = "Require a value";
@@ -118,33 +119,26 @@ function validate(values) {
     }
   }
 
-  // if (!values["sellerName"]) {
-  //   errors["sellerName"] = "Require a value";
-  // }
-
-  if (values["sellerCom"] && isNaN(values["sellerCom"])) {
-    errors["sellerCom"] = "Require a number only";
-  } else if (values["sellerCom"] < 0 || values["sellerCom"] > 100) {
-    errors["sellerCom"] = "0% - 100%";
-  }
-
-  if (!values["discount"] && values["discount"] !== 0) {
-    errors["discount"] = "Require a value";
-  }
-
-  if (values["cash"] < 0) {
-    errors["cash"] = "NOT SUPPORT NEGATIVE CASH";
-  }
-
-  if (values["changecash"] < 0) {
-    errors["changecash"] = "NOT SUPPORT NEGATIVE CHANGE CASH";
+  if (values["seller_select"] && !values["sellerCom"]) {
+    errors["sellerCom"] = "Require a value";
+  } else if (values["seller_select"]) {
+    if (values["sellerCom"] && isNaN(values["sellerCom"])) {
+      errors["sellerCom"] = "Require a number only";
+    } else if (values["sellerCom"] < 0 || values["sellerCom"] > 100) {
+      errors["sellerCom"] = "0% - 100%";
+    }
   }
 
   return errors;
 }
 
-function mapStateToProps({ reports_po, form: { report_po_edit } }) {
-  return { reports_po, report_po_edit };
+function mapStateToProps({
+  reports_po,
+  form: { report_po_edit },
+  groups,
+  sellers
+}) {
+  return { reports_po, report_po_edit, groups, sellers };
 }
 
 export default reduxForm({
@@ -153,6 +147,6 @@ export default reduxForm({
 })(
   connect(
     mapStateToProps,
-    { update_ReportPO }
+    { update_ReportPO, fetch_Group, fetch_Seller }
   )(withRouter(ReportPOView))
 );

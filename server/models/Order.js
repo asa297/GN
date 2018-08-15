@@ -3,6 +3,9 @@ require("mongoose-double")(mongoose);
 const SchemaTypes = mongoose.Schema.Types;
 const { Schema } = mongoose;
 const itemListSchema = require("./Item");
+const groupSchema = require("./Group");
+const sellerSchema = require("./Seller");
+const orgSchema = require("./Org");
 
 // const new_itemListSchema = new Schema(itemListSchema);
 
@@ -10,20 +13,26 @@ new Schema(itemListSchema).virtual("countQty");
 
 const OrderSchema = new Schema({
   orderId: Number,
-  groupId: { type: Schema.Types.ObjectId, ref: "groups" },
-  groupCode: String,
-  guideName: String,
-  orgId: { type: Schema.Types.ObjectId, ref: "organizations" },
-  orgName: String,
-  orgTypeId: Number,
-  orgTypeName: String,
-  orgCode: String,
-  orgCom: Number,
-  sellerId: { type: Schema.Types.ObjectId, ref: "sellers" },
-  sellerName: String,
-  sellerCode: String,
-  sellerCom: Number,
-  sellerRemarks: String,
+  group: groupSchema,
+  // groupId: { type: Schema.Types.ObjectId, ref: "groups" },
+  // groupCode: String,
+  // groupStickerNumber: { type: String, default: "" },
+  // groupRemarks: String,
+  // guideName: String,
+  // orgId: { type: Schema.Types.ObjectId, ref: "organizations" },
+  // orgName: String,
+  // orgTypeId: Number,
+  // orgTypeName: String,
+  // orgCode: String,
+  // orgCom: Number,
+  org: orgSchema,
+  seller: sellerSchema,
+
+  // sellerId: { type: Schema.Types.ObjectId, ref: "sellers" },
+  // sellerName: String,
+  // sellerCode: String,
+  // sellerCom: Number,
+  // sellerRemarks: String,
   itemList: [itemListSchema],
   total: SchemaTypes.Double,
   discount: { type: Number, default: 0 },
