@@ -10,10 +10,10 @@ class Header extends Component {
     this.state = {};
   }
   componentDidMount() {
-    const { orderId, RecordDate } = this.props.print_value;
+    const { orderId, RecordDate, RecordNameBy } = this.props.print_value;
     const { copy } = this.props;
 
-    this.setState({ orderId, copy, RecordDate });
+    this.setState({ orderId, copy, RecordDate, RecordNameBy });
   }
 
   render() {
@@ -23,7 +23,7 @@ class Header extends Component {
           <img
             src={logo}
             alt={"logo"}
-            style={{ width: "150px", height: "75px" }}
+            style={{ width: "150px", height: "100px" }}
           />
         </div>
         <div style={{ width: "65%" }}>
@@ -46,7 +46,21 @@ class Header extends Component {
                 {new Date(this.state.RecordDate).toLocaleDateString()}
               </div>
             </div>
-            <div>Pattaya, Thailand</div>
+            <div
+              style={{
+                display: "flex ",
+                justifyContent: "space-between",
+                margin: "0px"
+              }}
+            >
+              Pattaya, Thailand
+              <div>
+                <label>Recipient</label> :&nbsp;
+                {this.state.RecordNameBy}
+              </div>
+            </div>
+
+            {/* <div>Pattaya, Thailand</div> */}
           </div>
         </div>
       </div>

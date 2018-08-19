@@ -33,5 +33,11 @@ module.exports = io => {
       console.log("openpo");
       io.to(parserCookie["session.sig"]).emit("openpo", data);
     });
+
+    client.on("submitpo", function(data) {
+      console.log("submitpo");
+      io.to(parserCookie["session.sig"]).emit("submitpo", data);
+    });
+
   });
 };

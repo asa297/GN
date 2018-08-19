@@ -45,17 +45,30 @@ class CustomerDisplay extends Component {
     });
 
     socket.on("dc", data => {
-      this.setState({ discount: data });
+      const showitem = `Your Discount`;
+      const showprice = `-${this.state.subtotal * (data / 100)}`;
+      const status = 2;
+
+      this.setState({ showitem, showprice, discount: data, status });
       this.recalculate();
     });
 
     socket.on("credit", data => {
-      this.setState({ credit: data });
+      const showitem = `Your Credit`;
+      const showprice = `-${data}`;
+      const status = 2;
+
+      this.setState({ showitem, showprice, credit: data, status });
       this.recalculate();
     });
 
     socket.on("creditcharge", data => {
-      this.setState({ creditcharge: data });
+      const showitem = `Your Credit Charge`;
+      const showprice = `${this.state.credit * (data / 100)}`;
+      const status = 1;
+
+      this.setState({ showitem, showprice, creditcharge: data, status });
+
       this.recalculate();
     });
 
@@ -78,6 +91,24 @@ class CustomerDisplay extends Component {
         showprice: "",
         status: -1,
         grandtotal: 0,
+        subtotal: 0,
+        discount: 0,
+        credit: 0,
+        creditcharge: 0
+      });
+    });
+
+    socket.on("submitpo", data => {
+      const showitem = `Change`;
+      const showprice = `${data - this.state.grandtotal}`;
+      const grandtotal = data - this.state.grandtotal;
+      const status = 1;
+
+      this.setState({
+        showitem,
+        showprice,
+        status,
+        grandtotal,
         subtotal: 0,
         discount: 0,
         credit: 0,

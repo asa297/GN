@@ -7,6 +7,7 @@ import { Link, withRouter } from "react-router-dom";
 import Report_CSS from "../../../Style/CSS/Report_PO_CSS.css";
 import { update_ReportPO, fetch_Seller, fetch_Group } from "../../../actions";
 
+import Preloader from "../../utils/Preloader";
 import Header from "./ReportPOView/Header";
 import GroupDetail from "./ReportPOView/GroupDetail";
 import SellerDetail from "./ReportPOView/SellerDetail";
@@ -93,7 +94,7 @@ class ReportPOView extends Component {
         </form>
       );
     } else {
-      return <div />;
+      return <Preloader />;
     }
   }
 

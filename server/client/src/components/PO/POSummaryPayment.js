@@ -51,7 +51,7 @@ class POSummaryPayment extends Component {
       let resultGrandTotal =
         total - resultDiscount - credit + resultCreditCharge;
 
-      this.props.onDataGrandTotal(resultGrandTotal);
+      // this.props.onDataGrandTotal(resultGrandTotal);
       this.setState({ resultGrandTotal });
 
       // this.resultGrandTotal();
