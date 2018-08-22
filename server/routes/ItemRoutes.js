@@ -5,7 +5,7 @@ const requireLogin = require("../middlewares/requireLogin");
 // const requirePriorityLevel1_Permission = require("../middlewares/requirePriorityLevel1_Permission");
 
 module.exports = app => {
-  app.post("/api/item", async (req, res) => {
+  app.post("/api/item", requireLogin, async (req, res) => {
     const {
       item_code,
       item_name,
@@ -53,13 +53,13 @@ module.exports = app => {
     res.send({});
   });
 
-  app.get("/api/item", async (req, res) => {
+  app.get("/api/item", requireLogin, async (req, res) => {
     const item = await itemModel.find({});
 
     res.send(item);
   });
 
-  app.post("/api/item/edit/:id", async (req, res) => {
+  app.post("/api/item/edit/:id", requireLogin, async (req, res) => {
     const {
       item_code,
       item_name,
@@ -123,14 +123,14 @@ module.exports = app => {
     res.status(200).send();
   });
 
-  app.delete("/api/item/:id", async (req, res) => {
+  app.delete("/api/item/:id", requireLogin, async (req, res) => {
     await itemModel.remove({ _id: req.params.id });
     const item = await itemModel.find({});
 
     res.send(item);
   });
 
-  app.get("/api/item/:item_code", async (req, res) => {
+  app.get("/api/item/:item_code", requireLogin, async (req, res) => {
     const item = await itemModel.findOne({ item_code: req.params.item_code });
 
     res.send(item);

@@ -201,6 +201,7 @@ class POItemOrder extends Component {
             <th>ชื่อสินค้า</th>
             <th>จำนวนสินค้า</th>
             <th>ราคาต่อหน่วย</th>
+            <th>รวมราคา</th>
           </tr>
         </thead>
         <tbody>
@@ -240,6 +241,7 @@ class POItemOrder extends Component {
                   </th>
                   <th>{countQty}</th>
                   <th>{numeral(item_price).format("0,0.00")}</th>
+                  <th>{numeral(item_price * countQty).format("0,0.00")}</th>
                 </tr>
               );
             }
@@ -288,6 +290,12 @@ class POItemOrder extends Component {
         <hr />
         <div className={PO_CSS.overflow_table}>
           {this.state.loading ? this.loading() : this.renderTableList()}
+        </div>
+        <div className="right">
+          <h4>
+            Total Amount : {numeral(this.props.subtotal || 0).format("0,0.00")}
+            &nbsp;Baht
+          </h4>
         </div>
       </div>
     );

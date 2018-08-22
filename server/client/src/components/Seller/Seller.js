@@ -58,13 +58,15 @@ class Seller extends Component {
           <div style={{ width: "60%" }}>
             <h5 style={{ margin: "0px" }}>
               Seller List (พนักงานขาย)
-              <Link
-                to="/Seller/new"
-                className="btn-small blue"
-                style={{ marginLeft: "20px" }}
-              >
-                <i className="material-icons">add</i>
-              </Link>
+              {this.props.auth.priority === 1 ? (
+                <Link
+                  to="/Seller/new"
+                  className="btn-small blue"
+                  style={{ marginLeft: "20px" }}
+                >
+                  <i className="material-icons">add</i>
+                </Link>
+              ) : null}
             </h5>
           </div>
           <div style={{ width: "40%", display: "flex", alignItems: "center" }}>
@@ -134,8 +136,8 @@ class Seller extends Component {
   }
 }
 
-function mapStateToProps({ sellers }) {
-  return { sellers };
+function mapStateToProps({ sellers, auth }) {
+  return { sellers, auth };
 }
 
 export default connect(

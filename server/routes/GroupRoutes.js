@@ -27,7 +27,7 @@ module.exports = app => {
     res.send({});
   });
 
-  app.post("/api/group/edit/:id", async (req, res) => {
+  app.post("/api/group/edit/:id", requireLogin, async (req, res) => {
     await GroupModel.updateOne(
       {
         _id: req.params.id
@@ -75,7 +75,7 @@ module.exports = app => {
     res.send(group_form);
   });
 
-  app.delete("/api/group/:id", async (req, res) => {
+  app.delete("/api/group/:id", requireLogin, async (req, res) => {
     await GroupModel.remove({ _id: req.params.id });
     const group_form = await GroupModel.find({});
 

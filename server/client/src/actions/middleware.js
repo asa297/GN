@@ -35,7 +35,7 @@ export function validateOrder(formvalues) {
         grandtotal = grandtotal - resultDiscount;
       }
       if (credit && resultCreditCharge) {
-        grandtotal = grandtotal - credit + resultCreditCharge;
+        grandtotal = grandtotal - credit;
       }
     }
 

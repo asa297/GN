@@ -63,13 +63,15 @@ class Item extends Component {
           <div style={{ width: "60%" }}>
             <h5 style={{ margin: "0px" }}>
               Product List (ผลิตภัณฑ์)
-              <Link
-                to="/Item/new"
-                className="btn-small blue"
-                style={{ marginLeft: "20px" }}
-              >
-                <i className="material-icons">add</i>
-              </Link>
+              {this.props.auth.priority === 1 ? (
+                <Link
+                  to="/Item/new"
+                  className="btn-small blue"
+                  style={{ marginLeft: "20px" }}
+                >
+                  <i className="material-icons">add</i>
+                </Link>
+              ) : null}
             </h5>
           </div>
           <div style={{ width: "40%", display: "flex", alignItems: "center" }}>
@@ -140,8 +142,8 @@ class Item extends Component {
   }
 }
 
-function mapStateToProps({ orgs }) {
-  return { orgs };
+function mapStateToProps({ orgs, auth }) {
+  return { orgs, auth };
 }
 
 export default connect(

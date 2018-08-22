@@ -2,7 +2,6 @@ const _ = require("lodash");
 const mongoose = require("mongoose");
 const moment = require("moment");
 const itemElementsModel = mongoose.model("ItemElements");
-const orderModel = mongoose.model("orders");
 const requireLogin = require("../middlewares/requireLogin");
 const CreateDailyInventoryReport = require("../middlewares/CreateDailyInventoryReport");
 // const requirePriorityLevel1_Permission = require("../middlewares/requirePriorityLevel1_Permission");

@@ -24,7 +24,7 @@ module.exports = app => {
     res.send(inbound_seller);
   });
 
-  app.post("/api/seller/edit/:id", async (req, res) => {
+  app.post("/api/seller/edit/:id", requireLogin, async (req, res) => {
     await SellerModel.updateOne(
       {
         _id: req.params.id

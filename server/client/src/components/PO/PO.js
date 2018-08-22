@@ -24,6 +24,7 @@ import io from "socket.io-client";
 
 let grand_total;
 let total_NoCredit;
+let _total;
 
 class PO extends Component {
   constructor() {
@@ -58,21 +59,21 @@ class PO extends Component {
     if (inbound_po.values) {
       let { total, discount, credit, credit_charge } = inbound_po.values;
       const DC = parseInt(discount, 10);
-      const credit_charge_temp = parseInt(credit_charge, 10);
+      // const credit_charge_temp = parseInt(credit_charge, 10);
 
       let resultDiscount =
         DC > 0 && DC <= 100 ? (resultDiscount = total * (DC / 100)) : 0;
       credit = credit ? parseInt(credit, 10) : 0;
-      let resultCreditCharge =
-        credit_charge_temp > 0 && credit_charge_temp <= 100
-          ? credit * (credit_charge_temp / 100)
-          : 0;
+      // let resultCreditCharge =
+      //   credit_charge_temp > 0 && credit_charge_temp <= 100
+      //     ? credit * (credit_charge_temp / 100)
+      //     : 0;
 
       let totalNoCredit = total - resultDiscount;
 
-      let resultGrandTotal =
-        total - resultDiscount - credit + resultCreditCharge;
+      let resultGrandTotal = total - resultDiscount - credit;
 
+      _total = total;
       total_NoCredit = totalNoCredit;
       grand_total = resultGrandTotal;
     }
@@ -149,7 +150,7 @@ class PO extends Component {
           </div>
         </div>
         <Collapsible trigger={this.headerCollapseItem("Section 2 : ส่วนที่ 2")}>
-          <POItemOrder />
+          <POItemOrder subtotal={_total} />
         </Collapsible>
 
         <Collapsible
@@ -202,7 +203,7 @@ function validate(values) {
     if (values["credit"] < 0) {
       errors["credit"] = "NOT SUPPORT NEGATIVE CREDIT";
     } else if (values["credit"] > total_NoCredit) {
-      errors["credit"] = "CREDIT CAN'T MORE THAN GRAND TOTAL";
+      errors["credit"] = "CREDIT CAN'T MORE THAN SUBTOTAL AFTER DISCOUNT";
     }
   }
 

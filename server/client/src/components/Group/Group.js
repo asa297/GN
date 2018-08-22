@@ -64,13 +64,15 @@ class Group extends Component {
           <div style={{ width: "60%" }}>
             <h5 style={{ margin: "0px" }}>
               Group List (รายการกรุ๊ปทัวร์)
-              <Link
-                to="/Group/new"
-                className="btn-small blue"
-                style={{ marginLeft: "20px" }}
-              >
-                <i className="material-icons">add</i>
-              </Link>
+              {this.props.auth.priority !== 3 ? (
+                <Link
+                  to="/Group/new"
+                  className="btn-small blue"
+                  style={{ marginLeft: "20px" }}
+                >
+                  <i className="material-icons">add</i>
+                </Link>
+              ) : null}
             </h5>
           </div>
           <div style={{ width: "40%", display: "flex", alignItems: "center" }}>
@@ -140,8 +142,8 @@ class Group extends Component {
   }
 }
 
-function mapStateToProps({ orgs }) {
-  return { orgs };
+function mapStateToProps({ orgs, auth }) {
+  return { orgs, auth };
 }
 
 export default connect(

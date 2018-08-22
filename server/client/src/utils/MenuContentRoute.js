@@ -342,6 +342,316 @@ export default auth => {
             />
           </div>
         );
+
+      case 2:
+        return (
+          <div>
+            <Route exact path="/openpo" component={CustomerDisplay} />
+            <Route
+              exact
+              path="/report/reportdialycom/view"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDailyCommissionGroupView />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/report/reportdialycom"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDailyCommissionGroup />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/report/reportdialycashbalance/view"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDailyCashBalanceView />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/report/reportdialycashbalance"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDailyCashBalance />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/report/reportdailyinv/view"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDailyINVView />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/report/reportdailyinv"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDailyINV />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/report/reportoutboundinv/view/edit"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportOutBoundInventoryView />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/report/reportoutboundinv"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportOutBoundInventory />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/report/reportinboundinv/view/edit"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportInBoundInventoryView />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/report/reportinboundinv"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportInBoundInventory />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/report/reportinv/view"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportInventoryView />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/report/reportinv"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportInventory />
+                </div>
+              )}
+            />
+
+            <Route
+              exact
+              path="/report/reportpo"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportPO />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/report"
+              render={() => (
+                <div>
+                  <Header />
+                  <Report />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/inboundpo"
+              render={() => (
+                <div>
+                  <Header />
+                  <InboundPO />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/Item/view"
+              render={() => (
+                <div>
+                  <Header />
+                  <ItemView />
+                </div>
+              )}
+            />
+
+            <Route
+              exact
+              path="/Item"
+              render={() => (
+                <div>
+                  <Header />
+                  <Item />
+                </div>
+              )}
+            />
+
+            <Route
+              exact
+              path="/Seller"
+              render={() => (
+                <div>
+                  <Header />
+                  <Seller />
+                </div>
+              )}
+            />
+
+            <Route
+              exact
+              path="/Group/new"
+              render={() => (
+                <div>
+                  <Header />
+                  <GroupNew />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/Group"
+              render={() => (
+                <div>
+                  <Header />
+                  <Group />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/home"
+              render={() => (
+                <div>
+                  <Header />
+                  <Home />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <div>
+                  <Header />
+                  <DefaultHome />
+                </div>
+              )}
+            />
+          </div>
+        );
+
+      case 3:
+        return (
+          <div>
+            <Route
+              exact
+              path="/inboundpo"
+              render={() => (
+                <div>
+                  <Header />
+                  <InboundPO />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/Item/view"
+              render={() => (
+                <div>
+                  <Header />
+                  <ItemView />
+                </div>
+              )}
+            />
+
+            <Route
+              exact
+              path="/Item"
+              render={() => (
+                <div>
+                  <Header />
+                  <Item />
+                </div>
+              )}
+            />
+
+            <Route
+              exact
+              path="/Seller"
+              render={() => (
+                <div>
+                  <Header />
+                  <Seller />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/Group"
+              render={() => (
+                <div>
+                  <Header />
+                  <Group />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/home"
+              render={() => (
+                <div>
+                  <Header />
+                  <Home />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <div>
+                  <Header />
+                  <DefaultHome />
+                </div>
+              )}
+            />
+          </div>
+        );
+
       default:
         return (
           <Route

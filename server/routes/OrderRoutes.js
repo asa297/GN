@@ -7,9 +7,10 @@ const groupModel = mongoose.model("groups");
 const sellerModel = mongoose.model("sellers");
 const CreateDailyCashBalanceReport = require("../middlewares/CreateDailyCashBalanceReport");
 const CreateDailyComGroupReport = require("../middlewares/CreateDailyComGroupReport");
+const requireLogin = require("../middlewares/requireLogin");
 
 module.exports = app => {
-  app.post("/api/order", async (req, res) => {
+  app.post("/api/order", requireLogin, async (req, res) => {
     const {
       group_select,
       seller_select,
@@ -102,7 +103,7 @@ module.exports = app => {
     }
   });
 
-  app.get("/api/order", async (req, res) => {
+  app.get("/api/order", requireLogin, async (req, res) => {
     const order = await orderModel.find({
       RecordDate: {
         $gte: new Date(
@@ -116,7 +117,7 @@ module.exports = app => {
     res.send(order);
   });
 
-  app.post("/api/order/filter", async (req, res) => {
+  app.post("/api/order/filter", requireLogin, async (req, res) => {
     const { start_date, end_date } = req.body;
 
     const order = await orderModel.find({
@@ -129,7 +130,7 @@ module.exports = app => {
     res.send(order);
   });
 
-  app.post("/api/order/edit/:id", async (req, res) => {
+  app.post("/api/order/edit/:id", requireLogin, async (req, res) => {
     const { group_select, orgCom, seller_select, sellerCom } = req.body;
 
     await orderModel
@@ -173,38 +174,42 @@ module.exports = app => {
     res.send({});
   });
 
-  app.delete("/api/order/:id", async (req, res) => {
+  app.delete("/api/order/:id", requireLogin, async (req, res) => {
     await orderModel.remove({ orderId: req.params.id });
 
     res.send({});
   });
 
-  app.get("/api/order/:orderId", async (req, res) => {
+  app.get("/api/order/:orderId", requireLogin, async (req, res) => {
     const item = await orderModel.findOne({ orderId: req.params.orderId });
 
     res.send(item);
   });
 
-  app.post("/api/order/daily/cashbalance/filter", async (req, res) => {
-    const { select_date } = req.body;
+  app.post(
+    "/api/order/daily/cashbalance/filter",
+    requireLogin,
+    async (req, res) => {
+      const { select_date } = req.body;
 
-    const order = await orderModel.find({
-      RecordDate: {
-        $gte: new Date(moment(select_date).format("YYYY-MM-DD HH:mm:ss")),
-        $lt: new Date(
-          moment(select_date)
-            .add(1, "days")
-            .format("YYYY-MM-DD HH:mm:ss")
-        )
-      }
-    });
+      const order = await orderModel.find({
+        RecordDate: {
+          $gte: new Date(moment(select_date).format("YYYY-MM-DD HH:mm:ss")),
+          $lt: new Date(
+            moment(select_date)
+              .add(1, "days")
+              .format("YYYY-MM-DD HH:mm:ss")
+          )
+        }
+      });
 
-    const result = await CreateDailyCashBalanceReport(order);
+      const result = await CreateDailyCashBalanceReport(order);
 
-    res.send(result);
-  });
+      res.send(result);
+    }
+  );
 
-  app.post("/api/order/daily/com/filter", async (req, res) => {
+  app.post("/api/order/daily/com/filter", requireLogin, async (req, res) => {
     const { select_date } = req.body;
 
     const order = await orderModel.find({

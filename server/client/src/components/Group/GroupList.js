@@ -105,19 +105,25 @@ class GroupList extends Component {
                 <span className="card-title">
                   {groupCode} ({guideName})
                 </span>
-                <button
-                  className="btn-floating halfway-fab blue lighten-3"
-                  onClick={() => this.onView(_id)}
-                >
-                  <i className="material-icons">info</i>
-                </button>
+                {this.props.auth.priority === 1 ? (
+                  <button
+                    className="btn-floating halfway-fab blue lighten-3"
+                    onClick={() => this.onView(_id)}
+                  >
+                    <i className="material-icons">info</i>
+                  </button>
+                ) : null}
               </div>
               <div className="card-content">
                 <div>
-                  <b>Last Mofidy By :</b>&nbsp;<i>{LastModifyByName}</i>
+                  <b>Last Mofidy By :</b>
+                  &nbsp;
+                  <i>{LastModifyByName}</i>
                 </div>
                 <div>
-                  <b>Last Modify At :</b>&nbsp;<i>
+                  <b>Last Modify At :</b>
+                  &nbsp;
+                  <i>
                     {new Date(LastModifyDate).toLocaleDateString()} &nbsp;
                     {new Date(LastModifyDate).toLocaleTimeString()}
                   </i>
