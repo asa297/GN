@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import _ from "lodash";
 import { reduxForm, Field, reset } from "redux-form";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 
 import ItemField from "./ItemField";
 import FIELDS from "./formFields";
@@ -10,37 +9,9 @@ import itemType_list from "../../utils/ItemTypeLIst";
 
 import Select from "react-select";
 
-let orgChinaList;
-
-const required = value => (value ? undefined : "Required");
-const isNumber = value =>
-  value && isNaN(Number(value)) ? "Must be a number" : undefined;
-const ComValidate = value =>
-  value < 0 || value > 100 ? "0 - 100%" : undefined;
-
 class ItemForm extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      itemTypeId: 1
-    };
-  }
-
   componentDidMount() {
     this.props.dispatch(reset("item_form"));
-
-    orgChinaList = _.filter(this.props.orgs, ({ _id, orgTypeId, orgName }) => {
-      return orgTypeId === 2;
-    });
-  }
-
-  componentWillReceiveProps({ form: { item_form } }) {
-    if (item_form.values && item_form.values.item_type) {
-      this.setState({
-        itemTypeId: item_form.values.item_type.itemTypeId
-      });
-    }
   }
 
   renderField() {
@@ -81,30 +52,12 @@ class ItemForm extends Component {
     );
   }
 
-  renderFieldCommission() {
-    return _.map(orgChinaList, ({ _id, orgName }) => {
-      return (
-        <div className="container" key={_id}>
-          <b>{orgName}</b>
-          <Field
-            key={_id}
-            name={_id}
-            component={ItemField}
-            placeholder={orgName}
-            validate={[required, isNumber, ComValidate]}
-          />
-        </div>
-      );
-    });
-  }
-
   render() {
     return (
       <div className="container">
         <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
           {this.renderField()}
           {this.renderFieldItemType()}
-          {this.state.itemTypeId === 2 ? this.renderFieldCommission() : null}
 
           <Link to="/Item" className="red btn-flat white-text">
             Cancal
@@ -158,12 +111,8 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ orgs, form }) {
-  return { orgs, form };
-}
-
 export default reduxForm({
   validate,
   form: "item_form",
   destroyOnUnmount: false
-})(connect(mapStateToProps)(ItemForm));
+})(ItemForm);

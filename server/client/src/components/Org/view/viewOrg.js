@@ -41,8 +41,13 @@ class viewOrg extends Component {
         />
         <ViewComponent
           icon="attach_money"
-          value={this.state.org_select.orgCom + "%"}
-          title="Organization Commission (ค่าคอมมิชชั่น)"
+          value={this.state.org_select.orgComA + "%"}
+          title="Organization Comission A (ค่าคอมมิชชั่นสินค้า A)"
+        />
+        <ViewComponent
+          icon="attach_money"
+          value={this.state.org_select.orgComB + "%"}
+          title="Organization Comission B (ค่าคอมมิชชั่นสินค้า B)"
         />
         <ViewComponent
           icon="history"

@@ -15,8 +15,8 @@ module.exports = app => {
       item_price,
       item_qty,
       item_remarks,
-      item_type: { itemTypeId, itemTypeName },
-      orgChinaList
+      item_type: { itemTypeId, itemTypeName }
+      // orgChinaList
     } = req.body;
 
     const item = await new itemModel({
@@ -30,18 +30,18 @@ module.exports = app => {
       item_remarks: item_remarks ? item_remarks : "",
       itemTypeId,
       itemTypeName,
-      orgChinaList: orgChinaList
-        ? orgChinaList.map(
-            ({ _id, orgTypeId, orgTypeName, orgName, orgCode, orgCom_B }) => ({
-              _id,
-              orgTypeId,
-              orgTypeName,
-              orgName,
-              orgCode,
-              orgCom_B
-            })
-          )
-        : [],
+      // orgChinaList: orgChinaList
+      //   ? orgChinaList.map(
+      //       ({ _id, orgTypeId, orgTypeName, orgName, orgCode, orgCom_B }) => ({
+      //         _id,
+      //         orgTypeId,
+      //         orgTypeName,
+      //         orgName,
+      //         orgCode,
+      //         orgCom_B
+      //       })
+      //     )
+      //   : [],
       RecordIdBy: req.user._id,
       RecordNameBy: req.user.firstName,
       RecordDate: Date.now(),
@@ -69,8 +69,8 @@ module.exports = app => {
       item_price,
       item_qty,
       item_remarks,
-      item_type: { itemTypeId, itemTypeName },
-      orgChinaList
+      item_type: { itemTypeId, itemTypeName }
+      // orgChinaList
     } = req.body;
 
     await itemModel
@@ -90,25 +90,25 @@ module.exports = app => {
             item_remarks: item_remarks ? item_remarks : "",
             itemTypeId,
             itemTypeName,
-            orgChinaList: orgChinaList
-              ? orgChinaList.map(
-                  ({
-                    _id,
-                    orgTypeId,
-                    orgTypeName,
-                    orgName,
-                    orgCode,
-                    orgCom_B
-                  }) => ({
-                    _id,
-                    orgTypeId,
-                    orgTypeName,
-                    orgName,
-                    orgCode,
-                    orgCom_B
-                  })
-                )
-              : [],
+            // orgChinaList: orgChinaList
+            //   ? orgChinaList.map(
+            //       ({
+            //         _id,
+            //         orgTypeId,
+            //         orgTypeName,
+            //         orgName,
+            //         orgCode,
+            //         orgCom_B
+            //       }) => ({
+            //         _id,
+            //         orgTypeId,
+            //         orgTypeName,
+            //         orgName,
+            //         orgCode,
+            //         orgCom_B
+            //       })
+            //     )
+            //   : [],
             // RecordIdBy: req.user._id,
             // RecordNameBy: req.user.firstName,
             // RecordDate: Date.now(),

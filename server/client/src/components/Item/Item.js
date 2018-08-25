@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetch_Item, delete_Item, fetch_Org } from "../../actions";
+import { fetch_Item, delete_Item } from "../../actions";
 import ItemList from "../Item/ItemList";
 import ItemReview from "../Item/ItemReview";
 import ItemEdit from "../Item/ItemEdit";
@@ -22,11 +22,10 @@ class Item extends Component {
 
   componentDidMount() {
     this.props.fetch_Item();
-    this.props.fetch_Org();
   }
 
-  componentWillReceiveProps({ orgs }) {
-    if (orgs) {
+  componentWillReceiveProps({ items }) {
+    if (items) {
       this.setState({ ready: true });
     }
   }
@@ -142,15 +141,14 @@ class Item extends Component {
   }
 }
 
-function mapStateToProps({ orgs, auth }) {
-  return { orgs, auth };
+function mapStateToProps({ items, auth }) {
+  return { items, auth };
 }
 
 export default connect(
   mapStateToProps,
   {
     fetch_Item,
-    fetch_Org,
     delete_Item
   }
 )(Item);

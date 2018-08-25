@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const orgChinaListSchema = require("./ItemB");
+// const orgChinaListSchema = require("./ItemB");
 
 const itemSchema = new Schema({
   item_code: String,
@@ -13,7 +13,7 @@ const itemSchema = new Schema({
   item_remarks: String,
   itemTypeId: Number,
   itemTypeName: String,
-  orgChinaList: [orgChinaListSchema],
+  // orgChinaList: [orgChinaListSchema],
   RecordIdBy: { type: Schema.Types.ObjectId, ref: "users" },
   RecordNameBy: { type: String, ref: "users" },
   RecordDate: Date,

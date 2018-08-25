@@ -92,15 +92,23 @@ function validate(values) {
   }
 
   _.each(FIELDS, ({ name }) => {
-    if (!values[name]) {
+    if (!values[name] && name !== "org_comB") {
       errors[name] = "Require a value";
     }
 
-    if (values["org_com"] && isNaN(values["org_com"])) {
-      errors["org_com"] = "Require a Number";
+    if (values["org_comA"] && isNaN(values["org_comA"])) {
+      errors["org_comA"] = "Require a Number";
     } else {
-      if (values["org_com"] < 0 || values["org_com"] > 100) {
-        errors["org_com"] = "0% - 100%";
+      if (values["org_comA"] < 0 || values["org_comA"] > 100) {
+        errors["org_comA"] = "0% - 100%";
+      }
+    }
+
+    if (values["org_comB"] && isNaN(values["org_comB"])) {
+      errors["org_comB"] = "Require a Number";
+    } else {
+      if (values["org_comB"] < 0 || values["org_comB"] > 100) {
+        errors["org_comB"] = "0% - 100%";
       }
     }
   });

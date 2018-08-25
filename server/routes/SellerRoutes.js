@@ -4,6 +4,7 @@ const requireLogin = require("../middlewares/requireLogin");
 
 module.exports = app => {
   app.post("/api/seller", requireLogin, async (req, res) => {
+    // 1
     const group = await SellerModel({
       sellerName: req.body.seller_name,
       sellerCode: req.body.seller_code,
@@ -20,11 +21,47 @@ module.exports = app => {
   });
 
   app.get("/api/seller", requireLogin, async (req, res) => {
-    const inbound_seller = await SellerModel.find({});
-    res.send(inbound_seller);
+    const { priority } = req.user;
+
+    let seller;
+
+    switch (priority) {
+      case 1:
+        seller = await SellerModel.find({});
+        break;
+      case 2:
+        seller = await SellerModel.find(
+          {},
+          {
+            sellerCode: 1,
+            sellerName: 1,
+            sellerCom: 1,
+            sellerRemarks: 1,
+            LastModifyByName: 1,
+            LastModifyDate: 1
+          }
+        );
+        break;
+      case 3:
+        seller = await SellerModel.find(
+          {},
+          {
+            sellerCode: 1,
+            sellerName: 1,
+            sellerRemarks: 1,
+            LastModifyByName: 1,
+            LastModifyDate: 1
+          }
+        );
+        break;
+      default:
+        break;
+    }
+    res.send(seller);
   });
 
   app.post("/api/seller/edit/:id", requireLogin, async (req, res) => {
+    // 1
     await SellerModel.updateOne(
       {
         _id: req.params.id
@@ -48,6 +85,7 @@ module.exports = app => {
   });
 
   app.delete("/api/seller/:id", async (req, res) => {
+    //1
     await SellerModel.remove({ _id: req.params.id });
     const inbound_seller = await SellerModel.find({});
     res.send(inbound_seller);

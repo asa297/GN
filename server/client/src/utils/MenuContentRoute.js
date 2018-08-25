@@ -467,7 +467,16 @@ export default auth => {
                 </div>
               )}
             />
-
+            <Route
+              exact
+              path="/report/reportpo/view"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportPOView />
+                </div>
+              )}
+            />
             <Route
               exact
               path="/report/reportpo"

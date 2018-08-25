@@ -99,14 +99,16 @@ class ReportPOList extends Component {
             width: 50,
             Cell: row => (
               <div className={Report_PO_CSS.viewReportPO}>
-                <Link
-                  to={{
-                    pathname: "/report/reportpo/view",
-                    state: { orderId: row.value }
-                  }}
-                >
-                  <i className="tiny material-icons">content_paste</i>
-                </Link>
+                {this.props.auth.priority !== 3 ? (
+                  <Link
+                    to={{
+                      pathname: "/report/reportpo/view",
+                      state: { orderId: row.value }
+                    }}
+                  >
+                    <i className="tiny material-icons">content_paste</i>
+                  </Link>
+                ) : null}
               </div>
             )
           },
@@ -223,8 +225,8 @@ class ReportPOList extends Component {
   }
 }
 
-function mapStateToProps({ reports_po }) {
-  return { reports_po };
+function mapStateToProps({ reports_po, auth }) {
+  return { reports_po, auth };
 }
 
 export default connect(

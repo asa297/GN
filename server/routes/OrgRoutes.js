@@ -9,7 +9,8 @@ module.exports = app => {
       orgTypeId: req.body.org_type.org_typeId,
       orgTypeName: req.body.org_type.org_typeName,
       orgName: req.body.org_name,
-      orgCom: req.body.org_com,
+      orgComA: req.body.org_comA,
+      orgComB: req.body.org_comB,
       orgCode: req.body.org_code,
       RecordIdBy: req.user._id,
       RecordNameBy: req.user.firstName,
@@ -22,13 +23,24 @@ module.exports = app => {
   });
 
   app.get("/api/org", requireLogin, async (req, res) => {
-    const org_form = await organizationModel.find({});
-
     const { priority } = req.user;
+    // const org_form = await organizationModel.find({});
+    let org_form;
     switch (priority) {
       case 1:
+        org_form = await organizationModel.find({});
+        // org_form = await organizationModel.find({}, { orgName: 1, orgCode: 1 });
         break;
       case 2:
+        org_form = await organizationModel.find({}, { orgName: 1, orgCode: 1 });
+        break;
+      default:
+        const ip =
+          req.headers["x-forwarded-for"] ||
+          req.connection.remoteAddress ||
+          req.socket.remoteAddress ||
+          (req.connection.socket ? req.connection.socket.remoteAddress : null);
+        org_form = `Your Permeission is not valid : The System will record your ip address (${ip})`;
         break;
     }
 

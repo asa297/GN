@@ -10,6 +10,7 @@ const CreateDailyComGroupReport = require("../middlewares/CreateDailyComGroupRep
 const requireLogin = require("../middlewares/requireLogin");
 
 module.exports = app => {
+  // 1,2,3
   app.post("/api/order", requireLogin, async (req, res) => {
     const {
       group_select,
@@ -59,7 +60,8 @@ module.exports = app => {
         orgTypeId: result["group_select"].orgTypeId,
         orgTypeName: result["group_select"].orgTypeName,
         orgCode: result["group_select"].orgCode,
-        orgCom: result["group_select"].orgCom
+        orgComA: result["group_select"].orgComA,
+        orgComB: result["group_select"].orgComB
       },
       //
       seller: {
@@ -71,6 +73,7 @@ module.exports = app => {
           ? result["seller_select"].sellerRemarks
           : ""
       },
+
       //
       itemList,
       total,
@@ -90,7 +93,6 @@ module.exports = app => {
     }).save();
 
     if (order) {
-      // ตัดสต็อกได้แล้วแต่ ขก ไปเพิ่มสินค้าทีหลัง
       _.map(itemList, async ({ _id, countQty }) => {
         await itemModel
           .updateOne({ _id }, { $inc: { item_qty: countQty * -1 } })
@@ -104,6 +106,7 @@ module.exports = app => {
   });
 
   app.get("/api/order", requireLogin, async (req, res) => {
+    // 1,2
     const order = await orderModel.find({
       RecordDate: {
         $gte: new Date(
@@ -118,6 +121,7 @@ module.exports = app => {
   });
 
   app.post("/api/order/filter", requireLogin, async (req, res) => {
+    // 1,2
     const { start_date, end_date } = req.body;
 
     const order = await orderModel.find({
@@ -131,6 +135,7 @@ module.exports = app => {
   });
 
   app.post("/api/order/edit/:id", requireLogin, async (req, res) => {
+    //1
     const { group_select, orgCom, seller_select, sellerCom } = req.body;
 
     await orderModel
@@ -175,12 +180,14 @@ module.exports = app => {
   });
 
   app.delete("/api/order/:id", requireLogin, async (req, res) => {
+    //1
     await orderModel.remove({ orderId: req.params.id });
 
     res.send({});
   });
 
   app.get("/api/order/:orderId", requireLogin, async (req, res) => {
+    //1,2
     const item = await orderModel.findOne({ orderId: req.params.orderId });
 
     res.send(item);
@@ -192,18 +199,38 @@ module.exports = app => {
     async (req, res) => {
       const { select_date } = req.body;
 
-      const order = await orderModel.find({
-        RecordDate: {
-          $gte: new Date(moment(select_date).format("YYYY-MM-DD HH:mm:ss")),
-          $lt: new Date(
-            moment(select_date)
-              .add(1, "days")
-              .format("YYYY-MM-DD HH:mm:ss")
-          )
-        }
-      });
+      const { priority } = req.user;
 
-      const result = await CreateDailyCashBalanceReport(order);
+      let result;
+
+      switch (priority) {
+        case 1:
+        case 2:
+          const order = await orderModel.find({
+            RecordDate: {
+              $gte: new Date(moment(select_date).format("YYYY-MM-DD HH:mm:ss")),
+              $lt: new Date(
+                moment(select_date)
+                  .add(1, "days")
+                  .format("YYYY-MM-DD HH:mm:ss")
+              )
+            }
+          });
+          result = await CreateDailyCashBalanceReport(order);
+          break;
+        default:
+          const ip =
+            req.headers["x-forwarded-for"] ||
+            req.connection.remoteAddress ||
+            req.socket.remoteAddress ||
+            (req.connection.socket
+              ? req.connection.socket.remoteAddress
+              : null);
+          res.status(401).send({
+            error: `Your Permeission is not valid : The System will record your ip address (${ip})`
+          });
+          break;
+      }
 
       res.send(result);
     }
@@ -212,18 +239,37 @@ module.exports = app => {
   app.post("/api/order/daily/com/filter", requireLogin, async (req, res) => {
     const { select_date } = req.body;
 
-    const order = await orderModel.find({
-      RecordDate: {
-        $gte: new Date(moment(select_date).format("YYYY-MM-DD HH:mm:ss")),
-        $lt: new Date(
-          moment(select_date)
-            .add(1, "days")
-            .format("YYYY-MM-DD HH:mm:ss")
-        )
-      }
-    });
+    const { priority } = req.user;
 
-    const result = CreateDailyComGroupReport(order, select_date);
+    let result;
+    switch (priority) {
+      case 1:
+        const order = await orderModel.find({
+          RecordDate: {
+            $gte: new Date(moment(select_date).format("YYYY-MM-DD HH:mm:ss")),
+            $lt: new Date(
+              moment(select_date)
+                .add(1, "days")
+                .format("YYYY-MM-DD HH:mm:ss")
+            )
+          }
+        });
+
+        result = CreateDailyComGroupReport(order, select_date);
+
+        break;
+
+      default:
+        const ip =
+          req.headers["x-forwarded-for"] ||
+          req.connection.remoteAddress ||
+          req.socket.remoteAddress ||
+          (req.connection.socket ? req.connection.socket.remoteAddress : null);
+        res.status(401).send({
+          error: `Your Permeission is not valid : The System will record your ip address (${ip})`
+        });
+        break;
+    }
 
     res.send(result);
   });

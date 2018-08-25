@@ -20,7 +20,15 @@ class GroupDetail extends Component {
       guideName
     } = group;
 
-    const { orgId, orgName, orgTypeId, orgTypeName, orgCode, orgCom } = org;
+    const {
+      orgId,
+      orgName,
+      orgTypeId,
+      orgTypeName,
+      orgCode,
+      orgComA,
+      orgComB
+    } = org;
 
     this.state = {
       groupId,
@@ -33,7 +41,8 @@ class GroupDetail extends Component {
       orgTypeId,
       orgTypeName,
       orgCode,
-      orgCom
+      orgComA,
+      orgComB
     };
   }
 
@@ -118,21 +127,24 @@ class GroupDetail extends Component {
         </div>
         <div style={{ width: "22.5%" }}>
           <Field
-            key={"orgCom"}
+            key={"orgComA"}
             component={ReportPOViewField}
             type="text"
-            label={"orgCom"}
-            name={"orgCom"}
-            valueField={this.state.orgCom}
-            onChange={event => this.setState({ orgCom: event.target.value })}
+            label={"orgComA"}
+            name={"orgComA"}
+            valueField={this.state.orgComA}
+            onChange={event => this.setState({ orgComA: event.target.value })}
           />
         </div>
         <div style={{ width: "22.5%" }}>
-          <label>Org Type Name</label>
-          <input
-            value={this.state.orgTypeName}
-            style={{ marginBottom: "25px" }}
-            disabled
+          <Field
+            key={"orgComB"}
+            component={ReportPOViewField}
+            type="text"
+            label={"orgComB"}
+            name={"orgComB"}
+            valueField={this.state.orgComB}
+            onChange={event => this.setState({ orgComB: event.target.value })}
           />
         </div>
       </div>

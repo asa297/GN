@@ -110,14 +110,20 @@ class ReportPOView extends Component {
 function validate(values) {
   const errors = {};
 
-  if (!values["orgCom"]) {
-    errors["orgCom"] = "Require a value";
+  if (!values["orgComA"]) {
+    errors["orgComA"] = "Require a value";
   } else {
-    if (isNaN(values["orgCom"])) {
-      errors["orgCom"] = "Require a number only";
-    } else if (values["orgCom"] < 0 || values["orgCom"] > 100) {
-      errors["orgCom"] = "0% - 100%";
+    if (isNaN(values["orgComA"])) {
+      errors["orgComA"] = "Require a number only";
+    } else if (values["orgCom"] < 0 || values["orgComA"] > 100) {
+      errors["orgComA"] = "0% - 100%";
     }
+  }
+
+  if (isNaN(values["orgComB"])) {
+    errors["orgComB"] = "Require a number only";
+  } else if (values["orgCom"] < 0 || values["orgComB"] > 100) {
+    errors["orgComB"] = "0% - 100%";
   }
 
   if (values["seller_select"] && !values["sellerCom"]) {

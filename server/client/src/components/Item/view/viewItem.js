@@ -25,12 +25,12 @@ class viewItem extends Component {
       <div>
         <ViewComponent
           icon="business_center"
-          value={this.state.item_select.item_name}
+          value={this.state.item_select.item_code}
           title="Product Barcode (บาร์โค้ดสินค้า)"
         />
         <ViewComponent
           icon="code"
-          value={this.state.item_select.item_code}
+          value={this.state.item_select.item_name}
           title="Product Name (ชื่อสินค้า)"
         />
         <ViewComponent

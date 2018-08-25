@@ -118,12 +118,11 @@ class CustomerDisplay extends Component {
   }
 
   recalculate() {
-    const { subtotal, discount, credit, creditcharge } = this.state;
+    const { subtotal, discount, credit } = this.state;
 
     const resultDiscount = subtotal * (discount / 100);
-    const resultCreditCharge = credit * (creditcharge / 100);
-    const resultGrandTotal =
-      subtotal - resultDiscount - credit + resultCreditCharge;
+
+    const resultGrandTotal = subtotal - resultDiscount - credit;
 
     this.setState({ grandtotal: resultGrandTotal });
   }

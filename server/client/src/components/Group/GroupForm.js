@@ -31,14 +31,9 @@ class GroupForm extends Component {
   renderFieldOrg() {
     const orgOption_list = _.map(
       this.props.orgs,
-      ({ _id, orgName, orgCode, orgCom, orgTypeId, orgTypeName }) => {
+      ({ _id, orgName, orgCode }) => {
         return {
           _id,
-          orgName,
-          orgCode,
-          orgCom,
-          orgTypeId,
-          orgTypeName,
           label: orgName + " (" + orgCode + ")",
           value: orgName + " (" + orgCode + ")"
         };

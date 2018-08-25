@@ -30,23 +30,12 @@ class GroupEdit extends Component {
       this.props.dispatch(change("group_form", name, this.state[key]));
     });
 
+    const { _id, orgName, orgCode } = this.state.org_selected;
     this.props.dispatch(
       change("group_form", "org_option", {
-        _id: this.state.org_selected._id,
-        orgName: this.state.org_selected.orgName,
-        orgCode: this.state.org_selected.orgCode,
-        orgTypeId: this.state.org_selected.orgTypeId,
-        orgTypeName: this.state.org_selected.orgTypeName,
-        label:
-          this.state.org_selected.orgName +
-          " (" +
-          this.state.org_selected.orgCode +
-          ")",
-        value:
-          this.state.org_selected.orgName +
-          " (" +
-          this.state.org_selected.orgCode +
-          ")"
+        _id,
+        label: orgName + " (" + orgCode + ")",
+        value: orgName + " (" + orgCode + ")"
       })
     );
   }
@@ -71,13 +60,9 @@ class GroupEdit extends Component {
   renderFieldOrg() {
     const orgOption_list = _.map(
       this.props.orgs,
-      ({ _id, orgName, orgCode, orgTypeId, orgTypeName }) => {
+      ({ _id, orgName, orgCode }) => {
         return {
           _id,
-          orgName,
-          orgCode,
-          orgTypeId,
-          orgTypeName,
           label: orgName + " (" + orgCode + ")",
           value: orgName + " (" + orgCode + ")"
         };
@@ -87,7 +72,6 @@ class GroupEdit extends Component {
     return (
       <div>
         <label>Organization (บริษัททัวร์)</label>
-
         <Field
           name="org_option"
           component={props => (
@@ -152,7 +136,7 @@ function validate(values) {
     errors["group_stickernumber"] = "Require a number only";
   } else {
     if (values["group_stickernumber"] < 0) {
-      errors["group_stickernumber"] = "NOT SUPPORT NEGATIVE PRICE";
+      errors["group_stickernumber"] = "NOT SUPPORT NEGATIVE STICKER NUMBER";
     }
   }
 
@@ -167,9 +151,4 @@ export default reduxForm({
   validate,
   form: "group_form",
   destroyOnUnmount: false
-})(
-  connect(
-    mapStateToProps,
-    null
-  )(GroupEdit)
-);
+})(connect(mapStateToProps)(GroupEdit));
