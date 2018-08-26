@@ -181,7 +181,7 @@ module.exports = app => {
 
   app.delete("/api/order/:id", requireLogin, async (req, res) => {
     //1
-    await orderModel.remove({ orderId: req.params.id });
+    await orderModel.findOneAndRemove({ orderId: req.params.id });
 
     res.send({});
   });

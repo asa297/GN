@@ -86,7 +86,7 @@ module.exports = app => {
 
   app.delete("/api/seller/:id", async (req, res) => {
     //1
-    await SellerModel.remove({ _id: req.params.id });
+    await SellerModel.findByIdAndRemove(req.params.id);
     const inbound_seller = await SellerModel.find({});
     res.send(inbound_seller);
   });

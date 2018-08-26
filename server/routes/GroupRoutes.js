@@ -170,7 +170,7 @@ module.exports = app => {
 
   app.delete("/api/group/:id", requireLogin, async (req, res) => {
     // 1 , 2
-    await GroupModel.remove({ _id: req.params.id });
+    await GroupModel.findByIdAndRemove(req.params.id);
     const group_form = await GroupModel.find({});
 
     res.send(group_form);

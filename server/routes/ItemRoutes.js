@@ -124,7 +124,7 @@ module.exports = app => {
   });
 
   app.delete("/api/item/:id", requireLogin, async (req, res) => {
-    await itemModel.remove({ _id: req.params.id });
+    await itemModel.findByIdAndRemove(req.params.id);
     const item = await itemModel.find({});
 
     res.send(item);

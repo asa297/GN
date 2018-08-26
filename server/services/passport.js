@@ -28,18 +28,19 @@ passport.use(
 
       if (existingUser) {
         done(null, existingUser);
-      } else {
-        done(null, null);
       }
       // else {
-      //   const user = await new User({
-      //     googleID: profile.id,
-      //     email: profile.emails[0].value,
-      //     firstName: profile.name.givenName,
-      //     lastName: profile.name.familyName
-      //   }).save();
-      //   done(null, user);
+      //   done(null, null);
       // }
+      else {
+        const user = await new User({
+          googleID: profile.id,
+          email: profile.emails[0].value,
+          firstName: profile.name.givenName,
+          lastName: profile.name.familyName
+        }).save();
+        done(null, user);
+      }
     }
   )
 );

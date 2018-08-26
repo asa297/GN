@@ -75,7 +75,8 @@ module.exports = app => {
   });
 
   app.delete("/api/org/:id", requireLogin, async (req, res) => {
-    await organizationModel.remove({ _id: req.params.id });
+    // await organizationModel.remove({ _id: req.params.id });
+    await organizationModel.findByIdAndRemove(req.params.id);
     const org_form = await organizationModel.find({});
 
     res.send(org_form);
