@@ -43,10 +43,10 @@ const OrderSchema = new Schema({
   changecash: SchemaTypes.Double,
   grandtotal: SchemaTypes.Double,
   RecordIdBy: { type: Schema.Types.ObjectId, ref: "users" },
-  RecordNameBy: { type: String, ref: "users" },
+  RecordNameBy: String,
   RecordDate: Date,
   LastModifyById: { type: Schema.Types.ObjectId, ref: "users" },
-  LastModifyByName: { type: String, ref: "users" },
+  LastModifyByName: String,
   LastModifyDate: Date
 });
 
