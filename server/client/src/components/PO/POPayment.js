@@ -13,8 +13,8 @@ class POPayment extends Component {
     super(props);
     this.state = {
       credit_charge_status: false,
-      endpoint: ":5000"
-      // endpoint: "https://gionie.herokuapp.com"
+      // endpoint: ":5000"
+      endpoint: "https://gionie.herokuapp.com"
     };
   }
 
