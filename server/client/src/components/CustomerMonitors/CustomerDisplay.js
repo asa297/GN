@@ -15,7 +15,7 @@ class CustomerDisplay extends Component {
       credit: 0,
       creditcharge: 0,
       // endpoint: ":5000"
-      endpoint: "https://gionie.herokuapp.com"
+      endpoint: "https://gionie.herokuapp.com/"
     };
   }
   componentDidMount() {

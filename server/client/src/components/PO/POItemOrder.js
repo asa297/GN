@@ -18,13 +18,15 @@ import io from "socket.io-client";
 class POItemOrder extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
+      socket: props.socket,
       itemCode: 0,
       itemList: [],
       scanStatus: false,
-      loading: false,
+      loading: false
       // endpoint: ":5000"
-      endpoint: "https://gionie.herokuapp.com"
+      // endpoint: "https://gionie.herokuapp.com"
     };
   }
 
@@ -69,10 +71,12 @@ class POItemOrder extends Component {
   }
 
   async setItemList() {
-    const { endpoint } = this.state;
-    const socket = io(endpoint, {
-      transports: ["websocket"]
-    });
+    // const { endpoint } = this.state;
+    // const socket = io(endpoint, {
+    //   transports: ["websocket"]
+    // });
+
+    const { socket } = this.state;
 
     this.setState({ loading: true });
     await this.props.find_Item(this.state.itemCode);
@@ -119,10 +123,12 @@ class POItemOrder extends Component {
   }
 
   deleteItemList(data) {
-    const { endpoint } = this.state;
-    const socket = io(endpoint, {
-      transports: ["websocket"]
-    });
+    // const { endpoint } = this.state;
+    // const socket = io(endpoint, {
+    //   transports: ["websocket"]
+    // });
+
+    const { socket } = this.state;
 
     const index_item = _.findIndex(this.state.itemList, ({ _id }) => {
       return _id === data;
@@ -157,10 +163,12 @@ class POItemOrder extends Component {
   }
 
   addItemList(data) {
-    const { endpoint } = this.state;
-    const socket = io(endpoint, {
-      transports: ["websocket"]
-    });
+    // const { endpoint } = this.state;
+    // const socket = io(endpoint, {
+    //   transports: ["websocket"]
+    // });
+
+    const { socket } = this.state;
 
     const index_item = _.findIndex(this.state.itemList, ({ _id }) => {
       return _id === data;
@@ -198,7 +206,7 @@ class POItemOrder extends Component {
             <th style={{ width: "10px" }} />
             <th style={{ width: "10px" }} />
             <th>รหัสสินค้า</th>
-            <th>ชื่อสินค้า</th>
+            <th style={{ width: "35%" }}>ชื่อสินค้า</th>
             <th>จำนวนสินค้า</th>
             <th>ราคาต่อหน่วย</th>
             <th>รวมราคา</th>

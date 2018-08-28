@@ -30,13 +30,18 @@ class PO extends Component {
   constructor() {
     super();
 
+    const socket = io("https://gionie.herokuapp.com/", {
+      transports: ["websocket"]
+    });
+
     this.state = {
+      socket,
       ready: false,
       loading: false,
       print: false,
-      print_value: {},
+      print_value: {}
       // endpoint: ":5000"
-      endpoint: "https://gionie.herokuapp.com"
+      // endpoint: "https://gionie.herokuapp.com"
     };
   }
 
@@ -44,10 +49,14 @@ class PO extends Component {
     this.props.fetch_Seller();
     this.props.fetch_Group_Filter();
 
-    const { endpoint } = this.state;
-    const socket = io(endpoint, {
-      transports: ["websocket"]
-    });
+    // const { endpoint } = this.state;
+    // const socket = io(endpoint, {
+    //   transports: ["websocket"]
+    // });
+
+    // socket.emit("openpo", {});
+
+    const { socket } = this.state;
 
     socket.emit("openpo", {});
   }
@@ -150,13 +159,13 @@ class PO extends Component {
           </div>
         </div>
         <Collapsible trigger={this.headerCollapseItem("Section 2 : ส่วนที่ 2")}>
-          <POItemOrder subtotal={_total} />
+          <POItemOrder subtotal={_total} socket={this.state.socket} />
         </Collapsible>
 
         <Collapsible
           trigger={this.headerCollapseItem("Section 3 : ส่วนลดและเครดิต")}
         >
-          <POPayment />
+          <POPayment socket={this.state.socket} />
         </Collapsible>
 
         <Collapsible

@@ -12,9 +12,10 @@ class POPayment extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      credit_charge_status: false,
+      socket: props.socket,
+      credit_charge_status: false
       // endpoint: ":5000"
-      endpoint: "https://gionie.herokuapp.com"
+      // endpoint: "https://gionie.herokuapp.com"
     };
   }
 
@@ -58,10 +59,12 @@ class POPayment extends Component {
       }
 
       if (value >= 0 && value <= 100) {
-        const { endpoint } = this.state;
-        const socket = io(endpoint, {
-          transports: ["websocket"]
-        });
+        // const { endpoint } = this.state;
+        // const socket = io(endpoint, {
+        //   transports: ["websocket"]
+        // });
+
+        const { socket } = this.state;
         socket.emit("dc", value);
       }
     }
@@ -92,10 +95,12 @@ class POPayment extends Component {
       }
 
       if (value >= 0) {
-        const { endpoint } = this.state;
-        const socket = io(endpoint, {
-          transports: ["websocket"]
-        });
+        // const { endpoint } = this.state;
+        // const socket = io(endpoint, {
+        //   transports: ["websocket"]
+        // });
+
+        const { socket } = this.state;
         socket.emit("credit", value);
       }
     }
@@ -126,10 +131,12 @@ class POPayment extends Component {
       }
 
       if (value >= 0) {
-        const { endpoint } = this.state;
-        const socket = io(endpoint, {
-          transports: ["websocket"]
-        });
+        // const { endpoint } = this.state;
+        // const socket = io(endpoint, {
+        //   transports: ["websocket"]
+        // });
+
+        const { socket } = this.state;
         socket.emit("creditcharge", value);
       }
     }
