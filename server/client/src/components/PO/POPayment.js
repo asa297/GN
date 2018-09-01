@@ -6,7 +6,6 @@ import POItemField from "./POItemField";
 import formFields from "./formFields";
 
 import PO_CSS from "../../Style/CSS/PO_CSS.css";
-import io from "socket.io-client";
 
 class POPayment extends Component {
   constructor(props) {
@@ -14,8 +13,6 @@ class POPayment extends Component {
     this.state = {
       socket: props.socket,
       credit_charge_status: false
-      // endpoint: ":5000"
-      // endpoint: "https://gionie.herokuapp.com"
     };
   }
 
@@ -59,13 +56,11 @@ class POPayment extends Component {
       }
 
       if (value >= 0 && value <= 100) {
-        // const { endpoint } = this.state;
-        // const socket = io(endpoint, {
-        //   transports: ["websocket"]
-        // });
-
         const { socket } = this.state;
-        socket.emit("dc", value);
+
+        const { auth } = this.props;
+
+        socket.emit("dc", { value, auth });
       }
     }
   }
@@ -95,13 +90,11 @@ class POPayment extends Component {
       }
 
       if (value >= 0) {
-        // const { endpoint } = this.state;
-        // const socket = io(endpoint, {
-        //   transports: ["websocket"]
-        // });
-
         const { socket } = this.state;
-        socket.emit("credit", value);
+
+        const { auth } = this.props;
+
+        socket.emit("credit", { value, auth });
       }
     }
   }
@@ -131,13 +124,11 @@ class POPayment extends Component {
       }
 
       if (value >= 0) {
-        // const { endpoint } = this.state;
-        // const socket = io(endpoint, {
-        //   transports: ["websocket"]
-        // });
-
         const { socket } = this.state;
-        socket.emit("creditcharge", value);
+
+        const { auth } = this.props;
+
+        socket.emit("creditcharge", { value, auth });
       }
     }
   }
@@ -157,8 +148,8 @@ class POPayment extends Component {
   }
 }
 
-function mapStateToProps({ form: { inbound_po } }) {
-  return { inbound_po };
+function mapStateToProps({ form: { inbound_po }, auth }) {
+  return { inbound_po, auth };
 }
 
 export default reduxForm({

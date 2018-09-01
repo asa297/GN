@@ -2,47 +2,79 @@ const cookie = require("cookie");
 module.exports = io => {
   console.log("run io au eiei")
   io.on("connection", function(client) {
-    // const parserCookie = cookie.parse(client.request.headers.cookie);
-    // client.join(parserCookie["session.sig"]);
+    client.on("joinroom", function(data) {
+      const { _id } = data.auth;
+      client.join(_id);
+    });
 
-    client.on('joinroom' , function(data){
+    client.on("showitem", function(data) {
+      const {
+        auth: { _id },
+        _getCustomer
+      } = data;
 
-    })
+      console.log("send item");
+      io.to(_id).emit("showitem", _getCustomer);
+    });
 
-    // client.on("showitem", function(data) {
-    //   console.log("send item");
-    //   io.to(parserCookie["session.sig"]).emit("showitem", data);
-    // });
+    client.on("dc", function(data) {
+      console.log("send dc");
 
-    // client.on("dc", function(data) {
-    //   console.log("send dc");
-    //   io.to(parserCookie["session.sig"]).emit("dc", data);
-    // });
+      const {
+        auth: { _id },
+        value
+      } = data;
 
-    // client.on("credit", function(data) {
-    //   console.log("send credit");
-    //   io.to(parserCookie["session.sig"]).emit("credit", data);
-    // });
+      io.to(_id).emit("dc", value);
+    });
 
-    // client.on("creditcharge", function(data) {
-    //   console.log("send creditcharge");
-    //   io.to(parserCookie["session.sig"]).emit("creditcharge", data);
-    // });
+    client.on("credit", function(data) {
+      console.log("send credit");
 
-    // client.on("closepo", function(data) {
-    //   console.log("closepo");
-    //   io.to(parserCookie["session.sig"]).emit("closepo", data);
-    // });
+      const {
+        auth: { _id },
+        value
+      } = data;
 
-    // client.on("openpo", function(data) {
-    //   console.log("openpo");
-    //   io.to(parserCookie["session.sig"]).emit("openpo", data);
-    // });
+      io.to(_id).emit("credit", value);
+    });
 
-    // client.on("submitpo", function(data) {
-    //   console.log("submitpo");
-    //   io.to(parserCookie["session.sig"]).emit("submitpo", data);
-    // });
+    client.on("creditcharge", function(data) {
+      console.log("send creditcharge");
+      const {
+        auth: { _id },
+        value
+      } = data;
 
+      io.to(_id).emit("creditcharge", value);
+    });
+
+    client.on("closepo", function(data) {
+      console.log("closepo");
+      const {
+        auth: { _id }
+      } = data;
+
+      io.to(_id).emit("closepo", {});
+    });
+
+    client.on("openpo", function(data) {
+      console.log("openpo");
+      const {
+        auth: { _id }
+      } = data;
+
+      io.to(_id).emit("openpo", {});
+    });
+
+    client.on("submitpo", function(data) {
+      console.log("submitpo");
+      const {
+        auth: { _id },
+        receivecash
+      } = data;
+
+      io.to(_id).emit("submitpo", receivecash);
+    });
   });
 };
