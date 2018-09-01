@@ -13,8 +13,6 @@ import CircularLoader from "../utils/CircularLoader";
 
 import Toggle from "react-toggle";
 
-import io from "socket.io-client";
-
 class POItemOrder extends Component {
   constructor(props) {
     super(props);
@@ -25,8 +23,6 @@ class POItemOrder extends Component {
       itemList: [],
       scanStatus: false,
       loading: false
-      // endpoint: ":5000"
-      // endpoint: "https://gionie.herokuapp.com"
     };
   }
 
@@ -71,11 +67,6 @@ class POItemOrder extends Component {
   }
 
   async setItemList() {
-    // const { endpoint } = this.state;
-    // const socket = io(endpoint, {
-    //   transports: ["websocket"]
-    // });
-
     const { socket } = this.state;
 
     this.setState({ loading: true });
@@ -102,7 +93,9 @@ class POItemOrder extends Component {
         const _getCustomer = this.getCustomerMonitorItem(value._id);
         _getCustomer.status = 1;
 
-        socket.emit("showitem", _getCustomer);
+        const { auth } = this.props;
+
+        socket.emit("showitem", { _getCustomer, auth });
       }
     } else if (index_item_itemList !== -1) {
       let clone_state = this.state.itemList.slice();
@@ -115,7 +108,10 @@ class POItemOrder extends Component {
 
         const _getCustomer = this.getCustomerMonitorItem(_id);
         _getCustomer.status = 1;
-        socket.emit("showitem", _getCustomer);
+
+        const { auth } = this.props;
+
+        socket.emit("showitem", { _getCustomer, auth });
       }
     }
 
@@ -123,11 +119,6 @@ class POItemOrder extends Component {
   }
 
   deleteItemList(data) {
-    // const { endpoint } = this.state;
-    // const socket = io(endpoint, {
-    //   transports: ["websocket"]
-    // });
-
     const { socket } = this.state;
 
     const index_item = _.findIndex(this.state.itemList, ({ _id }) => {
@@ -149,7 +140,9 @@ class POItemOrder extends Component {
       _getCustomer.countQty = 0;
       _getCustomer.status = 2;
 
-      socket.emit("showitem", _getCustomer);
+      const { auth } = this.props;
+
+      socket.emit("showitem", { _getCustomer, auth });
     } else {
       clone_state[index_item].countQty -= 1;
 
@@ -158,16 +151,13 @@ class POItemOrder extends Component {
       const _getCustomer = this.getCustomerMonitorItem(data);
       _getCustomer.status = 2;
 
-      socket.emit("showitem", _getCustomer);
+      const { auth } = this.props;
+
+      socket.emit("showitem", { _getCustomer, auth });
     }
   }
 
   addItemList(data) {
-    // const { endpoint } = this.state;
-    // const socket = io(endpoint, {
-    //   transports: ["websocket"]
-    // });
-
     const { socket } = this.state;
 
     const index_item = _.findIndex(this.state.itemList, ({ _id }) => {
@@ -186,7 +176,9 @@ class POItemOrder extends Component {
       const _getCustomer = this.getCustomerMonitorItem(data);
       _getCustomer.status = 1;
 
-      socket.emit("showitem", _getCustomer);
+      const { auth } = this.props;
+
+      socket.emit("showitem", { _getCustomer, auth });
     }
   }
 
@@ -310,8 +302,8 @@ class POItemOrder extends Component {
   }
 }
 
-function mapStateToProps({ items }) {
-  return { items };
+function mapStateToProps({ items, auth }) {
+  return { items, auth };
 }
 
 export default reduxForm({

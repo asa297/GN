@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { connect } from "react-redux";
 import io from "socket.io-client";
 import Upper from "./Upper/Upper";
 class CustomerDisplay extends Component {
@@ -14,8 +14,7 @@ class CustomerDisplay extends Component {
       discount: 0,
       credit: 0,
       creditcharge: 0,
-      // endpoint: ":5000"
-      endpoint: "https://gionie.herokuapp.com/"
+      endpoint: ":5000"
     };
   }
   componentDidMount() {
@@ -23,6 +22,10 @@ class CustomerDisplay extends Component {
     const socket = io(endpoint, {
       transports: ["websocket"]
     });
+
+    const { auth } = this.props;
+
+    socket.emit("joinroom", { auth });
 
     socket.on("showitem", data => {
       const {
@@ -72,7 +75,7 @@ class CustomerDisplay extends Component {
       this.recalculate();
     });
 
-    socket.on("closepo", data => {
+    socket.on("closepo", () => {
       this.setState({
         showitem: "",
         showprice: "",
@@ -85,7 +88,7 @@ class CustomerDisplay extends Component {
       });
     });
 
-    socket.on("openpo", data => {
+    socket.on("openpo", () => {
       this.setState({
         showitem: "",
         showprice: "",
@@ -146,4 +149,8 @@ class CustomerDisplay extends Component {
   }
 }
 
-export default CustomerDisplay;
+function mapStateToProps({ auth }) {
+  return { auth };
+}
+
+export default connect(mapStateToProps)(CustomerDisplay);

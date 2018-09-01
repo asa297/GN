@@ -30,7 +30,7 @@ class PO extends Component {
   constructor() {
     super();
 
-    const socket = io("https://gionie.herokuapp.com/", {
+    const socket = io(":5000", {
       transports: ["websocket"]
     });
 
@@ -40,8 +40,6 @@ class PO extends Component {
       loading: false,
       print: false,
       print_value: {}
-      // endpoint: ":5000"
-      // endpoint: "https://gionie.herokuapp.com"
     };
   }
 
@@ -49,16 +47,10 @@ class PO extends Component {
     this.props.fetch_Seller();
     this.props.fetch_Group_Filter();
 
-    // const { endpoint } = this.state;
-    // const socket = io(endpoint, {
-    //   transports: ["websocket"]
-    // });
-
-    // socket.emit("openpo", {});
-
     const { socket } = this.state;
-
-    socket.emit("openpo", {});
+    const { auth } = this.props;
+    socket.emit("joinroom", { auth });
+    socket.emit("openpo", { auth });
   }
 
   componentWillReceiveProps({ groups, inbound_po }) {
@@ -89,12 +81,9 @@ class PO extends Component {
   }
 
   componentWillUnmount() {
-    const { endpoint } = this.state;
-    const socket = io(endpoint, {
-      transports: ["websocket"]
-    });
-
-    socket.emit("closepo", {});
+    const { socket } = this.state;
+    const { auth } = this.props;
+    socket.emit("closepo", { auth });
   }
 
   headerCollapseItem(header) {
@@ -114,12 +103,11 @@ class PO extends Component {
     const res = await this.props.submit_Order(values);
 
     if (res) {
-      const { endpoint } = this.state;
-      const socket = io(endpoint, {
-        transports: ["websocket"]
-      });
+      const { socket } = this.state;
+      const { receivecash } = values;
+      const { auth } = this.props;
 
-      socket.emit("submitpo", values.receivecash);
+      socket.emit("submitpo", { receivecash, auth });
 
       this.props.submitOutbound_ItemElement_PO({
         itemList: values.itemList
@@ -241,8 +229,8 @@ function validate(values) {
   return errors;
 }
 
-function mapStateToProps({ form: { inbound_po }, groups }) {
-  return { inbound_po, groups };
+function mapStateToProps({ form: { inbound_po }, groups, auth }) {
+  return { inbound_po, groups, auth };
 }
 
 export default reduxForm({
