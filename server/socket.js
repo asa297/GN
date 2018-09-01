@@ -6,7 +6,7 @@ module.exports = io => {
     // client.join(parserCookie["session.sig"]);
 
     client.on('joinroom' , function(data){
-      
+
     })
 
     // client.on("showitem", function(data) {
