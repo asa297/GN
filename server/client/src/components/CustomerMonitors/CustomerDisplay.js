@@ -15,14 +15,12 @@ class CustomerDisplay extends Component {
       credit: 0,
       creditcharge: 0,
       // endpoint: ":5000"
-      endpoint: "https://gionie.herokuapp.com/"
+      endpoint: "https://giornies.com"
     };
   }
   componentDidMount() {
     const { endpoint } = this.state;
-    const socket = io(endpoint, {
-      transports: ["websocket"]
-    });
+    const socket = io(endpoint , { secure : true  , transports: ['websocket'] });
 
     socket.on("showitem", data => {
       const {

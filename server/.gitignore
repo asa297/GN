@@ -2,4 +2,8 @@ node_modules
 
 dev.js
 
-ืnodemon.json
+nodemon.json
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

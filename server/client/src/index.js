@@ -8,6 +8,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import reduxThunk from "redux-thunk";
+import HttpsRedirect from 'react-https-redirect'
 
 import App from "./components/App";
 import reducers from "./reducers";
@@ -16,7 +17,9 @@ const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <HttpsRedirect>
+      <App />
+    </HttpsRedirect>
   </Provider>,
   document.getElementById("root")
 );

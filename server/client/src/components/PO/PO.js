@@ -30,9 +30,7 @@ class PO extends Component {
   constructor() {
     super();
 
-    const socket = io("https://gionie.herokuapp.com/", {
-      transports: ["websocket"]
-    });
+    const socket = io("https://www.giornies.com" , { secure : true ,transports: ['websocket'] });
 
     this.state = {
       socket,
