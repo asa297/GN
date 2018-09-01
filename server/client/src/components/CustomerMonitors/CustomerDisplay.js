@@ -5,7 +5,13 @@ import Upper from "./Upper/Upper";
 class CustomerDisplay extends Component {
   constructor() {
     super();
+
+    const socket = io("https://www.giornies.com", {
+      transports: ["websocket"]
+    });
+
     this.state = {
+      socket,
       showitem: "",
       showprice: "",
       status: -1,
@@ -13,14 +19,11 @@ class CustomerDisplay extends Component {
       subtotal: 0,
       discount: 0,
       credit: 0,
-      creditcharge: 0,
-      // endpoint: ":5000"
-      endpoint: "https://giornies.com"
+      creditcharge: 0
     };
   }
   componentDidMount() {
-    const { endpoint } = this.state;
-    const socket = io(endpoint , { secure : true  , transports: ['websocket'] });
+    const { socket } = this.state;
 
     const { auth } = this.props;
 
@@ -117,6 +120,12 @@ class CustomerDisplay extends Component {
         creditcharge: 0
       });
     });
+  }
+
+  componentWillUnmount() {
+    const { socket } = this.state;
+
+    socket.disconnect();
   }
 
   recalculate() {

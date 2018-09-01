@@ -30,7 +30,9 @@ class PO extends Component {
   constructor() {
     super();
 
-    const socket = io("https://www.giornies.com" , { transports: ['websocket'] });
+    const socket = io("https://www.giornies.com", {
+      transports: ["websocket"]
+    });
 
     this.state = {
       socket,
@@ -82,6 +84,7 @@ class PO extends Component {
     const { socket } = this.state;
     const { auth } = this.props;
     socket.emit("closepo", { auth });
+    socket.disconnect();
   }
 
   headerCollapseItem(header) {
@@ -106,6 +109,7 @@ class PO extends Component {
       const { auth } = this.props;
 
       socket.emit("submitpo", { receivecash, auth });
+      socket.disconnect();
 
       this.props.submitOutbound_ItemElement_PO({
         itemList: values.itemList

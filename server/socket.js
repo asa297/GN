@@ -1,6 +1,6 @@
 const cookie = require("cookie");
 module.exports = io => {
-  console.log("run io au eiei")
+  console.log("run io au eiei");
   io.on("connection", function(client) {
     client.on("joinroom", function(data) {
       const { _id } = data.auth;
