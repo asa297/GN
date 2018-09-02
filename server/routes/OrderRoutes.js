@@ -17,6 +17,7 @@ module.exports = app => {
       seller_select,
       itemList,
       total,
+      discountPercent,
       discount,
       credit,
       creditcharge,
@@ -77,6 +78,7 @@ module.exports = app => {
       //
       itemList,
       total,
+      discountPercent,
       discount,
       credit,
       creditcharge,
@@ -254,6 +256,8 @@ module.exports = app => {
             )
           }
         });
+
+        console.log(order);
 
         result = CreateDailyComGroupReport(order, select_date);
 

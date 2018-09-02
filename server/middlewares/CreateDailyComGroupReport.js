@@ -10,7 +10,7 @@ module.exports = (order, select_date) => {
     ({
       org: { orgName },
       org: { orgCode },
-      org: { orgCom },
+      org: { orgComA, orgComB },
       group: { guideName },
       group: { groupId },
       group: { groupCode },
@@ -20,11 +20,10 @@ module.exports = (order, select_date) => {
         return groupId.toString() === _groupId.toString();
       });
 
-      const _grandtotal = _.sumBy(_PO, ({ grandtotal }) => {
-        return grandtotal;
-      });
+      _.map(_PO, ({ itemList: { itemTypeId } }) => {
+        
 
-      const _calorgCom = _grandtotal * (orgCom / 100);
+      });
 
       return {
         OrgName: orgName,

@@ -58,12 +58,11 @@ class PO extends Component {
       this.setState({ ready: true });
     }
     if (inbound_po.values) {
-      let { total, discount, credit, credit_charge } = inbound_po.values;
+      let { total, discount, credit } = inbound_po.values;
       const DC = parseInt(discount, 10);
       // const credit_charge_temp = parseInt(credit_charge, 10);
 
-      let resultDiscount =
-        DC > 0 && DC <= 100 ? (resultDiscount = total * (DC / 100)) : 0;
+      let resultDiscount = DC > 0 && DC <= 100 ? total * (DC / 100) : 0;
       credit = credit ? parseInt(credit, 10) : 0;
       // let resultCreditCharge =
       //   credit_charge_temp > 0 && credit_charge_temp <= 100

@@ -3,21 +3,7 @@ export function validateOrder(formvalues) {
     let resultDiscount = 0;
     let resultCreditCharge = 0;
     let grandtotal = 0;
-    let {
-      // seller_select,
-      total,
-      discount,
-      credit,
-      credit_charge,
-      receivecash
-    } = formvalues;
-
-    // if (!seller_select) {
-    //   formvalues.seller_select = {};
-    //   formvalues.seller_select._id = "507f1f77bcf86cd799439011507f1f77bcf86cd799439011";
-    //   formvalues.seller_select.sellerName = "";
-    //   formvalues.seller_select.sellerCom = 0;
-    // }
+    let { total, discount, credit, credit_charge, receivecash } = formvalues;
 
     const DC = parseInt(discount, 10);
     if (DC > 0 && DC <= 100) {
@@ -40,6 +26,7 @@ export function validateOrder(formvalues) {
     }
 
     formvalues.discount = resultDiscount;
+    formvalues.discountPercent = DC;
 
     formvalues.grandtotal = grandtotal;
     formvalues.cash = grandtotal;

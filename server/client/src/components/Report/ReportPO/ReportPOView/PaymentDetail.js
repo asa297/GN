@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import numeral from "numeral";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { Field, change } from "redux-form";
+import { change } from "redux-form";
 
-import ReportPOViewField from "./ReportPOViewField";
 import ReportPOViewCSS from "./ReportPOView.css";
 
 let check = false;
@@ -22,20 +21,6 @@ class PaymentDetail extends Component {
       grandtotal: 0
     };
   }
-
-  // componentDidMount() {
-  //   const report_PO = _.find(this.props.reports_po, ({ orderId }) => {
-  //     return orderId === this.props.orderId;
-  //   });
-  //   if (report_PO) {
-  //     _.map(this.state, (value, key) => {
-  //       this.setState({ [key]: report_PO[key] });
-  //     });
-
-  //     this.handleInitialize(report_PO);
-  //     check = true;
-  //   }
-  // }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.report_PO && check === false) {
