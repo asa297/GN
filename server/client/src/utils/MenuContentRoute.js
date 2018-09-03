@@ -39,6 +39,7 @@ import ReportDailyCashBalance from "../components/Report/ReportDailyCashBalance/
 import ReportDailyCashBalanceView from "../components/Report/ReportDailyCashBalance/View/ReportView";
 import ReportDailyCommissionGroup from "../components/Report/ReportDailyCom/Search/Search";
 import ReportDailyCommissionGroupView from "../components/Report/ReportDailyCom/View/ReportView";
+import ReportDailyCommissionGroupViewDetail from "../components/Report/ReportDailyCom/View/ReportViewDetail";
 
 //Customer Display
 import CustomerDisplay from "../components/CustomerMonitors/CustomerDisplay";
@@ -50,6 +51,16 @@ export default auth => {
         return (
           <div>
             <Route exact path="/openpo" component={CustomerDisplay} />
+            <Route
+              exact
+              path="/report/reportdialycom/viewdetail"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDailyCommissionGroupViewDetail />
+                </div>
+              )}
+            />
             <Route
               exact
               path="/report/reportdialycom/view"
@@ -347,6 +358,16 @@ export default auth => {
         return (
           <div>
             <Route exact path="/openpo" component={CustomerDisplay} />
+            <Route
+              exact
+              path="/report/reportdialycom/viewdetail"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDailyCommissionGroupViewDetail />
+                </div>
+              )}
+            />
             <Route
               exact
               path="/report/reportdialycom/view"

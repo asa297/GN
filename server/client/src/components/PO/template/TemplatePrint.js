@@ -6,16 +6,15 @@ import Footer from "./components/Footer";
 class ComponentToPrint extends Component {
   render() {
     return (
-      <div style={{ padding: "20px" }}>
-        <Header print_value={this.props.print_value} copy="ORIGINAL" />
-        <hr style={{ width: "95%" }} />
-        <Content print_value={this.props.print_value} />
-        <Footer print_value={this.props.print_value} />
-        <hr style={{ borderTop: "dotted 1px" }} />
-        <Header print_value={this.props.print_value} copy="COPY" />
-        <hr style={{ width: "95%" }} />
-        <Content print_value={this.props.print_value} />
-        <Footer print_value={this.props.print_value} />
+      <div>
+        <div>
+          <Header print_value={this.props.print_value} copy="ORIGINAL" />
+
+          <Content print_value={this.props.print_value} />
+          <Footer print_value={this.props.print_value} />
+        </div>
+
+        <hr style={{ borderTop: "dashed 1px" }} />
       </div>
     );
   }

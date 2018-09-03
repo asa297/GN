@@ -5,7 +5,7 @@ import ComponentToPrint from "./template/TemplatePrint";
 class POPrint extends Component {
   render() {
     return (
-      <div>
+      <div style={{ marginTop: "20px" }}>
         <ComponentToPrint
           ref={el => (this.componentRef = el)}
           print_value={this.props.print_value}

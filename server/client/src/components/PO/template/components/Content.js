@@ -14,7 +14,7 @@ class Content extends Component {
   render() {
     return (
       <div style={{ display: "flex", justifyContent: "space-around" }}>
-        <div style={{ width: "95%" }}>
+        <div style={{ width: "90%" }}>
           <Item itemList={this.state.itemList} />
         </div>
       </div>

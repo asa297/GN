@@ -18,50 +18,12 @@ class Header extends Component {
 
   render() {
     return (
-      <div style={{ display: "flex", justifyContent: "space-around" }}>
-        <div style={{ width: "25%" }}>
-          <img
-            src={logo}
-            alt={"logo"}
-            style={{ width: "150px", height: "100px" }}
-          />
+      <div style={{ display: "flex" }}>
+        <div style={{ width: "65%", height: "100px", background: "red" }}>
+          a
         </div>
-        <div style={{ width: "65%" }}>
-          <div className={CSS_class.font}>
-            <OrderId
-              label="Order ID"
-              text={this.state.orderId}
-              copy={this.state.copy}
-            />
-            <div
-              style={{
-                display: "flex ",
-                justifyContent: "space-between",
-                margin: "0px"
-              }}
-            >
-              Giornie Leather Shop
-              <div>
-                <label>Date</label> :&nbsp;
-                {new Date(this.state.RecordDate).toLocaleDateString()}
-              </div>
-            </div>
-            <div
-              style={{
-                display: "flex ",
-                justifyContent: "space-between",
-                margin: "0px"
-              }}
-            >
-              Pattaya, Thailand
-              <div>
-                <label>Recipient</label> :&nbsp;
-                {this.state.RecordNameBy}
-              </div>
-            </div>
-
-            {/* <div>Pattaya, Thailand</div> */}
-          </div>
+        <div style={{ width: "35%", height: "100px", background: "green" }}>
+          b
         </div>
       </div>
     );

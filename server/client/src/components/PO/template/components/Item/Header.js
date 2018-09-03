@@ -3,31 +3,48 @@ import ColumnHeader from "./ColumnHeader";
 
 const Header = () => {
   return (
-    <div style={{ display: "flex" }}>
-      <ColumnHeader text="#" width="10%" textAlign="center" borderRight="0px" />
+    <div style={{ display: "flex", margin: "5px 0px 3px 0px" }}>
       <ColumnHeader
-        text="Item"
-        width="40%"
+        textEng="#"
+        textThai="#"
+        width="8%"
         textAlign="center"
-        borderRight="0px"
+        borderWidth="2px 0px 2px 2px"
       />
       <ColumnHeader
-        text="QTY"
+        textEng="BarCode"
+        textThai="รหัสสินค้า"
+        width="20%"
+        textAlign="center"
+        borderWidth="2px 0px 2px 2px"
+      />
+      <ColumnHeader
+        textEng="Item Name"
+        textThai="รายการสินค้า"
+        width="32%"
+        textAlign="center"
+        borderWidth="2px 0px 2px 2px"
+      />
+      <ColumnHeader
+        textEng="QTY"
+        textThai="จำนวน"
         width="10%"
         textAlign="center"
-        borderRight="0px"
+        borderWidth="2px 0px 2px 2px"
       />
       <ColumnHeader
-        text="Price"
+        textEng="Unit Price"
+        textThai="ราคา/หน่วย"
         width="15%"
         textAlign="center"
-        borderRight="0px"
+        borderWidth="2px 0px 2px 2px"
       />
       <ColumnHeader
-        text="Total"
-        width="25%"
+        textEng="Total"
+        textThai="รวม"
+        width="15%"
         textAlign="center"
-        borderRight="1px solid"
+        borderWidth="2px 2px 2px 2px"
       />
     </div>
   );

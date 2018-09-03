@@ -49,6 +49,11 @@ export default auth => {
               </Link>
             </li>
             <li>
+              <Link to="/report/reportdialycom">
+                #103 Daily Commission Group
+              </Link>
+            </li>
+            <li>
               <Link to="/report/reportinv">#201 Inventory</Link>
             </li>
             <li>

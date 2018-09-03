@@ -5,20 +5,23 @@ import numeral from "numeral";
 import CSS_class from "../../../../../Style/CSS/PO_PRINT_CSS.css";
 
 const Table = ({ itemList }) => {
-  const RunNumberCloumn = (
+  const RunNumberColumn = (
     <div
       style={{
-        width: "10%",
+        width: "8%",
         height: "250px",
-        border: "1px solid",
-        textAlign: "center",
-        borderRight: "0px",
-        borderTop: "0px"
+        borderStyle: "solid",
+        borderWidth: "2px 0px 2px 2px",
+        textAlign: "center"
       }}
     >
       {_.map(itemList, ({ _id }, index) => {
         return (
-          <div key={_id} className={CSS_class.font}>
+          <div
+            key={_id}
+            className={CSS_class.font}
+            style={{ fontSize: "13px" }}
+          >
             {index + 1}
           </div>
         );
@@ -26,15 +29,38 @@ const Table = ({ itemList }) => {
     </div>
   );
 
-  const ItemNameCloumn = (
+  const ItemCodeColumn = (
     <div
       style={{
-        width: "40%",
+        width: "20%",
         height: "250px",
-        border: "1px solid",
-        textAlign: "left",
-        borderRight: "0px",
-        borderTop: "0px"
+        borderStyle: "solid",
+        borderWidth: "2px 0px 2px 2px",
+        textAlign: "center"
+      }}
+    >
+      {_.map(itemList, ({ item_code, _id }) => {
+        return (
+          <div
+            key={_id}
+            className={CSS_class.font}
+            style={{ marginLeft: "5px", fontSize: "13px" }}
+          >
+            {item_code}
+          </div>
+        );
+      })}
+    </div>
+  );
+
+  const ItemNameColumn = (
+    <div
+      style={{
+        width: "32%",
+        height: "250px",
+        borderStyle: "solid",
+        borderWidth: "2px 0px 2px 2px",
+        textAlign: "left"
       }}
     >
       {_.map(itemList, ({ item_name, item_color, _id }) => {
@@ -42,7 +68,7 @@ const Table = ({ itemList }) => {
           <div
             key={_id}
             className={CSS_class.font}
-            style={{ marginLeft: "5px" }}
+            style={{ marginLeft: "5px", fontSize: "13px" }}
           >
             {item_name} {item_color ? " " + item_color : null}
           </div>
@@ -51,20 +77,23 @@ const Table = ({ itemList }) => {
     </div>
   );
 
-  const QTYCloumn = (
+  const QTYCoulmn = (
     <div
       style={{
         width: "10%",
         height: "250px",
-        border: "1px solid",
-        textAlign: "center",
-        borderRight: "0px",
-        borderTop: "0px"
+        borderStyle: "solid",
+        borderWidth: "2px 0px 2px 2px",
+        textAlign: "center"
       }}
     >
       {_.map(itemList, ({ _id, countQty }) => {
         return (
-          <div key={_id} className={CSS_class.font}>
+          <div
+            key={_id}
+            className={CSS_class.font}
+            style={{ fontSize: "13px" }}
+          >
             {countQty}
           </div>
         );
@@ -72,15 +101,14 @@ const Table = ({ itemList }) => {
     </div>
   );
 
-  const PriceCloumn = (
+  const UnitPriceColumn = (
     <div
       style={{
         width: "15%",
         height: "250px",
-        border: "1px solid",
-        textAlign: "right",
-        borderRight: "0px",
-        borderTop: "0px"
+        borderStyle: "solid",
+        borderWidth: "2px 0px 2px 2px",
+        textAlign: "right"
       }}
     >
       {_.map(itemList, ({ item_price, _id }) => {
@@ -89,7 +117,8 @@ const Table = ({ itemList }) => {
             key={_id}
             className={CSS_class.font}
             style={{
-              marginRight: "5px"
+              marginRight: "5px",
+              fontSize: "13px"
             }}
           >
             {numeral(item_price).format("0,0.00")}
@@ -99,14 +128,14 @@ const Table = ({ itemList }) => {
     </div>
   );
 
-  const TotalCloumn = (
+  const TotalColumn = (
     <div
       style={{
-        width: "25%",
+        width: "15%",
         height: "250px",
-        border: "1px solid",
-        textAlign: "right",
-        borderTop: "0px"
+        borderStyle: "solid",
+        borderWidth: "2px 2px 2px 2px",
+        textAlign: "right"
       }}
     >
       {_.map(itemList, ({ item_price, countQty, _id }) => {
@@ -115,7 +144,8 @@ const Table = ({ itemList }) => {
             key={_id}
             className={CSS_class.font}
             style={{
-              marginRight: "5px"
+              marginRight: "5px",
+              fontSize: "13px"
             }}
           >
             {numeral(item_price * countQty).format("0,0.00")}
@@ -127,11 +157,12 @@ const Table = ({ itemList }) => {
 
   return (
     <div style={{ display: "flex" }}>
-      {RunNumberCloumn}
-      {ItemNameCloumn}
-      {QTYCloumn}
-      {PriceCloumn}
-      {TotalCloumn}
+      {RunNumberColumn}
+      {ItemCodeColumn}
+      {ItemNameColumn}
+      {QTYCoulmn}
+      {UnitPriceColumn}
+      {TotalColumn}
     </div>
   );
 };

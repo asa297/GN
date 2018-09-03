@@ -120,15 +120,7 @@ export const delete_Seller = seller_id => async dispatch => {
 
 //inbound item
 
-export const submitInboundItem = (
-  values,
-  orgChinaList,
-  history
-) => async dispatch => {
-  if (orgChinaList) {
-    values.orgChinaList = orgChinaList;
-  }
-
+export const submitInboundItem = (values, history) => async dispatch => {
   await axios.post("/api/item", values);
 
   history.push("/Item");
@@ -146,15 +138,7 @@ export const find_Item = item_code => async dispatch => {
   dispatch({ type: FETCH_ITEM_FOR_PO, payload: res.data });
 };
 
-export const update_Item = (
-  item_id,
-  values,
-  orgChinaList
-) => async dispatch => {
-  if (orgChinaList) {
-    values.orgChinaList = orgChinaList;
-  }
-
+export const update_Item = (item_id, values) => async dispatch => {
   await axios.post("/api/item/edit/" + item_id, values);
 };
 

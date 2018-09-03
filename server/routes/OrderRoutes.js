@@ -246,6 +246,7 @@ module.exports = app => {
     let result;
     switch (priority) {
       case 1:
+      case 2:
         const order = await orderModel.find({
           RecordDate: {
             $gte: new Date(moment(select_date).format("YYYY-MM-DD HH:mm:ss")),
@@ -256,8 +257,6 @@ module.exports = app => {
             )
           }
         });
-
-        console.log(order);
 
         result = CreateDailyComGroupReport(order, select_date);
 

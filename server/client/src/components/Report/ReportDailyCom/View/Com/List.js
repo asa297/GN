@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { Link } from "react-router-dom";
 import _ from "lodash";
 import numeral from "numeral";
 import { connect } from "react-redux";
@@ -44,9 +44,14 @@ class List extends Component {
       GuideName,
       GroupCode,
       GroupStickerNumber,
-      Grandtotal,
-      OrgCom,
-      Com
+      totalA,
+      totalB,
+      discountA,
+      discountB,
+      grandtotalComA,
+      grandtotalComB,
+      ComA,
+      ComB
     } = value;
     return {
       "#": index,
@@ -55,9 +60,14 @@ class List extends Component {
       "Guide Name": GuideName,
       "Group Code": GroupCode,
       "Sticker Number": GroupStickerNumber,
-      Amount: numeral(Grandtotal).format("0,0.00"),
-      "Org Com": `${OrgCom}%`,
-      "Total Com": numeral(Com).format("0,0.00")
+      "Amount (Item A)": numeral(totalA).format("0,0.00"),
+      "Amount (Item B)": numeral(totalB).format("0,0.00"),
+      "Discount (Item A)": numeral(discountA).format("0,0.00"),
+      "Discount (Item B)": numeral(discountB).format("0,0.00"),
+      "Grand Total (Item A)": numeral(grandtotalComA).format("0,0.00"),
+      "Grand Total (Item B)": numeral(grandtotalComB).format("0,0.00"),
+      "Total Com (Item A)": numeral(ComA).format("0,0.00"),
+      "Total Com (Item B)": numeral(ComB).format("0,0.00")
     };
   }
 
@@ -70,6 +80,24 @@ class List extends Component {
             accessor: "index",
             width: 30,
             style: { textAlign: "center" }
+          },
+          {
+            accessor: "orderId",
+            width: 50,
+            Cell: row => (
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                {this.props.auth.priority === 1 ? (
+                  <Link
+                    to={{
+                      pathname: "/report/reportdialycom/viewdetail",
+                      state: { orderId: row.value }
+                    }}
+                  >
+                    <i className="tiny material-icons">content_paste</i>
+                  </Link>
+                ) : null}
+              </div>
+            )
           },
           {
             Header: "Org Name",
@@ -100,23 +128,68 @@ class List extends Component {
             style: { textAlign: "center", fontWeight: "bold" }
           },
           {
-            Header: "Amount",
-            accessor: "Grandtotal",
-            Cell: row => <div>{numeral(row.value).format("0,0.00")}</div>,
+            Header: "Amount (Item A)",
+            accessor: "totalA",
+            Cell: row => (
+              <div>{`${numeral(row.value).format("0,0.00")} ฿`}</div>
+            ),
             style: { textAlign: "center", color: "green", fontWeight: "bold" }
           },
           {
-            Header: "Org Com",
-            accessor: "OrgCom",
-
-            Cell: row => <div>{`${row.value}%`}</div>,
-            style: { textAlign: "center", fontWeight: "bold" }
+            Header: "Amount (Item B)",
+            accessor: "totalB",
+            Cell: row => (
+              <div>{`${numeral(row.value).format("0,0.00")} ฿`}</div>
+            ),
+            style: { textAlign: "center", color: "green", fontWeight: "bold" }
           },
           {
-            Header: "Total Com",
-            accessor: "Com",
-            Cell: row => <div>{numeral(row.value).format("0,0.00")}</div>,
+            Header: "Discount (Item A)",
+            accessor: "discountA",
+            Cell: row => (
+              <div>{`${numeral(row.value).format("0,0.00")} ฿`}</div>
+            ),
+            style: { textAlign: "center", color: "red", fontWeight: "bold" }
+          },
+          {
+            Header: "Discount (Item B)",
+            accessor: "discountB",
+            Cell: row => (
+              <div>{`${numeral(row.value).format("0,0.00")} ฿`}</div>
+            ),
+            style: { textAlign: "center", color: "red", fontWeight: "bold" }
+          },
+          {
+            Header: "Grand Total (Item A)",
+            accessor: "grandtotalComA",
+            Cell: row => (
+              <div>{`${numeral(row.value).format("0,0.00")} ฿`}</div>
+            ),
             style: { textAlign: "center", color: "blue", fontWeight: "bold" }
+          },
+          {
+            Header: "Grand Total (Item B)",
+            accessor: "grandtotalComB",
+            Cell: row => (
+              <div>{`${numeral(row.value).format("0,0.00")} ฿`}</div>
+            ),
+            style: { textAlign: "center", color: "blue", fontWeight: "bold" }
+          },
+          {
+            Header: "Total Com (Item A)",
+            accessor: "ComA",
+            Cell: row => (
+              <div>{`${numeral(row.value).format("0,0.00")} ฿`}</div>
+            ),
+            style: { textAlign: "center", color: "#ff9900", fontWeight: "bold" }
+          },
+          {
+            Header: "Total Com (Item B)",
+            accessor: "ComB",
+            Cell: row => (
+              <div>{`${numeral(row.value).format("0,0.00")} ฿`}</div>
+            ),
+            style: { textAlign: "center", color: "#ff9900", fontWeight: "bold" }
           }
         ]
       }
@@ -137,7 +210,8 @@ class List extends Component {
           filename={`daily-com-${this.state.filename}.csv`}
         >
           <button className="waves-effect waves-light btn">
-            <i className="material-icons left">cloud_download</i>Download
+            <i className="material-icons left">cloud_download</i>
+            Download
           </button>
         </CSVLink>
       </div>
@@ -145,8 +219,8 @@ class List extends Component {
   }
 }
 
-function mapStateToProps({ report_daily_com }) {
-  return { report_daily_com };
+function mapStateToProps({ report_daily_com, auth }) {
+  return { report_daily_com, auth };
 }
 
 export default connect(mapStateToProps)(List);

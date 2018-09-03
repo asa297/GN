@@ -1,16 +1,36 @@
 import React from "react";
 
-const ColumnHeader = ({ text, width, textAlign, borderRight }) => {
+const ColumnHeader = ({ textThai, textEng, width, textAlign, borderWidth }) => {
   return (
     <div
       style={{
         width,
-        border: "1px solid",
         textAlign,
-        borderRight
+        borderStyle: "solid",
+        borderWidth,
+        borderColor: "white",
+        background: "#cccccc"
       }}
     >
-      {text}
+      {textThai === textEng ? (
+        <div>
+          <text style={{ fontSize: "25px", fontWeight: "bold" }}>
+            {textEng}
+          </text>
+        </div>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            fontSize: "13px",
+            fontWeight: "bold"
+          }}
+        >
+          <text>{textThai}</text>
+          <text>{textEng}</text>
+        </div>
+      )}
     </div>
   );
 };
