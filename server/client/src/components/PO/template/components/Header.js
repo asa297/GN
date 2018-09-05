@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import logo from "./logo.jpg";
-import OrderId from "./header/OrderId";
-import CSS_class from "../../../../Style/CSS/PO_PRINT_CSS.css";
+import test from "./test.png";
 
 class Header extends Component {
   constructor(props) {
@@ -11,19 +9,40 @@ class Header extends Component {
   }
   componentDidMount() {
     const { orderId, RecordDate, RecordNameBy } = this.props.print_value;
-    const { copy } = this.props;
 
-    this.setState({ orderId, copy, RecordDate, RecordNameBy });
+    this.setState({ orderId, RecordDate, RecordNameBy });
   }
 
   render() {
     return (
       <div style={{ display: "flex" }}>
-        <div style={{ width: "65%", height: "100px", background: "red" }}>
-          a
-        </div>
-        <div style={{ width: "35%", height: "100px", background: "green" }}>
-          b
+        <img
+          style={{
+            width: "65%",
+            height: "85px",
+            borderRadius: "0px 20px 20px 0px"
+          }}
+          src={test}
+          alt="description of image"
+        />
+        <div
+          style={{
+            marginLeft: "5px",
+            width: "35%",
+            height: "85px",
+            background: "#cccccc",
+            borderRadius: "20px 0px 0px 20px",
+            padding: "10px"
+          }}
+        >
+          <div>Order ID : {this.state.orderId}</div>
+          <div style={{ marginTop: "-3px" }}>
+            Date : {new Date(this.state.RecordDate).toLocaleDateString()}{" "}
+            {new Date(this.state.RecordDate).toLocaleTimeString()}
+          </div>
+          <div style={{ marginTop: "-3px" }}>
+            Cashier : {this.state.RecordNameBy}
+          </div>
         </div>
       </div>
     );

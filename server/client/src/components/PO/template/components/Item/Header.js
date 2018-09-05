@@ -1,53 +1,43 @@
-import React from "react";
-import ColumnHeader from "./ColumnHeader";
+import React, { Component } from "react";
 
-const Header = () => {
-  return (
-    <div style={{ display: "flex", margin: "5px 0px 3px 0px" }}>
-      <ColumnHeader
-        textEng="#"
-        textThai="#"
-        width="8%"
-        textAlign="center"
-        borderWidth="2px 0px 2px 2px"
-      />
-      <ColumnHeader
-        textEng="BarCode"
-        textThai="รหัสสินค้า"
-        width="20%"
-        textAlign="center"
-        borderWidth="2px 0px 2px 2px"
-      />
-      <ColumnHeader
-        textEng="Item Name"
-        textThai="รายการสินค้า"
-        width="32%"
-        textAlign="center"
-        borderWidth="2px 0px 2px 2px"
-      />
-      <ColumnHeader
-        textEng="QTY"
-        textThai="จำนวน"
-        width="10%"
-        textAlign="center"
-        borderWidth="2px 0px 2px 2px"
-      />
-      <ColumnHeader
-        textEng="Unit Price"
-        textThai="ราคา/หน่วย"
-        width="15%"
-        textAlign="center"
-        borderWidth="2px 0px 2px 2px"
-      />
-      <ColumnHeader
-        textEng="Total"
-        textThai="รวม"
-        width="15%"
-        textAlign="center"
-        borderWidth="2px 2px 2px 2px"
-      />
-    </div>
-  );
-};
+class Header extends Component {
+  render() {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginTop: "3px"
+        }}
+      >
+        <div
+          style={{
+            background: "#999999",
+            color: "white",
+            border: "1px thin #999999",
+            padding: "2px 10px 2px 10px",
+            borderRadius: "7px"
+          }}
+        >
+          <font
+            style={{
+              fontSize: "16px",
+              fontWeight: "bold"
+            }}
+          >
+            ใบเสร็จรับเงิน / OFFICIAL RECEIPT
+          </font>
+        </div>
+        <div />
+        <div>
+          <font style={{ fontSize: "20px", fontWeight: "bold" }}>
+            {this.props.copy}
+          </font>
+        </div>
+      </div>
+    );
+  }
+}
 
 export default Header;

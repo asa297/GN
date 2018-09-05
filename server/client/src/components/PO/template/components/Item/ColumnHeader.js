@@ -1,6 +1,13 @@
 import React from "react";
 
-const ColumnHeader = ({ textThai, textEng, width, textAlign, borderWidth }) => {
+const ColumnHeader = ({
+  textThai,
+  textEng,
+  width,
+  textAlign,
+  borderWidth,
+  padding
+}) => {
   return (
     <div
       style={{
@@ -9,26 +16,27 @@ const ColumnHeader = ({ textThai, textEng, width, textAlign, borderWidth }) => {
         borderStyle: "solid",
         borderWidth,
         borderColor: "white",
-        background: "#cccccc"
+        background: "#cccccc",
+        padding
       }}
     >
       {textThai === textEng ? (
         <div>
-          <text style={{ fontSize: "25px", fontWeight: "bold" }}>
+          <font style={{ fontSize: "19px", fontWeight: "bold" }}>
             {textEng}
-          </text>
+          </font>
         </div>
       ) : (
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            fontSize: "13px",
+            fontSize: "12px",
             fontWeight: "bold"
           }}
         >
-          <text>{textThai}</text>
-          <text>{textEng}</text>
+          <font>{textThai}</font>
+          <font style={{ marginTop: "-8px" }}>{textEng}</font>
         </div>
       )}
     </div>

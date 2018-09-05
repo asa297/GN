@@ -7,15 +7,42 @@ class Content extends Component {
     this.state = {};
   }
   componentDidMount() {
-    const { itemList } = this.props.print_value;
-    this.setState({ itemList });
+    const {
+      itemList,
+      grandtotal,
+      credit,
+      discount,
+      discountPercent,
+      creditcharge,
+      creditchargePercent
+    } = this.props.print_value;
+    const { copy } = this.props;
+    this.setState({
+      itemList,
+      copy,
+      grandtotal,
+      credit,
+      discount,
+      discountPercent,
+      creditcharge,
+      creditchargePercent
+    });
   }
 
   render() {
     return (
       <div style={{ display: "flex", justifyContent: "space-around" }}>
         <div style={{ width: "90%" }}>
-          <Item itemList={this.state.itemList} />
+          <Item
+            itemList={this.state.itemList}
+            copy={this.state.copy}
+            grandtotal={this.state.grandtotal}
+            credit={this.state.credit}
+            discount={this.state.discount}
+            discountPercent={this.state.discountPercent}
+            creditcharge={this.state.creditcharge}
+            creditchargePercent={this.state.creditchargePercent}
+          />
         </div>
       </div>
     );

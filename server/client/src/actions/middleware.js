@@ -31,6 +31,7 @@ export function validateOrder(formvalues) {
     formvalues.grandtotal = grandtotal;
     formvalues.cash = grandtotal;
     formvalues.credit = credit ? Number(credit) : 0;
+    formvalues.creditchargePercent = credit_charge_temp;
     formvalues.changecash = receivecash - grandtotal;
     formvalues.creditcharge = resultCreditCharge;
     formvalues.receivecash = Number(receivecash);

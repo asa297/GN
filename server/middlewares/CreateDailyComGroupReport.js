@@ -94,6 +94,7 @@ module.exports = (order, select_date) => {
         GroupId: groupId,
         GroupCode: groupCode,
         GroupStickerNumber: groupStickerNumber,
+        _PO,
         totalA,
         totalB,
         discountA,

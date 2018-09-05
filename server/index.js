@@ -9,8 +9,6 @@ const passport = require("passport");
 const bodyParser = require("body-parser");
 const keys = require("./config/key");
 
-
-
 require("./models/User");
 require("./models/OrgType");
 require("./models/Org");
@@ -47,7 +45,6 @@ require("./routes/OrderRoutes")(app);
 require("./routes/ItemElementRotues")(app);
 
 if (process.env.NODE_ENV === "production") {
-  
   app.use(express.static("client/build"));
 
   const path = require("path");

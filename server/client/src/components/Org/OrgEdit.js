@@ -16,8 +16,6 @@ class OrgEdit extends Component {
       return org_typeId === value_props.orgTypeId;
     });
 
-    console.log(value_props);
-
     this.state = {
       _id: value_props._id,
       orgTypeId: value_props.orgTypeId,

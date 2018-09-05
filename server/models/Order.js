@@ -22,6 +22,7 @@ const OrderSchema = new Schema({
   discountPercent: Number,
   credit: SchemaTypes.Double,
   creditcharge: SchemaTypes.Double,
+  creditchargePercent: Number,
   cash: SchemaTypes.Double,
   receivecash: SchemaTypes.Double,
   changecash: SchemaTypes.Double,

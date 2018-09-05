@@ -82,7 +82,7 @@ class List extends Component {
             style: { textAlign: "center" }
           },
           {
-            accessor: "orderId",
+            accessor: "GroupId",
             width: 50,
             Cell: row => (
               <div style={{ display: "flex", justifyContent: "center" }}>
@@ -90,7 +90,10 @@ class List extends Component {
                   <Link
                     to={{
                       pathname: "/report/reportdialycom/viewdetail",
-                      state: { orderId: row.value }
+                      state: {
+                        GroupId: row.value,
+                        filename: this.state.filename
+                      }
                     }}
                   >
                     <i className="tiny material-icons">content_paste</i>
