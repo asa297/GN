@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import _ from "lodash";
-import { reduxForm, Field, reset } from "redux-form";
+import { reduxForm, Field, reset, change } from "redux-form";
+
 import { Link } from "react-router-dom";
 
 import ItemField from "./ItemField";
@@ -8,8 +9,16 @@ import FIELDS from "./formFields";
 import itemType_list from "../../utils/ItemTypeLIst";
 
 import Select from "react-select";
+import FileBase64 from "react-file-base64";
+import resizeImage from "resize-image";
 
 class ItemForm extends Component {
+  constructor() {
+    super();
+    this.state = {
+      base64: null
+    };
+  }
   componentDidMount() {
     this.props.dispatch(reset("item_form"));
   }
@@ -52,10 +61,61 @@ class ItemForm extends Component {
     );
   }
 
+  getFiles(files) {
+    const { file } = files;
+
+    var reader = new FileReader();
+    reader.onload = e => {
+      var img = document.createElement("img");
+      img.onload = () => {
+        var canvas = document.createElement("canvas");
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+
+        var MAX_WIDTH = 400;
+        var MAX_HEIGHT = 300;
+        var width = img.width;
+        var height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        var dataurl = canvas.toDataURL("image/png");
+
+        this.setState({ img_base64: dataurl });
+        this.props.dispatch(change("item_form", "image", dataurl));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
   render() {
     return (
-      <div className="container">
+      <div className="container" style={{ marginTop: " 10px" }}>
         <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <img
+              style={{ width: "400px", height: "300px" }}
+              src={this.state.img_base64}
+            />
+          </div>
+          <div>
+            <FileBase64 multiple={false} onDone={this.getFiles.bind(this)} />
+          </div>
+
           {this.renderField()}
           {this.renderFieldItemType()}
 

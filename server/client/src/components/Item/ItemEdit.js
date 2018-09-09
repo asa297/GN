@@ -3,6 +3,7 @@ import _ from "lodash";
 import { connect } from "react-redux";
 import { reduxForm, Field, change, reset } from "redux-form";
 import Select from "react-select";
+import FileBase64 from "react-file-base64";
 
 import ItemField from "./ItemField";
 import FIELDS from "./formFields";
@@ -17,7 +18,14 @@ class ItemEdit extends Component {
       _.findIndex(this.props.items, { _id: this.props._id })
     ];
 
-    const { _id, item_code, item_name, item_price, item_qty } = value_props;
+    const {
+      _id,
+      item_code,
+      item_name,
+      item_price,
+      item_qty,
+      image
+    } = value_props;
 
     const itemType_selected = _.find(itemType_list, ({ itemTypeId }) => {
       return itemTypeId === value_props.itemTypeId;
@@ -30,7 +38,8 @@ class ItemEdit extends Component {
       item_price,
       item_qty,
       itemType_selected,
-      itemTypeId: itemType_selected.itemTypeId
+      itemTypeId: itemType_selected.itemTypeId,
+      image
     };
   }
 
@@ -43,6 +52,7 @@ class ItemEdit extends Component {
     this.props.dispatch(
       change("item_form", "item_type", this.state.itemType_selected)
     );
+    this.props.dispatch(change("item_form", "image", this.state.image));
   }
 
   renderField() {
@@ -87,9 +97,60 @@ class ItemEdit extends Component {
     );
   }
 
+  getFiles(files) {
+    const { file } = files;
+
+    var reader = new FileReader();
+    reader.onload = e => {
+      var img = document.createElement("img");
+      img.onload = () => {
+        var canvas = document.createElement("canvas");
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+
+        var MAX_WIDTH = 400;
+        var MAX_HEIGHT = 300;
+        var width = img.width;
+        var height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        var dataurl = canvas.toDataURL("image/png");
+
+        this.setState({ image: dataurl });
+        this.props.dispatch(change("item_form", "image", dataurl));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
   renderContent() {
     return (
-      <div>
+      <div style={{ marginTop: " 10px" }}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <img
+            style={{ width: "400px", height: "300px" }}
+            src={this.state.image}
+          />
+        </div>
+        <div>
+          <FileBase64 multiple={false} onDone={this.getFiles.bind(this)} />
+        </div>
+
         {this.renderFieldItemType()}
         {this.renderField()}
         <button

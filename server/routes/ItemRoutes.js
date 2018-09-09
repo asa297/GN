@@ -15,7 +15,8 @@ module.exports = app => {
       item_price,
       item_qty,
       item_remarks,
-      item_type: { itemTypeId, itemTypeName }
+      item_type: { itemTypeId, itemTypeName },
+      image
       // orgChinaList
     } = req.body;
 
@@ -30,6 +31,7 @@ module.exports = app => {
       item_remarks: item_remarks ? item_remarks : "",
       itemTypeId,
       itemTypeName,
+      image: image ? image : null,
       // orgChinaList: orgChinaList
       //   ? orgChinaList.map(
       //       ({ _id, orgTypeId, orgTypeName, orgName, orgCode, orgCom_B }) => ({
@@ -69,9 +71,11 @@ module.exports = app => {
       item_price,
       item_qty,
       item_remarks,
-      item_type: { itemTypeId, itemTypeName }
+      item_type: { itemTypeId, itemTypeName },
+      image
       // orgChinaList
     } = req.body;
+
 
     await itemModel
       .updateOne(
@@ -90,6 +94,7 @@ module.exports = app => {
             item_remarks: item_remarks ? item_remarks : "",
             itemTypeId,
             itemTypeName,
+            image: image ? image : null,
             // orgChinaList: orgChinaList
             //   ? orgChinaList.map(
             //       ({

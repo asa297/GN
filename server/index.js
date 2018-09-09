@@ -23,7 +23,8 @@ mongoose.connect(keys.mongoURI);
 
 app.use(cors());
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "50mb" }));
+
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,

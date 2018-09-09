@@ -13,6 +13,7 @@ const itemSchema = new Schema({
   item_remarks: String,
   itemTypeId: Number,
   itemTypeName: String,
+  image: String,
   // orgChinaList: [orgChinaListSchema],
   RecordIdBy: { type: Schema.Types.ObjectId, ref: "users" },
   RecordNameBy: String,
