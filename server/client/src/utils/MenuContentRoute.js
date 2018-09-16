@@ -40,6 +40,9 @@ import ReportDailyCashBalanceView from "../components/Report/ReportDailyCashBala
 import ReportDailyCommissionGroup from "../components/Report/ReportDailyCom/Search/Search";
 import ReportDailyCommissionGroupView from "../components/Report/ReportDailyCom/View/ReportView";
 import ReportDailyCommissionGroupViewDetail from "../components/Report/ReportDailyCom/View/ReportViewDetail";
+import ReportDeliveryNote from "../components/Report/ReportDeliveryNote/Main";
+import ReportDeliveryNoteNew from "../components/Report/ReportDeliveryNote/NewReportDeliveryNote";
+import ReportDeliveryNoteView from "../components/Report/ReportDeliveryNote/ViewDocument";
 
 //Customer Display
 import CustomerDisplay from "../components/CustomerMonitors/CustomerDisplay";
@@ -51,6 +54,36 @@ export default auth => {
         return (
           <div>
             <Route exact path="/openpo" component={CustomerDisplay} />
+            <Route
+              exact
+              path="/report/reportdeliverynote/view"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDeliveryNoteView />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/report/reportdeliverynote/new"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDeliveryNoteNew />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/report/reportdeliverynote"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDeliveryNote />
+                </div>
+              )}
+            />
             <Route
               exact
               path="/report/reportdialycom/viewdetail"
@@ -353,11 +386,40 @@ export default auth => {
             />
           </div>
         );
-
       case 2:
         return (
           <div>
             <Route exact path="/openpo" component={CustomerDisplay} />
+            <Route
+              exact
+              path="/report/reportdeliverynote/view"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDeliveryNoteView />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/report/reportdeliverynote/new"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDeliveryNoteNew />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/report/reportdeliverynote"
+              render={() => (
+                <div>
+                  <Header />
+                  <ReportDeliveryNote />
+                </div>
+              )}
+            />
             <Route
               exact
               path="/report/reportdialycom/viewdetail"

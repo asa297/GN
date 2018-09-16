@@ -10,7 +10,6 @@ import itemType_list from "../../utils/ItemTypeLIst";
 
 import Select from "react-select";
 import FileBase64 from "react-file-base64";
-import resizeImage from "resize-image";
 
 class ItemForm extends Component {
   constructor() {
@@ -90,7 +89,7 @@ class ItemForm extends Component {
         }
         canvas.width = width;
         canvas.height = height;
-        var ctx = canvas.getContext("2d");
+        // var ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
         var dataurl = canvas.toDataURL("image/png");
 
@@ -110,6 +109,7 @@ class ItemForm extends Component {
             <img
               style={{ width: "400px", height: "300px" }}
               src={this.state.img_base64}
+              alt="des"
             />
           </div>
           <div>

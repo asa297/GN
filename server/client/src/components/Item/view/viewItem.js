@@ -23,6 +23,13 @@ class viewItem extends Component {
   renderContent() {
     return (
       <div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <img
+            style={{ width: "400px", height: "300px" }}
+            src={this.state.item_select.image}
+            alt=""
+          />
+        </div>
         <ViewComponent
           icon="business_center"
           value={this.state.item_select.item_code}
@@ -60,7 +67,7 @@ class viewItem extends Component {
         />
         <ViewComponent
           icon="drafts"
-          value={this.state.item_select.item_qty}
+          value={this.state.item_select.item_qty_PTY}
           title="Product Quality (จำนวนสินค้า)"
         />
         <ViewComponent

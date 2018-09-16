@@ -129,7 +129,11 @@ class Item extends Component {
           type="text"
           label={label}
           name={name}
-          valueField={this.state.items[name] ? this.state.items[name] : ""}
+          valueField={
+            this.state.items[name] || this.state.items[name] === 0
+              ? this.state.items[name]
+              : ""
+          }
           onChange={event =>
             this.setState(prevState => ({
               items: {
@@ -181,7 +185,7 @@ class Item extends Component {
     const { _id } = this.state.items;
     const { values } = this.props.item_inbound_form;
     values._id = _id;
-    values.item_qty = values.item_qty + Number(values.inbound_qty);
+    values.item_qty_PTY = values.item_qty_PTY + Number(values.inbound_qty);
 
     this.setState({ saving: true });
 

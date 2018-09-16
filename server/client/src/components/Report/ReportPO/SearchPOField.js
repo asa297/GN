@@ -1,9 +1,8 @@
 import React from "react";
 
 const SearchPOField = ({
-  valueField,
   input,
-  label,
+
   meta: { error, touched }
 }) => {
   return (

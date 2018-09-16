@@ -10,6 +10,7 @@ const itemSchema = new Schema({
   item_skin: String,
   item_price: Number,
   item_qty: { type: Number, default: 0 },
+  item_qty_PTY: { type: Number, default: 0 },
   item_remarks: String,
   itemTypeId: Number,
   itemTypeName: String,

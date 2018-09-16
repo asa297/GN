@@ -181,7 +181,7 @@ class Item extends Component {
     const { _id } = this.state.items;
     const { values } = this.props.item_outbound_form;
     values._id = _id;
-    values.item_qty = values.item_qty - Number(values.outbound_qty);
+    values.item_qty_PTY = values.item_qty_PTY - Number(values.outbound_qty);
 
     this.setState({ saving: true });
 
@@ -209,7 +209,18 @@ function mapStateToProps({ items, orgs, form: { item_outbound_form } }) {
   return { items, orgs, item_outbound_form };
 }
 
+function validate(values) {
+  const errors = {};
+
+  if (parseInt(values["outbound_qty"], 10) > values["item_qty_PTY"]) {
+    errors["outbound_qty"] = "The Outbound QTY could not more than Item QTY.";
+  }
+
+  return errors;
+}
+
 export default reduxForm({
+  validate,
   form: "item_outbound_form"
 })(
   connect(

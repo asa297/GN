@@ -14,7 +14,8 @@ module.exports = app => {
       item_code,
       item_name,
       inbound_qty,
-      item_qty,
+      // item_qty,
+      item_qty_PTY,
       inbound_remarks
     } = req.body;
 
@@ -28,7 +29,7 @@ module.exports = app => {
           stock_type: 1,
           stock_typeName: "Inbound",
           item_qty: inbound_qty,
-          item_remain: item_qty,
+          item_remain: item_qty_PTY,
           remarks: inbound_remarks ? inbound_remarks : "Deposit Inventory",
           RecordIdBy: req.user._id,
           RecordNameBy: req.user.firstName,
@@ -57,7 +58,8 @@ module.exports = app => {
       item_code,
       item_name,
       outbound_qty,
-      item_qty,
+      // item_qty,
+      item_qty_PTY,
       outbound_remarks
     } = req.body;
 
@@ -71,7 +73,7 @@ module.exports = app => {
           stock_type: 2,
           stock_typeName: "Outbound",
           item_qty: outbound_qty,
-          item_remain: item_qty,
+          item_remain: item_qty_PTY,
           remarks: outbound_remarks ? outbound_remarks : "Withdraw Invertory",
           RecordIdBy: req.user._id,
           RecordNameBy: req.user.firstName,
@@ -104,7 +106,7 @@ module.exports = app => {
       case 3:
         _.map(
           itemList,
-          async ({ _id, item_code, item_name, countQty, item_qty }) => {
+          async ({ _id, item_code, item_name, countQty, item_qty_PTY }) => {
             await new itemElementsModel({
               item_id: _id,
               item_code,
@@ -112,7 +114,7 @@ module.exports = app => {
               stock_type: 3,
               stock_typeName: "Outbound",
               item_qty: countQty,
-              item_remain: item_qty - Number(countQty),
+              item_remain: item_qty_PTY - Number(countQty),
               remarks: "Purchase Order",
               RecordIdBy: req.user._id,
               RecordNameBy: req.user.firstName,

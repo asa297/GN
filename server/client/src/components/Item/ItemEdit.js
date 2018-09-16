@@ -126,7 +126,7 @@ class ItemEdit extends Component {
         }
         canvas.width = width;
         canvas.height = height;
-        var ctx = canvas.getContext("2d");
+        // var ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
         var dataurl = canvas.toDataURL("image/png");
 
@@ -145,6 +145,7 @@ class ItemEdit extends Component {
           <img
             style={{ width: "400px", height: "300px" }}
             src={this.state.image}
+            alt="des"
           />
         </div>
         <div>

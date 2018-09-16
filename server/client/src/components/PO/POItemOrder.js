@@ -6,6 +6,7 @@ import { reduxForm, Field, change } from "redux-form";
 import { find_Item } from "../../actions";
 
 import POScanQR from "./POScanQR";
+import POScanBarCode from "./POScanBarCode";
 import POItemField from "./POItemField";
 
 import PO_CSS from "../../Style/CSS/PO_CSS.css";
@@ -268,7 +269,14 @@ class POItemOrder extends Component {
             />
 
             {this.state.scanStatus ? (
-              <POScanQR
+              // <POScanQR
+              //   onData={itemCode => {
+              //     this.setState({ itemCode });
+              //     this.setItemList();
+              //   }}
+              // />
+
+              <POScanBarCode
                 onData={itemCode => {
                   this.setState({ itemCode });
                   this.setItemList();

@@ -29,11 +29,9 @@ let _total;
 class PO extends Component {
   constructor() {
     super();
-
     const socket = io("https://www.giornies.com", {
       transports: ["websocket"]
     });
-
     this.state = {
       socket,
       ready: false,
@@ -42,17 +40,14 @@ class PO extends Component {
       print_value: {}
     };
   }
-
   componentDidMount() {
     this.props.fetch_Seller();
     this.props.fetch_Group_Filter();
-
     const { socket } = this.state;
     const { auth } = this.props;
     socket.emit("joinroom", { auth });
     socket.emit("openpo", { auth });
   }
-
   componentWillReceiveProps({ groups, inbound_po }) {
     if (groups.length > 0) {
       this.setState({ ready: true });
@@ -61,31 +56,25 @@ class PO extends Component {
       let { total, discount, credit } = inbound_po.values;
       const DC = parseInt(discount, 10);
       // const credit_charge_temp = parseInt(credit_charge, 10);
-
       let resultDiscount = DC > 0 && DC <= 100 ? total * (DC / 100) : 0;
       credit = credit ? parseInt(credit, 10) : 0;
       // let resultCreditCharge =
       //   credit_charge_temp > 0 && credit_charge_temp <= 100
       //     ? credit * (credit_charge_temp / 100)
       //     : 0;
-
       let totalNoCredit = total - resultDiscount;
-
       let resultGrandTotal = total - resultDiscount - credit;
-
       _total = total;
       total_NoCredit = totalNoCredit;
       grand_total = resultGrandTotal;
     }
   }
-
   componentWillUnmount() {
     const { socket } = this.state;
     const { auth } = this.props;
     socket.emit("closepo", { auth });
     socket.disconnect();
   }
-
   headerCollapseItem(header) {
     return (
       <h5>
@@ -94,29 +83,22 @@ class PO extends Component {
       </h5>
     );
   }
-
   async handleSubmitPO() {
     this.setState({ loading: true });
-
     const { values } = this.props.inbound_po;
-
     const res = await this.props.submit_Order(values);
-
     if (res) {
       const { socket } = this.state;
       const { receivecash } = values;
       const { auth } = this.props;
-
       socket.emit("submitpo", { receivecash, auth });
       socket.disconnect();
-
       this.props.submitOutbound_ItemElement_PO({
         itemList: values.itemList
       });
       this.setState({ loading: false, print: true, print_value: res });
     }
   }
-
   renderContent() {
     if (this.state.loading) {
       return (
@@ -131,7 +113,6 @@ class PO extends Component {
         </div>
       );
     }
-
     return (
       <form onSubmit={this.props.handleSubmit(() => this.handleSubmitPO())}>
         <h3 className="center">New Purchase Order (รายการขายใหม่)</h3>
@@ -150,13 +131,11 @@ class PO extends Component {
         <Collapsible trigger={this.headerCollapseItem("Section 2 : ส่วนที่ 2")}>
           <POItemOrder subtotal={_total} socket={this.state.socket} />
         </Collapsible>
-
         <Collapsible
           trigger={this.headerCollapseItem("Section 3 : ส่วนลดและเครดิต")}
         >
           <POPayment socket={this.state.socket} />
         </Collapsible>
-
         <Collapsible
           trigger={this.headerCollapseItem("Payments รายละเอียดการชำระเงิน")}
         >
@@ -171,7 +150,6 @@ class PO extends Component {
       </form>
     );
   }
-
   render() {
     return (
       <div className="container">
