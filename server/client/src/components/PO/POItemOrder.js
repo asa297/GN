@@ -81,9 +81,9 @@ class POItemOrder extends Component {
     );
 
     if (index_item_itemList === -1) {
-      const { item_qty } = this.props.items;
+      const { item_qty_PTY } = this.props.items;
 
-      if (item_qty > 0) {
+      if (item_qty_PTY > 0) {
         const value = this.props.items;
         value.countQty = 1;
 
@@ -101,9 +101,9 @@ class POItemOrder extends Component {
     } else if (index_item_itemList !== -1) {
       let clone_state = this.state.itemList.slice();
 
-      const { countQty, item_qty, _id } = clone_state[index_item_itemList];
+      const { countQty, item_qty_PTY, _id } = clone_state[index_item_itemList];
 
-      if (countQty < item_qty) {
+      if (countQty < item_qty_PTY) {
         clone_state[index_item_itemList].countQty += 1;
         this.setState({ itemList: clone_state });
 
@@ -167,9 +167,9 @@ class POItemOrder extends Component {
 
     let clone_state = this.state.itemList.slice();
 
-    const { countQty, item_qty } = clone_state[index_item];
+    const { countQty, item_qty_PTY } = clone_state[index_item];
 
-    if (countQty < item_qty) {
+    if (countQty < item_qty_PTY) {
       clone_state[index_item].countQty += 1;
 
       this.setState({ itemList: clone_state });

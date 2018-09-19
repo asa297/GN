@@ -63,7 +63,6 @@ class List extends Component {
         export_data.push(_data);
       });
 
-      console.log(reports_deliverynote);
       this.setState({
         show_data: reports_deliverynote,
         export_data,
