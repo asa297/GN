@@ -21,7 +21,7 @@ class ViewComponent extends Component {
         <div className="input-field col s12 m12">
           <i className="material-icons prefix">{this.state.icon}</i>
           <input
-            value={this.state.value}
+            value={this.state.value || ""}
             id="first_name2"
             type="text"
             disabled

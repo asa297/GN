@@ -4,6 +4,7 @@ import { validateOrder } from "./middleware";
 import {
   FETCH_USER,
   FETCH_TYPE_ORG,
+  FETCH_BRANCH,
   FETCH_ORG,
   FETCH_GROUP,
   FETCH_SELLER,
@@ -15,7 +16,8 @@ import {
   FETCH_OUTBOUND_REPORT,
   FETCH_DIALY_INV_REPORT,
   FETCH_DIALY_CASHBALANCE_REPORT,
-  FETCH_DIALY_COM_REPORT
+  FETCH_DIALY_COM_REPORT,
+  FETCH_DELIVERY_NOTE
 } from "./type";
 
 export const fetchUser = () => async dispatch => {
@@ -28,6 +30,12 @@ export const fetchOrgType = () => async dispatch => {
   const res = await axios.get("/api/orgType");
 
   dispatch({ type: FETCH_TYPE_ORG, payload: res.data });
+};
+
+export const fetchBranch = () => async dispatch => {
+  const res = await axios.get("/api/branch");
+
+  dispatch({ type: FETCH_BRANCH, payload: res.data });
 };
 
 // inbound org
@@ -356,4 +364,44 @@ export const fetchDialy_Com_Filter = filter => async dispatch => {
     });
 
   dispatch({ type: FETCH_DIALY_COM_REPORT, payload: res.data });
+};
+
+//Delivery Note
+export const SubmitDeliveryNote = values => async () => {
+  const res = await axios
+    .post("/api/deliverynote", values)
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
+      return error;
+    });
+
+  return res;
+};
+
+export const FetchDeliveryNote = () => async dispatch => {
+  const res = await axios
+    .get("/api/deliverynote")
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
+      return error;
+    });
+
+  dispatch({ type: FETCH_DELIVERY_NOTE, payload: res.data });
+};
+
+export const ApproveDeliveryNote = values => async () => {
+  const res = await axios
+    .put("/api/deliverynote/approve", values)
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
+      return error;
+    });
+
+  return res;
 };

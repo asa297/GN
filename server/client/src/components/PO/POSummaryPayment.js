@@ -50,33 +50,9 @@ class POSummaryPayment extends Component {
 
       let resultGrandTotal = total - resultDiscount - credit;
 
-      // this.props.onDataGrandTotal(resultGrandTotal);
       this.setState({ resultGrandTotal });
-
-      // this.resultGrandTotal();
     }
   }
-
-  // resultGrandTotal() {
-  //   const {
-  //     total,
-  //     resultDiscount,
-  //     credit,
-  //     resultCreditCharge,
-  //     endpoint
-  //   } = this.state;
-
-  //   console.log(this.state);
-
-  //   let resultGrandTotal = total - resultDiscount - credit + resultCreditCharge;
-
-  //   // const socket = io(endpoint);
-
-  //   // socket.emit("grandtotal", resultGrandTotal);
-
-  //   this.props.onDataGrandTotal(resultGrandTotal);
-  //   this.setState({ resultGrandTotal });
-  // }
 
   render() {
     return (

@@ -35,6 +35,11 @@ export default auth => {
             <li>
               <Link to="/report/reportdailyinv">#204 Daily Inventory</Link>
             </li>
+            <li>
+              <Link to="/report/reportdeliverynote">
+                #205 Delivery Note Inventory
+              </Link>
+            </li>
           </div>
         );
       case 2:
@@ -66,6 +71,11 @@ export default auth => {
             </li>
             <li>
               <Link to="/report/reportdailyinv">#204 Daily Inventory</Link>
+            </li>
+            <li>
+              <Link to="/report/reportdeliverynote">
+                #205 Delivery Note Inventory
+              </Link>
             </li>
           </div>
         );

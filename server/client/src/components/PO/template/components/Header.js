@@ -23,7 +23,7 @@ class Header extends Component {
             borderRadius: "0px 20px 20px 0px"
           }}
           src={test}
-          alt="description of image"
+          alt="des"
         />
         <div
           style={{

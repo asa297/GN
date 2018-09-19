@@ -2,7 +2,7 @@ import React from "react";
 import _ from "lodash";
 import numeral from "numeral";
 
-let CreditReady = false;
+// let CreditReady = false;
 let DiscountReady = false;
 let CreditChargeReady = false;
 

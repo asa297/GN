@@ -27,7 +27,8 @@ module.exports = app => {
       item_color: item_color ? item_color : "",
       item_skin: item_skin ? item_skin : "",
       item_price,
-      item_qty,
+      item_qty: 0,
+      item_qty_PTY: 0,
       item_remarks: item_remarks ? item_remarks : "",
       itemTypeId,
       itemTypeName,
@@ -69,13 +70,13 @@ module.exports = app => {
       item_color,
       item_skin,
       item_price,
-      item_qty,
+      // item_qty,
+      item_qty_PTY,
       item_remarks,
       item_type: { itemTypeId, itemTypeName },
       image
       // orgChinaList
     } = req.body;
-
 
     await itemModel
       .updateOne(
@@ -90,7 +91,8 @@ module.exports = app => {
             item_color: item_color ? item_color : "",
             item_skin: item_skin ? item_skin : "",
             item_price,
-            item_qty,
+            // item_qty,
+            item_qty_PTY,
             item_remarks: item_remarks ? item_remarks : "",
             itemTypeId,
             itemTypeName,
