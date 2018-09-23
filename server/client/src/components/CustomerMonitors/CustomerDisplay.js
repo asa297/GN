@@ -133,7 +133,6 @@ class CustomerDisplay extends Component {
     });
 
     socket.on("submitpo", data => {
-      console.log(data);
       // const showitem = `RECEIVE && CHANGE`;
       const showchange = `${data - this.state.grandtotal}`;
       // const grandtotal = data - this.state.grandtotal;
@@ -170,7 +169,6 @@ class CustomerDisplay extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div
         style={{ height: "100vh", overflow: "hidden", fontFamily: "Kanit " }}
@@ -298,14 +296,14 @@ class CustomerDisplay extends Component {
                   <h2
                     style={{
                       marginTop: "20px",
-                      width: "35%"
+                      width: "65%"
                     }}
                   >
                     TOTAL
                   </h2>
                   <div
                     style={{
-                      width: "65%",
+                      // width: "60%",
                       fontSize: "35px",
                       marginLeft: "10px",
                       overflow: "hidden",
@@ -321,14 +319,14 @@ class CustomerDisplay extends Component {
                   <h2
                     style={{
                       marginTop: "20px",
-                      width: "35%"
+                      width: "65%"
                     }}
                   >
                     CASH
                   </h2>
                   <div
                     style={{
-                      width: "65%",
+                      // width: "60%",
                       fontSize: "35px",
                       marginLeft: "10px",
                       overflow: "hidden",
@@ -344,14 +342,14 @@ class CustomerDisplay extends Component {
                   <h2
                     style={{
                       marginTop: "20px",
-                      width: "35%"
+                      width: "65%"
                     }}
                   >
                     CHANGE
                   </h2>
                   <div
                     style={{
-                      width: "65%",
+                      // width: "60%",
                       fontSize: "35px",
                       marginLeft: "10px",
                       overflow: "hidden",
@@ -363,11 +361,17 @@ class CustomerDisplay extends Component {
                   </div>
                 </div>
 
-                <div style={{ height: "13%" }} />
-                <div>
+                <div style={{ height: "16%" }} />
+                <div
+                  style={{
+                    height: "7%",
+                    display: "flex",
+                    justifyContent: "center"
+                  }}
+                >
                   <img
                     style={{
-                      width: "100%"
+                      width: "80%"
                     }}
                     src={thanks}
                     alt="des"

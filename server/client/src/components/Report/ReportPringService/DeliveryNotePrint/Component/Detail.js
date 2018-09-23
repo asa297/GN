@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 const DetailComponent = ({ icon, value, title, style, marginBottom }) => {
   return (
-    <div className="row" style={{ style }}>
+    <div style={style}>
       <div
         className="input-field col s12 m12"
         style={{ marginBottom: marginBottom }}
@@ -66,7 +66,7 @@ class Detail extends Component {
           icon="event_note"
           value={this.state.DN_Remark || ""}
           title="Document Note"
-          style="100%"
+          style={{ width: "100%", margin: "0px" }}
         />
       </div>
     );

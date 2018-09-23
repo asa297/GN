@@ -8,9 +8,9 @@ class Header extends Component {
     this.state = {};
   }
   componentDidMount() {
-    const { DN_Id, LastModifyDate, LastModifyByName } = this.props.print_value;
+    const { DN_Id, RecordDate, RecordNameBy } = this.props.print_value;
 
-    this.setState({ DN_Id, LastModifyDate, LastModifyByName });
+    this.setState({ DN_Id, RecordDate, RecordNameBy });
   }
 
   render() {
@@ -37,11 +37,11 @@ class Header extends Component {
         >
           <div>DN ID : {this.state.DN_Id}</div>
           <div style={{ marginTop: "-3px" }}>
-            Date : {new Date(this.state.LastModifyDate).toLocaleDateString()}{" "}
-            {new Date(this.state.LastModifyDate).toLocaleTimeString()}
+            Date : {new Date(this.state.RecordDate).toLocaleDateString()}{" "}
+            {new Date(this.state.RecordDate).toLocaleTimeString()}
           </div>
           <div style={{ marginTop: "-3px" }}>
-            Last Modify By : {this.state.LastModifyByName}
+            Record By : {this.state.RecordNameBy}
           </div>
         </div>
       </div>

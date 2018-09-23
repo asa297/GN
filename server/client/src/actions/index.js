@@ -419,9 +419,9 @@ export const RejectDeliveryNote = _id => async () => {
   return res;
 };
 
-export const SaveDeliveryNote = (values, _id) => async () => {
+export const FindDeliveryNote = DN_Id => async dispatch => {
   const res = await axios
-    .put("/api/deliverynote/action/save/" + _id, values)
+    .get("/api/deliverynote/" + DN_Id)
     .then(response => {
       return response;
     })
@@ -429,5 +429,5 @@ export const SaveDeliveryNote = (values, _id) => async () => {
       return error;
     });
 
-  return res;
+  dispatch({ type: FETCH_DELIVERY_NOTE, payload: res.data });
 };

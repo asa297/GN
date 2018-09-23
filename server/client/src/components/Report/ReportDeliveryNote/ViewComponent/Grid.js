@@ -1,10 +1,5 @@
 import React, { Component } from "react";
 import _ from "lodash";
-import { connect } from "react-redux";
-import { reduxForm, change } from "redux-form";
-import Alert from "react-s-alert";
-import { find_Item } from "../../../../actions";
-import CircularLoaderBlue from "../../../utils/CircularLoaderBlue";
 
 class Grid extends Component {
   constructor(props) {
@@ -32,70 +27,69 @@ class Grid extends Component {
     };
   }
 
-  componentDidMount() {
-    this.props.dispatch(
-      change("dn_form_edit", "ItemList", this.state.ItemList)
-    );
-  }
+  // componentDidMount() {
+  //   this.props.dispatch(
+  //     change("dn_form_edit", "ItemList", this.state.ItemList)
+  //   );
+  // }
 
-  componentWillUpdate(nextProps, { ItemList }) {
-    if (ItemList) {
-      this.props.dispatch(change("dn_form_edit", "ItemList", ItemList));
-    }
-  }
+  // componentWillUpdate(nextProps, { ItemList }) {
+  //   if (ItemList) {
+  //     this.props.dispatch(change("dn_form_edit", "ItemList", ItemList));
+  //   }
+  // }
 
-  async SearchItem() {
-    let { item_code, ItemList } = this.state;
+  // async SearchItem() {
+  //   let { item_code, ItemList } = this.state;
 
-    if (item_code) {
-      this.setState({ item_code: "", searching: true });
-      await this.props.find_Item(item_code);
-      this.setState({ searching: false });
-      const { items } = this.props;
-      const found = _.find(ItemList, ({ _id }) => {
-        return _id === items._id;
-      });
+  //   if (item_code) {
+  //     this.setState({ item_code: "", searching: true });
+  //     await this.props.find_Item(item_code);
+  //     this.setState({ searching: false });
+  //     const { items } = this.props;
+  //     const found = _.find(ItemList, ({ _id }) => {
+  //       return _id === items._id;
+  //     });
 
-      if (items && !found && items.item_qty_PTY) {
-        let ItemListModel = {};
-        _.each(this.state._columns, ({ key }) => {
-          if (key === "item_qty_PTY") {
-            ItemListModel.item_qty_stock = items.item_qty_PTY;
-          } else {
-            ItemListModel[key] = items[key];
-          }
-        });
-        ItemListModel.qty = 1;
-        ItemListModel.remarks = "";
+  //     if (items && !found && items.item_qty_PTY) {
+  //       let ItemListModel = {};
+  //       _.each(this.state._columns, ({ key }) => {
+  //         if (key === "item_qty_PTY") {
+  //           ItemListModel.item_qty_stock = items.item_qty_PTY;
+  //         } else {
+  //           ItemListModel[key] = items[key];
+  //         }
+  //       });
+  //       ItemListModel.qty = 1;
+  //       ItemListModel.remarks = "";
 
-        ItemList.push(ItemListModel);
-        this.setState({ ItemList });
-      } else if (found) {
-        Alert.warning(`This Item Code is already have(${item_code}).`, {
-          timeout: 2000
-        });
-      } else if (!items) {
-        Alert.error(`This Item Code is not have in system.`, {
-          timeout: 2000
-        });
-      } else if (!items.item_qty_PTY || items.item_qty_PTY === 0) {
-        Alert.error(`The Item Quantity of ${item_code} is zero.`, {
-          timeout: 2000
-        });
-      }
-    } else {
-      Alert.warning("Please , Enter Item Code.", {
-        timeout: 2000
-      });
-    }
-  }
+  //       ItemList.push(ItemListModel);
+  //       this.setState({ ItemList });
+  //     } else if (found) {
+  //       Alert.warning(`This Item Code is already have(${item_code}).`, {
+  //         timeout: 2000
+  //       });
+  //     } else if (!items) {
+  //       Alert.error(`This Item Code is not have in system.`, {
+  //         timeout: 2000
+  //       });
+  //     } else if (!items.item_qty_PTY || items.item_qty_PTY === 0) {
+  //       Alert.error(`The Item Quantity of ${item_code} is zero.`, {
+  //         timeout: 2000
+  //       });
+  //     }
+  //   } else {
+  //     Alert.warning("Please , Enter Item Code.", {
+  //       timeout: 2000
+  //     });
+  //   }
+  // }
 
   renderTableList() {
     return (
       <table>
         <thead>
           <tr>
-            <th style={{ width: "5%" }} />
             <th
               style={{
                 textAlign: "center",
@@ -184,17 +178,6 @@ class Grid extends Component {
             ) => {
               return (
                 <tr key={_id}>
-                  <th>
-                    <button
-                      type="button"
-                      className="red btn-flat left white-text"
-                      disabled
-                      // disabled={this.props.auth.priority === 1 ? false : true}
-                      onClick={() => this.DeleteItemList(index)}
-                    >
-                      <i className="material-icons">remove</i>
-                    </button>
-                  </th>
                   <th style={{ textAlign: "center" }}>{item_factory}</th>
                   <th style={{ textAlign: "center" }}>{item_code}</th>
                   <th style={{ textAlign: "center" }}>{item_name}</th>
@@ -206,7 +189,6 @@ class Grid extends Component {
                       value={qty}
                       type="number"
                       disabled
-                      // disabled={this.props.auth.priority === 1 ? false : true}
                       onChange={event =>
                         this.handleQTYChange(index, event.target.value)
                       }
@@ -216,7 +198,7 @@ class Grid extends Component {
                     <input
                       placeholder="Remarks"
                       value={remarks}
-                      disabled={this.props.auth.priority === 1 ? false : true}
+                      disabled
                       onChange={event =>
                         this.handleRemarkChange(index, event.target.value)
                       }
@@ -231,66 +213,60 @@ class Grid extends Component {
     );
   }
 
-  DeleteItemList(index) {
-    const { ItemList } = this.state;
-    ItemList.splice(index, 1);
-    this.setState({ ItemList });
-  }
+  // handleQTYChange(index, value) {
+  //   const { ItemList } = this.state;
+  //   const { item_qty_stock } = ItemList[index];
+  //   ItemList[index].qty =
+  //     value > item_qty_stock || parseInt(value, 10) === 0 || !value
+  //       ? item_qty_stock
+  //       : parseInt(value, 10);
+  //   this.setState({ ItemList });
+  // }
 
-  handleQTYChange(index, value) {
-    const { ItemList } = this.state;
-    const { item_qty_stock } = ItemList[index];
-    ItemList[index].qty =
-      value > item_qty_stock || parseInt(value, 10) === 0 || !value
-        ? item_qty_stock
-        : parseInt(value, 10);
-    this.setState({ ItemList });
-  }
+  // handleRemarkChange(index, value) {
+  //   const { ItemList } = this.state;
+  //   ItemList[index].remarks = value;
+  //   this.setState({ ItemList });
+  // }
 
-  handleRemarkChange(index, value) {
-    const { ItemList } = this.state;
-    ItemList[index].remarks = value;
-    this.setState({ ItemList });
-  }
+  // AddNewItem() {
+  //   return (
+  //     <div
+  //       style={{
+  //         display: "flex",
+  //         justifyContent: "flex-end",
+  //         alignItems: "center"
+  //       }}
+  //     >
+  //       {this.state.searching ? (
+  //         <div style={{ marginRight: "5px" }}>
+  //           <CircularLoaderBlue />
+  //         </div>
+  //       ) : null}
 
-  AddNewItem() {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          alignItems: "center"
-        }}
-      >
-        {this.state.searching ? (
-          <div style={{ marginRight: "5px" }}>
-            <CircularLoaderBlue />
-          </div>
-        ) : null}
+  //       <input
+  //         style={{ width: "30%" }}
+  //         placeholder="search Item"
+  //         value={this.state.item_code}
+  //         disabled
+  //         // disabled={this.props.auth.priority === 1 ? false : true}
+  //         onChange={event => this.setState({ item_code: event.target.value })}
+  //       />
 
-        <input
-          style={{ width: "30%" }}
-          placeholder="search Item"
-          value={this.state.item_code}
-          disabled
-          // disabled={this.props.auth.priority === 1 ? false : true}
-          onChange={event => this.setState({ item_code: event.target.value })}
-        />
-
-        <button
-          className="green btn-flat white-text"
-          onClick={() => this.SearchItem()}
-        >
-          Add Item
-        </button>
-      </div>
-    );
-  }
+  //       <button
+  //         className="green btn-flat white-text"
+  //         onClick={() => this.SearchItem()}
+  //       >
+  //         Add Item
+  //       </button>
+  //     </div>
+  //   );
+  // }
 
   render() {
     return (
       <div>
-        {this.AddNewItem()}
+        {/* {this.AddNewItem()} */}
         <div
           style={{
             height: "600px",
@@ -305,15 +281,4 @@ class Grid extends Component {
   }
 }
 
-function mapStateToProps({ items, auth }) {
-  return { items, auth };
-}
-
-export default reduxForm({
-  form: "dn_form_edit"
-})(
-  connect(
-    mapStateToProps,
-    { find_Item }
-  )(Grid)
-);
+export default Grid;

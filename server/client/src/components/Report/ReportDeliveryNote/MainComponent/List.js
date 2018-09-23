@@ -147,7 +147,7 @@ class List extends Component {
             />
             <CSVLink
               data={this.state.export_data}
-              filename={"#101-purchaseorder.csv"}
+              filename={"#205-deliverynote.csv"}
             >
               <button className="waves-effect waves-light btn">
                 <i className="material-icons left">cloud_download</i>

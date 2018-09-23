@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import { reduxForm, Field, change } from "redux-form";
 
 const FieldComponent = ({
   input,
   label,
   setValue,
-  priority,
   meta: { error, touched }
 }) => {
   return (
@@ -16,7 +14,7 @@ const FieldComponent = ({
         {...input}
         style={{ marginBottom: "5px" }}
         value={setValue}
-        disabled={priority === 1 ? false : true}
+        disabled
       />
       <div className="red-text" style={{ marginBottom: "20px" }}>
         {touched && error}
@@ -52,7 +50,6 @@ class DocRemarks extends Component {
           name="DN_Remark"
           key="DN_Remark"
           setValue={this.state.DN_Remark}
-          priority={this.props.auth.priority}
           component={FieldComponent}
           onChange={event => this.handleRemarkChange(event.target.value)}
           type="text"
@@ -62,10 +59,6 @@ class DocRemarks extends Component {
   }
 }
 
-function mapStateToProps({ auth }) {
-  return { auth };
-}
-
 export default reduxForm({
   form: "dn_form_edit"
-})(connect(mapStateToProps)(DocRemarks));
+})(DocRemarks);

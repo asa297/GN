@@ -8,6 +8,7 @@ import Header from "./NewComponent/Header";
 import Branch from "./NewComponent/Branch";
 import DocRemarks from "./NewComponent/DocRemarks";
 import Grid from "./NewComponent/Grid";
+import Preloader from "../../utils/Preloader";
 
 class NewReportDeliveryNote extends Component {
   constructor() {
@@ -32,24 +33,25 @@ class NewReportDeliveryNote extends Component {
             timeout: 2000
           }
         );
-
-        setTimeout(() => {
-          this.props.history.push({
-            pathname: "/report/reportdeliverynote"
-          });
-        }, 3000);
       } else {
         Alert.error(`The Delivery Note can't create in system.`, {
           position: "bottom",
           timeout: 2000
         });
       }
+      this.setState({ submit: false });
+      setTimeout(() => {
+        this.props.history.push({
+          pathname: "/report/reportdeliverynote"
+        });
+      }, 2000);
     }
   }
 
   render() {
     return (
       <div className="container">
+        {this.state.submit ? <Preloader /> : null}
         <form onSubmit={this.props.handleSubmit(() => this.handleSubmitDN())}>
           <Header />
           <Branch />

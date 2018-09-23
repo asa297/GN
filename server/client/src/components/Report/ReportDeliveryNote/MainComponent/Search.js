@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { FindDeliveryNote } from "../../../../actions";
+import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import { Field } from "redux-form";
 import { withRouter } from "react-router-dom";
@@ -20,35 +22,57 @@ class Search extends Component {
       searching: false
     };
   }
+
+  async SearchDN() {
+    this.setState({ searching: true });
+
+    const { DN_Id } = this.props.search_dn.values;
+    await this.props.FindDeliveryNote(DN_Id);
+    this.setState({ searching: false });
+    this.props.history.push({
+      pathname: "/report/reportdeliverynote/view",
+      state: { DN: this.props.reports_deliverynote[0] }
+    });
+  }
   render() {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-start",
-          alignItems: "center"
-        }}
-      >
-        <div style={{ width: "300px", marginRight: "10px" }}>
-          <Field
-            key={"orderId"}
-            component={SearchPOField}
-            type="text"
-            name={"orderId"}
-          />
+      <form onSubmit={this.props.handleSubmit(() => this.SearchDN())}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "center"
+          }}
+        >
+          <div style={{ width: "300px", marginRight: "10px" }}>
+            <Field
+              key={"DN_Id"}
+              component={SearchPOField}
+              type="text"
+              name={"DN_Id"}
+            />
+          </div>
+          <button className="green btn-flat white-text" type="submit">
+            Search
+          </button>
+          <div style={{ marginLeft: "5px" }}>
+            {this.state.searching ? <CircularLoaderBlue /> : null}
+          </div>
         </div>
-        <button className="green btn-flat white-text" type="submit">
-          Search
-        </button>
-        <div style={{ marginLeft: "5px" }}>
-          {this.state.searching ? <CircularLoaderBlue /> : null}
-        </div>
-      </div>
+      </form>
     );
   }
 }
 
+function mapStateToProps({ reports_deliverynote, form: { search_dn } }) {
+  return { reports_deliverynote, search_dn };
+}
+
 export default reduxForm({
-  // validate,
   form: "search_dn"
-})(withRouter(Search));
+})(
+  connect(
+    mapStateToProps,
+    { FindDeliveryNote }
+  )(withRouter(Search))
+);
