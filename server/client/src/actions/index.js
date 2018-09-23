@@ -393,9 +393,35 @@ export const FetchDeliveryNote = () => async dispatch => {
   dispatch({ type: FETCH_DELIVERY_NOTE, payload: res.data });
 };
 
-export const ApproveDeliveryNote = values => async () => {
+export const ApproveDeliveryNote = _id => async () => {
   const res = await axios
-    .put("/api/deliverynote/approve", values)
+    .put("/api/deliverynote/action/approve/" + _id)
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
+      return error;
+    });
+
+  return res;
+};
+
+export const RejectDeliveryNote = _id => async () => {
+  const res = await axios
+    .put("/api/deliverynote/action/reject/" + _id)
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
+      return error;
+    });
+
+  return res;
+};
+
+export const SaveDeliveryNote = (values, _id) => async () => {
+  const res = await axios
+    .put("/api/deliverynote/action/save/" + _id, values)
     .then(response => {
       return response;
     })

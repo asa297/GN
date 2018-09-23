@@ -116,12 +116,8 @@ class POPayment extends Component {
 
   onBlurCreditCharge(event) {
     let { value } = event.target;
-    if (value || value === "") {
-      if (value === "") {
-        value = parseInt(0, 10);
-      } else {
-        value = parseInt(value, 10);
-      }
+    if (value) {
+      value = parseInt(value, 10);
 
       if (value >= 0) {
         const { socket } = this.state;

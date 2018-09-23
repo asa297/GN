@@ -51,7 +51,11 @@ class Grid extends Component {
       if (items && !found && items.item_qty_PTY) {
         let ItemListModel = {};
         _.each(this.state._columns, ({ key }) => {
-          ItemListModel[key] = items[key];
+          if (key === "item_qty_PTY") {
+            ItemListModel.item_qty_stock = items.item_qty_PTY;
+          } else {
+            ItemListModel[key] = items[key];
+          }
         });
         ItemListModel.qty = 1;
         ItemListModel.remarks = "";
@@ -222,11 +226,11 @@ class Grid extends Component {
 
   handleQTYChange(index, value) {
     const { ItemList } = this.state;
-    const { item_qty_PTY } = ItemList[index];
+    const { item_qty_stock } = ItemList[index];
     ItemList[index].qty =
-      value > item_qty_PTY || parseInt(value, 10) === 0 || !value
-        ? item_qty_PTY
-        : value;
+      value > item_qty_stock || parseInt(value, 10) === 0 || !value
+        ? item_qty_stock
+        : parseInt(value, 10);
     this.setState({ ItemList });
   }
 

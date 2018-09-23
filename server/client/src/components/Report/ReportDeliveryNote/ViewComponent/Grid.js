@@ -59,7 +59,11 @@ class Grid extends Component {
       if (items && !found && items.item_qty_PTY) {
         let ItemListModel = {};
         _.each(this.state._columns, ({ key }) => {
-          ItemListModel[key] = items[key];
+          if (key === "item_qty_PTY") {
+            ItemListModel.item_qty_stock = items.item_qty_PTY;
+          } else {
+            ItemListModel[key] = items[key];
+          }
         });
         ItemListModel.qty = 1;
         ItemListModel.remarks = "";
@@ -184,6 +188,8 @@ class Grid extends Component {
                     <button
                       type="button"
                       className="red btn-flat left white-text"
+                      disabled
+                      // disabled={this.props.auth.priority === 1 ? false : true}
                       onClick={() => this.DeleteItemList(index)}
                     >
                       <i className="material-icons">remove</i>
@@ -199,6 +205,8 @@ class Grid extends Component {
                       placeholder="QTY"
                       value={qty}
                       type="number"
+                      disabled
+                      // disabled={this.props.auth.priority === 1 ? false : true}
                       onChange={event =>
                         this.handleQTYChange(index, event.target.value)
                       }
@@ -208,6 +216,7 @@ class Grid extends Component {
                     <input
                       placeholder="Remarks"
                       value={remarks}
+                      disabled={this.props.auth.priority === 1 ? false : true}
                       onChange={event =>
                         this.handleRemarkChange(index, event.target.value)
                       }
@@ -230,11 +239,11 @@ class Grid extends Component {
 
   handleQTYChange(index, value) {
     const { ItemList } = this.state;
-    const { item_qty_PTY } = ItemList[index];
+    const { item_qty_stock } = ItemList[index];
     ItemList[index].qty =
-      value > item_qty_PTY || parseInt(value, 10) === 0 || !value
-        ? item_qty_PTY
-        : value;
+      value > item_qty_stock || parseInt(value, 10) === 0 || !value
+        ? item_qty_stock
+        : parseInt(value, 10);
     this.setState({ ItemList });
   }
 
@@ -263,6 +272,8 @@ class Grid extends Component {
           style={{ width: "30%" }}
           placeholder="search Item"
           value={this.state.item_code}
+          disabled
+          // disabled={this.props.auth.priority === 1 ? false : true}
           onChange={event => this.setState({ item_code: event.target.value })}
         />
 
@@ -294,8 +305,8 @@ class Grid extends Component {
   }
 }
 
-function mapStateToProps({ items }) {
-  return { items };
+function mapStateToProps({ items, auth }) {
+  return { items, auth };
 }
 
 export default reduxForm({

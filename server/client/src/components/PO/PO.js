@@ -32,6 +32,7 @@ class PO extends Component {
     const socket = io("https://www.giornies.com", {
       transports: ["websocket"]
     });
+
     this.state = {
       socket,
       ready: false,
@@ -140,7 +141,6 @@ class PO extends Component {
           trigger={this.headerCollapseItem("Payments รายละเอียดการชำระเงิน")}
         >
           <POSummaryPayment
-            // onDataGrandTotal={data => (grand_total = data)}
             onDataReceiveCash={receivecash => this.setState({ receivecash })}
           />
         </Collapsible>

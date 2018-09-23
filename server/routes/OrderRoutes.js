@@ -99,7 +99,7 @@ module.exports = app => {
     if (order) {
       _.map(itemList, async ({ _id, countQty }) => {
         await itemModel
-          .updateOne({ _id }, { $inc: { item_qty: countQty * -1 } })
+          .updateOne({ _id }, { $inc: { item_qty_PTY: countQty * -1 } })
           .exec();
       });
 

@@ -5,9 +5,10 @@ import numeral from "numeral";
 import POItemField from "./POItemField";
 
 class POSummaryPayment extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
+      socket: props.socket,
       resultGrandTotal: 0
     };
   }

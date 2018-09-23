@@ -19,8 +19,8 @@ class DocRemarks extends Component {
       <div>
         <Field
           label="Document Remarks"
-          name="doc_remarks"
-          key="doc_remarks"
+          name="DN_Remark"
+          key="DN_Remark"
           component={FieldComponent}
           type="text"
         />

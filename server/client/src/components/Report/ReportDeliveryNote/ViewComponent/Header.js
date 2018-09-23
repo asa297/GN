@@ -27,17 +27,22 @@ class Header extends Component {
         <h3 style={{ margin: "0px" }}>
           Delivery Note Invertory - #{this.state.DN_Id}
           {this.state.DN_Status === 1 ? (
-            <a className="green btn-flat white-text" href="#">
+            <a className="green btn-flat white-text">
               {this.state.DN_StatusName}
             </a>
           ) : null}
           {this.state.DN_Status === 2 ? (
-            <a className="red btn-flat white-text" href="#">
+            <a className="green btn-flat white-text">
               {this.state.DN_StatusName}
             </a>
           ) : null}
           {this.state.DN_Status === 3 ? (
-            <a className="blue btn-flat white-text" href="#">
+            <a className="red btn-flat white-text">
+              {this.state.DN_StatusName}
+            </a>
+          ) : null}
+          {this.state.DN_Status === 4 ? (
+            <a className="blue btn-flat white-text">
               {this.state.DN_StatusName}
             </a>
           ) : null}
