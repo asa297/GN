@@ -58,6 +58,12 @@ class SellerList extends Component {
             Are you sure to delete this?
           </h6>
           <button
+            className="amber btn-flat right white-text"
+            onClick={() => this.closeModal()}
+          >
+            close
+          </button>
+          <button
             className="red btn-flat right white-text"
             onClick={() => {
               this.props.onDelete(this.state.seller_id);
@@ -65,12 +71,6 @@ class SellerList extends Component {
             }}
           >
             delete
-          </button>
-          <button
-            className="amber btn-flat right white-text"
-            onClick={() => this.closeModal()}
-          >
-            close
           </button>
         </Modal>
       </div>
@@ -103,26 +103,32 @@ class SellerList extends Component {
               </div>
               <div className="card-content">
                 <span className="card-title activator grey-text text-darken-4">
-                  {sellerCode} ({sellerName})<i className="material-icons right">
-                    more_vert
-                  </i>
+                  {sellerCode} ({sellerName})
+                  <i className="material-icons right">more_vert</i>
                 </span>
               </div>
               <div className="card-reveal">
                 <span className="card-title grey-text text-darken-4">
-                  Description<i className="material-icons right">close</i>
+                  Description
+                  <i className="material-icons right">close</i>
                 </span>
                 <div>
-                  <b>Last Mofidy By :</b>&nbsp;<i>{LastModifyByName}</i>
+                  <b>Last Mofidy By :</b>
+                  &nbsp;
+                  <i>{LastModifyByName}</i>
                 </div>
                 <div>
-                  <b>Last Modify At :</b>&nbsp;<i>
+                  <b>Last Modify At :</b>
+                  &nbsp;
+                  <i>
                     {new Date(LastModifyDate).toLocaleDateString()} &nbsp;
                     {new Date(LastModifyDate).toLocaleTimeString()}
                   </i>
                 </div>
                 <div>
-                  <b>Remarks :</b>&nbsp;<i>{sellerRemarks}</i>
+                  <b>Remarks :</b>
+                  &nbsp;
+                  <i>{sellerRemarks}</i>
                 </div>
               </div>
               {this.props.auth.priority === 1 ? (

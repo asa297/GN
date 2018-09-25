@@ -142,7 +142,7 @@ function validate(values) {
   _.each(FIELDS, ({ name }) => {
     if (
       !values[name] &&
-      name !== "item_qty" &&
+      // name !== "item_qty" &&
       name !== "item_factory" &&
       name !== "item_color" &&
       name !== "item_skin" &&
@@ -159,13 +159,13 @@ function validate(values) {
       }
     }
 
-    if (values["item_qty"] && isNaN(values["item_qty"])) {
-      errors["item_qty"] = "Require a number only";
-    } else {
-      if (values["item_qty"] < 0) {
-        errors["item_qty"] = "NOT SUPPORT NEGATIVE QTY";
-      }
-    }
+    // if (values["item_qty"] && isNaN(values["item_qty"])) {
+    //   errors["item_qty"] = "Require a number only";
+    // } else {
+    //   if (values["item_qty"] < 0) {
+    //     errors["item_qty"] = "NOT SUPPORT NEGATIVE QTY";
+    //   }
+    // }
   });
 
   return errors;

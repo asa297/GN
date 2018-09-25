@@ -143,7 +143,7 @@ class Item extends Component {
             }))
           }
           validate={
-            name === "inbound_qty"
+            name === "qty"
               ? [required, isNumber, NagativeNumber, ZeroNumber]
               : []
           }
@@ -185,17 +185,16 @@ class Item extends Component {
     const { _id } = this.state.items;
     const { values } = this.props.item_inbound_form;
     values._id = _id;
-    values.item_qty_PTY = values.item_qty_PTY + Number(values.inbound_qty);
+    values.qty = Number(values.qty);
+    values.stock_status = 1;
 
     this.setState({ saving: true });
 
-    const status = await this.props.updateStock_Item(_id, values);
-    if (status === 200) {
-      await this.props.submitInbound_ItemElement(values);
-      this.props.history.push({
-        pathname: "/report/reportinboundinv"
-      });
-    }
+    await this.props.updateStock_Item(_id, values);
+    await this.props.submitInbound_ItemElement(values);
+    this.props.history.push({
+      pathname: "/report/reportinboundinv"
+    });
   }
 
   render() {

@@ -19,6 +19,7 @@ class ViewDocument extends Component {
 
     this.state = {
       DN,
+      branch_now: 2,
       action: false
     };
   }
@@ -69,66 +70,73 @@ class ViewDocument extends Component {
   render() {
     return (
       <div className="container">
-        {this.state.action ? <Preloader /> : null}
+        {this.state.DN ? (
+          <div>
+            {this.state.action ? <Preloader /> : null}
 
-        <Header
-          DN_Id={this.state.DN.DN_Id}
-          DN_Status={this.state.DN.DN_Status}
-          DN_StatusName={this.state.DN.DN_StatusName}
-        />
-        <Branch
-          branch_origin={this.state.DN.branch_origin}
-          branch_destination={this.state.DN.branch_destination}
-        />
-        <DocRearmks DN_Remark={this.state.DN.DN_Remark} />
-        <Grid ItemList={this.state.DN.ItemList} />
+            <Header
+              DN_Id={this.state.DN.DN_Id}
+              DN_Status={this.state.DN.DN_Status}
+              DN_StatusName={this.state.DN.DN_StatusName}
+            />
+            <Branch
+              branch_origin={this.state.DN.branch_origin}
+              branch_destination={this.state.DN.branch_destination}
+            />
+            <DocRearmks DN_Remark={this.state.DN.DN_Remark} />
+            <Grid ItemList={this.state.DN.ItemList} />
 
-        <div style={{ display: "none" }}>
-          <ComponentToPrint
-            ref={el => (this.componentRef = el)}
-            print_value={this.state.DN}
-          />
-        </div>
-
-        <div style={{ display: "flex ", justifyContent: "center" }}>
-          {this.state.DN.DN_Status === 1 ? (
-            <div>
-              <button
-                className="green btn-flat white-text waves-effect waves-light"
-                onClick={() => {
-                  this.handleSubmitApproveDN(2);
-                }}
-              >
-                <i className="material-icons left">check</i>
-                Approve
-              </button>
-
-              <button
-                className="red btn-flat white-text waves-effect waves-light"
-                style={{ marginLeft: "10px" }}
-                onClick={() => {
-                  this.handleSubmitApproveDN(3);
-                }}
-              >
-                <i className="material-icons left">cancel</i>
-                Reject
-              </button>
+            <div style={{ display: "none" }}>
+              <ComponentToPrint
+                ref={el => (this.componentRef = el)}
+                print_value={this.state.DN}
+              />
             </div>
-          ) : null}
 
-          <ReactToPrint
-            trigger={() => (
-              <button
-                className="blue darken-4 btn-flat white-text waves-effect waves-light"
-                style={{ marginLeft: "10px" }}
-              >
-                <i className="material-icons left">local_printshop</i>
-                Print
-              </button>
-            )}
-            content={() => this.componentRef}
-          />
-        </div>
+            <div style={{ display: "flex ", justifyContent: "center" }}>
+              {this.state.DN.DN_Status === 1 ? (
+                <div>
+                  {this.state.DN.branch_destination.branch_Id ===
+                  this.state.branch_now ? (
+                    <button
+                      className="green btn-flat white-text waves-effect waves-light"
+                      onClick={() => {
+                        this.handleSubmitApproveDN(2);
+                      }}
+                    >
+                      <i className="material-icons left">check</i>
+                      Approve
+                    </button>
+                  ) : null}
+
+                  <button
+                    className="red btn-flat white-text waves-effect waves-light"
+                    style={{ marginLeft: "10px" }}
+                    onClick={() => {
+                      this.handleSubmitApproveDN(3);
+                    }}
+                  >
+                    <i className="material-icons left">cancel</i>
+                    Reject
+                  </button>
+                </div>
+              ) : null}
+
+              <ReactToPrint
+                trigger={() => (
+                  <button
+                    className="blue darken-4 btn-flat white-text waves-effect waves-light"
+                    style={{ marginLeft: "10px" }}
+                  >
+                    <i className="material-icons left">local_printshop</i>
+                    Print
+                  </button>
+                )}
+                content={() => this.componentRef}
+              />
+            </div>
+          </div>
+        ) : null}
       </div>
     );
   }

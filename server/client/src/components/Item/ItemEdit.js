@@ -23,9 +23,15 @@ class ItemEdit extends Component {
       item_code,
       item_name,
       item_price,
-      item_qty,
-      image
+      item_factory,
+      item_color,
+      item_skin,
+      // item_qty,
+      image,
+      item_remarks
     } = value_props;
+
+    console.log(value_props);
 
     const itemType_selected = _.find(itemType_list, ({ itemTypeId }) => {
       return itemTypeId === value_props.itemTypeId;
@@ -36,10 +42,14 @@ class ItemEdit extends Component {
       item_code,
       item_name,
       item_price,
-      item_qty,
+      item_factory,
+      item_color,
+      item_skin,
+      // item_qty,
       itemType_selected,
       itemTypeId: itemType_selected.itemTypeId,
-      image
+      image,
+      item_remarks
     };
   }
 
@@ -56,6 +66,8 @@ class ItemEdit extends Component {
   }
 
   renderField() {
+    console.log(this.state);
+    console.log();
     return _.map(FIELDS, ({ label, name, disabled }) => {
       return (
         <Field
@@ -190,7 +202,7 @@ function validate(values) {
   _.each(FIELDS, ({ name }) => {
     if (
       !values[name] &&
-      name !== "item_qty" &&
+      // name !== "item_qty" &&
       name !== "item_factory" &&
       name !== "item_color" &&
       name !== "item_skin" &&
@@ -207,15 +219,15 @@ function validate(values) {
       }
     }
 
-    if (values["item_qty"] && isNaN(values["item_qty"])) {
-      errors["item_qty"] = "Require a number only";
-    } else {
-      if (values["item_qty"] < 0) {
-        errors["item_qty"] = "NOT SUPPORT NEGATIVE QTY";
-      } else if (values["item_qty"] === 0) {
-        errors["item_qty"] = "Require a Quantity";
-      }
-    }
+    // if (values["item_qty"] && isNaN(values["item_qty"])) {
+    //   errors["item_qty"] = "Require a number only";
+    // } else {
+    //   if (values["item_qty"] < 0) {
+    //     errors["item_qty"] = "NOT SUPPORT NEGATIVE QTY";
+    //   } else if (values["item_qty"] === 0) {
+    //     errors["item_qty"] = "Require a Quantity";
+    //   }
+    // }
   });
 
   return errors;

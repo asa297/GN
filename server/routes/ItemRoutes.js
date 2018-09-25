@@ -13,51 +13,46 @@ module.exports = app => {
       item_color,
       item_skin,
       item_price,
-      item_qty,
       item_remarks,
       item_type: { itemTypeId, itemTypeName },
       image
-      // orgChinaList
     } = req.body;
 
-    const item = await new itemModel({
-      item_code,
-      item_name,
-      item_factory: item_factory ? item_factory : "",
-      item_color: item_color ? item_color : "",
-      item_skin: item_skin ? item_skin : "",
-      item_price,
-      item_qty: 0,
-      item_qty_PTY: 0,
-      item_remarks: item_remarks ? item_remarks : "",
-      itemTypeId,
-      itemTypeName,
-      image: image ? image : null,
-      // orgChinaList: orgChinaList
-      //   ? orgChinaList.map(
-      //       ({ _id, orgTypeId, orgTypeName, orgName, orgCode, orgCom_B }) => ({
-      //         _id,
-      //         orgTypeId,
-      //         orgTypeName,
-      //         orgName,
-      //         orgCode,
-      //         orgCom_B
-      //       })
-      //     )
-      //   : [],
-      RecordIdBy: req.user._id,
-      RecordNameBy: req.user.firstName,
-      RecordDate: Date.now(),
-      LastModifyById: req.user._id,
-      LastModifyByName: req.user.firstName,
-      LastModifyDate: Date.now()
-    }).save();
+    const found = await itemModel.findOne({
+      item_code
+    });
 
-    res.send({});
+    if (!found) {
+      await itemModel({
+        item_code,
+        item_name,
+        item_factory: item_factory ? item_factory : "",
+        item_color: item_color ? item_color : "",
+        item_skin: item_skin ? item_skin : "",
+        item_price,
+        item_qty: 0,
+        item_qty_PTY: 0,
+        item_remarks: item_remarks ? item_remarks : "",
+        itemTypeId,
+        itemTypeName,
+        image: image ? image : null,
+        RecordIdBy: req.user._id,
+        RecordNameBy: req.user.firstName,
+        RecordDate: Date.now(),
+        LastModifyById: req.user._id,
+        LastModifyByName: req.user.firstName,
+        LastModifyDate: Date.now()
+      }).save();
+
+      res.send({});
+    } else {
+      res.status(403).send();
+    }
   });
 
   app.get("/api/item", requireLogin, async (req, res) => {
-    const item = await itemModel.find({});
+    // const item = await itemModel.find({});
+    const item = await itemModel.find({}, { item_qty: 0 });
 
     res.send(item);
   });
@@ -70,55 +65,70 @@ module.exports = app => {
       item_color,
       item_skin,
       item_price,
-      // item_qty,
-      item_qty_PTY,
       item_remarks,
       item_type: { itemTypeId, itemTypeName },
       image
-      // orgChinaList
     } = req.body;
+
+    const found = await itemModel.findOne({
+      item_code
+    });
+
+    if (!found) {
+      await itemModel
+        .updateOne(
+          {
+            _id: req.params.id
+          },
+          {
+            $set: {
+              item_code,
+              item_name,
+              item_factory: item_factory ? item_factory : "",
+              item_color: item_color ? item_color : "",
+              item_skin: item_skin ? item_skin : "",
+              item_price,
+              item_remarks: item_remarks ? item_remarks : "",
+              itemTypeId,
+              itemTypeName,
+              image: image ? image : null,
+              LastModifyById: req.user._id,
+              LastModifyByName: req.user.firstName,
+              LastModifyDate: Date.now()
+            }
+          }
+        )
+        .exec();
+
+      res.send();
+    } else {
+      res.status(403).send();
+    }
+  });
+
+  app.delete("/api/item/:id", requireLogin, async (req, res) => {
+    await itemModel.findByIdAndRemove(req.params.id);
+
+    res.send();
+  });
+
+  app.get("/api/item/:item_code", requireLogin, async (req, res) => {
+    const item = await itemModel.findOne({ item_code: req.params.item_code });
+
+    res.send(item);
+  });
+
+  app.put("/api/item/stock/:id", requireLogin, async (req, res) => {
+    const { qty, stock_status } = req.body;
 
     await itemModel
       .updateOne(
         {
           _id: req.params.id
         },
+        { $inc: { item_qty_PTY: stock_status === 1 ? qty : qty * -1 } },
         {
           $set: {
-            item_code,
-            item_name,
-            item_factory: item_factory ? item_factory : "",
-            item_color: item_color ? item_color : "",
-            item_skin: item_skin ? item_skin : "",
-            item_price,
-            // item_qty,
-            item_qty_PTY,
-            item_remarks: item_remarks ? item_remarks : "",
-            itemTypeId,
-            itemTypeName,
-            image: image ? image : null,
-            // orgChinaList: orgChinaList
-            //   ? orgChinaList.map(
-            //       ({
-            //         _id,
-            //         orgTypeId,
-            //         orgTypeName,
-            //         orgName,
-            //         orgCode,
-            //         orgCom_B
-            //       }) => ({
-            //         _id,
-            //         orgTypeId,
-            //         orgTypeName,
-            //         orgName,
-            //         orgCode,
-            //         orgCom_B
-            //       })
-            //     )
-            //   : [],
-            // RecordIdBy: req.user._id,
-            // RecordNameBy: req.user.firstName,
-            // RecordDate: Date.now(),
             LastModifyById: req.user._id,
             LastModifyByName: req.user.firstName,
             LastModifyDate: Date.now()
@@ -127,19 +137,6 @@ module.exports = app => {
       )
       .exec();
 
-    res.status(200).send();
-  });
-
-  app.delete("/api/item/:id", requireLogin, async (req, res) => {
-    await itemModel.findByIdAndRemove(req.params.id);
-    const item = await itemModel.find({});
-
-    res.send(item);
-  });
-
-  app.get("/api/item/:item_code", requireLogin, async (req, res) => {
-    const item = await itemModel.findOne({ item_code: req.params.item_code });
-
-    res.send(item);
+    res.send();
   });
 };

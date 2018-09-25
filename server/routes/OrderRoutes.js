@@ -140,7 +140,7 @@ module.exports = app => {
 
   app.post("/api/order/edit/:id", requireLogin, async (req, res) => {
     //1
-    const { group_select, orgCom, seller_select, sellerCom } = req.body;
+    const { group_select, seller_select } = req.body;
 
     await orderModel
       .updateOne(
@@ -162,7 +162,8 @@ module.exports = app => {
               orgTypeId: group_select.orgTypeId,
               orgTypeName: group_select.orgTypeName,
               orgCode: group_select.orgCode,
-              orgCom
+              orgComA: group_select.orgComA,
+              orgComB: group_select.orgComB
             },
             seller: {
               sellerId: seller_select ? seller_select._id : null,

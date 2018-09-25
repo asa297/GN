@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import numeral from "numeral";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { CSVLink } from "react-csv";
 

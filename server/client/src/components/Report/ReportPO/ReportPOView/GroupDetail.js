@@ -63,7 +63,17 @@ class GroupDetail extends Component {
         change("report_po_edit", "group_select", group_select)
       );
       this.props.dispatch(
-        change("report_po_edit", "orgCom", group_select.orgCom)
+        change("report_po_edit", "group_select.orgComA", this.state.orgComA)
+      );
+      this.props.dispatch(
+        change("report_po_edit", "group_select.orgComB", this.state.orgComB)
+      );
+
+      this.props.dispatch(
+        change("report_po_edit", "orgComA", this.state.orgComA)
+      );
+      this.props.dispatch(
+        change("report_po_edit", "orgComB", this.state.orgComB)
       );
     }
   }
@@ -133,7 +143,8 @@ class GroupDetail extends Component {
             label={"orgComA"}
             name={"orgComA"}
             valueField={this.state.orgComA}
-            onChange={event => this.setState({ orgComA: event.target.value })}
+            onChange={event => this.OnChangeComA(event.target.value)}
+            // onChange={event => this.setState({ orgComA: event.target.value })}
           />
         </div>
         <div style={{ width: "22.5%" }}>
@@ -144,7 +155,8 @@ class GroupDetail extends Component {
             label={"orgComB"}
             name={"orgComB"}
             valueField={this.state.orgComB}
-            onChange={event => this.setState({ orgComB: event.target.value })}
+            onChange={event => this.OnChangeComB(event.target.value)}
+            // onChange={event => this.setState({ orgComB: event.target.value })}
           />
         </div>
       </div>
@@ -165,7 +177,8 @@ class GroupDetail extends Component {
         orgTypeId,
         orgTypeName,
         orgCode,
-        orgCom
+        orgComA,
+        orgComB
       }) => {
         return {
           _id,
@@ -178,7 +191,8 @@ class GroupDetail extends Component {
           orgTypeId,
           orgTypeName,
           orgCode,
-          orgCom,
+          orgComA,
+          orgComB,
           label: `${groupCode}(${groupStickerNumber})`,
           value: `${groupCode}(${groupStickerNumber})`
         };
@@ -228,8 +242,10 @@ class GroupDetail extends Component {
         orgTypeId,
         orgTypeName,
         orgCode,
-        orgCom
+        orgComA,
+        orgComB
       } = values;
+
       this.setState({
         groupId: _id,
         groupCode,
@@ -241,7 +257,8 @@ class GroupDetail extends Component {
         orgTypeId,
         orgTypeName,
         orgCode,
-        orgCom
+        orgComA,
+        orgComB
       });
 
       values.label = `${groupCode}(${groupStickerNumber})`;
@@ -249,6 +266,20 @@ class GroupDetail extends Component {
 
       this.props.dispatch(change("report_po_edit", "group_select", values));
     }
+  }
+
+  OnChangeComA(ComA) {
+    this.setState({ orgComA: ComA });
+    this.props.dispatch(
+      change("report_po_edit", "group_select.orgComA", parseInt(ComA, 10))
+    );
+  }
+
+  OnChangeComB(ComB) {
+    this.setState({ orgComB: ComB });
+    this.props.dispatch(
+      change("report_po_edit", "group_select.orgComB", parseInt(ComB, 10))
+    );
   }
 
   render() {

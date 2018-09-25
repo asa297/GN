@@ -5,19 +5,28 @@ const requireLogin = require("../middlewares/requireLogin");
 module.exports = app => {
   app.post("/api/seller", requireLogin, async (req, res) => {
     // 1
-    const group = await SellerModel({
-      sellerName: req.body.seller_name,
-      sellerCode: req.body.seller_code,
-      sellerCom: req.body.seller_com,
-      sellerRemarks: req.body.seller_remarks ? req.body.seller_remarks : "",
-      RecordIdBy: req.user._ide,
-      RecordNameBy: req.user.firstName,
-      RecordDate: Date.now(),
-      LastModifyById: req.user._id,
-      LastModifyByName: req.user.firstName,
-      LastModifyDate: Date.now()
-    }).save();
-    res.send({});
+
+    const found = await SellerModel.findOne({
+      sellerCode: req.body.seller_code
+    });
+
+    if (!found) {
+      const group = await SellerModel({
+        sellerName: req.body.seller_name,
+        sellerCode: req.body.seller_code,
+        sellerCom: req.body.seller_com,
+        sellerRemarks: req.body.seller_remarks ? req.body.seller_remarks : "",
+        RecordIdBy: req.user._ide,
+        RecordNameBy: req.user.firstName,
+        RecordDate: Date.now(),
+        LastModifyById: req.user._id,
+        LastModifyByName: req.user.firstName,
+        LastModifyDate: Date.now()
+      }).save();
+      res.send({});
+    } else {
+      res.status(403).send();
+    }
   });
 
   app.get("/api/seller", requireLogin, async (req, res) => {
@@ -62,32 +71,38 @@ module.exports = app => {
 
   app.post("/api/seller/edit/:id", requireLogin, async (req, res) => {
     // 1
-    await SellerModel.updateOne(
-      {
-        _id: req.params.id
-      },
-      {
-        $set: {
-          sellerName: req.body.seller_name,
-          sellerCode: req.body.seller_code,
-          sellerCom: req.body.seller_com,
-          sellerRemarks: req.body.seller_remarks ? req.body.group_remark : "",
-          // RecordIdBy: req.user._ide,
-          // RecordNameBy: req.user.firstName,
-          // RecordDate: Date.now(),
-          LastModifyById: req.user._id,
-          LastModifyByName: req.user.firstName,
-          LastModifyDate: Date.now()
+
+    const found = await SellerModel.findOne({
+      sellerCode: req.body.seller_code
+    });
+
+    if (!found) {
+      await SellerModel.updateOne(
+        {
+          _id: req.params.id
+        },
+        {
+          $set: {
+            sellerName: req.body.seller_name,
+            sellerCode: req.body.seller_code,
+            sellerCom: req.body.seller_com,
+            sellerRemarks: req.body.seller_remarks ? req.body.group_remark : "",
+            LastModifyById: req.user._id,
+            LastModifyByName: req.user.firstName,
+            LastModifyDate: Date.now()
+          }
         }
-      }
-    ).exec();
-    res.send({});
+      ).exec();
+      res.send({});
+    } else {
+      res.status(403).send();
+    }
   });
 
   app.delete("/api/seller/:id", async (req, res) => {
     //1
     await SellerModel.findByIdAndRemove(req.params.id);
-    const inbound_seller = await SellerModel.find({});
-    res.send(inbound_seller);
+
+    res.send();
   });
 };

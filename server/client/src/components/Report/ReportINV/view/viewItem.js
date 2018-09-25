@@ -14,12 +14,20 @@ class viewItem extends Component {
     const item_select = _.find(this.props.items, ({ _id }) => {
       return _id === this.props._id;
     });
+    console.log(item_select);
     this.setState({ item_select });
   }
 
   renderContent() {
     return (
       <div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <img
+            style={{ width: "400px", height: "300px" }}
+            src={this.state.item_select.image}
+            alt=""
+          />
+        </div>
         <ViewComponent
           icon="business_center"
           value={
@@ -86,8 +94,8 @@ class viewItem extends Component {
         <ViewComponent
           icon="drafts"
           value={
-            this.state.item_select.item_qty
-              ? this.state.item_select.item_qty
+            this.state.item_select.item_qty_PTY
+              ? this.state.item_select.item_qty_PTY
               : ""
           }
           title="Item Quality"

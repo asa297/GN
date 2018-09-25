@@ -67,6 +67,12 @@ class GroupList extends Component {
             Are you sure to delete this?
           </h6>
           <button
+            className="amber btn-flat right white-text"
+            onClick={() => this.closeModal()}
+          >
+            close
+          </button>
+          <button
             className="red btn-flat right white-text"
             onClick={() => {
               this.props.onDelete(this.state.group_id);
@@ -74,12 +80,6 @@ class GroupList extends Component {
             }}
           >
             delete
-          </button>
-          <button
-            className="amber btn-flat right white-text"
-            onClick={() => this.closeModal()}
-          >
-            close
           </button>
         </Modal>
       </div>

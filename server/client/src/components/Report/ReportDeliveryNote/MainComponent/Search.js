@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Alert from "react-s-alert";
 import { FindDeliveryNote } from "../../../../actions";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
@@ -29,10 +30,18 @@ class Search extends Component {
     const { DN_Id } = this.props.search_dn.values;
     await this.props.FindDeliveryNote(DN_Id);
     this.setState({ searching: false });
-    this.props.history.push({
-      pathname: "/report/reportdeliverynote/view",
-      state: { DN: this.props.reports_deliverynote[0] }
-    });
+
+    if (this.props.reports_deliverynote[0]) {
+      this.props.history.push({
+        pathname: "/report/reportdeliverynote/view",
+        state: { DN: this.props.reports_deliverynote[0] }
+      });
+    } else {
+      Alert.error(`The Delivery Note is not found.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+    }
   }
   render() {
     return (

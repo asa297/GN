@@ -4,6 +4,7 @@ import { find_ReportPO } from "../../../actions";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import { withRouter } from "react-router-dom";
+import Alert from "react-s-alert";
 
 import SearchPOBar from "./SearchPOBar";
 
@@ -26,6 +27,11 @@ class SearchPO extends Component {
       this.props.history.push({
         pathname: "/report/reportpo/view",
         state: { orderId: parseInt(orderId, 10) }
+      });
+    } else {
+      Alert.error(`Purchase Order ${orderId} is not found.`, {
+        position: "bottom",
+        timeout: 2000
       });
     }
   }

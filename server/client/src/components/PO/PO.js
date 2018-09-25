@@ -86,7 +86,7 @@ class PO extends Component {
   }
   async handleSubmitPO() {
     this.setState({ loading: true });
-    const { values } = this.props.inbound_po;
+    let { values } = this.props.inbound_po;
     const res = await this.props.submit_Order(values);
     if (res) {
       const { socket } = this.state;
@@ -94,9 +94,8 @@ class PO extends Component {
       const { auth } = this.props;
       socket.emit("submitpo", { receivecash, auth });
       socket.disconnect();
-      this.props.submitOutbound_ItemElement_PO({
-        itemList: values.itemList
-      });
+      values.orderId = res.orderId;
+      this.props.submitOutbound_ItemElement_PO(values);
       this.setState({ loading: false, print: true, print_value: res });
     }
   }

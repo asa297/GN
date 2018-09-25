@@ -248,7 +248,7 @@ module.exports = app => {
           DN_Id: req.params.DN_Id
         });
 
-        res.status(200).send([deliverynote]);
+        res.status(200).send(deliverynote ? [deliverynote] : null);
         break;
       default:
         const ip =

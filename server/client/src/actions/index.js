@@ -1,5 +1,6 @@
 import axios from "axios";
 import { validateOrder } from "./middleware";
+import Alert from "react-s-alert";
 
 import {
   FETCH_USER,
@@ -40,8 +41,23 @@ export const fetchBranch = () => async dispatch => {
 
 // inbound org
 
-export const submitOrg = (values, history) => async dispatch => {
-  await axios.post("/api/org", values);
+export const submitOrg = (values, history) => async () => {
+  await axios
+    .post("/api/org", values)
+    .then(response => {
+      Alert.success(`Create New Organization List.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return response;
+    })
+    .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return error;
+    });
 
   history.push("/Org");
 };
@@ -52,20 +68,67 @@ export const fetch_Org = () => async dispatch => {
   dispatch({ type: FETCH_ORG, payload: res.data });
 };
 
-export const update_Org = (org_id, values, onUpdateOrg) => async dispatch => {
-  await axios.post("/api/org/edit/" + org_id, values);
+export const update_Org = (org_id, values, onUpdateOrg) => async () => {
+  await axios
+    .post("/api/org/edit/" + org_id, values)
+    .then(response => {
+      Alert.success(`Saved Organization List.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return response;
+    })
+    .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return error;
+    });
+
   onUpdateOrg();
 };
 
-export const delete_Org = org_id => async dispatch => {
-  const res = await axios.delete("/api/org/" + org_id);
+export const delete_Org = org_id => async () => {
+  await axios
+    .delete("/api/org/" + org_id)
+    .then(response => {
+      Alert.success(`Delete Organization List.`, {
+        position: "bottom",
+        timeout: 2000
+      });
 
-  dispatch({ type: FETCH_ORG, payload: res.data });
+      return response;
+    })
+    .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return error;
+    });
 };
 
 // inbound group
-export const submitGroup = (values, history) => async dispatch => {
-  await axios.post("/api/group", values);
+export const submitGroup = (values, history) => async () => {
+  // const res = await axios.post("/api/group", values);
+
+  await axios
+    .post("/api/group", values)
+    .then(response => {
+      Alert.success(`Create New Group List.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return response;
+    })
+    .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return error;
+    });
 
   history.push("/Group");
 };
@@ -82,25 +145,66 @@ export const fetch_Group_Filter = () => async dispatch => {
   dispatch({ type: FETCH_GROUP, payload: res.data });
 };
 
-export const update_Group = (
-  group_id,
-  values,
-  onUpdateGroup
-) => async dispatch => {
-  await axios.post("/api/group/edit/" + group_id, values);
+export const update_Group = (group_id, values, onUpdateGroup) => async () => {
+  await axios
+    .post("/api/group/edit/" + group_id, values)
+    .then(response => {
+      Alert.success(`Saved Group List.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return response;
+    })
+    .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return error;
+    });
+
   onUpdateGroup();
 };
 
-export const delete_Group = group_id => async dispatch => {
-  const res = await axios.delete("/api/group/" + group_id);
+export const delete_Group = group_id => async () => {
+  await axios
+    .delete("/api/group/" + group_id)
+    .then(response => {
+      Alert.success(`Delete Group List.`, {
+        position: "bottom",
+        timeout: 2000
+      });
 
-  dispatch({ type: FETCH_GROUP, payload: res.data });
+      return response;
+    })
+    .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return error;
+    });
 };
 
 //inbound seller
 
-export const submitSeller = (values, history) => async dispatch => {
-  await axios.post("/api/seller", values);
+export const submitSeller = (values, history) => async () => {
+  await axios
+    .post("/api/seller", values)
+    .then(response => {
+      Alert.success(`Create New Seller List.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return response;
+    })
+    .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return error;
+    });
 
   history.push("/Seller");
 };
@@ -115,21 +219,66 @@ export const update_Seller = (
   seller_id,
   values,
   onUpdateSeller
-) => async dispatch => {
-  await axios.post("/api/seller/edit/" + seller_id, values);
+) => async () => {
+  await axios
+    .post("/api/seller/edit/" + seller_id, values)
+    .then(response => {
+      Alert.success(`Saved Seller List.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return response;
+    })
+    .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return error;
+    });
+
   onUpdateSeller();
 };
 
-export const delete_Seller = seller_id => async dispatch => {
-  const res = await axios.delete("/api/seller/" + seller_id);
+export const delete_Seller = seller_id => async () => {
+  await axios
+    .delete("/api/seller/" + seller_id)
+    .then(response => {
+      Alert.success(`Delete Seller List.`, {
+        position: "bottom",
+        timeout: 2000
+      });
 
-  dispatch({ type: FETCH_SELLER, payload: res.data }, dispatch);
+      return response;
+    })
+    .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return error;
+    });
 };
 
 //inbound item
 
-export const submitInboundItem = (values, history) => async dispatch => {
-  await axios.post("/api/item", values);
+export const submitInboundItem = (values, history) => async () => {
+  await axios
+    .post("/api/item", values)
+    .then(response => {
+      Alert.success(`Create New Item List.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return response;
+    })
+    .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return error;
+    });
 
   history.push("/Item");
 };
@@ -146,34 +295,91 @@ export const find_Item = item_code => async dispatch => {
   dispatch({ type: FETCH_ITEM_FOR_PO, payload: res.data });
 };
 
-export const update_Item = (item_id, values) => async dispatch => {
-  await axios.post("/api/item/edit/" + item_id, values);
-};
-
-export const delete_Item = (item_id, history) => async dispatch => {
-  const res = await axios.delete("/api/item/" + item_id);
-
-  dispatch({ type: FETCH_ITEM, payload: res.data });
-};
-
-export const updateStock_Item = (item_id, values) => async dispatch => {
-  const res = await axios
+export const update_Item = (item_id, values) => async () => {
+  await axios
     .post("/api/item/edit/" + item_id, values)
     .then(response => {
-      return response.status;
+      Alert.success(`Saved Item List.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return response;
     })
     .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
       return error;
     });
+};
+
+export const delete_Item = item_id => async () => {
+  await axios
+    .delete("/api/item/" + item_id)
+    .then(response => {
+      Alert.success(`Delete Item List.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+
+      return response;
+    })
+    .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return error;
+    });
+};
+
+export const updateStock_Item = (item_id, qty) => async () => {
+  const res = await axios
+    .put("/api/item/stock/" + item_id, qty)
+    .then(response => {
+      Alert.success(`Update Item Stock.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return response;
+    })
+    .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return error;
+    });
+  // const res = await axios
+  //   .post("/api/item/edit/" + item_id, values)
+  //   .then(response => {
+  //     return response.status;
+  //   })
+  //   .catch(error => {
+  //     return error;
+  //   });
 
   return res;
 };
 
-export const deleteInbound_Item = (item_id, history) => async dispatch => {
-  await axios.delete("/api/item/" + item_id).then(response => {
-    history.push("/report/reportinv");
-  });
-};
+// export const deleteInbound_Item = (item_id, history) => async dispatch => {
+//   const res = await axios.delete("/api/item/" + item_id);
+
+//   if (res.status === 200) {
+//     Alert.success(`Delete Item List.`, {
+//       position: "bottom",
+//       timeout: 2000
+//     });
+//   } else {
+//     Alert.error(`Something is wrong.`, {
+//       position: "bottom",
+//       timeout: 2000
+//     });
+//   }
+
+//   history.push("/report/reportinv");
+// };
 
 //inbound order
 export const submit_Order = values => async () => {
@@ -181,9 +387,17 @@ export const submit_Order = values => async () => {
   const res = await axios
     .post("/api/order", formvalues)
     .then(response => {
+      Alert.success(`Create Order.`, {
+        position: "bottom",
+        timeout: 2000
+      });
       return response;
     })
     .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
       return error;
     });
 
@@ -213,36 +427,68 @@ export const fetch_ReportPO_Filter = formvalue => async dispatch => {
   }
 };
 
-export const update_ReportPO = (
-  orderId,
-  formvalues,
-  history
-) => async dispatch => {
+export const update_ReportPO = (orderId, formvalues, history) => async () => {
   await axios
     .post("/api/order/edit/" + orderId, formvalues.values)
     .then(response => {
-      history.push("/report/reportpo");
+      Alert.success(`Saved Order.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+
+      return response;
+    })
+    .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return error;
     });
+  history.push("/report/reportpo");
 };
 
-export const delete_ReportPO = (orderId, history) => async dispatch => {
-  await axios.delete("/api/order/" + orderId).then(response => {
-    history.push("/report/reportpo");
-  });
+export const delete_ReportPO = (orderId, history) => async () => {
+  await axios
+    .delete("/api/order/" + orderId)
+    .then(response => {
+      Alert.success(`Delete Order.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+
+      return response;
+    })
+    .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return error;
+    });
+
+  history.push("/report/reportpo");
 };
 
 //Item Element Inbound
 export const submitInbound_ItemElement = values => async () => {
-  const res = await axios
+  await axios
     .post("/api/itemelement/inbound", values)
     .then(response => {
-      return response.status;
+      Alert.success(`Create Item Element.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+
+      return response;
     })
     .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
       return error;
     });
-
-  return res;
 };
 
 export const fetchInbound_ItemElement = () => async dispatch => {
@@ -273,29 +519,42 @@ export const fetchInbound_ItemElement_Filter = filter => async dispatch => {
 
 //Item Element Outbound
 export const submitOutbound_ItemElement = values => async () => {
-  const res = await axios
+  await axios
     .post("/api/itemelement/outbound", values)
     .then(response => {
-      return response.status;
+      Alert.success(`Create Item Element.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+
+      return response;
     })
     .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
       return error;
     });
-
-  return res;
 };
 
 export const submitOutbound_ItemElement_PO = itemList => async () => {
-  const res = await axios
+  await axios
     .post("/api/itemelement/outbound/po", itemList)
     .then(response => {
-      return response.status;
+      Alert.success(`Create Item Element.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return response;
     })
     .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
       return error;
     });
-
-  return res;
 };
 
 export const fetchOutbound_ItemElement = () => async dispatch => {

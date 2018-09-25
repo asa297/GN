@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const BranchSchema = require("./Branch");
 const { Schema } = mongoose;
 
 const ItemElement = new Schema({
@@ -8,8 +9,8 @@ const ItemElement = new Schema({
   stock_type: Number,
   stock_typeName: String,
   item_qty: Number,
-  item_remain: Number,
   remarks: String,
+  branch: BranchSchema,
   RecordIdBy: { type: Schema.Types.ObjectId, ref: "users" },
   RecordNameBy: String,
   RecordDate: Date,

@@ -46,7 +46,15 @@ class SellerDetail extends Component {
       );
 
       this.props.dispatch(
-        change("report_po_edit", "sellerCom", seller_select.sellerCom)
+        change(
+          "report_po_edit",
+          "seller_select.sellerCom",
+          this.state.sellerCom
+        )
+      );
+
+      this.props.dispatch(
+        change("report_po_edit", "sellerCom", this.state.sellerCom)
       );
     }
   }
@@ -79,9 +87,10 @@ class SellerDetail extends Component {
               label={"sellerCom"}
               name={"sellerCom"}
               valueField={this.state.sellerCom}
-              onChange={event =>
-                this.setState({ sellerCom: event.target.value })
-              }
+              onChange={event => this.OnChangeSellerCom(event.target.value)}
+              // onChange={event =>
+              //   this.setState({ sellerCom: event.target.value })
+              // }
             />
           </div>
           <div style={{ width: "22.5%" }}>
@@ -173,6 +182,13 @@ class SellerDetail extends Component {
 
       this.props.dispatch(change("report_po_edit", "sellerCom", null));
     }
+  }
+
+  OnChangeSellerCom(Com) {
+    this.setState({ sellerCom: Com });
+    this.props.dispatch(
+      change("report_po_edit", "seller_select.sellerCom", parseInt(Com, 10))
+    );
   }
 
   render() {

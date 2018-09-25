@@ -13,6 +13,7 @@ import PO_CSS from "../../Style/CSS/PO_CSS.css";
 import CircularLoader from "../utils/CircularLoader";
 
 import Toggle from "react-toggle";
+import Alert from "react-s-alert";
 
 class POItemOrder extends Component {
   constructor(props) {
@@ -97,6 +98,16 @@ class POItemOrder extends Component {
         const { auth } = this.props;
 
         socket.emit("showitem", { _getCustomer, auth });
+      } else if (item_qty_PTY === 0 || item_qty_PTY === null) {
+        Alert.error(`QTY is not enough.`, {
+          position: "bottom",
+          timeout: 2000
+        });
+      } else {
+        Alert.error(`Item is not found.`, {
+          position: "bottom",
+          timeout: 2000
+        });
       }
     } else if (index_item_itemList !== -1) {
       let clone_state = this.state.itemList.slice();
@@ -113,6 +124,11 @@ class POItemOrder extends Component {
         const { auth } = this.props;
 
         socket.emit("showitem", { _getCustomer, auth });
+      } else {
+        Alert.error(`QTY is not enough.`, {
+          position: "bottom",
+          timeout: 2000
+        });
       }
     }
 
@@ -180,6 +196,11 @@ class POItemOrder extends Component {
       const { auth } = this.props;
 
       socket.emit("showitem", { _getCustomer, auth });
+    } else {
+      Alert.error(`QTY is not enough.`, {
+        position: "bottom",
+        timeout: 2000
+      });
     }
   }
 

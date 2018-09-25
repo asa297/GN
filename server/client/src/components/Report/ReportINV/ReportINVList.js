@@ -36,7 +36,7 @@ class ReportPOList extends Component {
       item_remarks,
       item_skin,
       item_color,
-      item_qty,
+      item_qty_PTY,
       itemTypeName,
       LastModifyDate_moment,
       LastModifyByName
@@ -50,7 +50,7 @@ class ReportPOList extends Component {
       item_remarks,
       item_skin,
       item_color,
-      item_qty,
+      item_qty_PTY,
       itemTypeName,
       Date: LastModifyDate_moment,
       LastModifyByName
@@ -150,7 +150,7 @@ class ReportPOList extends Component {
           },
           {
             Header: "QTY",
-            accessor: "item_qty",
+            accessor: "item_qty_PTY",
             width: 100,
             style: { textAlign: "right" }
           },

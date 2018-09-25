@@ -139,7 +139,7 @@ class Item extends Component {
             }))
           }
           validate={
-            name === "outbound_qty"
+            name === "qty"
               ? [required, isNumber, NagativeNumber, ZeroNumber]
               : []
           }
@@ -181,17 +181,16 @@ class Item extends Component {
     const { _id } = this.state.items;
     const { values } = this.props.item_outbound_form;
     values._id = _id;
-    values.item_qty_PTY = values.item_qty_PTY - Number(values.outbound_qty);
+    values.qty = Number(values.qty);
+    values.stock_status = 2;
 
     this.setState({ saving: true });
 
-    const status = await this.props.updateStock_Item(_id, values);
-    if (status === 200) {
-      await this.props.submitOutbound_ItemElement(values);
-      this.props.history.push({
-        pathname: "/report/reportoutboundinv"
-      });
-    }
+    await this.props.updateStock_Item(_id, values);
+    await this.props.submitOutbound_ItemElement(values);
+    this.props.history.push({
+      pathname: "/report/reportoutboundinv"
+    });
   }
 
   render() {
@@ -212,8 +211,8 @@ function mapStateToProps({ items, orgs, form: { item_outbound_form } }) {
 function validate(values) {
   const errors = {};
 
-  if (parseInt(values["outbound_qty"], 10) > values["item_qty_PTY"]) {
-    errors["outbound_qty"] = "The Outbound QTY could not more than Item QTY.";
+  if (parseInt(values["qty"], 10) > values["item_qty_PTY"]) {
+    errors["qty"] = "The Outbound QTY could not more than Item QTY.";
   }
 
   return errors;

@@ -65,6 +65,12 @@ class OrgList extends Component {
             Are you sure to delete this?
           </h6>
           <button
+            className="amber btn-flat right white-text"
+            onClick={() => this.closeModal()}
+          >
+            close
+          </button>
+          <button
             className="red btn-flat right white-text"
             onClick={() => {
               this.props.onDelete(this.state.org_id);
@@ -72,12 +78,6 @@ class OrgList extends Component {
             }}
           >
             delete
-          </button>
-          <button
-            className="amber btn-flat right white-text"
-            onClick={() => this.closeModal()}
-          >
-            close
           </button>
         </Modal>
       </div>
@@ -110,10 +110,14 @@ class OrgList extends Component {
               </div>
               <div className="card-content">
                 <div>
-                  <b>Last Mofidy By :</b>&nbsp;<i>{LastModifyByName}</i>
+                  <b>Last Mofidy By :</b>
+                  &nbsp;
+                  <i>{LastModifyByName}</i>
                 </div>
                 <div>
-                  <b>Last Modify At :</b>&nbsp;<i>
+                  <b>Last Modify At :</b>
+                  &nbsp;
+                  <i>
                     {new Date(LastModifyDate).toLocaleDateString()} &nbsp;
                     {new Date(LastModifyDate).toLocaleTimeString()}
                   </i>

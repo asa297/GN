@@ -9,28 +9,23 @@ const CreateDailyInventoryReport = require("../middlewares/CreateDailyInventoryR
 module.exports = app => {
   app.post("/api/itemelement/inbound", requireLogin, async (req, res) => {
     const { priority } = req.user;
-    const {
-      _id,
-      item_code,
-      item_name,
-      inbound_qty,
-      // item_qty,
-      item_qty_PTY,
-      inbound_remarks
-    } = req.body;
+    const { _id, item_code, item_name, qty, inbound_remarks } = req.body;
 
     switch (priority) {
       case 1:
       case 2:
-        const itemelement = await new itemElementsModel({
+        await new itemElementsModel({
           item_id: _id,
           item_code,
           item_name,
           stock_type: 1,
           stock_typeName: "Inbound",
-          item_qty: inbound_qty,
-          item_remain: item_qty_PTY,
+          item_qty: qty,
           remarks: inbound_remarks ? inbound_remarks : "Deposit Inventory",
+          branch: {
+            branch_Id: 2,
+            branch_Name: "GN-SHOP (Pattaya)"
+          },
           RecordIdBy: req.user._id,
           RecordNameBy: req.user.firstName,
           RecordDate: Date.now()
@@ -48,33 +43,28 @@ module.exports = app => {
         break;
     }
 
-    res.status(200).send({});
+    res.send();
   });
 
   app.post("/api/itemelement/outbound", requireLogin, async (req, res) => {
     const { priority } = req.user;
-    const {
-      _id,
-      item_code,
-      item_name,
-      outbound_qty,
-      // item_qty,
-      item_qty_PTY,
-      outbound_remarks
-    } = req.body;
+    const { _id, item_code, item_name, qty, outbound_remarks } = req.body;
 
     switch (priority) {
       case 1:
       case 2:
-        const itemelement = await new itemElementsModel({
+        await new itemElementsModel({
           item_id: _id,
           item_code,
           item_name,
           stock_type: 2,
           stock_typeName: "Outbound",
-          item_qty: outbound_qty,
-          item_remain: item_qty_PTY,
+          item_qty: qty,
           remarks: outbound_remarks ? outbound_remarks : "Withdraw Invertory",
+          branch: {
+            branch_Id: 2,
+            branch_Name: "GN-SHOP (Pattaya)"
+          },
           RecordIdBy: req.user._id,
           RecordNameBy: req.user.firstName,
           RecordDate: Date.now()
@@ -93,35 +83,35 @@ module.exports = app => {
         break;
     }
 
-    res.status(200).send({});
+    res.send({});
   });
 
   app.post("/api/itemelement/outbound/po", requireLogin, async (req, res) => {
     const { priority } = req.user;
-    const { itemList } = req.body;
+    const { itemList, orderId } = req.body;
 
     switch (priority) {
       case 1:
       case 2:
       case 3:
-        _.map(
-          itemList,
-          async ({ _id, item_code, item_name, countQty, item_qty_PTY }) => {
-            await new itemElementsModel({
-              item_id: _id,
-              item_code,
-              item_name,
-              stock_type: 3,
-              stock_typeName: "Outbound",
-              item_qty: countQty,
-              item_remain: item_qty_PTY - Number(countQty),
-              remarks: "Purchase Order",
-              RecordIdBy: req.user._id,
-              RecordNameBy: req.user.firstName,
-              RecordDate: Date.now()
-            }).save();
-          }
-        );
+        _.map(itemList, async ({ _id, item_code, item_name, countQty }) => {
+          await new itemElementsModel({
+            item_id: _id,
+            item_code,
+            item_name,
+            stock_type: 3,
+            stock_typeName: "Outbound from PO Method",
+            item_qty: countQty,
+            remarks: `Purchase Order #${orderId}`,
+            branch: {
+              branch_Id: 2,
+              branch_Name: "GN-SHOP (Pattaya)"
+            },
+            RecordIdBy: req.user._id,
+            RecordNameBy: req.user.firstName,
+            RecordDate: Date.now()
+          }).save();
+        });
         break;
 
       default:
@@ -147,6 +137,7 @@ module.exports = app => {
       case 2:
         itemelement = await itemElementsModel.find({
           stock_type: 1,
+          "branch.branch_Id": 2,
           RecordDate: {
             $gte: new Date(
               moment()
@@ -179,6 +170,7 @@ module.exports = app => {
       case 2:
         itemelement = await itemElementsModel.find({
           stock_type: [2, 3],
+          "branch.branch_Id": 2,
           RecordDate: {
             $gte: new Date(
               moment()
@@ -215,6 +207,7 @@ module.exports = app => {
         case 2:
           itemelement = await itemElementsModel.find({
             stock_type: 1,
+            "branch.branch_Id": 2,
             RecordDate: {
               $gte: new Date(moment(start_date).format("YYYY-MM-DD HH:mm:ss")),
               $lt: new Date(moment(end_date).format("YYYY-MM-DD HH:mm:ss"))
@@ -251,6 +244,7 @@ module.exports = app => {
         case 2:
           itemelement = await itemElementsModel.find({
             stock_type: [2, 3],
+            "branch.branch_Id": 2,
             RecordDate: {
               $gte: new Date(moment(start_date).format("YYYY-MM-DD HH:mm:ss")),
               $lt: new Date(moment(end_date).format("YYYY-MM-DD HH:mm:ss"))
@@ -286,6 +280,7 @@ module.exports = app => {
       case 2:
         const inbound = itemElementsModel.find({
           stock_type: 1,
+          "branch.branch_Id": 2,
           RecordDate: {
             $gte: new Date(moment(select_date).format("YYYY-MM-DD HH:mm:ss")),
             $lt: new Date(
@@ -298,6 +293,7 @@ module.exports = app => {
 
         const outbound = itemElementsModel.find({
           stock_type: [2, 3],
+          "branch.branch_Id": 2,
           RecordDate: {
             $gte: new Date(moment(select_date).format("YYYY-MM-DD HH:mm:ss")),
             $lt: new Date(
