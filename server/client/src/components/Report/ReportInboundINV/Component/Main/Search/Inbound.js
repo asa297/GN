@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Alert from "react-s-alert";
 import { find_Item } from "../../../../../../actions";
 import CircularLoaderBlue from "../../../../../utils/CircularLoaderBlue";
 import { connect } from "react-redux";
@@ -35,6 +36,11 @@ class Inbound extends Component {
       this.props.history.push({
         pathname: "/report/reportinboundinv/view/edit",
         state: { item_code }
+      });
+    } else {
+      Alert.error(`Item Not Found.`, {
+        position: "bottom",
+        timeout: 2000
       });
     }
     // }

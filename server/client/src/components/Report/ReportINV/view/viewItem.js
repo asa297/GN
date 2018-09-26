@@ -93,12 +93,8 @@ class viewItem extends Component {
         />
         <ViewComponent
           icon="drafts"
-          value={
-            this.state.item_select.item_qty_PTY
-              ? this.state.item_select.item_qty_PTY
-              : ""
-          }
-          title="Item Quality"
+          value={this.state.item_select.item_qty_PTY}
+          title="Product Quality(จำนวนสินค้า)"
         />
         <ViewComponent
           icon="event_note"

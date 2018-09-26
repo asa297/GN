@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { find_Item, fetch_Org } from "../../../../../../actions";
+import Alert from "react-s-alert";
+import { find_Item } from "../../../../../../actions";
 import CircularLoaderBlue from "../../../../../utils/CircularLoaderBlue";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
@@ -36,10 +37,14 @@ class Outbound extends Component {
     await this.props.find_Item(item_code);
     this.setState({ ready: true });
     if (this.props.items) {
-      await this.props.fetch_Org();
       this.props.history.push({
         pathname: "/report/reportoutboundinv/view/edit",
         state: { item_code }
+      });
+    } else {
+      Alert.error(`Item Not Found.`, {
+        position: "bottom",
+        timeout: 2000
       });
     }
   }
@@ -81,8 +86,7 @@ export default reduxForm({
   connect(
     mapStateToProps,
     {
-      find_Item,
-      fetch_Org
+      find_Item
     }
   )(withRouter(Outbound))
 );

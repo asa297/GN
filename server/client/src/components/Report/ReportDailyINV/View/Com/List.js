@@ -36,23 +36,14 @@ class List extends Component {
   }
 
   prepareExportData(value) {
-    const {
-      index,
-      item_code,
-      item_name,
-      Inbound,
-      Outbound,
-      Sold,
-      Remain
-    } = value;
+    const { index, item_code, item_name, Inbound, Outbound, Sold } = value;
     return {
       "#": index,
       item_code: `#${item_code}`,
       item_name,
       Inbound,
       Outbound,
-      Sold,
-      Remain
+      Sold
     };
   }
 
@@ -92,11 +83,6 @@ class List extends Component {
             Header: "SOLD",
             accessor: "Sold",
             style: { textAlign: "center", color: "red", fontWeight: "bold" }
-          },
-          {
-            Header: "Remain",
-            accessor: "Remain",
-            style: { textAlign: "center", color: "blue", fontWeight: "bold" }
           }
         ]
       }
@@ -117,7 +103,8 @@ class List extends Component {
           filename={`daily-inv-${this.state.filename}.csv`}
         >
           <button className="waves-effect waves-light btn">
-            <i className="material-icons left">cloud_download</i>Download
+            <i className="material-icons left">cloud_download</i>
+            Download
           </button>
         </CSVLink>
       </div>

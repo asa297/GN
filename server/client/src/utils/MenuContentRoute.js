@@ -19,7 +19,7 @@ import Seller from "../components/Seller/Seller";
 import SellerNew from "../components/Seller/SellerNew";
 //Item
 import Item from "../components/Item/Item";
-import ItemNew from "../components/Item/ItemNew";
+// import ItemNew from "../components/Item/ItemNew";
 import ItemView from "../components/Item/view/viewItem";
 //PO
 import InboundPO from "../components/PO/PO";
@@ -264,7 +264,7 @@ export default auth => {
                 </div>
               )}
             />
-            <Route
+            {/* <Route
               exact
               path="/Item/new"
               render={() => (
@@ -273,7 +273,7 @@ export default auth => {
                   <ItemNew />
                 </div>
               )}
-            />
+            /> */}
             <Route
               exact
               path="/Item"
