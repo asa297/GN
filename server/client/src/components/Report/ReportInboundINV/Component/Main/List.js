@@ -81,6 +81,7 @@ class List extends Component {
             width: 100,
             style: { fontWeight: "bold", textAlign: "center" }
           },
+
           {
             Header: "Item Name",
             accessor: "item_name",
@@ -91,7 +92,7 @@ class List extends Component {
             Header: "Inbound Quantity",
             accessor: "item_qty",
             Cell: row => <div>{numeral(row.value).format("0,0")}</div>,
-            // width: 200,
+            width: 200,
             style: { fontWeight: "bold", textAlign: "center", color: "green" }
           },
           {
@@ -103,6 +104,7 @@ class List extends Component {
           {
             Header: "Record By",
             accessor: "RecordNameBy",
+            width: 200,
             style: { textAlign: "center" }
           },
           {
@@ -132,7 +134,8 @@ class List extends Component {
               filename={"inboundinventoryreport.csv"}
             >
               <button className="waves-effect waves-light btn">
-                <i className="material-icons left">cloud_download</i>Download
+                <i className="material-icons left">cloud_download</i>
+                Download
               </button>
             </CSVLink>
           </div>
