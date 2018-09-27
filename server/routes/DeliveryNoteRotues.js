@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const _ = require("lodash");
 const moment = require("moment");
 const DeliveryNotesModel = mongoose.model("DeliveryNotes");
+const itemElementsModel = mongoose.model("ItemElements");
 const itemModel = mongoose.model("items");
 const requireLogin = require("../middlewares/requireLogin");
 
