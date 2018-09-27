@@ -142,7 +142,7 @@ module.exports = app => {
               }
             ).exec();
 
-            _.map(ItemList, async ({ _id, qty }) => {
+            _.map(ItemList, async ({ _id, item_code, item_name, qty }) => {
               if (branch_destination.branch_Id === 1) {
                 await itemModel
                   .updateOne(
@@ -233,7 +233,7 @@ module.exports = app => {
               }
             ).exec();
 
-            _.map(ItemList, async ({ _id, qty }) => {
+            _.map(ItemList, async ({ _id, item_code, item_name, qty }) => {
               if (branch_origin.branch_Id === 1) {
                 await itemModel
                   .updateOne(
