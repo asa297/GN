@@ -44,10 +44,28 @@ module.exports = app => {
           LastModifyDate: Date.now()
         }).save();
 
-        _.map(ItemList, async ({ _id, qty }) => {
+        _.map(ItemList, async ({ _id, item_code, item_name, qty }) => {
           await itemModel
             .updateOne({ _id }, { $inc: { item_qty_PTY: qty * -1 } })
             .exec();
+
+          await new itemElementsModel({
+            item_id: _id,
+            item_code,
+            item_name,
+            stock_type: 2,
+            stock_typeName: "Outbound",
+            item_qty: qty,
+            remarks: `The items are reserved by deliverynote #${DN_Id}`,
+            branch: {
+              _id: branch_origin._id,
+              branch_Id: branch_origin.branch_Id,
+              branch_Name: branch_origin.branch_Name
+            },
+            RecordIdBy: req.user._id,
+            RecordNameBy: req.user.firstName,
+            RecordDate: Date.now()
+          }).save();
         });
 
         res.status(200).send({ DN_Id });
@@ -143,6 +161,24 @@ module.exports = app => {
                   )
                   .exec();
               }
+
+              await new itemElementsModel({
+                item_id: _id,
+                item_code,
+                item_name,
+                stock_type: 1,
+                stock_typeName: "Inbound",
+                item_qty: qty,
+                remarks: `The approved items are transferred into inventory by deliverynote #${DN_Id}`,
+                branch: {
+                  _id: branch_destination._id,
+                  branch_Id: branch_destination.branch_Id,
+                  branch_Name: branch_destination.branch_Name
+                },
+                RecordIdBy: req.user._id,
+                RecordNameBy: req.user.firstName,
+                RecordDate: Date.now()
+              }).save();
             });
 
             res.status(200).send();
@@ -216,6 +252,24 @@ module.exports = app => {
                   )
                   .exec();
               }
+
+              await new itemElementsModel({
+                item_id: _id,
+                item_code,
+                item_name,
+                stock_type: 1,
+                stock_typeName: "Inbound",
+                item_qty: qty,
+                remarks: `The rejected items are transferred into inventory by deliverynote #${DN_Id}`,
+                branch: {
+                  _id: branch_origin._id,
+                  branch_Id: branch_origin.branch_Id,
+                  branch_Name: branch_origin.branch_Name
+                },
+                RecordIdBy: req.user._id,
+                RecordNameBy: req.user.firstName,
+                RecordDate: Date.now()
+              }).save();
             });
 
             res.status(200).send();

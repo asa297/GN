@@ -18,8 +18,9 @@ class NewReportDeliveryNote extends Component {
     };
   }
   async handleSubmitDN() {
-    const { submit } = this.state;
-    if (submit) {
+    // const { submit } = this.state;
+    // if (submit) {
+      this.setState({ submit: true });
       const { values } = this.props.dn_form;
       const reponse = await this.props.SubmitDeliveryNote(values);
 
@@ -45,7 +46,7 @@ class NewReportDeliveryNote extends Component {
           pathname: "/report/reportdeliverynote"
         });
       }, 2000);
-    }
+    // }
   }
 
   render() {
@@ -60,9 +61,7 @@ class NewReportDeliveryNote extends Component {
           <div style={{ display: "flex ", justifyContent: "center" }}>
             <button
               className="green btn-flat white-text"
-              onClick={() => {
-                this.setState({ submit: true });
-              }}
+
             >
               Submit
             </button>
