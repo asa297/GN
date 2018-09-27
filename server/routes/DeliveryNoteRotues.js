@@ -122,6 +122,7 @@ module.exports = app => {
         case 1:
         case 2:
           const {
+            DN_Id,
             ItemList,
             branch_destination,
             DN_Status
@@ -213,6 +214,7 @@ module.exports = app => {
         case 1:
         case 2:
           const {
+            DN_Id,
             ItemList,
             branch_origin,
             DN_Status
