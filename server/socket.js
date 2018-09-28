@@ -69,10 +69,11 @@ module.exports = io => {
       console.log("submitpo");
       const {
         auth: { _id },
-        receivecash
+        receivecash,
+        grandtotal
       } = data;
 
-      io.to(_id).emit("submitpo", receivecash);
+      io.to(_id).emit("submitpo", { receivecash, grandtotal });
     });
   });
 };

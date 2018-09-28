@@ -72,10 +72,20 @@ class PO extends Component {
   }
   componentWillUnmount() {
     const { socket } = this.state;
-    const { auth } = this.props;
-    socket.emit("closepo", { auth });
     socket.disconnect();
+
+    const scoketToClosePO = io("https://www.giornies.com", {
+      transports: ["websocket"]
+    });
+
+    const { auth } = this.props;
+    scoketToClosePO.emit("closepo", { auth });
+
+    setTimeout(function() {
+      scoketToClosePO.disconnect();
+    }, 1000);
   }
+
   headerCollapseItem(header) {
     return (
       <h5>
@@ -90,9 +100,10 @@ class PO extends Component {
     const res = await this.props.submit_Order(values);
     if (res) {
       const { socket } = this.state;
-      const { receivecash } = values;
+      const { receivecash, grandtotal } = values;
+
       const { auth } = this.props;
-      socket.emit("submitpo", { receivecash, auth });
+      socket.emit("submitpo", { receivecash, grandtotal, auth });
       socket.disconnect();
       values.orderId = res.orderId;
       this.props.submitOutbound_ItemElement_PO(values);
@@ -115,7 +126,10 @@ class PO extends Component {
     }
     return (
       <form onSubmit={this.props.handleSubmit(() => this.handleSubmitPO())}>
-        <h3 className="center">New Purchase Order (รายการขายใหม่)</h3>
+        <div>
+          <h3 className="center">New Purchase Order (รายการขายใหม่)</h3>
+        </div>
+
         <h5>
           <i>Section 1 : ส่วนที่ 1</i>
         </h5>

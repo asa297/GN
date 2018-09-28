@@ -38,7 +38,7 @@ class CustomerDisplay extends Component {
     socket.emit("joinroom", { auth });
 
     socket.on("showitem", data => {
-      const { item_code, item_name, item_price, countQty, status } = data;
+      const { item_code, item_name, item_price, status } = data;
 
       let { showitem } = this.state;
 
@@ -50,7 +50,10 @@ class CustomerDisplay extends Component {
       this.setState({
         showitem,
         showprice: `${status === 2 ? "-" : ""}${item_price}`,
-        subtotal: this.state.subtotal + countQty * item_price,
+        subtotal:
+          status === 1
+            ? this.state.subtotal + 1 * item_price
+            : this.state.subtotal + -1 * item_price,
         status
       });
 
@@ -110,6 +113,7 @@ class CustomerDisplay extends Component {
       this.setState({
         showitem: [],
         showprice: "",
+        showchange: 0,
         status: -1,
         grandtotal: 0,
         subtotal: 0,
@@ -123,6 +127,7 @@ class CustomerDisplay extends Component {
       this.setState({
         showitem: [],
         showprice: "",
+        showchange: 0,
         status: -1,
         grandtotal: 0,
         subtotal: 0,
@@ -133,17 +138,15 @@ class CustomerDisplay extends Component {
     });
 
     socket.on("submitpo", data => {
-      // const showitem = `RECEIVE && CHANGE`;
-      const showchange = `${data - this.state.grandtotal}`;
-      // const grandtotal = data - this.state.grandtotal;
+      const showchange = `${data.receivecash - data.grandtotal}`;
       const status = 1;
 
       this.setState({
-        // showitem,
-        showprice: data,
+        showitem: [],
+        showprice: data.receivecash,
         showchange,
         status,
-        // grandtotal,
+        grandtotal: data.grandtotal,
         subtotal: 0,
         discount: 0,
         credit: 0,
@@ -169,6 +172,7 @@ class CustomerDisplay extends Component {
   }
 
   render() {
+    console.log(this.state);
     return (
       <div
         style={{ height: "100vh", overflow: "hidden", fontFamily: "Kanit " }}
