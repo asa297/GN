@@ -4,6 +4,7 @@ import _ from "lodash";
 import { connect } from "react-redux";
 import { CSVLink } from "react-csv";
 import ReactTable from "react-table";
+import numeral from "numeral";
 import "react-table/react-table.css";
 
 class List extends Component {
@@ -72,16 +73,19 @@ class List extends Component {
           {
             Header: "Inbound",
             accessor: "Inbound",
+            Cell: row => <div>{numeral(row.value).format("0,0")}</div>,
             style: { textAlign: "center", color: "green", fontWeight: "bold" }
           },
           {
             Header: "Outbound",
             accessor: "Outbound",
+            Cell: row => <div>{numeral(row.value).format("0,0")}</div>,
             style: { textAlign: "center", color: "red", fontWeight: "bold" }
           },
           {
             Header: "SOLD",
             accessor: "Sold",
+            Cell: row => <div>{numeral(row.value).format("0,0")}</div>,
             style: { textAlign: "center", color: "red", fontWeight: "bold" }
           }
         ]
