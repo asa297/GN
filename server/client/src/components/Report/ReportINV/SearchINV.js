@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import _ from "lodash";
+import Alert from "react-s-alert";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import { withRouter } from "react-router-dom";
@@ -25,6 +26,11 @@ class SearchINV extends Component {
       this.props.history.push({
         pathname: "/report/reportinv/view",
         state: { _id: result._id }
+      });
+    } else {
+      Alert.error(`Item is not found.`, {
+        position: "bottom",
+        timeout: 2000
       });
     }
   }
