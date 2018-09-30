@@ -80,7 +80,12 @@ class ButtonFooter extends Component {
     return (
       <div>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          {this.state.clickSubmit ? <CircularLoaderBlue /> : null}
+          {this.state.clickSubmit ? (
+            <div style={{ marginTop: "30px" }}>
+              <CircularLoaderBlue />
+            </div>
+          ) : null}
+
           {this.props.auth.priority === 1 ? (
             <button
               className="green btn-flat white-text right"
