@@ -90,6 +90,7 @@ class ReportPOView extends Component {
           <ButtonFooter
             orderId={this.state.orderId}
             clickSubmit={this.state.clickSubmit}
+            report_PO={this.state.report_PO}
           />
         </form>
       );

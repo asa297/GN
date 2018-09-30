@@ -10,7 +10,7 @@ import Grid from "./ViewComponent/Grid";
 import Preloader from "../../utils/Preloader";
 
 import { ApproveDeliveryNote, RejectDeliveryNote } from "../../../actions";
-import ComponentToPrint from "../ReportPringService/DeliveryNotePrint/TemplatePrint";
+import ComponentToPrint from "../ReportPrintService/DeliveryNotePrint/TemplatePrint";
 
 class ViewDocument extends Component {
   constructor(props) {
