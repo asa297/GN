@@ -76,8 +76,9 @@ class ReportViewDetail extends Component {
     const grandtotal_itemListB = total_itemListB - discount_itemListB;
 
     const com_itemListA = grandtotal_itemListA * (orgComA / 100);
-    orgComB !== 0 ? orgComB : orgComA;
-    const com_itemListB = grandtotal_itemListB * (orgComB / 100);
+
+    const com_itemListB =
+      grandtotal_itemListB * (orgComB !== 0 ? orgComB : orgComA / 100);
 
     return {
       "#": index,
@@ -193,8 +194,10 @@ class ReportViewDetail extends Component {
                   total_itemListB - discount_itemListB;
 
                 const com_itemListA = grandtotal_itemListA * (orgComA / 100);
-                orgComB !== 0 ? orgComB : orgComA;
-                const com_itemListB = grandtotal_itemListB * (orgComB / 100);
+
+                const com_itemListB =
+                  grandtotal_itemListB *
+                  (orgComB !== 0 ? orgComB : orgComA / 100);
 
                 return (
                   <tr key={orderId}>

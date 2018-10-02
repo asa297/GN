@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Modal from "react-modal";
 import ModalStyle from "../../Style/JS/modalStyle";
+import ReactModalCSS from "../../Style/CSS/ReactModal.css";
 
 class ItemList extends Component {
   constructor(props) {
@@ -56,6 +57,7 @@ class ItemList extends Component {
           isOpen={this.state.modalIsOpen}
           onRequestClose={() => this.closeModal()}
           style={ModalStyle}
+          className={ReactModalCSS.ReactModal__Overlay}
           contentLabel="Example Modal"
         >
           <h6
@@ -65,6 +67,12 @@ class ItemList extends Component {
             Are you sure to delete this?
           </h6>
           <button
+            className="amber btn-flat right white-text"
+            onClick={() => this.closeModal()}
+          >
+            close
+          </button>
+          <button
             className="red btn-flat right white-text"
             onClick={() => {
               this.props.onDelete(this.state.item_id);
@@ -72,12 +80,6 @@ class ItemList extends Component {
             }}
           >
             delete
-          </button>
-          <button
-            className="amber btn-flat right white-text"
-            onClick={() => this.closeModal()}
-          >
-            close
           </button>
         </Modal>
       </div>
@@ -121,10 +123,14 @@ class ItemList extends Component {
               </div>
               <div className="card-content">
                 <div>
-                  <b>Last Mofidy By :</b>&nbsp;<i>{LastModifyByName}</i>
+                  <b>Last Mofidy By :</b>
+                  &nbsp;
+                  <i>{LastModifyByName}</i>
                 </div>
                 <div>
-                  <b>Last Modify At :</b>&nbsp;<i>
+                  <b>Last Modify At :</b>
+                  &nbsp;
+                  <i>
                     {new Date(LastModifyDate).toLocaleDateString()} &nbsp;
                     {new Date(LastModifyDate).toLocaleTimeString()}
                   </i>

@@ -66,8 +66,6 @@ class ItemEdit extends Component {
   }
 
   renderField() {
-    console.log(this.state);
-    console.log();
     return _.map(FIELDS, ({ label, name, disabled }) => {
       return (
         <Field
