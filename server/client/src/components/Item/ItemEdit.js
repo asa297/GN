@@ -67,19 +67,32 @@ class ItemEdit extends Component {
 
   renderField() {
     return _.map(FIELDS, ({ label, name, disabled }) => {
-      return (
-        <Field
-          value={this.state[name]}
-          disabled={disabled}
-          key={name}
-          component={ItemField}
-          type="text"
-          label={label}
-          name={name}
-          valueField={this.state[name]}
-          onChange={event => this.setState({ [name]: event.target.value })}
-        />
-      );
+      if (name !== "item_code") {
+        return (
+          <Field
+            value={this.state[name]}
+            disabled={disabled}
+            key={name}
+            component={ItemField}
+            type="text"
+            label={label}
+            name={name}
+            valueField={this.state[name]}
+            onChange={event => this.setState({ [name]: event.target.value })}
+          />
+        );
+      } else {
+        return (
+          <div>
+            <label>{label}</label>
+            <input
+              style={{ marginBottom: "5px" }}
+              value={this.state[name]}
+              disabled
+            />
+          </div>
+        );
+      }
     });
   }
 

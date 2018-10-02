@@ -59,7 +59,7 @@ module.exports = app => {
 
   app.post("/api/item/edit/:id", requireLogin, async (req, res) => {
     const {
-      item_code,
+      // item_code,
       item_name,
       item_factory,
       item_color,
@@ -70,40 +70,32 @@ module.exports = app => {
       image
     } = req.body;
 
-    const found = await itemModel.findOne({
-      item_code
-    });
-
-    if (!found) {
-      await itemModel
-        .updateOne(
-          {
-            _id: req.params.id
-          },
-          {
-            $set: {
-              item_code,
-              item_name,
-              item_factory: item_factory ? item_factory : "",
-              item_color: item_color ? item_color : "",
-              item_skin: item_skin ? item_skin : "",
-              item_price,
-              item_remarks: item_remarks ? item_remarks : "",
-              itemTypeId,
-              itemTypeName,
-              image: image ? image : null,
-              LastModifyById: req.user._id,
-              LastModifyByName: req.user.firstName,
-              LastModifyDate: Date.now()
-            }
+    await itemModel
+      .updateOne(
+        {
+          _id: req.params.id
+        },
+        {
+          $set: {
+            // item_code,
+            item_name,
+            item_factory: item_factory ? item_factory : "",
+            item_color: item_color ? item_color : "",
+            item_skin: item_skin ? item_skin : "",
+            item_price,
+            item_remarks: item_remarks ? item_remarks : "",
+            itemTypeId,
+            itemTypeName,
+            image: image ? image : null,
+            LastModifyById: req.user._id,
+            LastModifyByName: req.user.firstName,
+            LastModifyDate: Date.now()
           }
-        )
-        .exec();
+        }
+      )
+      .exec();
 
-      res.send();
-    } else {
-      res.status(403).send();
-    }
+    res.send();
   });
 
   app.delete("/api/item/:id", requireLogin, async (req, res) => {

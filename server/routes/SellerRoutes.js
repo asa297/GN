@@ -72,31 +72,23 @@ module.exports = app => {
   app.post("/api/seller/edit/:id", requireLogin, async (req, res) => {
     // 1
 
-    const found = await SellerModel.findOne({
-      sellerCode: req.body.seller_code
-    });
-
-    if (!found) {
-      await SellerModel.updateOne(
-        {
-          _id: req.params.id
-        },
-        {
-          $set: {
-            sellerName: req.body.seller_name,
-            sellerCode: req.body.seller_code,
-            sellerCom: req.body.seller_com,
-            sellerRemarks: req.body.seller_remarks ? req.body.group_remark : "",
-            LastModifyById: req.user._id,
-            LastModifyByName: req.user.firstName,
-            LastModifyDate: Date.now()
-          }
+    await SellerModel.updateOne(
+      {
+        _id: req.params.id
+      },
+      {
+        $set: {
+          sellerName: req.body.seller_name,
+          // sellerCode: req.body.seller_code,
+          sellerCom: req.body.seller_com,
+          sellerRemarks: req.body.seller_remarks ? req.body.group_remark : "",
+          LastModifyById: req.user._id,
+          LastModifyByName: req.user.firstName,
+          LastModifyDate: Date.now()
         }
-      ).exec();
-      res.send({});
-    } else {
-      res.status(403).send();
-    }
+      }
+    ).exec();
+    res.send({});
   });
 
   app.delete("/api/seller/:id", async (req, res) => {

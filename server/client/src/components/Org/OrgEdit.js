@@ -44,18 +44,31 @@ class OrgEdit extends Component {
 
   renderField() {
     return _.map(FIELDS, ({ label, name, key }) => {
-      return (
-        <Field
-          value={this.state[key]}
-          key={name}
-          component={OrgField}
-          type="text"
-          label={label}
-          name={name}
-          valueField={this.state[key]}
-          onChange={event => this.setState({ [key]: event.target.value })}
-        />
-      );
+      if (name !== "org_code") {
+        return (
+          <Field
+            value={this.state[key]}
+            key={name}
+            component={OrgField}
+            type="text"
+            label={label}
+            name={name}
+            valueField={this.state[key]}
+            onChange={event => this.setState({ [key]: event.target.value })}
+          />
+        );
+      } else {
+        return (
+          <div>
+            <label>{label}</label>
+            <input
+              style={{ marginBottom: "5px" }}
+              value={this.state[key]}
+              disabled
+            />
+          </div>
+        );
+      }
     });
   }
 
