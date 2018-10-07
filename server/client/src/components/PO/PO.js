@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
+import { Link } from "react-router-dom";
 import {
   fetch_Group_Filter,
   fetch_Seller,
@@ -126,8 +127,27 @@ class PO extends Component {
     }
     return (
       <form onSubmit={this.props.handleSubmit(() => this.handleSubmitPO())}>
-        <div>
+        {/* <div>
           <h3 className="center">New Purchase Order (รายการขายใหม่)</h3>
+        </div> */}
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "flex-end",
+            marginTop: "20px"
+          }}
+        >
+          <h3 style={{ margin: "0px" }}>New Purchase Order (รายการขายใหม่)</h3>
+          <Link
+            to="/openpo"
+            className="btn-small blue"
+            style={{ marginLeft: "20px" }}
+            target="_blank"
+          >
+            <i className="material-icons">airplay</i>
+          </Link>
         </div>
 
         <h5>
