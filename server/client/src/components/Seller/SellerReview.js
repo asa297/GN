@@ -42,7 +42,7 @@ const SellerReview = ({
             : submitSeller(formValues, history)
         }
       >
-        Save Inbound Seller
+        Save Seller
         <i className="material-icons right">email</i>
       </button>
     </div>

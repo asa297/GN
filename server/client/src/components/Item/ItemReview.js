@@ -55,7 +55,7 @@ const ItemReview = ({
             : submitInboundItem(formValues, history)
         }
       >
-        Save Inbound Org
+        Save Item
         <i className="material-icons right">email</i>
       </button>
     </div>
