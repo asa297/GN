@@ -63,7 +63,7 @@ class Outbound extends Component {
             className="green btn-flat white-text"
             style={{ marginLeft: "10px" }}
           >
-            Search
+            Search Item
           </button>
           {this.state.ready ? null : (
             <div style={{ marginLeft: "5px" }}>

@@ -122,6 +122,25 @@ class List extends Component {
             Header: "Status",
             accessor: "DN_StatusName",
             width: 100,
+            Cell: cellInfo => (
+              <div>
+                {cellInfo.original.DN_Status === 1 ? (
+                  <div className="black white-text">
+                    {cellInfo.original.DN_StatusName}
+                  </div>
+                ) : null}
+                {cellInfo.original.DN_Status === 2 ? (
+                  <div className="green white-text">
+                    {cellInfo.original.DN_StatusName}
+                  </div>
+                ) : null}
+                {cellInfo.original.DN_Status === 3 ? (
+                  <div className="red white-text">
+                    {cellInfo.original.DN_StatusName}
+                  </div>
+                ) : null}
+              </div>
+            ),
             style: { textAlign: "center", fontWeight: "bold" }
           },
           {
