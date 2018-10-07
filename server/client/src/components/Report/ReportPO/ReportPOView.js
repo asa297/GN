@@ -5,7 +5,12 @@ import { reduxForm } from "redux-form";
 import { Link, withRouter } from "react-router-dom";
 
 import Report_CSS from "../../../Style/CSS/Report_PO_CSS.css";
-import { update_ReportPO, fetch_Seller, fetch_Group } from "../../../actions";
+import {
+  update_ReportPO,
+  fetch_Seller,
+  fetch_Group,
+  find_ReportPO
+} from "../../../actions";
 
 import Preloader from "../../utils/Preloader";
 import Header from "./ReportPOView/Header";
@@ -18,7 +23,13 @@ import ButtonFooter from "./ReportPOView/ButtonFooter";
 class ReportPOView extends Component {
   constructor(props) {
     super(props);
-    const { orderId } = props.location.state;
+
+    let orderId;
+    if (props.location.state !== undefined) {
+      orderId = props.location.state.orderId;
+    } else {
+      orderId = props.match.params.orderId;
+    }
 
     this.state = {
       orderId,
@@ -29,10 +40,10 @@ class ReportPOView extends Component {
   }
 
   componentDidMount() {
-    const report_PO = _.find(this.props.reports_po, ({ orderId }) => {
-      return orderId === this.state.orderId;
-    });
-    this.setState({ report_PO });
+    if (this.props.match.params.orderId) {
+      this.props.find_ReportPO(this.state.orderId);
+    }
+
     this.props.fetch_Group();
     this.props.fetch_Seller();
   }
@@ -46,9 +57,13 @@ class ReportPOView extends Component {
     );
   }
 
-  componentWillReceiveProps({ sellers, groups }) {
-    if (!_.isEmpty(sellers) && !_.isEmpty(groups)) {
-      this.setState({ ready: true });
+  componentWillReceiveProps({ sellers, groups, reports_po }) {
+    if (!_.isEmpty(sellers) && !_.isEmpty(groups) && !_.isEmpty(reports_po)) {
+      const report_PO = _.find(reports_po, ({ orderId }) => {
+        return orderId === parseInt(this.state.orderId, 10);
+      });
+
+      this.setState({ ready: true, report_PO });
     }
   }
 
@@ -146,6 +161,7 @@ function mapStateToProps({
   groups,
   sellers
 }) {
+  // console.log(reports_po);
   return { reports_po, report_po_edit, groups, sellers };
 }
 
@@ -155,6 +171,6 @@ export default reduxForm({
 })(
   connect(
     mapStateToProps,
-    { update_ReportPO, fetch_Group, fetch_Seller }
+    { update_ReportPO, fetch_Group, fetch_Seller, find_ReportPO }
   )(withRouter(ReportPOView))
 );

@@ -102,9 +102,10 @@ class ReportPOList extends Component {
                 {this.props.auth.priority !== 3 ? (
                   <Link
                     to={{
-                      pathname: "/report/reportpo/view",
+                      pathname: `/report/reportpo/view/${row.value}`,
                       state: { orderId: row.value }
                     }}
+                    target="_blank"
                   >
                     <i className="tiny material-icons">content_paste</i>
                   </Link>
