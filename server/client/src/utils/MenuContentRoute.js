@@ -690,6 +690,7 @@ export default auth => {
       case 3:
         return (
           <div>
+            <Route exact path="/openpo" component={CustomerDisplay} />
             <Route
               exact
               path="/inboundpo"

@@ -23,11 +23,14 @@ class Group extends Component {
 
   componentDidMount() {
     this.props.fetch_Group_Filter();
-    this.props.fetch_Org();
+    const { priority } = this.props.auth;
+    if (priority !== 3) {
+      this.props.fetch_Org();
+    }
   }
 
-  componentWillReceiveProps({ orgs }) {
-    if (orgs) {
+  componentWillReceiveProps({ groups }) {
+    if (groups) {
       this.setState({ ready: true });
     }
   }
@@ -142,8 +145,8 @@ class Group extends Component {
   }
 }
 
-function mapStateToProps({ orgs, auth }) {
-  return { orgs, auth };
+function mapStateToProps({ groups, auth }) {
+  return { groups, auth };
 }
 
 export default connect(
