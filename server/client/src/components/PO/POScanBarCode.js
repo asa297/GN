@@ -40,7 +40,7 @@ class POScanBarCode extends Component {
         codeResult: { code }
       } = result;
 
-      if (parseInt(code, 10) >= 90000) {
+      if (parseInt(code, 10) >= 900000) {
         this.props.onData(code);
       }
     });
