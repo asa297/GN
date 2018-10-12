@@ -8,8 +8,8 @@ class POScanBarCode extends Component {
         inputStream: {
           type: "LiveStream",
           constraints: {
-            width: 1280,
-            height: 720,
+            width: 1920,
+            height: 1080,
             facingMode: "environment" // or user
           }
         },
@@ -39,7 +39,10 @@ class POScanBarCode extends Component {
       const {
         codeResult: { code }
       } = result;
-      this.props.onData(code);
+
+      if (parseInt(code, 10) >= 90000) {
+        this.props.onData(code);
+      }
     });
   }
 

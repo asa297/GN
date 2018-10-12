@@ -24,7 +24,8 @@ class POItemOrder extends Component {
       itemCode: 0,
       itemList: [],
       scanStatus: false,
-      loading: false
+      loading: false,
+      fetching: false
     };
   }
 
@@ -69,70 +70,80 @@ class POItemOrder extends Component {
   }
 
   async setItemList() {
-    const { socket } = this.state;
+    if (this.state.fetching === false) {
+      const { socket } = this.state;
+      this.setState({ loading: true, fetching: true });
+      await this.props.find_Item(this.state.itemCode);
 
-    this.setState({ loading: true });
-    await this.props.find_Item(this.state.itemCode);
+      const index_item_itemList = _.findIndex(
+        this.state.itemList,
+        ({ item_code }) => {
+          return item_code === this.state.itemCode;
+        }
+      );
 
-    const index_item_itemList = _.findIndex(
-      this.state.itemList,
-      ({ item_code }) => {
-        return item_code === this.state.itemCode;
+      if (index_item_itemList === -1) {
+        const { item_qty_PTY } = this.props.items;
+
+        if (item_qty_PTY > 0) {
+          const value = this.props.items;
+          value.countQty = 1;
+
+          this.setState({
+            itemList: [...this.state.itemList, value]
+          });
+
+          const _getCustomer = this.getCustomerMonitorItem(value._id);
+          _getCustomer.status = 1;
+
+          const { auth } = this.props;
+
+          socket.emit("showitem", { _getCustomer, auth });
+        } else if (item_qty_PTY === 0 || item_qty_PTY === null) {
+          Alert.error(`QTY is not enough.`, {
+            position: "bottom",
+            timeout: 2000
+          });
+        } else {
+          Alert.error(`Item is not found.`, {
+            position: "bottom",
+            timeout: 2000
+          });
+        }
+      } else if (index_item_itemList !== -1) {
+        let clone_state = this.state.itemList.slice();
+
+        const { countQty, item_qty_PTY, _id } = clone_state[
+          index_item_itemList
+        ];
+
+        if (countQty < item_qty_PTY) {
+          clone_state[index_item_itemList].countQty += 1;
+          this.setState({ itemList: clone_state });
+
+          const _getCustomer = this.getCustomerMonitorItem(_id);
+          _getCustomer.status = 1;
+
+          const { auth } = this.props;
+
+          socket.emit("showitem", { _getCustomer, auth });
+        } else {
+          Alert.error(`QTY is not enough.`, {
+            position: "bottom",
+            timeout: 2000
+          });
+        }
       }
-    );
 
-    if (index_item_itemList === -1) {
-      const { item_qty_PTY } = this.props.items;
+      this.setState({ itemCode: 0, loading: false });
 
-      if (item_qty_PTY > 0) {
-        const value = this.props.items;
-        value.countQty = 1;
-
-        this.setState({
-          itemList: [...this.state.itemList, value]
-        });
-
-        const _getCustomer = this.getCustomerMonitorItem(value._id);
-        _getCustomer.status = 1;
-
-        const { auth } = this.props;
-
-        socket.emit("showitem", { _getCustomer, auth });
-      } else if (item_qty_PTY === 0 || item_qty_PTY === null) {
-        Alert.error(`QTY is not enough.`, {
-          position: "bottom",
-          timeout: 2000
-        });
-      } else {
-        Alert.error(`Item is not found.`, {
-          position: "bottom",
-          timeout: 2000
-        });
-      }
-    } else if (index_item_itemList !== -1) {
-      let clone_state = this.state.itemList.slice();
-
-      const { countQty, item_qty_PTY, _id } = clone_state[index_item_itemList];
-
-      if (countQty < item_qty_PTY) {
-        clone_state[index_item_itemList].countQty += 1;
-        this.setState({ itemList: clone_state });
-
-        const _getCustomer = this.getCustomerMonitorItem(_id);
-        _getCustomer.status = 1;
-
-        const { auth } = this.props;
-
-        socket.emit("showitem", { _getCustomer, auth });
-      } else {
-        Alert.error(`QTY is not enough.`, {
-          position: "bottom",
-          timeout: 2000
-        });
-      }
+      setTimeout(
+        function() {
+          this.setState({ fetching: false });
+        }.bind(this),
+        1000
+      );
     }
-
-    this.setState({ itemCode: 0, loading: false });
   }
 
   deleteItemList(data) {

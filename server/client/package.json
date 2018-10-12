@@ -2,6 +2,14 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
+  "proxy": {
+    "/auth/google": {
+      "target": "http://localhost:5000"
+    },
+    "/api/*": {
+      "target": "http://localhost:5000"
+    }
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "http-proxy-middleware": "^0.19.0",
@@ -11,7 +19,7 @@
     "moment": "^2.22.1",
     "namor": "^1.0.1",
     "numeral": "^2.0.6",
-    "quagga": "^0.12.1",
+    "quagga": "^0.8.0",
     "react": "^16.3.2",
     "react-collapsible": "^2.2.0",
     "react-csv": "^1.0.14",
@@ -24,7 +32,7 @@
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-s-alert": "^1.4.1",
-    "react-scripts": "2.0.3",
+    "react-scripts": "1.1.4",
     "react-select": "^2.0.0-beta.2",
     "react-table": "^6.8.6",
     "react-to-print": "^1.0.17",
@@ -40,11 +48,5 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  }
 }
