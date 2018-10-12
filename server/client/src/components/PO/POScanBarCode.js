@@ -22,7 +22,8 @@ class POScanBarCode extends Component {
         decoder: {
           readers: ["code_128_reader"]
         },
-        locate: true
+        locate: true,
+        debug: false
       },
       function(err) {
         if (err) {
