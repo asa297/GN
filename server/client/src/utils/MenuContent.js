@@ -35,6 +35,9 @@ export default auth => {
           <li key="1">
             <Link to="/home">Home</Link>
           </li>,
+          <li key="2">
+            <Link to="/Org">Org</Link>
+          </li>,
           <li key="3">
             <Link to="/Group">Group</Link>
           </li>,

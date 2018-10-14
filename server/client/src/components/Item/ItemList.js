@@ -22,13 +22,13 @@ class ItemList extends Component {
     Modal.setAppElement("body");
   }
 
-  openModal(item_id) {
-    this.setState({ modalIsOpen: true, item_id });
-  }
+  // openModal(item_id) {
+  //   this.setState({ modalIsOpen: true, item_id });
+  // }
 
-  closeModal() {
-    this.setState({ modalIsOpen: false, item_id: 0 });
-  }
+  // closeModal() {
+  //   this.setState({ modalIsOpen: false, item_id: 0 });
+  // }
 
   onView(_id) {
     this.props.history.push({
@@ -50,41 +50,41 @@ class ItemList extends Component {
     }
   }
 
-  renderModal() {
-    return (
-      <div>
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          onRequestClose={() => this.closeModal()}
-          style={ModalStyle}
-          className={ReactModalCSS.ReactModal__Overlay}
-          contentLabel="Example Modal"
-        >
-          <h6
-            ref={subtitle => (this.subtitle = subtitle)}
-            style={{ color: "#f00" }}
-          >
-            Are you sure to delete this?
-          </h6>
-          <button
-            className="amber btn-flat right white-text"
-            onClick={() => this.closeModal()}
-          >
-            close
-          </button>
-          <button
-            className="red btn-flat right white-text"
-            onClick={() => {
-              this.props.onDelete(this.state.item_id);
-              this.closeModal();
-            }}
-          >
-            delete
-          </button>
-        </Modal>
-      </div>
-    );
-  }
+  // renderModal() {
+  //   return (
+  //     <div>
+  //       <Modal
+  //         isOpen={this.state.modalIsOpen}
+  //         onRequestClose={() => this.closeModal()}
+  //         style={ModalStyle}
+  //         className={ReactModalCSS.ReactModal__Overlay}
+  //         contentLabel="Example Modal"
+  //       >
+  //         <h6
+  //           ref={subtitle => (this.subtitle = subtitle)}
+  //           style={{ color: "#f00" }}
+  //         >
+  //           Are you sure to delete this?
+  //         </h6>
+  //         <button
+  //           className="amber btn-flat right white-text"
+  //           onClick={() => this.closeModal()}
+  //         >
+  //           close
+  //         </button>
+  //         <button
+  //           className="red btn-flat right white-text"
+  //           onClick={() => {
+  //             this.props.onDelete(this.state.item_id);
+  //             this.closeModal();
+  //           }}
+  //         >
+  //           delete
+  //         </button>
+  //       </Modal>
+  //     </div>
+  //   );
+  // }
 
   renderInboundItem() {
     return this.state.currentlyDisplayed.map(
@@ -136,26 +136,26 @@ class ItemList extends Component {
                   </i>
                 </div>
               </div>
-              {this.props.auth.priority === 1 ? (
+              {this.props.auth.priority !== 3 ? (
                 <div className="card-action" style={{ padding: "0px" }}>
                   <button
                     className="teal btn-flat  white-text"
-                    style={{ width: "50%" }}
+                    style={{ width: "100%" }}
                     onClick={() => this.props.onEdit(index, _id)}
                   >
                     <i className="material-icons center">edit</i>
                   </button>
-                  <button
+                  {/* <button
                     className="red btn-flat white-text"
                     style={{ width: "50%" }}
                     onClick={() => this.openModal(_id)}
                   >
                     <i className="material-icons center">delete</i>
-                  </button>
+                  </button> */}
                 </div>
               ) : null}
             </div>
-            {this.renderModal()}
+            {/* {this.renderModal()} */}
           </div>
         );
       }

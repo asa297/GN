@@ -18,7 +18,7 @@ class POScanBarCode extends Component {
           halfSample: true
         },
         numOfWorkers: 2,
-        frequency: 1,
+        frequency: 30,
         decoder: {
           readers: ["code_128_reader"]
         },

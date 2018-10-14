@@ -105,7 +105,7 @@ class GroupList extends Component {
                 <span className="card-title">
                   {groupCode} ({guideName})
                 </span>
-                {this.props.auth.priority === 1 ? (
+                {this.props.auth.priority !== 3 ? (
                   <button
                     className="btn-floating halfway-fab blue lighten-3"
                     onClick={() => this.onView(_id)}

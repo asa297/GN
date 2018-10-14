@@ -69,26 +69,26 @@ class POSummaryPayment extends Component {
             <tr>
               <td>Total Amount (ยอดรวม)</td>
               <td className="center green">
-                {numeral(this.state.total).format("0,0.00")}
+                {numeral(this.state.total).format("0,0")} ฿
               </td>
             </tr>
 
             <tr>
               <td>Discount (ส่วนลด)</td>
               <td className="center red">
-                {numeral(this.state.resultDiscount).format("0,0.00")}
+                {numeral(this.state.resultDiscount).format("0,0")} ฿
               </td>
             </tr>
             <tr>
               <td>Credit (จำนวนชำระเครดิต)</td>
               <td className="center red">
-                {numeral(this.state.credit).format("0,0.00")}
+                {numeral(this.state.credit).format("0,0")} ฿
               </td>
             </tr>
             <tr>
               <td>Credit Chrage (เครดิตชาร์จ)</td>
               <td className="center green">
-                {numeral(this.state.resultCreditCharge).format("0,0.00")}
+                {numeral(this.state.resultCreditCharge).format("0,0")} ฿
               </td>
             </tr>
             <tr>
@@ -96,7 +96,7 @@ class POSummaryPayment extends Component {
                 Grand Total (ยอดที่ต้องชำระ)
               </td>
               <td className="center grey">
-                {numeral(this.state.resultGrandTotal).format("0,0.00")}
+                {numeral(this.state.resultGrandTotal).format("0,0")} ฿
               </td>
             </tr>
             <tr>
@@ -121,7 +121,7 @@ class POSummaryPayment extends Component {
               <td className="center orange">
                 {numeral(
                   this.state.receivecash - this.state.resultGrandTotal
-                ).format("0,0.00")}
+                ).format("0,0")} ฿
               </td>
             </tr>
           </tbody>

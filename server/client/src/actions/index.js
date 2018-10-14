@@ -314,25 +314,25 @@ export const update_Item = (item_id, values) => async () => {
     });
 };
 
-export const delete_Item = item_id => async () => {
-  await axios
-    .delete("/api/item/" + item_id)
-    .then(response => {
-      Alert.success(`Delete Item List.`, {
-        position: "bottom",
-        timeout: 2000
-      });
+// export const delete_Item = item_id => async () => {
+//   await axios
+//     .delete("/api/item/" + item_id)
+//     .then(response => {
+//       Alert.success(`Delete Item List.`, {
+//         position: "bottom",
+//         timeout: 2000
+//       });
 
-      return response;
-    })
-    .catch(error => {
-      Alert.error(`Something is wrong.`, {
-        position: "bottom",
-        timeout: 2000
-      });
-      return error;
-    });
-};
+//       return response;
+//     })
+//     .catch(error => {
+//       Alert.error(`Something is wrong.`, {
+//         position: "bottom",
+//         timeout: 2000
+//       });
+//       return error;
+//     });
+// };
 
 export const updateStock_Item = (item_id, qty) => async () => {
   const res = await axios

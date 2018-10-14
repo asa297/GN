@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetch_Item, delete_Item } from "../../actions";
+import { fetch_Item } from "../../actions";
 import ItemList from "../Item/ItemList";
 import ItemReview from "../Item/ItemReview";
 import ItemEdit from "../Item/ItemEdit";
@@ -40,12 +39,12 @@ class Item extends Component {
     this.setState({ ready: true });
   }
 
-  async onDeleteItem(item_id) {
-    this.setState({ ready: false });
-    await this.props.delete_Item(item_id);
-    await this.props.fetch_Item();
-    this.setState({ ready: true });
-  }
+  // async onDeleteItem(item_id) {
+  //   this.setState({ ready: false });
+  //   await this.props.delete_Item(item_id);
+  //   await this.props.fetch_Item();
+  //   this.setState({ ready: true });
+  // }
 
   renderList() {
     return (
@@ -85,7 +84,7 @@ class Item extends Component {
           onEdit={(index, _id) => {
             this.setState({ showEdit: true, index, _id });
           }}
-          onDelete={item_id => this.onDeleteItem(item_id)}
+          // onDelete={item_id => this.onDeleteItem(item_id)}
           searchTerm={this.state.searchTerm}
         />
       </div>
@@ -138,6 +137,6 @@ export default connect(
   mapStateToProps,
   {
     fetch_Item,
-    delete_Item
+    // delete_Item
   }
 )(Item);

@@ -141,7 +141,7 @@ class POItemOrder extends Component {
         function() {
           this.setState({ fetching: false });
         }.bind(this),
-        1000
+        2100
       );
     }
   }

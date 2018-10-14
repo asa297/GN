@@ -643,7 +643,16 @@ export default auth => {
                 </div>
               )}
             />
-
+            <Route
+              exact
+              path="/Group/view"
+              render={() => (
+                <div>
+                  <Header />
+                  <GroupView />
+                </div>
+              )}
+            />
             <Route
               exact
               path="/Group/new"
@@ -661,6 +670,36 @@ export default auth => {
                 <div>
                   <Header />
                   <Group />
+                </div>
+              )}
+            />
+                        <Route
+              exact
+              path="/Org/view"
+              render={() => (
+                <div>
+                  <Header />
+                  <OrgView />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/Org/new"
+              render={() => (
+                <div>
+                  <Header />
+                  <OrgNew />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/Org"
+              render={() => (
+                <div>
+                  <Header />
+                  <Org />
                 </div>
               )}
             />

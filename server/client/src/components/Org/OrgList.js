@@ -123,7 +123,7 @@ class OrgList extends Component {
                   </i>
                 </div>
               </div>
-              {this.props.auth.priority === 1 ? (
+              {this.props.auth.priority !== 3 ? (
                 <div className="card-action" style={{ padding: "0px" }}>
                   <button
                     className="teal btn-flat  white-text"
