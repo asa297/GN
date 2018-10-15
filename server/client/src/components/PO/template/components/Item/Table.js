@@ -14,6 +14,7 @@ const Table = ({
   creditcharge,
   creditchargePercent
 }) => {
+  console.log(discountPercent);
   if (discountPercent > 0 && !DiscountReady) {
     let model = {};
     model._id = "discount_id";

@@ -172,7 +172,6 @@ class CustomerDisplay extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div
         style={{ height: "100vh", overflow: "hidden", fontFamily: "Kanit " }}
@@ -264,16 +263,17 @@ class CustomerDisplay extends Component {
                     PRODUCT
                   </h2>
                   {_.map(this.state.showitem, ({ item, item_price }, index) => {
-                    if (index <= 7) {
+                    if (index <= 4) {
                       return (
                         <div
                           key={index}
-                          style={{ marginLeft: "50px", width: "80%" }}
+                          style={{ marginLeft: "15px", width: "90%" }}
                         >
                           <h4
                             style={{
                               display: "flex",
-                              justifyContent: "space-between"
+                              justifyContent: "space-between",
+                              fontSize: "26px"
                             }}
                           >
                             <div
@@ -297,18 +297,19 @@ class CustomerDisplay extends Component {
                 </div>
 
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  <h2
+                  <h3
                     style={{
                       marginTop: "20px",
-                      width: "65%"
+                      width: "55%"
                     }}
                   >
                     TOTAL
-                  </h2>
+                  </h3>
                   <div
                     style={{
-                      // width: "60%",
-                      fontSize: "35px",
+                      width: "40%",
+                      textAlign: "right",
+                      fontSize: "30px",
                       marginLeft: "10px",
                       overflow: "hidden",
                       whiteSpace: "nowrap",
@@ -320,18 +321,19 @@ class CustomerDisplay extends Component {
                 </div>
 
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  <h2
+                  <h3
                     style={{
                       marginTop: "20px",
-                      width: "65%"
+                      width: "55%"
                     }}
                   >
                     CASH
-                  </h2>
+                  </h3>
                   <div
                     style={{
-                      // width: "60%",
-                      fontSize: "35px",
+                      width: "40%",
+                      textAlign: "right",
+                      fontSize: "30px",
                       marginLeft: "10px",
                       overflow: "hidden",
                       whiteSpace: "nowrap",
@@ -343,18 +345,19 @@ class CustomerDisplay extends Component {
                 </div>
 
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  <h2
+                  <h3
                     style={{
                       marginTop: "20px",
-                      width: "65%"
+                      width: "55%"
                     }}
                   >
                     CHANGE
-                  </h2>
+                  </h3>
                   <div
                     style={{
-                      // width: "60%",
-                      fontSize: "35px",
+                      width: "40%",
+                      textAlign: "right",
+                      fontSize: "30px",
                       marginLeft: "10px",
                       overflow: "hidden",
                       whiteSpace: "nowrap",

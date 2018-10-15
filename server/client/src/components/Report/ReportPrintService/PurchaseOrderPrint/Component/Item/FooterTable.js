@@ -9,7 +9,7 @@ class FooterTable extends Component {
   }
 
   componentWillReceiveProps({ grandtotal, credit, creditcharge }) {
-    grandtotal = grandtotal + credit + creditcharge;
+    // grandtotal = grandtotal + credit + creditcharge;
     this.setState({ grandtotal });
   }
 

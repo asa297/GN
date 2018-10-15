@@ -141,7 +141,7 @@ class POItemOrder extends Component {
         function() {
           this.setState({ fetching: false });
         }.bind(this),
-        2100
+        1000
       );
     }
   }
@@ -273,8 +273,8 @@ class POItemOrder extends Component {
                     {item_name} {item_color ? " " + item_color : null}
                   </th>
                   <th>{countQty}</th>
-                  <th>{numeral(item_price).format("0,0.00")}</th>
-                  <th>{numeral(item_price * countQty).format("0,0.00")}</th>
+                  <th>{numeral(item_price).format("0,0")}</th>
+                  <th>{numeral(item_price * countQty).format("0,0")}</th>
                 </tr>
               );
             }
@@ -333,7 +333,7 @@ class POItemOrder extends Component {
         </div>
         <div className="right">
           <h4>
-            Total Amount : {numeral(this.props.subtotal || 0).format("0,0.00")}
+            Total Amount : {numeral(this.props.subtotal || 0).format("0,0")}
             &nbsp;Baht
           </h4>
         </div>

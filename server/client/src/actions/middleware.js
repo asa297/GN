@@ -18,10 +18,13 @@ export function validateOrder(formvalues) {
     if (total) {
       grandtotal = total;
       if (resultDiscount) {
-        grandtotal = grandtotal - resultDiscount;
+        grandtotal = parseInt(grandtotal, 10) - parseInt(resultDiscount, 10);
       }
       if (credit && resultCreditCharge) {
-        grandtotal = grandtotal - credit;
+        grandtotal =
+          parseInt(grandtotal, 10) +
+          // parseInt(credit, 10) +
+          parseInt(resultCreditCharge, 10);
       }
     }
 
@@ -29,10 +32,16 @@ export function validateOrder(formvalues) {
     formvalues.discountPercent = DC;
 
     formvalues.grandtotal = grandtotal;
-    formvalues.cash = grandtotal;
+    formvalues.cash = receivecash;
     formvalues.credit = credit ? Number(credit) : 0;
     formvalues.creditchargePercent = credit_charge_temp;
-    formvalues.changecash = receivecash - grandtotal;
+
+    if (credit) {
+      formvalues.changecash = total - resultDiscount - credit - receivecash;
+    } else {
+      formvalues.changecash = total - resultDiscount - receivecash;
+    }
+
     formvalues.creditcharge = resultCreditCharge;
     formvalues.receivecash = Number(receivecash);
   }

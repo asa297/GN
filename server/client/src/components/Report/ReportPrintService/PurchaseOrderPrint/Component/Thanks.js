@@ -11,7 +11,7 @@ class Thanks extends Component {
         <div
           style={{ width: "90%", display: "flex", justifyContent: "flex-end" }}
         >
-          <font style={{ fontSize: "20px", fontWeight: "bold" }}>
+          <font style={{ fontSize: "16px", fontWeight: "bold" }}>
             Thank you for visiting us!
           </font>
         </div>

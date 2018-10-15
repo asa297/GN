@@ -39,6 +39,7 @@ class PO extends Component {
       ready: false,
       loading: false,
       print: false,
+      submit: false,
       print_value: {}
     };
   }
@@ -50,6 +51,7 @@ class PO extends Component {
     socket.emit("joinroom", { auth });
     socket.emit("openpo", { auth });
   }
+
   componentWillReceiveProps({ groups, inbound_po }) {
     if (groups.length > 0) {
       this.setState({ ready: true });
@@ -95,6 +97,15 @@ class PO extends Component {
       </h5>
     );
   }
+
+  DonePO() {
+    this.setState({ print: false });
+    const { socket } = this.state;
+    const { auth } = this.props;
+    socket.emit("joinroom", { auth });
+    socket.emit("openpo", { auth });
+  }
+
   async handleSubmitPO() {
     this.setState({ loading: true });
     let { values } = this.props.inbound_po;
@@ -105,7 +116,7 @@ class PO extends Component {
 
       const { auth } = this.props;
       socket.emit("submitpo", { receivecash, grandtotal, auth });
-      socket.disconnect();
+      // socket.disconnect();
       values.orderId = res.orderId;
       this.props.submitOutbound_ItemElement_PO(values);
       this.setState({ loading: false, print: true, print_value: res });
@@ -121,66 +132,81 @@ class PO extends Component {
     } else if (this.state.print) {
       return (
         <div>
-          <POPrint print_value={this.state.print_value} />
+          <POPrint
+            print_value={this.state.print_value}
+            donePO={() => this.DonePO()}
+          />
         </div>
       );
     }
     return (
-      <form onSubmit={this.props.handleSubmit(() => this.handleSubmitPO())}>
-        {/* <div>
+      <div>
+        <form onSubmit={this.props.handleSubmit(() => null)}>
+          {/* <div>
           <h3 className="center">New Purchase Order (รายการขายใหม่)</h3>
         </div> */}
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-end",
-            marginTop: "20px"
-          }}
-        >
-          <h3 style={{ margin: "0px" }}>New Purchase Order (รายการขายใหม่)</h3>
-          <Link
-            to="/openpo"
-            className="btn-small blue"
-            style={{ marginLeft: "20px" }}
-            target="_blank"
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "flex-end",
+              marginTop: "20px"
+            }}
           >
-            <i className="material-icons">airplay</i>
-          </Link>
-        </div>
+            <h3 style={{ margin: "0px" }}>
+              New Purchase Order (รายการขายใหม่)
+            </h3>
+            <Link
+              to="/openpo"
+              className="btn-small blue"
+              style={{ marginLeft: "20px" }}
+              target="_blank"
+            >
+              <i className="material-icons">airplay</i>
+            </Link>
+          </div>
 
-        <h5>
-          <i>Section 1 : ส่วนที่ 1</i>
-        </h5>
-        <hr />
-        <div className={PO_CSS.headerPO_con}>
-          <div style={{ width: "40%" }}>
-            <POSelectGruop />
+          <h5>
+            <i>Section 1 : ส่วนที่ 1</i>
+          </h5>
+          <hr />
+          <div className={PO_CSS.headerPO_con}>
+            <div style={{ width: "40%" }}>
+              <POSelectGruop />
+            </div>
+            <div style={{ width: "40%" }}>
+              <POSelectSeller />
+            </div>
           </div>
-          <div style={{ width: "40%" }}>
-            <POSelectSeller />
-          </div>
-        </div>
-        <Collapsible trigger={this.headerCollapseItem("Section 2 : ส่วนที่ 2")}>
-          <POItemOrder subtotal={_total} socket={this.state.socket} />
-        </Collapsible>
-        <Collapsible
-          trigger={this.headerCollapseItem("Section 3 : ส่วนลดและเครดิต")}
-        >
-          <POPayment socket={this.state.socket} />
-        </Collapsible>
-        <Collapsible
-          trigger={this.headerCollapseItem("Payments รายละเอียดการชำระเงิน")}
-        >
-          <POSummaryPayment
-            onDataReceiveCash={receivecash => this.setState({ receivecash })}
-          />
-        </Collapsible>
+          <Collapsible
+            trigger={this.headerCollapseItem("Section 2 : ส่วนที่ 2")}
+          >
+            <POItemOrder subtotal={_total} socket={this.state.socket} />
+          </Collapsible>
+          <Collapsible
+            trigger={this.headerCollapseItem("Section 3 : ส่วนลดและเครดิต")}
+          >
+            <POPayment socket={this.state.socket} />
+          </Collapsible>
+          <Collapsible
+            trigger={this.headerCollapseItem("Payments รายละเอียดการชำระเงิน")}
+          >
+            <POSummaryPayment
+              onDataReceiveCash={receivecash => this.setState({ receivecash })}
+            />
+          </Collapsible>
+        </form>
         <div style={{ display: "flex ", justifyContent: "center" }}>
-          <button className="green btn-flat white-text">Submit</button>
+          <button
+            className="green btn-flat white-text"
+            type="button"
+            onClick={() => this.handleSubmitPO()}
+          >
+            Submit
+          </button>
         </div>
-      </form>
+      </div>
     );
   }
   render() {
