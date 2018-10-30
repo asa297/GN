@@ -28,8 +28,7 @@ passport.use(
 
       if (existingUser) {
         done(null, existingUser);
-      }
-      else {
+      } else {
         done(null, null);
       }
       // else {

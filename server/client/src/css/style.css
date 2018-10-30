@@ -107,3 +107,7 @@
   height: 70%;
   border: 1px solid blue;
 }
+
+.cursor {
+  cursor: pointer;
+}

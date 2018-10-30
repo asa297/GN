@@ -6,6 +6,7 @@ import { withRouter } from "react-router-dom";
 import Modal from "react-modal";
 import ModalStyle from "../../Style/JS/modalStyle";
 import ReactModalCSS from "../../Style/CSS/ReactModal.css";
+import ReactPaginate from "react-paginate";
 
 class ItemList extends Component {
   constructor(props) {
@@ -14,8 +15,15 @@ class ItemList extends Component {
     this.state = {
       modalIsOpen: false,
       item_id: 0,
-      currentlyDisplayed: props.items
+      currentlyDisplayed: props.items,
+      data: props.items
     };
+  }
+
+  componentDidMount() {
+    this.handlePageClick({ selected: 0 });
+    const pageCount = Math.ceil(this.state.data.length / 9);
+    this.setState({ pageCount });
   }
 
   componentWillMount() {
@@ -39,14 +47,19 @@ class ItemList extends Component {
 
   componentWillReceiveProps({ searchTerm, items }) {
     if (searchTerm) {
-      let currentlyDisplayed = _.filter(
+      const data = _.filter(
         items,
         ({ item_code, item_name }) =>
           item_code.includes(searchTerm) || item_name.includes(searchTerm)
       );
-      this.setState({ currentlyDisplayed });
+
+      const currentlyDisplayed = data.slice(0, 9);
+      const pageCount = Math.ceil(data.length / 9);
+      this.setState({ currentlyDisplayed, data, pageCount });
     } else {
-      this.setState({ currentlyDisplayed: items });
+      const currentlyDisplayed = items.slice(0, 9);
+      const pageCount = Math.ceil(items.length / 9);
+      this.setState({ currentlyDisplayed, data: items, pageCount });
     }
   }
 
@@ -85,6 +98,16 @@ class ItemList extends Component {
   //     </div>
   //   );
   // }
+
+  handlePageClick({ selected }) {
+    let offset = Math.ceil(selected * 9);
+    let currentlyDisplayed = this.state.data.slice(
+      offset,
+      offset === 0 ? 9 : offset + 9
+    );
+
+    this.setState({ currentlyDisplayed });
+  }
 
   renderInboundItem() {
     return this.state.currentlyDisplayed.map(
@@ -163,7 +186,27 @@ class ItemList extends Component {
   }
 
   render() {
-    return <div className="row">{this.renderInboundItem()}</div>;
+    return (
+      <div>
+        <div className="row">{this.renderInboundItem()}</div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <ReactPaginate
+            previousLabel={<div style={{ cursor: "pointer" }}>previous</div>}
+            nextLabel={<div style={{ cursor: "pointer" }}>next</div>}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={this.state.pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={data => this.handlePageClick(data)}
+            containerClassName={"pagination"}
+            // subContainerClassName={"pages pagination"}
+            pageLinkClassName={"cursor"}
+            activeClassName={"active"}
+          />
+        </div>
+      </div>
+    );
   }
 }
 

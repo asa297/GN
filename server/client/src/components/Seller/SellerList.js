@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Modal from "react-modal";
 import ModalStyle from "../../Style/JS/modalStyle";
 import ReactModalCSS from "../../Style/CSS/ReactModal.css";
+import ReactPaginate from "react-paginate";
 
 class SellerList extends Component {
   constructor(props) {
@@ -12,8 +13,15 @@ class SellerList extends Component {
     this.state = {
       modalIsOpen: false,
       seller_id: 0,
-      currentlyDisplayed: props.sellers
+      currentlyDisplayed: props.sellers,
+      data: props.sellers
     };
+  }
+
+  componentDidMount() {
+    this.handlePageClick({ selected: 0 });
+    const pageCount = Math.ceil(this.state.data.length / 9);
+    this.setState({ pageCount });
   }
 
   openModal(seller_id) {
@@ -30,15 +38,30 @@ class SellerList extends Component {
 
   componentWillReceiveProps({ searchTerm, sellers }) {
     if (searchTerm) {
-      let currentlyDisplayed = _.filter(
+      const data = _.filter(
         sellers,
         ({ sellerName, sellerCode }) =>
           sellerName.includes(searchTerm) || sellerCode.includes(searchTerm)
       );
-      this.setState({ currentlyDisplayed });
+
+      const currentlyDisplayed = data.slice(0, 9);
+      const pageCount = Math.ceil(data.length / 9);
+      this.setState({ currentlyDisplayed, data, pageCount });
     } else {
-      this.setState({ currentlyDisplayed: sellers });
+      const currentlyDisplayed = sellers.slice(0, 9);
+      const pageCount = Math.ceil(sellers.length / 9);
+      this.setState({ currentlyDisplayed, data: sellers, pageCount });
     }
+  }
+
+  handlePageClick({ selected }) {
+    let offset = Math.ceil(selected * 9);
+    let currentlyDisplayed = this.state.data.slice(
+      offset,
+      offset === 0 ? 9 : offset + 9
+    );
+
+    this.setState({ currentlyDisplayed });
   }
 
   renderModal() {
@@ -158,7 +181,27 @@ class SellerList extends Component {
   }
 
   render() {
-    return <div className="row">{this.renderSellerList()}</div>;
+    return (
+      <div>
+        <div className="row">{this.renderSellerList()}</div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <ReactPaginate
+            previousLabel={<div style={{ cursor: "pointer" }}>previous</div>}
+            nextLabel={<div style={{ cursor: "pointer" }}>next</div>}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={this.state.pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={data => this.handlePageClick(data)}
+            containerClassName={"pagination"}
+            // subContainerClassName={"pages pagination"}
+            pageLinkClassName={"cursor"}
+            activeClassName={"active"}
+          />
+        </div>
+      </div>
+    );
   }
 }
 

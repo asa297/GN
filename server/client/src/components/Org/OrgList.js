@@ -6,6 +6,7 @@ import { withRouter } from "react-router-dom";
 import Modal from "react-modal";
 import ModalStyle from "../../Style/JS/modalStyle";
 import ReactModalCSS from "../../Style/CSS/ReactModal.css";
+import ReactPaginate from "react-paginate";
 
 class OrgList extends Component {
   constructor(props) {
@@ -14,8 +15,15 @@ class OrgList extends Component {
     this.state = {
       modalIsOpen: false,
       org_id: 0,
-      currentlyDisplayed: props.orgs
+      currentlyDisplayed: props.orgs,
+      data: props.orgs
     };
+  }
+
+  componentDidMount() {
+    this.handlePageClick({ selected: 0 });
+    const pageCount = Math.ceil(this.state.data.length / 9);
+    this.setState({ pageCount });
   }
 
   openModal(org_id) {
@@ -35,17 +43,32 @@ class OrgList extends Component {
 
   componentWillReceiveProps({ searchTerm, orgs }) {
     if (searchTerm) {
-      let currentlyDisplayed = _.filter(orgs, ({ orgName }) =>
+      const data = _.filter(orgs, ({ orgName }) =>
         orgName.includes(searchTerm)
       );
-      this.setState({ currentlyDisplayed });
+
+      const currentlyDisplayed = data.slice(0, 9);
+      const pageCount = Math.ceil(data.length / 9);
+      this.setState({ currentlyDisplayed, data, pageCount });
     } else {
-      this.setState({ currentlyDisplayed: orgs });
+      const currentlyDisplayed = orgs.slice(0, 9);
+      const pageCount = Math.ceil(orgs.length / 9);
+      this.setState({ currentlyDisplayed, data: orgs, pageCount });
     }
   }
 
   componentWillMount() {
     Modal.setAppElement("body");
+  }
+
+  handlePageClick({ selected }) {
+    let offset = Math.ceil(selected * 9);
+    let currentlyDisplayed = this.state.data.slice(
+      offset,
+      offset === 0 ? 9 : offset + 9
+    );
+
+    this.setState({ currentlyDisplayed });
   }
 
   renderModal() {
@@ -150,7 +173,27 @@ class OrgList extends Component {
   }
 
   render() {
-    return <div className="row">{this.renderOrgList()}</div>;
+    return (
+      <div>
+        <div className="row">{this.renderOrgList()}</div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <ReactPaginate
+            previousLabel={<div style={{ cursor: "pointer" }}>previous</div>}
+            nextLabel={<div style={{ cursor: "pointer" }}>next</div>}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={this.state.pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={data => this.handlePageClick(data)}
+            containerClassName={"pagination"}
+            // subContainerClassName={"pages pagination"}
+            pageLinkClassName={"cursor"}
+            activeClassName={"active"}
+          />
+        </div>
+      </div>
+    );
   }
 }
 
