@@ -86,7 +86,7 @@ class List extends Component {
             width: 50,
             Cell: row => (
               <div style={{ display: "flex", justifyContent: "center" }}>
-                {this.props.auth.priority === 1 ? (
+                {this.props.auth.priority !== 3 ? (
                   <Link
                     to={{
                       pathname: "/report/reportdialycom/viewdetail",

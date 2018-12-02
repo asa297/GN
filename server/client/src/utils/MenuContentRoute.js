@@ -43,6 +43,8 @@ import ReportDailyCommissionGroupViewDetail from "../components/Report/ReportDai
 import ReportDeliveryNote from "../components/Report/ReportDeliveryNote/Main";
 import ReportDeliveryNoteNew from "../components/Report/ReportDeliveryNote/NewReportDeliveryNote";
 import ReportDeliveryNoteView from "../components/Report/ReportDeliveryNote/ViewDocument";
+//Note
+import NoteNew from "../components/Note/NoteNew.js";
 
 //Customer Display
 import CustomerDisplay from "../components/CustomerMonitors/CustomerDisplay";
@@ -54,6 +56,16 @@ export default auth => {
         return (
           <div>
             <Route exact path="/openpo" component={CustomerDisplay} />
+            <Route
+              exact
+              path="/note/new"
+              render={() => (
+                <div>
+                  <Header />
+                  <NoteNew />
+                </div>
+              )}
+            />
             <Route
               exact
               path="/report/reportdeliverynote/view"
@@ -673,7 +685,7 @@ export default auth => {
                 </div>
               )}
             />
-                        <Route
+            <Route
               exact
               path="/Org/view"
               render={() => (

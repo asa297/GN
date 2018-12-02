@@ -113,7 +113,7 @@ module.exports = app => {
     // 1,2
     const { priority } = req.user;
     switch (priority) {
-      case 1: 
+      case 1:
       case 2:
         const order = await orderModel.find({
           RecordDate: {
@@ -124,22 +124,20 @@ module.exports = app => {
             )
           }
         });
-    
+
         res.send(order);
         break;
       default:
         res.status(401).send();
         break;
     }
-
-
   });
 
   app.post("/api/order/filter", requireLogin, async (req, res) => {
     // 1,2
     const { priority } = req.user;
     switch (priority) {
-      case 1: 
+      case 1:
       case 2:
         const { start_date, end_date } = req.body;
 
@@ -149,14 +147,13 @@ module.exports = app => {
             $lt: new Date(moment(end_date).format("YYYY-MM-DD HH:mm:ss"))
           }
         });
-    
+
         res.send(order);
         break;
       default:
         res.status(401).send();
         break;
     }
-
   });
 
   app.post("/api/order/edit/:id", requireLogin, async (req, res) => {
@@ -165,8 +162,8 @@ module.exports = app => {
     const { priority } = req.user;
     const { group_select, seller_select } = req.body;
     switch (priority) {
-      case 1:  
-          await orderModel
+      case 1:
+        await orderModel
           .updateOne(
             {
               orderId: req.params.id
@@ -194,7 +191,9 @@ module.exports = app => {
                   sellerName: seller_select ? seller_select.sellerName : "",
                   sellerCode: seller_select ? seller_select.sellerCode : "",
                   sellerCom: seller_select ? seller_select.sellerCom : 0,
-                  sellerRemarks: seller_select ? seller_select.sellerRemarks : ""
+                  sellerRemarks: seller_select
+                    ? seller_select.sellerRemarks
+                    : ""
                 },
 
                 LastModifyById: req.user._id,
@@ -211,14 +210,13 @@ module.exports = app => {
         res.status(401).send();
         break;
     }
-
   });
 
   app.delete("/api/order/:id", requireLogin, async (req, res) => {
     //1
     const { priority } = req.user;
     switch (priority) {
-      case 1: 
+      case 1:
         await orderModel.findOneAndRemove({ orderId: req.params.id });
         res.send({});
         break;
@@ -226,7 +224,6 @@ module.exports = app => {
         res.status(401).send();
         break;
     }
-
   });
 
   app.get("/api/order/:orderId", requireLogin, async (req, res) => {
@@ -234,7 +231,7 @@ module.exports = app => {
     const { priority } = req.user;
     switch (priority) {
       case 1:
-      case 2: 
+      case 2:
         const item = await orderModel.findOne({ orderId: req.params.orderId });
         res.send(item);
         break;
@@ -242,7 +239,6 @@ module.exports = app => {
         res.status(401).send();
         break;
     }
-
   });
 
   app.post(

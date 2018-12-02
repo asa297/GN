@@ -18,7 +18,8 @@ import {
   FETCH_DIALY_INV_REPORT,
   FETCH_DIALY_CASHBALANCE_REPORT,
   FETCH_DIALY_COM_REPORT,
-  FETCH_DELIVERY_NOTE
+  FETCH_DELIVERY_NOTE,
+  FETCH_NOTE
 } from "./type";
 
 export const fetchUser = () => async dispatch => {
@@ -689,4 +690,58 @@ export const FindDeliveryNote = DN_Id => async dispatch => {
     });
 
   dispatch({ type: FETCH_DELIVERY_NOTE, payload: res.data });
+};
+
+//Note
+export const SubmitNote = values => async () => {
+  await axios
+    .post("/api/note", values)
+    .then(response => {
+      Alert.success(`Create Note Message.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+
+      return response;
+    })
+    .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return error;
+    });
+};
+
+export const FetchNotes = () => async dispatch => {
+  const res = await axios
+    .get("/api/note")
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
+      return error;
+    });
+
+  dispatch({ type: FETCH_NOTE, payload: { data: res.data, loaded: true } });
+};
+
+export const deleteNotes = noteId => async () => {
+  await axios
+    .delete("/api/note/" + noteId)
+    .then(response => {
+      Alert.success(`Delete Note.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+
+      return response;
+    })
+    .catch(error => {
+      Alert.error(`Something is wrong.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return error;
+    });
 };
