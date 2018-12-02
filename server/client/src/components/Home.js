@@ -83,7 +83,6 @@ class Home extends Component {
       <div className="container">
         {this.state.ready ? (
           <div>
-
             <div
               style={{
                 display: "flex",
@@ -106,7 +105,7 @@ class Home extends Component {
                 </h5>
               </div>
             </div>
-            <div class="row">
+            <div className="row">
               {_.map(
                 this.state.data,
                 ({
@@ -117,15 +116,15 @@ class Home extends Component {
                   LastModifyDate
                 }) => {
                   return (
-                    <div key={_id} class="col s12 m6">
-                      <div class="card blue-grey darken-1">
-                        <div class="card-content white-text">
-                          <span class="card-title">
+                    <div key={_id} className="col s12 m6">
+                      <div className="card blue-grey darken-1">
+                        <div className="card-content white-text">
+                          <span className="card-title">
                             {noteTitle || "No Title"}
                           </span>
                           <p>{noteMessage}</p>
                         </div>
-                        <div class="card-action">
+                        <div className="card-action">
                           <a href="#">By : {RecordNameBy}</a>
                           <a href="#">
                             On : {new Date(LastModifyDate).toLocaleDateString()}{" "}
