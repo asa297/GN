@@ -22,6 +22,29 @@ import {
   FETCH_NOTE
 } from "./type";
 
+export const PostAuth = (values, history) => async dispatch => {
+  const res = await axios
+    .post("/auth/local", values)
+    .then(response => {
+      Alert.success(`The Authentication is successful.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      history.push("/");
+      return response;
+    })
+    .catch(error => {
+      Alert.error(`The Authentication is fail.`, {
+        position: "bottom",
+        timeout: 2000
+      });
+      return error;
+    });
+
+  dispatch({ type: FETCH_USER, payload: res.data });
+  // console.log(res);
+};
+
 export const fetchUser = () => async dispatch => {
   const res = await axios.get("/api/current_user");
 

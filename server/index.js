@@ -20,7 +20,8 @@ require("./models/ItemElement");
 require("./models/Branch");
 require("./models/DeliveryNote");
 require("./models/Note");
-require("./services/passport");
+// require("./services/passport");
+require("./services/passportlocal");
 
 mongoose.connect(keys.mongoURI);
 

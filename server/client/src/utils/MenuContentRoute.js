@@ -48,6 +48,8 @@ import NoteNew from "../components/Note/NoteNew.js";
 
 //Customer Display
 import CustomerDisplay from "../components/CustomerMonitors/CustomerDisplay";
+//Login
+import Login from "../components/Login";
 
 export default auth => {
   if (!_.isNil(auth)) {
@@ -56,6 +58,7 @@ export default auth => {
         return (
           <div>
             <Route exact path="/openpo" component={CustomerDisplay} />
+
             <Route
               exact
               path="/note/new"
@@ -819,16 +822,28 @@ export default auth => {
 
       default:
         return (
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <div>
-                <Header />
-                <DefaultHome />
-              </div>
-            )}
-          />
+          <div>
+            <Route
+              exact
+              path="/login"
+              render={() => (
+                <div>
+                  <Header />
+                  <Login />
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <div>
+                  <Header />
+                  <DefaultHome />
+                </div>
+              )}
+            />
+          </div>
         );
     }
   }
