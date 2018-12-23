@@ -29,10 +29,11 @@ class Login extends Component {
     submit: false
   };
 
-  authlogin() {
+  async authlogin() {
     const { values } = this.props.form.login_form;
     this.setState({ submit: true });
-    this.props.PostAuth(values, this.props.history);
+    await this.props.PostAuth(values, this.props.history);
+    this.setState({ submit: false });
   }
 
   render() {
